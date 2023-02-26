@@ -1,39 +1,94 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Grid, Paper, TextField } from "@mui/material";
-import { Rtt } from "@mui/icons-material";
+import {
+  Box,
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  FormControl,
+} from "@mui/material";
+
+import theme from "../../src/theme";
+
+import Link from "../../src/Link";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.lightBg,
-  padding: theme.spacing(1),
   textAlign: "center",
-  margin: "auto",
-  maxWidth: 500,
   marginTop: 100,
+  padding: 20,
 }));
 
-const TextInput = styled(TextField)(({ theme }) => ({
-  padding: 5,
+const Card = styled(Grid)(({ theme }) => ({
+  margin: "auto",
+  backgroundColor: theme.palette.primary.lightBg,
+}));
+
+const RtlTextField = styled(TextField)(({ theme }) => ({
+  padding: 2,
+  marginTop: 5,
+  marginBottom: 5,
+  minWidth: "100%",
   direction: "rtl",
-  textAlign: "right",
+  textAlign: "center !important",
+  // display: "block",
+  "& label": {
+    transformOrigin: "right !important",
+    textAlign: "right !important",
+    left: "inherit !important",
+    right: "1.75rem !important",
+    overflow: "unset",
+  },
 }));
 
 function LoginFrom() {
   return (
-    <Box>
-      <Grid>
-        <Item>
-          <TextInput
-            variant="outlined"
-            placeholder="مثال : ۰۹۱۲۱۲۳۴۵۶۷"
-            label="شماره موبایل"
-          />
-          <TextInput
-            variant="outlined"
-            placeholder="مثال : ۰۹۱۲۱۲۳۴۵۶۷"
-            label="شماره موبایل"
-          />
-        </Item>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid component={FormControl} container spacing={2}>
+        <Card item xs={3}>
+          <Grid component={Item} container>
+            <Grid sx={{ mb: 6 }} item xs={12}>
+              <Typography sx={{ mb: 5 }} variant="h6">
+                ورود به پنل ادمین
+              </Typography>
+              <RtlTextField fullWidth label="شماره تماس" />
+              <RtlTextField fullWidth label="رمز عبور" type="password" />
+            </Grid>
+
+            <Grid xs={6}>
+              <Button sx={{ p: 1 }} fullWidth item variant="contained">
+                ورود
+              </Button>
+            </Grid>
+
+            <Grid xs={6}>
+              {" "}
+              <FormControlLabel
+                control={<Checkbox defaultChecked />}
+                label="مرا به خاطر بسپار"
+              />
+            </Grid>
+
+            <Grid
+              href="/"
+              sx={{
+                fontSize: 12,
+                textAlign: "center",
+                mt: 4,
+                textDecoration: "none",
+                color: theme.palette.primary.main,
+              }}
+              component={Link}
+              xs={12}
+            >
+              بازگشت به فروشگاه
+            </Grid>
+          </Grid>
+        </Card>
       </Grid>
     </Box>
   );

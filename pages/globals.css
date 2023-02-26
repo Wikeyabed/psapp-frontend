@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "iranyekan";
+  src: url("../public/fonts/Iranyekan.ttf");
+}
+
+@font-face {
+  font-family: "iranyekan-bold";
+  src: url("../public/fonts/Iranyekan-bold.ttf");
+}
+
+* {
+  font-family: "iranyekan" !important;
+  text-align: right;
+}

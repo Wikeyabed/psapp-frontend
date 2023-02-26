@@ -1,13 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-import { red, grey, indigo } from "@mui/material/colors";
+import { red, grey, indigo, green } from "@mui/material/colors";
 
 // Create a theme instance.
 const theme = createTheme({
+  labelStyles: {
+    "& label": {
+      transformOrigin: "right !important",
+      left: "inherit !important",
+      right: "1.75rem !important",
+      overflow: "unset",
+    },
+  },
   direction: "rtl",
   palette: {
     primary: {
       main: indigo.A400,
-      lightBg: grey[50],
+      lightBg: "#fff",
     },
     secondary: {
       main: "#19857b",
