@@ -17,10 +17,13 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@next/font": "latest",
+    "@reduxjs/toolkit": "^1.9.3",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1"
   },
   "devDependencies": {
     "eslint": "latest",

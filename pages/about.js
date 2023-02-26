@@ -1,7 +1,5 @@
 import * as React from "react";
-
 import { Container, Typography, Box, Button } from "@mui/material";
-
 import Link from "../src/Link";
 
 export default function About() {
