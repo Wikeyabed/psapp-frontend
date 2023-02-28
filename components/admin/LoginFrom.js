@@ -7,13 +7,10 @@ import {
   TextField,
   Button,
   Typography,
-  FormGroup,
   FormControlLabel,
   Checkbox,
   FormControl,
 } from "@mui/material";
-
-import theme from "../../src/theme";
 
 import Link from "../../src/Link";
 
@@ -59,13 +56,13 @@ function LoginFrom() {
               <RtlTextField fullWidth label="رمز عبور" type="password" />
             </Grid>
 
-            <Grid xs={6}>
-              <Button sx={{ p: 1 }} fullWidth item variant="contained">
+            <Grid xs={6} item>
+              <Button sx={{ p: 1 }} fullWidth variant="contained">
                 ورود
               </Button>
             </Grid>
 
-            <Grid xs={6}>
+            <Grid xs={6} item>
               {" "}
               <FormControlLabel
                 control={<Checkbox defaultChecked />}
@@ -80,9 +77,9 @@ function LoginFrom() {
                 textAlign: "center",
                 mt: 4,
                 textDecoration: "none",
-                color: theme.palette.primary.main,
               }}
               component={Link}
+              item
               xs={12}
             >
               بازگشت به فروشگاه

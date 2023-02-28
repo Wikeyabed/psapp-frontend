@@ -14,8 +14,8 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: indigo.A400,
-      lightBg: "#fff",
+      main: indigo[800],
+      lightBg: "#fafafa",
     },
     secondary: {
       main: "#19857b",
