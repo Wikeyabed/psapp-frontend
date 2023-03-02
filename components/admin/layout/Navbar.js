@@ -12,6 +12,7 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import Link from "../../../src/Link";
 
 export default function Navbar() {
   const [open, setOpen] = useState(true);
@@ -21,21 +22,24 @@ export default function Navbar() {
   };
 
   const Icon = styled(ListItemIcon)(({ theme }) => ({
-    color: "#fff",
+    color: theme.palette.primary.lightBg,
     padding: 3,
+    paddingRight: 15,
   }));
 
   const MenuItem = styled(ListItemText)(({ theme }) => ({
-    fontSize: "2rem !important",
     color: theme.palette.primary.lightBg,
     marginBottom: 1,
     padding: 1,
+    "& span, & svg": {
+      fontSize: "1rem",
+    },
   }));
 
   return (
     <List
       sx={{
-        minHeight: "1024px !important",
+        minHeight: "150vh !important",
         bgcolor: theme.palette.primary.main,
       }}
       component="nav"
@@ -50,7 +54,9 @@ export default function Navbar() {
         </Icon>
 
         {/* menu text */}
-        <MenuItem primary="داشبورد" />
+        <Link href="/">
+          <MenuItem primary="داشبورد" />
+        </Link>
       </ListItemButton>
       <ListItemButton>
         <Icon>

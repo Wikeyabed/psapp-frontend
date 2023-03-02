@@ -15,7 +15,8 @@ const theme = createTheme({
   palette: {
     primary: {
       main: indigo[800],
-      lightBg: "#fafafa",
+      lightBg: "#fdfdfd",
+      textColor: "#909090",
     },
     secondary: {
       main: "#19857b",

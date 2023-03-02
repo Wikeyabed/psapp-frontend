@@ -11,10 +11,10 @@ function AdminLayout({ children }) {
       }}
     >
       <Grid container>
-        <Grid item xs={1.5}>
+        <Grid item lg={1.5} xs={12}>
           <Navbar />
         </Grid>
-        <Grid item xs={10.5}>
+        <Grid item xs={12} lg={10.5}>
           <NavigationBar />
           {children}
         </Grid>

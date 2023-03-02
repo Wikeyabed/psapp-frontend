@@ -23,14 +23,12 @@ export default function NavigationBar() {
   return (
     <Box
       sx={{
-        p: 2,
-        backgroundColor: "#fdfdfd",
-        // borderBottom: ".5px solid #e2e2e2",
-        boxShadow:
-          "0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)",
+        minHeight: 64,
+        paddingRight: "16px",
+        paddingTop: "16px",
       }}
     >
-      <Stack spacing={2}>
+      <Stack>
         <Breadcrumbs separator="›" aria-label="breadcrumb">
           {breadcrumbs}
         </Breadcrumbs>

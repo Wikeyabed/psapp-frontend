@@ -1,8 +1,8 @@
-import AdminArea from "../../components/admin/AdminArea";
+import AdminDashboard from "../../components/admin/dashboard/Dashboard";
 function Admin() {
   return (
     <div>
-      <AdminArea />
+      <AdminDashboard />
     </div>
   );
 }
