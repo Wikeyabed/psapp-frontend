@@ -18,7 +18,6 @@ const columns = [
   { field: "id", headerName: "آیدی فاکتور" },
   { field: "firstName", headerName: "خریدار" },
   { field: "lastName", headerName: "تاریخ" },
-  { field: "lastName", headerName: "تاریخ" },
 ];
 
 const rows = [

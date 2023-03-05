@@ -5,7 +5,7 @@ import { Grid, Box } from "@mui/material";
 
 import TopBoxes from "./TopBoxes";
 import UsersChart from "./UsersChart";
-import ProductsTable from "./productsTable";
+import ProductsTable from "./ProductsTable";
 
 function AdminDashboard() {
   return (

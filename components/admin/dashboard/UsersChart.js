@@ -46,7 +46,7 @@ export default function UsersChart({ typeOfChart, title }) {
   console.log(typeOfChart);
 
   return (
-    <>
+    <div>
       <CardContainer>
         <DashboardCard>
           {typeof window !== "undefined" && (
@@ -70,6 +70,6 @@ export default function UsersChart({ typeOfChart, title }) {
           )}
         </DashboardCard>
       </CardContainer>
-    </>
+    </div>
   );
 }
