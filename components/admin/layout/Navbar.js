@@ -91,12 +91,14 @@ export default function Navbar() {
         </Icon>
         <MenuItem primary="پشتیبانی" />
       </ListItemButton>
-      <ListItemButton>
-        <Icon>
-          <LocalGroceryStoreOutlinedIcon />
-        </Icon>
-        <MenuItem primary="محصولات" />
-      </ListItemButton>
+      <Link href="/products">
+        <ListItemButton>
+          <Icon>
+            <LocalGroceryStoreOutlinedIcon />
+          </Icon>
+          <MenuItem primary="محصولات" />
+        </ListItemButton>
+      </Link>
       {/*  */}
       <ListItemButton>
         <Icon>
