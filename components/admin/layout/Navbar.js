@@ -91,7 +91,7 @@ export default function Navbar() {
         </Icon>
         <MenuItem primary="پشتیبانی" />
       </ListItemButton>
-      <Link href="/products">
+      <Link href="/admin/products">
         <ListItemButton>
           <Icon>
             <LocalGroceryStoreOutlinedIcon />

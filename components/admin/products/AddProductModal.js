@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ModalBox from "../layout/Modal";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import AddProductForm from "./AddProductForm";
 
 export default function AddProductModal() {
   const [open, setOpen] = React.useState(false);
@@ -26,12 +27,18 @@ export default function AddProductModal() {
         handleClose={handleClose}
         open={open}
         buttonText={"محصول جدید"}
+        buttonVariant={"contained"}
         icon={<InventoryIcon />}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel, debitis
-        deserunt exercitationem amet minima velit ullam, ad earum, corporis eum
-        culpa fugit nulla est voluptas voluptatibus deleniti voluptates? Eos,
-        corrupti!
+        <Typography
+          variant="h5"
+          sx={{
+            pb: 4,
+          }}
+        >
+          اطلاعات محصول جدید
+        </Typography>
+        <AddProductForm />
       </ModalBox>
     </>
   );

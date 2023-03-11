@@ -15,7 +15,7 @@ import {
 const ModalContainer = styled(Box)(({ theme }) => ({
   padding: "32px 24px",
   backgroundColor: "#fff",
-  borderRadius: 20,
+  borderRadius: 4,
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -27,6 +27,7 @@ export default function ModalBox({
   children,
   icon,
   buttonText,
+  buttonVariant,
   handleOpen,
   handleClose,
   open,
@@ -47,7 +48,7 @@ export default function ModalBox({
             borderRadius: "20px",
           }}
           size="medium"
-          variant="contained"
+          variant={buttonVariant}
           startIcon={icon}
         >
           <Typography

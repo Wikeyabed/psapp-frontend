@@ -20,6 +20,7 @@ export default function AddCategotyModal() {
         handleClose={handleClose}
         open={open}
         buttonText={"دسته بندی جدید"}
+        buttonVariant={"outlined"}
         icon={<AddIcon />}
       >
         hello world 2
