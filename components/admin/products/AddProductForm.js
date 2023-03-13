@@ -3,22 +3,12 @@ import { styled } from "@mui/material/styles";
 import {
   Box,
   Grid,
-  Paper,
   TextField,
   Button,
-  Typography,
-  FormControlLabel,
-  Checkbox,
   FormControl,
   MenuItem,
-  Select,
 } from "@mui/material";
-
 import DropZone from "./DropZone";
-import TextareaAutosize from "@mui/base/TextareaAutosize";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-
-import Link from "../../../src/Link";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
@@ -102,6 +92,10 @@ function AddProductForm() {
 
             <Grid sx={{ px: 1, mb: 6 }} item xs={12}>
               <RtlTextField fullWidth label="قیمت محصول" />
+            </Grid>
+
+            <Grid sx={{ px: 1, mb: 6 }} item xs={12}>
+              <RtlTextField fullWidth label="درصد تخفیف" />
             </Grid>
 
             <Grid sx={{ px: 1, mb: 6 }} item xs={6}>
