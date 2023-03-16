@@ -10,6 +10,7 @@ import {
   Fade,
   Modal,
   Backdrop,
+  Grid,
 } from "@mui/material";
 
 const ModalContainer = styled(Box)(({ theme }) => ({
@@ -20,7 +21,7 @@ const ModalContainer = styled(Box)(({ theme }) => ({
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: "100%",
 }));
 
 export default function ModalBox({
@@ -75,7 +76,11 @@ export default function ModalBox({
         }}
       >
         <Fade in={open}>
-          <ModalContainer>{children}</ModalContainer>
+          <Grid container>
+            <ModalContainer xs={11} md={6} component={Grid} item>
+              {children}
+            </ModalContainer>
+          </Grid>
         </Fade>
       </Modal>
     </>
