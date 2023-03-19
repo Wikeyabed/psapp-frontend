@@ -15,8 +15,16 @@ function AdminLayout({ children }) {
           <Navbar />
         </Grid>
         <Grid item xs={12} lg={10.5}>
-          <NavigationBar />
-          {children}
+          <Grid sx={{ mb: 5 }} item xs={12}>
+            {/* <Box sx={{ width: "100%", height: "50px" }}> */}{" "}
+            <NavigationBar />
+            {/* </Box> */}
+          </Grid>
+
+          <Grid item lg={10} sx={{ mx: "auto" }}>
+            {" "}
+            {children}
+          </Grid>
         </Grid>
       </Grid>
     </Box>

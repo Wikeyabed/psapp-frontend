@@ -11,25 +11,23 @@ function AdminDashboard() {
   return (
     <AdminLayout>
       <Box>
-        <Grid sx={{ p: 5, mx: 10, mt: 5 }}>
-          <Grid container>
-            <TopBoxes />
+        <Grid container>
+          <TopBoxes />
 
-            <Grid item xs={12} lg={6}>
-              <UsersChart title="فروش" typeOfChart="bar" />
-            </Grid>
+          <Grid item xs={12} lg={6}>
+            <UsersChart title="فروش" typeOfChart="bar" />
+          </Grid>
 
-            <Grid item xs={12} lg={6}>
-              <UsersChart title="کاربران" typeOfChart="line" />
-            </Grid>
+          <Grid item xs={12} lg={6}>
+            <UsersChart title="کاربران" typeOfChart="line" />
+          </Grid>
 
-            <Grid item xs={12} lg={6}>
-              <ProductsTable />
-            </Grid>
+          <Grid item xs={12} lg={6}>
+            <ProductsTable />
+          </Grid>
 
-            <Grid item xs={12} lg={6}>
-              <ProductsTable />
-            </Grid>
+          <Grid item xs={12} lg={6}>
+            <ProductsTable />
           </Grid>
         </Grid>
       </Box>

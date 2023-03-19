@@ -9,14 +9,12 @@ function ProductsList() {
   return (
     <AdminLayout>
       <Box>
-        <Grid sx={{ p: 5, mx: 10, mt: 5 }}>
-          <Grid container>
-            <Grid item xs={12}>
-              <AddProductModal />
-              <EditProductModal />
-              <AddCategotyModal />
-              <ProductsTable />
-            </Grid>
+        <Grid container>
+          <Grid item xs={12}>
+            <AddProductModal />
+            <EditProductModal />
+            <AddCategotyModal />
+            <ProductsTable />
           </Grid>
         </Grid>
       </Box>

@@ -24,8 +24,8 @@ export default function NavigationBar() {
     <Box
       sx={{
         minHeight: 64,
-        paddingRight: "16px",
-        paddingTop: "16px",
+        py: 2,
+        px: 3,
       }}
     >
       <Stack>
