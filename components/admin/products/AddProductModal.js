@@ -16,8 +16,13 @@ import AddProductForm from "./AddProductForm";
 
 export default function AddProductModal() {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    console.log("clicked on close");
+    setOpen(false);
+  };
 
   return (
     <>
@@ -30,14 +35,6 @@ export default function AddProductModal() {
         buttonVariant={"contained"}
         icon={<InventoryIcon />}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            pb: 4,
-          }}
-        >
-          اطلاعات محصول جدید
-        </Typography>
         <AddProductForm />
       </ModalBox>
     </>

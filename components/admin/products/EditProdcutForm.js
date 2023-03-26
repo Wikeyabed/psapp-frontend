@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -7,9 +7,14 @@ import {
   Button,
   FormControl,
   MenuItem,
+  Typography,
+  Divider,
 } from "@mui/material";
 import DropZone from "./DropZone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
+import { Editor } from "@tinymce/tinymce-react";
+
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
   marginTop: 10,
@@ -42,13 +47,31 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
   right: "90% !important",
 }));
 
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  width: "20%",
+  margin: "auto",
+  borderColor: theme.palette.primary.main,
+  borderWidth: 1,
+  borderRadius: "50%",
+  opacity: "0.5",
+}));
+
 const EnterProductId = ({ handleProductId }) => {
   return (
     <>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={12}>
-        <RtlTextField fullWidth label="کد محصول" />
+      <Grid sx={{ px: 1, mb: 6, mx: "auto" }} item xs={7}>
+        <Typography
+          variant="h6"
+          sx={{
+            p: 1,
+            textAlign: "center",
+          }}
+        >
+          کد محصول مورد نظر
+        </Typography>
+        <RtlTextField size="small" fullWidth label="کد محصول" />
       </Grid>
-      <Grid sx={{ px: 1 }} item xs={3}>
+      <Grid sx={{ px: 1, mx: "auto" }} item xs={3}>
         <Button
           onClick={handleProductId}
           sx={{ p: 1 }}
@@ -63,60 +86,195 @@ const EnterProductId = ({ handleProductId }) => {
 };
 
 const EditForm = () => {
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      // Logs the value entered in the editor
+      console.log(editorRef.current.getContent());
+    }
+  };
   return (
     <>
-      <Grid sx={{ px: 1 }} item xs={6}>
-        <RtlTextField fullWidth label="نام محصول" />
-        <RtlTextField
-          SelectProps={{
-            IconComponent: SelectIcon,
+      <Typography
+        variant="h6"
+        sx={{
+          p: 1,
+          textAlign: "center",
+        }}
+      >
+        اطلاعات محصول
+      </Typography>
+      <StyledDivider />
+      <Grid component={Item} container>
+        <Grid sx={{ px: 1 }} item xs={4}>
+          <RtlTextField size="small" fullWidth label="نام محصول" />
+        </Grid>
+
+        <Grid item xs={4} sx={{ px: 1 }}>
+          {" "}
+          <RtlTextField
+            size="small"
+            SelectProps={{
+              IconComponent: SelectIcon,
+            }}
+            select
+            fullWidth
+            label="دسته بندی محصول"
+          >
+            <MenuItem value={"1"}>item 1</MenuItem>
+            <MenuItem value={"2"}>item 2</MenuItem>
+            <MenuItem value={"3"}>item 3</MenuItem>
+          </RtlTextField>
+        </Grid>
+        <Grid sx={{ px: 1 }} item xs={4}>
+          <RtlTextField size="small" fullWidth label="کد محصول" />
+        </Grid>
+
+        <Grid sx={{ px: 1 }} item xs={4}>
+          <RtlTextField
+            size="small"
+            type="number"
+            fullWidth
+            label="مقدار عمده فروشی"
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1 }} item xs={4}>
+          <RtlTextField size="small" fullWidth label="تعداد در هر بسته" />
+        </Grid>
+
+        <Grid sx={{ my: 4, px: 1 }} item xs={6}>
+          <Editor
+            apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="مشخصات محصول"
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                "advlist",
+                "autolink",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "code",
+                "fullscreen",
+                "insertdatetime",
+                "media",
+                "table",
+                "code",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | blocks | " +
+                "bold italic forecolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            }}
+          />
+        </Grid>
+
+        <Grid sx={{ my: 4, px: 1 }} item xs={6}>
+          <Editor
+            apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="توضیحات محصول"
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                "advlist",
+                "autolink",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "code",
+                "fullscreen",
+                "insertdatetime",
+                "media",
+                "table",
+                "code",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | blocks | " +
+                "bold italic forecolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
+            }}
+          />
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography
+          variant="h6"
+          sx={{
+            p: 1,
+            textAlign: "center",
           }}
-          select
-          fullWidth
-          label="دسته بندی محصول"
         >
-          <MenuItem value={"1"}>item 1</MenuItem>
-          <MenuItem value={"2"}>item 2</MenuItem>
-          <MenuItem value={"3"}>item 3</MenuItem>
-        </RtlTextField>
+          قیمت و تخفیفات{" "}
+        </Typography>
+
+        <StyledDivider />
+        <Grid component={Item} container>
+          <Grid sx={{ px: 1 }} item xs={4}>
+            <RtlTextField size="small" fullWidth label="قیمت محصول" />
+          </Grid>
+
+          <Grid sx={{ px: 1 }} item xs={4}>
+            <RtlTextField size="small" fullWidth label="قیمت عمده" />
+          </Grid>
+
+          <Grid sx={{ px: 1 }} item xs={4}>
+            <RtlTextField size="small" fullWidth label="درصد تخفیف" />
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid sx={{ px: 1 }} item xs={6}>
-        <RtlTextField fullWidth label="کد محصول" />
-        <RtlTextField
-          SelectProps={{
-            IconComponent: SelectIcon,
+
+      <Grid item xs={12}>
+        <Typography
+          variant="h6"
+          sx={{
+            p: 1,
+            textAlign: "center",
           }}
-          select
-          fullWidth
-          label="دسته بندی محصول"
         >
-          <MenuItem value={"1"}>item 1</MenuItem>
-          <MenuItem value={"2"}>item 2</MenuItem>
-          <MenuItem value={"3"}>item 3</MenuItem>
-        </RtlTextField>
-      </Grid>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={6}>
-        <RtlTextField type="number" fullWidth label="مقدار عمده فروشی" />
-      </Grid>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={6}>
-        <RtlTextField fullWidth label="تعداد در هر بسته" />
-      </Grid>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={12}>
-        <RtlTextField fullWidth label="قیمت محصول" />
-      </Grid>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={12}>
-        <RtlTextField fullWidth label="درصد تخفیف" />
-      </Grid>
-      <Grid sx={{ px: 1, mb: 6 }} item xs={6}>
-        <RtlTextField multiline rows={7} fullWidth label="توضیحات..." />
-      </Grid>
-      <Grid sx={{ mb: 6, mt: 0.5, px: 1 }} item xs={6}>
-        <DropZone />
-      </Grid>
-      <Grid xs={6} item>
-        <Button sx={{ p: 1 }} fullWidth variant="outlined">
-          ایجاد محصول جدید
-        </Button>
+          عکس و فایل محصولات{" "}
+        </Typography>
+
+        <StyledDivider />
+        <Grid component={Item} container>
+          <Grid sx={{ px: 1, mx: "auto" }} xs={8}>
+            <DropZone />
+          </Grid>
+
+          <Grid sx={{ px: 1 }} xs={12}></Grid>
+
+          {/* <StyledDivider /> */}
+
+          <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={4} item>
+            <Button sx={{ p: 1 }} fullWidth variant="contained">
+              ایجاد محصول جدید
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </>
   );
@@ -132,15 +290,13 @@ function EditProductForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
-        <Card item xs={12}>
-          <Grid component={Item} container>
-            {productId ? (
-              <EditForm />
-            ) : (
-              <EnterProductId handleProductId={handleProductId} />
-            )}
-          </Grid>
-        </Card>
+        <Grid item xs={12}>
+          {productId ? (
+            <EditForm />
+          ) : (
+            <EnterProductId handleProductId={handleProductId} />
+          )}
+        </Grid>
       </Grid>
     </Box>
   );

@@ -30,14 +30,6 @@ function EditProductModal() {
         buttonVariant={"outlined"}
         icon={<EditIcon />}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            pb: 4,
-          }}
-        >
-          ویرایش محصول
-        </Typography>
         <EditProductForm />
       </ModalBox>
     </>

@@ -82,7 +82,7 @@ function DropZone() {
             sx={{
               minWidth: "100%",
               minHeight: 50,
-              border: "2px dashed #e2e2e2",
+              border: "2px dashed #999",
               padding: "20px 20px",
               borderRadius: "4px",
               marginBottom: 4,

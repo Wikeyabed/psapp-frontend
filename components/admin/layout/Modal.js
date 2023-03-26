@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import styled from "@emotion/styled";
 import {
   Box,
@@ -11,17 +9,19 @@ import {
   Modal,
   Backdrop,
   Grid,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
-const ModalContainer = styled(Box)(({ theme }) => ({
+const ModalContainer = styled(Grid)(({ theme }) => ({
   padding: "32px 24px",
   backgroundColor: "#fff",
-  borderRadius: 4,
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100%",
+  margin: "auto",
+  position: "relative",
+  // width: "80%",
 }));
 
 export default function ModalBox({
@@ -62,27 +62,41 @@ export default function ModalBox({
           </Typography>
         </Button>
       </Stack>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
+      <Dialog
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
+        scroll="body"
+        fullScreen
       >
-        <Fade in={open}>
-          <Grid container>
-            <ModalContainer xs={11} md={6} component={Grid} item>
-              {children}
-            </ModalContainer>
-          </Grid>
-        </Fade>
-      </Modal>
+        {" "}
+        <Grid container>
+          {" "}
+          <ModalContainer item md={7}>
+            <CloseIcon
+              onClick={handleClose}
+              aria-label="close"
+              sx={{
+                position: "absolute",
+                top: 50,
+                right: 50,
+                cursor: "pointer",
+                zIndex: 10,
+                backgroundColor: "red",
+                color: "white",
+                width: 30,
+                height: 30,
+                borderRadius: "50%",
+              }}
+            />
+
+            {children}
+          </ModalContainer>
+        </Grid>
+        {/* </DialogContent> */}
+      </Dialog>
     </>
   );
 }
