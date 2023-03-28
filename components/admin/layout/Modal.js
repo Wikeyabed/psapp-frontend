@@ -21,7 +21,6 @@ const ModalContainer = styled(Grid)(({ theme }) => ({
   backgroundColor: "#fff",
   margin: "auto",
   position: "relative",
-  // width: "80%",
 }));
 
 export default function ModalBox({
@@ -70,6 +69,12 @@ export default function ModalBox({
         closeAfterTransition
         scroll="body"
         fullScreen
+        PaperProps={{
+          style: {
+            backgroundColor: "rgba(256 , 256 , 256 , 0.5)",
+            // opacity: "",
+          },
+        }}
       >
         {" "}
         <Grid container>
@@ -95,7 +100,6 @@ export default function ModalBox({
             {children}
           </ModalContainer>
         </Grid>
-        {/* </DialogContent> */}
       </Dialog>
     </>
   );

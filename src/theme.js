@@ -11,16 +11,20 @@ const theme = createTheme({
       overflow: "unset",
     },
   },
+  // spacing: 8,
   direction: "rtl",
   palette: {
     primary: {
       main: indigo[800],
       lightBg: "#fdfdfd",
       textColor: "#909090",
+      borderRadius: "5px",
+      borderColor: "#00aaff",
     },
     secondary: {
       main: "#19857b",
     },
+
     error: {
       main: red.A400,
     },
