@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Checkbox,
   FormControl,
+  useMediaQuery,
 } from "@mui/material";
 
 import Link from "../../src/Link";
@@ -43,10 +44,12 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function LoginFrom() {
+  const isXS = useMediaQuery((theme) => theme.breakpoints.only("xs"));
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
-        <Card item xs={3}>
+        <Card item xs={10} md={3}>
           <Grid component={Item} container>
             <Grid sx={{ mb: 6 }} item xs={12}>
               <Typography sx={{ mb: 5 }} variant="h6">

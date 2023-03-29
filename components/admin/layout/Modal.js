@@ -89,11 +89,15 @@ export default function ModalBox({
                 right: 50,
                 cursor: "pointer",
                 zIndex: 10,
-                backgroundColor: "red",
-                color: "white",
+                backgroundColor: "transparent",
+                color: "red",
                 width: 30,
                 height: 30,
                 borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "2px solid red",
               }}
             />
 

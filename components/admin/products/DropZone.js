@@ -13,12 +13,15 @@ const thumbStyle = {
   height: 100,
   padding: 4,
   boxSizing: "border-box",
+  // Add new box shadow style to the thumbnail style
+  boxShadow: "1px 1px 10px rgba(0,0,0,0.2)",
 };
 
 const thumbInner = {
   display: "flex",
   minWidth: 0,
   overflow: "hidden",
+  borderRadius: 2,
 };
 
 const img = {
@@ -74,6 +77,11 @@ function DropZone() {
     <Box
       sx={{
         width: "100%",
+        // Styles for the outer box
+        marginTop: 2,
+        border: "1px solid #ccc",
+        borderRadius: 4,
+        padding: 2,
       }}
     >
       <FileUploader
@@ -82,7 +90,7 @@ function DropZone() {
             sx={{
               minWidth: "100%",
               minHeight: 50,
-              border: "2px dashed #999",
+              // border: "2px dashed #999",
               padding: "20px 20px",
               borderRadius: "4px",
               marginBottom: 4,
@@ -110,6 +118,10 @@ function DropZone() {
       <Box
         sx={{
           mb: 1,
+          // Styles for inner box
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         {thumbnails ? thumbnails : ""}

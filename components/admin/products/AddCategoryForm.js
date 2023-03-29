@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { DeleteOutline, CreateOutlined } from "@mui/icons-material";
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
   width: "20%",
@@ -21,7 +22,6 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   borderRadius: "50%",
   opacity: "0.5",
 }));
-
 const ListItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   padding: 12,
@@ -53,11 +53,15 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function AddCategoryForm() {
-  const [categories, setCategories] = useState(["product 1", "product2"]);
-  const [textValue, setTextValue] = useState();
+  const [categories, setCategories] = useState([]);
+  const [textValue, setTextValue] = useState("");
 
   const handleCategories = () => {
     setCategories([...categories, textValue]);
+  };
+
+  const handleDelete = (item) => {
+    setCategories(categories.filter((selected) => selected !== item));
   };
   return (
     <>
@@ -127,10 +131,52 @@ function AddCategoryForm() {
             <StyledDivider />
             <Grid container component={Item}>
               {categories.length > 0
-                ? categories.map((item) => {
+                ? categories.map((item, i) => {
                     return (
-                      <Grid sx={{ padding: 1 }} item xs={3}>
-                        <ListItem>{item}</ListItem>
+                      <Grid key={i} sx={{ padding: 1 }} item xs={4}>
+                        <ListItem
+                          sx={{
+                            position: "relative",
+                          }}
+                        >
+                          <RtlTextField
+                            size="small"
+                            // disabled
+                            defaultValue={item}
+                            sx={{
+                              border: "none",
+                              "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                  border: "none",
+                                },
+                              },
+                            }}
+                          />
+
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              left: 5,
+                              top: 5,
+                            }}
+                          >
+                            <IconButton>
+                              <CreateOutlined
+                                sx={{
+                                  color: "blue",
+                                }}
+                              />
+                            </IconButton>
+
+                            <IconButton onClick={() => handleDelete(item)}>
+                              <DeleteOutline
+                                sx={{
+                                  color: "red",
+                                }}
+                              />
+                            </IconButton>
+                          </Box>
+                        </ListItem>
                       </Grid>
                     );
                   })

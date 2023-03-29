@@ -9,11 +9,17 @@ function UsersTable() {
   return (
     <AdminLayout>
       <Box>
-        <Grid sx={{ p: 5, mx: 10, mt: 5 }}>
-          <Grid container>
-            <Grid item xs={12}>
-              <Typography>Hello</Typography>
-              <ProductsTable />
+        <Grid container justifyContent="center">
+          <Grid item xs={12} md={8}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6" align="center">
+                  Hello
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <ProductsTable />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

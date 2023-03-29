@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import DropZone from "./DropZone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
+import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
 
 const Item = styled(Box)(({ theme }) => ({
@@ -106,11 +106,11 @@ const EditForm = () => {
       </Typography>
       <StyledDivider />
       <Grid component={Item} container>
-        <Grid sx={{ px: 1 }} item xs={4}>
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField size="small" fullWidth label="نام محصول" />
         </Grid>
 
-        <Grid item xs={4} sx={{ px: 1 }}>
+        <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
           <RtlTextField
             size="small"
@@ -126,11 +126,11 @@ const EditForm = () => {
             <MenuItem value={"3"}>item 3</MenuItem>
           </RtlTextField>
         </Grid>
-        <Grid sx={{ px: 1 }} item xs={4}>
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField size="small" fullWidth label="کد محصول" />
         </Grid>
 
-        <Grid sx={{ px: 1 }} item xs={4}>
+        <Grid sx={{ px: 1 }} item xs={6} md={4}>
           <RtlTextField
             size="small"
             type="number"
@@ -139,11 +139,11 @@ const EditForm = () => {
           />
         </Grid>
 
-        <Grid sx={{ px: 1 }} item xs={4}>
+        <Grid sx={{ px: 1 }} item xs={6} md={4}>
           <RtlTextField size="small" fullWidth label="تعداد در هر بسته" />
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={6}>
+        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
@@ -182,7 +182,7 @@ const EditForm = () => {
           />
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={6}>
+        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
@@ -234,15 +234,15 @@ const EditForm = () => {
 
         <StyledDivider />
         <Grid component={Item} container>
-          <Grid sx={{ px: 1 }} item xs={4}>
+          <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField size="small" fullWidth label="قیمت محصول" />
           </Grid>
 
-          <Grid sx={{ px: 1 }} item xs={4}>
+          <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField size="small" fullWidth label="قیمت عمده" />
           </Grid>
 
-          <Grid sx={{ px: 1 }} item xs={4}>
+          <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField size="small" fullWidth label="درصد تخفیف" />
           </Grid>
         </Grid>
@@ -261,18 +261,46 @@ const EditForm = () => {
 
         <StyledDivider />
         <Grid component={Item} container>
-          <Grid sx={{ px: 1, mx: "auto" }} xs={8}>
+          <Grid sx={{ px: 1, mx: "auto" }} xs={12} md={8}>
             <DropZone />
           </Grid>
 
-          <Grid sx={{ px: 1 }} xs={12}></Grid>
+          <Grid sx={{ px: 1 }} item xs={12} md={12}></Grid>
 
           {/* <StyledDivider /> */}
 
-          <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={4} item>
-            <Button sx={{ p: 1 }} fullWidth variant="contained">
-              ایجاد محصول جدید
-            </Button>
+          <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={12} md={4} item>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                borderRadius: "8px",
+                overflow: "hidden",
+              }}
+            >
+              <Button
+                sx={{
+                  p: "12px 24px",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  backgroundColor: "#1e88e5",
+                  borderRadius: "8px",
+                  transition: ".2s ease-in-out",
+                  "&:hover": {
+                    backgroundColor: "#0d47a1",
+                  },
+                  "& .MuiButton-startIcon": {
+                    marginLeft: "12px",
+                    fontSize: "148px",
+                  },
+                }}
+                startIcon={<AddIcon />}
+                variant="contained"
+              >
+                ایجاد محصول جدید
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Grid>
