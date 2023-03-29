@@ -1,15 +1,4 @@
 import * as React from "react";
-import styled from "@emotion/styled";
-import {
-  Box,
-  Paper,
-  Stack,
-  Typography,
-  Button,
-  Fade,
-  Modal,
-  Backdrop,
-} from "@mui/material";
 import ModalBox from "../layout/Modal";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import AddProductForm from "./AddProductForm";

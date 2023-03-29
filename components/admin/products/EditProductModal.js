@@ -1,21 +1,10 @@
-import * as React from "react";
-import styled from "@emotion/styled";
-import {
-  Box,
-  Paper,
-  Stack,
-  Typography,
-  Button,
-  Fade,
-  Modal,
-  Backdrop,
-} from "@mui/material";
+import { useState } from "react";
 import ModalBox from "../layout/Modal";
 import EditIcon from "@mui/icons-material/Edit";
 import EditProductForm from "./EditProdcutForm";
 
 function EditProductModal() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -26,8 +15,15 @@ function EditProductModal() {
         handleOpen={handleOpen}
         handleClose={handleClose}
         open={open}
-        buttonText={"ویرایش محصول"}
-        buttonVariant={"outlined"}
+        // buttonText={"ویرایش محصول"}
+        buttonVariant="contained"
+        buttonStyle={{
+          padding: "20px  0",
+          position: "absolute",
+          left: "10px",
+          bottom: "5px",
+          borderRadius: "50%",
+        }}
         icon={<EditIcon />}
       >
         <EditProductForm />

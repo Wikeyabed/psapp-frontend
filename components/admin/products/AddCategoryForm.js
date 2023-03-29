@@ -55,14 +55,29 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 function AddCategoryForm() {
   const [categories, setCategories] = useState([]);
   const [textValue, setTextValue] = useState("");
+  const [editItem, setEditItem] = useState("");
 
   const handleCategories = () => {
-    setCategories([...categories, textValue]);
+    if (textValue) {
+      setCategories([...categories, textValue]);
+      setTextValue("");
+    }
   };
 
   const handleDelete = (item) => {
     setCategories(categories.filter((selected) => selected !== item));
   };
+
+  const handleClick = (item) => {
+    setEditItem(item);
+  };
+
+  const handleUpdate = (e, index) => {
+    categories[index] = e.target.value;
+    setCategories([...categories]);
+    setEditItem("");
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -112,6 +127,7 @@ function AddCategoryForm() {
                   }}
                   size="small"
                   fullWidth
+                  value={textValue}
                   label="نام دسته بندی"
                 />
               </Grid>
@@ -139,19 +155,40 @@ function AddCategoryForm() {
                             position: "relative",
                           }}
                         >
-                          <RtlTextField
-                            size="small"
-                            // disabled
-                            defaultValue={item}
-                            sx={{
-                              border: "none",
-                              "& .MuiOutlinedInput-root": {
-                                "& fieldset": {
-                                  border: "none",
+                          {editItem === item ? (
+                            <RtlTextField
+                              size="small"
+                              fullWidth
+                              autoFocus
+                              defaultValue={item}
+                              onBlur={() => setEditItem("")}
+                              onKeyDown={(e) =>
+                                e.key === "Enter" && handleUpdate(e, i)
+                              }
+                              sx={{
+                                border: "none",
+                                "& .MuiOutlinedInput-root": {
+                                  "& fieldset": {
+                                    border: "none",
+                                  },
                                 },
-                              },
-                            }}
-                          />
+                              }}
+                            />
+                          ) : (
+                            <RtlTextField
+                              size="small"
+                              disabled
+                              value={item}
+                              sx={{
+                                border: "none",
+                                "& .MuiOutlinedInput-root": {
+                                  "& fieldset": {
+                                    border: "none",
+                                  },
+                                },
+                              }}
+                            />
+                          )}
 
                           <Box
                             sx={{
@@ -160,13 +197,23 @@ function AddCategoryForm() {
                               top: 5,
                             }}
                           >
-                            <IconButton>
-                              <CreateOutlined
-                                sx={{
-                                  color: "blue",
-                                }}
-                              />
-                            </IconButton>
+                            {editItem === item ? (
+                              <IconButton onClick={() => setEditItem("")}>
+                                <CreateOutlined
+                                  sx={{
+                                    color: "black",
+                                  }}
+                                />
+                              </IconButton>
+                            ) : (
+                              <IconButton onClick={() => handleClick(item)}>
+                                <CreateOutlined
+                                  sx={{
+                                    color: "blue",
+                                  }}
+                                />
+                              </IconButton>
+                            )}
 
                             <IconButton onClick={() => handleDelete(item)}>
                               <DeleteOutline

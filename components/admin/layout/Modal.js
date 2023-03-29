@@ -31,6 +31,7 @@ export default function ModalBox({
   handleOpen,
   handleClose,
   open,
+  buttonStyle,
 }) {
   return (
     <>
@@ -43,9 +44,7 @@ export default function ModalBox({
         <Button
           onClick={handleOpen}
           sx={{
-            py: 1,
-            pl: 3,
-            borderRadius: "20px",
+            ...buttonStyle,
           }}
           size="medium"
           variant={buttonVariant}

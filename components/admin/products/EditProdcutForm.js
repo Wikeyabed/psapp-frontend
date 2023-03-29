@@ -56,35 +56,6 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   opacity: "0.5",
 }));
 
-const EnterProductId = ({ handleProductId }) => {
-  return (
-    <>
-      <Grid sx={{ px: 1, mb: 6, mx: "auto" }} item xs={7}>
-        <Typography
-          variant="h6"
-          sx={{
-            p: 1,
-            textAlign: "center",
-          }}
-        >
-          کد محصول مورد نظر
-        </Typography>
-        <RtlTextField size="small" fullWidth label="کد محصول" />
-      </Grid>
-      <Grid sx={{ px: 1, mx: "auto" }} item xs={3}>
-        <Button
-          onClick={handleProductId}
-          sx={{ p: 1 }}
-          fullWidth
-          variant="outlined"
-        >
-          تایید
-        </Button>
-      </Grid>
-    </>
-  );
-};
-
 const EditForm = () => {
   const editorRef = useRef(null);
   const log = () => {
@@ -319,11 +290,7 @@ function EditProductForm() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
         <Grid item xs={12}>
-          {productId ? (
-            <EditForm />
-          ) : (
-            <EnterProductId handleProductId={handleProductId} />
-          )}
+          <EditForm />
         </Grid>
       </Grid>
     </Box>

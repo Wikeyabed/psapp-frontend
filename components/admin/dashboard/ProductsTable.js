@@ -1,50 +1,124 @@
-import { DataGrid } from "@mui/x-data-grid";
-import { Grid, Box, Paper, Typography } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Paper,
+  Typography,
+  TextField,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import styled from "@emotion/styled";
+import { useState } from "react";
+import EditProductModal from "../products/EditProductModal";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
-  padding: "32px 24px",
+  padding: "10px",
   backgroundColor: theme.palette.primary.main.lightBg,
   position: "relative",
-  borderRadius: 20,
+  borderRadius: "10px",
   boxShadow: "rgb(0 0 0 / 4%) 0px 5px 22px, rgb(0 0 0 / 3%) 0px 0px 0px 0.5px",
 }));
 
-const CardContainer = styled(Grid)(({ theme }) => ({
-  padding: 15,
+const RtlTextField = styled(TextField)(({ theme }) => ({
+  minWidth: "100%",
+  direction: "rtl",
+  textAlign: "center !important",
+  "& label": {
+    transformOrigin: "right !important",
+    textAlign: "right !important",
+    left: "inherit !important",
+    right: "2rem !important",
+    overflow: "unset",
+  },
 }));
 
-const columns = [
-  { field: "id", headerName: "آیدی فاکتور" },
-  { field: "firstName", headerName: "خریدار" },
-  { field: "lastName", headerName: "تاریخ" },
-];
+const CardContainer = styled(Grid)(({ theme }) => ({
+  padding: "15px",
+  marginTop: "30px",
+}));
 
-const rows = [
-  { id: 1, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 2, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 3, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 4, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 5, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 6, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 7, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 8, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-  { id: 9, lastName: "عبدالله نوروزی", firstName: "خانی آباد" },
-];
+function ProductsTable({ products }) {
+  const [searchValue, setSearchValue] = useState("");
+  const [category, setCategory] = useState("All");
 
-export default function ProductsTable() {
+  const handleSearch = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleCategoryChange = (event) => {
+    console.log(products);
+    setCategory(event.target.value);
+  };
+
+  const filteredProducts = products
+    ? products.filter((product) => {
+        if (category === "All") {
+          return product.name.includes(searchValue);
+        } else {
+          return (
+            product.category === category && product.name.includes(searchValue)
+          );
+        }
+      })
+    : [];
+
   return (
-    <CardContainer>
-      <DashboardCard>
-        <div style={{ width: "100%", height: "480px" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          />
-        </div>
-      </DashboardCard>
+    <CardContainer
+      sx={{
+        py: 10,
+      }}
+      container
+      spacing={2}
+    >
+      <Grid item xs={12}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={3}>
+            <RtlTextField
+              id="search-products"
+              variant="outlined"
+              onChange={handleSearch}
+              placeholder="جستجو کنید"
+              sx={{ width: "100%", margin: "auto" }}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Select
+              id="category-filter"
+              value={category}
+              onChange={handleCategoryChange}
+              sx={{ width: "100%", margin: "auto" }}
+              size="small"
+            >
+              <MenuItem value="All">All</MenuItem>
+              <MenuItem value="men's clothing">Men's Clothing</MenuItem>
+              <MenuItem value="women's clothing">Women's Clothing</MenuItem>
+              <MenuItem value="electronics">Electronics</MenuItem>
+              <MenuItem value="jewelery">Jewelery</MenuItem>
+            </Select>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      {filteredProducts.map((product) => (
+        <Grid item xs={12} sm={6} md={3} key={product.id}>
+          <DashboardCard>
+            <Box sx={{ position: "relative" }}>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", textAlign: "center", py: 1 }}
+              >
+                {product.name}
+              </Typography>
+              <img src={product.image} alt={product.name} />
+
+              <EditProductModal />
+            </Box>
+          </DashboardCard>
+        </Grid>
+      ))}
     </CardContainer>
   );
 }
+
+export default ProductsTable;
