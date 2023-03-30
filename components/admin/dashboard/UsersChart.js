@@ -43,8 +43,6 @@ const data = {
 };
 
 export default function UsersChart({ typeOfChart, title }) {
-  console.log(typeOfChart);
-
   return (
     <div>
       <CardContainer>

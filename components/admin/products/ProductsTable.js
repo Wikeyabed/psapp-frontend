@@ -6,10 +6,11 @@ import {
   TextField,
   MenuItem,
   Select,
+  Divider,
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { useState } from "react";
-import EditProductModal from "../products/EditProductModal";
+import EditProductModal from "./EditProductModal";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -98,6 +99,12 @@ function ProductsTable({ products }) {
             </Select>
           </Grid>
         </Grid>
+
+        <Divider
+          sx={{
+            marginTop: "20px",
+          }}
+        />
       </Grid>
 
       {filteredProducts.map((product) => (
