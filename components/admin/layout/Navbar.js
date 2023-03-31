@@ -96,18 +96,22 @@ export default function Navbar() {
             <MenuItem primary="کاربران" />
           </ListItemButton>
         </Link>
-        <ListItemButton>
-          <Icon>
-            <SendIcon />
-          </Icon>
-          <MenuItem primary="سفارشات" />
-        </ListItemButton>
+
+        <Link href="/admin/invoices">
+          <ListItemButton>
+            <Icon>
+              <SendIcon />
+            </Icon>
+            <MenuItem primary="سفارشات" />
+          </ListItemButton>
+        </Link>
         <ListItemButton>
           <Icon>
             <SupportAgentOutlinedIcon />
           </Icon>
           <MenuItem primary="پشتیبانی" />
         </ListItemButton>
+
         <Link href="/admin/products">
           <ListItemButton>
             <Icon>
@@ -122,7 +126,7 @@ export default function Navbar() {
             <PowerSettingsNewOutlinedIcon />
           </Icon>
           <MenuItem primary="خروج" />
-        </ListItemButton>{" "}
+        </ListItemButton>
         {/*  */}
       </List>
 

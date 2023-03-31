@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductsList from "../../components/admin/products/ProductsList";
+import ProductsList from "../../components/admin/products";
 
 export async function getServerSideProps() {
   const response = await fetch("https://fakestoreapi.com/products");
@@ -24,8 +24,6 @@ export default function Products({ products }) {
   useEffect(() => {
     setLoading(false);
   }, [products]);
-
-  console.log("from server", products);
   return (
     <>
       {loading ? (

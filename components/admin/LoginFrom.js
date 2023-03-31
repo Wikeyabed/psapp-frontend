@@ -44,8 +44,6 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function LoginFrom() {
-  const isXS = useMediaQuery((theme) => theme.breakpoints.only("xs"));
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
