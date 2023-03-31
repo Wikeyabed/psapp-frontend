@@ -1,21 +1,31 @@
 import * as React from "react";
 import {
   Box,
-  Stack,
   Link,
   Typography,
   Breadcrumbs,
   IconButton,
   Menu,
   MenuItem,
-  ListItemText,
   Badge,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function NavigationBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notifications, setNotifications] = React.useState([
+    { id: 1, message: "Notification 1" },
+    { id: 2, message: "Notification 2" },
+    { id: 3, message: "Notification 3" },
+  ]);
+  const [open, setOpen] = React.useState(false);
   const breadcrumbs = [
     <Link underline="none" key="1" color="primary" href="/">
       داشبورد
@@ -37,22 +47,29 @@ export default function NavigationBar() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleNotificationsOpen = () => {
+    setOpen(true);
+  };
+
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleNotificationsClose = () => {
+    setOpen(false);
   };
 
   return (
     <Box
       sx={{
-        minHeight: 48, // made the navigation bar smaller
-        py: 1, // made the padding smaller
-        px: 2, // made the padding smaller
-        bgcolor: "#f5f5f5",
+        minHeight: 48,
+        py: 1,
+        px: 2,
+        bgcolor: "primary.lightBg",
         display: "flex",
-        justifyContent: "space-between", // aligned user icon to right
+        justifyContent: "space-between",
         alignItems: "center",
-        color: "primary.contrastText",
-        boxShadow: "0px 2px 2px rgba(0,0,0,0.1)", // added shadow
+        boxShadow: 2, // added shadow
       }}
     >
       <Breadcrumbs sx={{ color: "#5f5f5f" }} aria-label="breadcrumb">
@@ -61,19 +78,40 @@ export default function NavigationBar() {
 
       <div>
         <Badge
-          badgeContent={4}
-          color="error"
-          overlap="circle"
+          badgeContent={notifications.length}
+          color="warning"
+          overlap="circular"
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          <IconButton color="primary">
+          <IconButton color="primary" onClick={handleNotificationsOpen}>
             <NotificationsIcon />
           </IconButton>
         </Badge>
+        <Dialog
+          open={open}
+          onClose={handleNotificationsClose}
+          aria-labelledby="notification-dialog-title"
+          aria-describedby="notification-dialog-description"
+        >
+          <DialogTitle id="notification-dialog-title">
+            Notifications
+          </DialogTitle>
+          <DialogContent>
+            {notifications.map((notification) => (
+              <DialogContentText key={notification.id}>
+                {notification.message}
+              </DialogContentText>
+            ))}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleNotificationsClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+
         <IconButton
           size="large"
           edge="end"
-          color="primary" // changed icon color to blue
+          color="primary"
           aria-label="profile"
           sx={{ mr: 2 }}
           onClick={handleMenuOpen}
@@ -81,21 +119,11 @@ export default function NavigationBar() {
           <AccountCircleIcon />
         </IconButton>
         <Menu
-          id="menu-appbar"
           anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={handleMenuClose}>Account settings</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
           <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
         </Menu>
       </div>

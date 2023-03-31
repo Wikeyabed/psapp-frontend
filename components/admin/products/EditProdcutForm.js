@@ -255,12 +255,9 @@ const EditForm = () => {
                   fontSize: "16px",
                   fontWeight: "bold",
                   color: "#fff",
-                  backgroundColor: "#1e88e5",
+                  backgroundColor: "primary.main",
                   borderRadius: "8px",
                   transition: ".2s ease-in-out",
-                  "&:hover": {
-                    backgroundColor: "#0d47a1",
-                  },
                   "& .MuiButton-startIcon": {
                     marginLeft: "12px",
                     fontSize: "148px",

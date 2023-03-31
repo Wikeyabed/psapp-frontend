@@ -1,5 +1,15 @@
 import { createTheme } from "@mui/material/styles";
-import { red, grey, indigo, green, blue } from "@mui/material/colors";
+import {
+  red,
+  grey,
+  indigo,
+  green,
+  blue,
+  deepPurple,
+  brown,
+  teal,
+  orange,
+} from "@mui/material/colors";
 
 // Create a theme instance.
 const theme = createTheme({
@@ -15,10 +25,12 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: blue[900],
+      main: teal[700],
       lightBg: grey[50],
-      textColor: grey[700],
-      borderRadius: "5px",
+      textColorLight: grey[700],
+      textColorDark: grey[900],
+      textColorPurple: deepPurple[800],
+      borderRadius: "10px",
       borderColor: blue[500],
     },
     secondary: {

@@ -12,9 +12,7 @@ import {
 } from "@mui/material";
 import DropZone from "./DropZone";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
+import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
 
 const Item = styled(Box)(({ theme }) => ({
@@ -242,7 +240,23 @@ function AddProductForm() {
               {/* <StyledDivider /> */}
 
               <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={4} item>
-                <Button sx={{ p: 1 }} fullWidth variant="contained">
+                <Button
+                  sx={{
+                    p: "12px 24px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    color: "#fff",
+                    backgroundColor: "primary.main",
+                    borderRadius: "8px",
+                    transition: ".2s ease-in-out",
+                    "& .MuiButton-startIcon": {
+                      marginLeft: "12px",
+                      fontSize: "148px",
+                    },
+                  }}
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                >
                   ایجاد محصول جدید
                 </Button>
               </Grid>

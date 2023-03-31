@@ -11,6 +11,7 @@ import {
 import styled from "@emotion/styled";
 import { useState } from "react";
 import EditProductModal from "./EditProductModal";
+import Image from "next/image";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -34,7 +35,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const CardContainer = styled(Grid)(({ theme }) => ({
-  padding: "15px",
+  // padding: "30px",
   marginTop: "30px",
 }));
 
@@ -64,16 +65,17 @@ function ProductsTable({ products }) {
     : [];
 
   return (
-    <CardContainer
-      sx={{
-        py: 10,
-      }}
-      container
-      spacing={2}
-    >
+    <CardContainer container>
       <Grid item xs={12}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            md={3}
+            sx={{
+              padding: "10px",
+            }}
+          >
             <RtlTextField
               id="search-products"
               variant="outlined"
@@ -83,7 +85,14 @@ function ProductsTable({ products }) {
               size="small"
             />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid
+            item
+            xs={12}
+            md={3}
+            sx={{
+              padding: "10px",
+            }}
+          >
             <Select
               id="category-filter"
               value={category}
@@ -91,24 +100,32 @@ function ProductsTable({ products }) {
               sx={{ width: "100%", margin: "auto" }}
               size="small"
             >
-              <MenuItem value="All">All</MenuItem>
-              <MenuItem value="men's clothing">Men's Clothing</MenuItem>
-              <MenuItem value="women's clothing">Women's Clothing</MenuItem>
-              <MenuItem value="electronics">Electronics</MenuItem>
-              <MenuItem value="jewelery">Jewelery</MenuItem>
+              <MenuItem value="All">تمام دسته بندی ها</MenuItem>
+              {products
+                ? [...new Set(products.map((product) => product.category))].map(
+                    (category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    )
+                  )
+                : ""}
             </Select>
           </Grid>
         </Grid>
-
-        <Divider
-          sx={{
-            marginTop: "20px",
-          }}
-        />
       </Grid>
 
       {filteredProducts.map((product) => (
-        <Grid item xs={12} sm={6} md={3} key={product.id}>
+        <Grid
+          sx={{
+            padding: "10px",
+          }}
+          item
+          xs={12}
+          sm={6}
+          md={3}
+          key={product.id}
+        >
           <DashboardCard>
             <Box sx={{ position: "relative" }}>
               <Typography
@@ -117,7 +134,18 @@ function ProductsTable({ products }) {
               >
                 {product.name}
               </Typography>
-              <img src={product.image} alt={product.name} />
+              <Box sx={{ margin: "auto", textAlign: "center" }}>
+                {" "}
+                <Image
+                  style={{
+                    borderRadius: "10px",
+                  }}
+                  width={250}
+                  height={230}
+                  src={product.image}
+                  alt={product.name}
+                />
+              </Box>
 
               <EditProductModal />
             </Box>

@@ -6,7 +6,13 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import theme from "../../../src/theme";
 import styled from "@emotion/styled";
-import { ListItemIcon, ListItemText, Divider, Typography } from "@mui/material";
+import {
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Typography,
+  Drawer,
+} from "@mui/material";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
@@ -28,85 +34,172 @@ export default function Navbar() {
     },
   }));
 
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
-    <List
-      sx={{
-        minHeight: "150vh !important",
-        bgcolor: theme.palette.primary.main,
-      }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-    >
-      <Typography
+    <>
+      {/* The menu for lg and xl */}
+      <List
         sx={{
-          color: theme.palette.primary.lightBg,
-          textAlign: "center",
-          py: 1,
+          bgcolor: "primary.main",
+          display: { xs: "none", md: "none", lg: "block", xl: "block" },
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "240px",
+          height: "100vh",
         }}
-        variant="h4"
       >
-        ایـبـاکس
-      </Typography>
-      <Divider
-        sx={{
-          my: 2,
-          backgroundColor: theme.palette.primary.lightBg,
-          width: "75%",
-          mx: "auto",
-          height: "2px",
-        }}
-      />
-      {/* Button */}
-      <Link href="/admin">
+        <Typography
+          sx={{
+            color: theme.palette.primary.lightBg,
+            textAlign: "center",
+            py: 1,
+          }}
+          variant="h4"
+        >
+          ایـبـاکس
+        </Typography>
+        <Divider
+          sx={{
+            my: 2,
+            backgroundColor: theme.palette.primary.lightBg,
+            width: "75%",
+            mx: "auto",
+            height: "2px",
+          }}
+        />
+        {/* Button */}
+        <Link href="/admin">
+          <ListItemButton>
+            {/* icon  wrapper */}
+            <Icon>
+              {/* icon itself */}
+              <DashboardOutlinedIcon />
+            </Icon>
+
+            {/* menu text */}
+
+            <MenuItem primary="داشبورد" />
+          </ListItemButton>
+        </Link>
+        <Link href="/admin/users">
+          <ListItemButton>
+            <Icon>
+              <PeopleAltOutlinedIcon />
+            </Icon>
+
+            <MenuItem primary="کاربران" />
+          </ListItemButton>
+        </Link>
         <ListItemButton>
-          {/* icon  wrapper */}
           <Icon>
-            {/* icon itself */}
+            <SendIcon />
+          </Icon>
+          <MenuItem primary="سفارشات" />
+        </ListItemButton>
+        <ListItemButton>
+          <Icon>
+            <SupportAgentOutlinedIcon />
+          </Icon>
+          <MenuItem primary="پشتیبانی" />
+        </ListItemButton>
+        <Link href="/admin/products">
+          <ListItemButton>
+            <Icon>
+              <LocalGroceryStoreOutlinedIcon />
+            </Icon>
+            <MenuItem primary="محصولات" />
+          </ListItemButton>
+        </Link>
+        {/*  */}
+        <ListItemButton>
+          <Icon>
+            <PowerSettingsNewOutlinedIcon />
+          </Icon>
+          <MenuItem primary="خروج" />
+        </ListItemButton>{" "}
+        {/*  */}
+      </List>
+
+      {/* The menu for md and xs */}
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={toggleDrawer}
+        sx={{ height: "100vh", overflow: "auto" }}
+      >
+        <List
+          sx={{
+            bgcolor: theme.palette.primary.main,
+            height: "100vh",
+            width: "200px",
+          }}
+        >
+          <ListItemButton>
+            <Icon>
+              <DashboardOutlinedIcon />
+            </Icon>
+
+            <Link href="/admin">
+              <MenuItem primary="داشبورد" />
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <PeopleAltOutlinedIcon />
+            </Icon>
+
+            <Link href="/admin/users">
+              <MenuItem primary="کاربران" />
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <SendIcon />
+            </Icon>
+            <MenuItem primary="سفارشات" />
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <SupportAgentOutlinedIcon />
+            </Icon>
+            <MenuItem primary="پشتیبانی" />
+          </ListItemButton>
+          <Link href="/admin/products">
+            <ListItemButton>
+              <Icon>
+                <LocalGroceryStoreOutlinedIcon />
+              </Icon>
+              <MenuItem primary="محصولات" />
+            </ListItemButton>
+          </Link>
+          <ListItemButton>
+            <Icon>
+              <PowerSettingsNewOutlinedIcon />
+            </Icon>
+            <MenuItem primary="خروج" />
+          </ListItemButton>{" "}
+        </List>
+      </Drawer>
+
+      {/* The toggle button for md and xs */}
+      <List
+        sx={{
+          bgcolor: theme.palette.primary.main,
+          display: { lg: "none", xl: "none" },
+        }}
+      >
+        <ListItemButton onClick={toggleDrawer}>
+          <Icon>
             <DashboardOutlinedIcon />
           </Icon>
-
-          {/* menu text */}
-
-          <MenuItem primary="داشبورد" />
         </ListItemButton>
-      </Link>
-      <Link href="/admin/users">
-        <ListItemButton>
-          <Icon>
-            <PeopleAltOutlinedIcon />
-          </Icon>
-
-          <MenuItem primary="کاربران" />
-        </ListItemButton>
-      </Link>
-      <ListItemButton>
-        <Icon>
-          <SendIcon />
-        </Icon>
-        <MenuItem primary="سفارشات" />
-      </ListItemButton>
-      <ListItemButton>
-        <Icon>
-          <SupportAgentOutlinedIcon />
-        </Icon>
-        <MenuItem primary="پشتیبانی" />
-      </ListItemButton>
-      <Link href="/admin/products">
-        <ListItemButton>
-          <Icon>
-            <LocalGroceryStoreOutlinedIcon />
-          </Icon>
-          <MenuItem primary="محصولات" />
-        </ListItemButton>
-      </Link>
-      {/*  */}
-      <ListItemButton>
-        <Icon>
-          <PowerSettingsNewOutlinedIcon />
-        </Icon>
-        <MenuItem primary="خروج" />
-      </ListItemButton>{" "}
-      {/*  */}
-    </List>
+      </List>
+    </>
   );
 }

@@ -7,7 +7,7 @@ export async function getServerSideProps() {
   const modifiedProductsData = productsData.map((product) => ({
     id: product.id,
     name: product.title.slice(0, 5),
-    image: `https://picsum.photos/id/${product.id * 10}/300/200`,
+    image: `https://picsum.photos/id/${product.id * 2}/300/200`,
     category: product.category,
   }));
 

@@ -3,8 +3,6 @@ import AdminLayout from "../layout/index";
 
 import { Grid, Box, Typography } from "@mui/material";
 
-import ProductsTable from "../dashboard/ProductsTable";
-
 function UsersTable() {
   return (
     <AdminLayout>
@@ -18,7 +16,7 @@ function UsersTable() {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <ProductsTable />
+                {/* <ProductsTable /> */}
               </Grid>
             </Grid>
           </Grid>
