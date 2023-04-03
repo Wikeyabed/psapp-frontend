@@ -38,7 +38,7 @@ export default function ModalBox({
       <Stack
         sx={{
           display: "inline-block",
-          pr: 2,
+          pr: 1,
         }}
       >
         <Button

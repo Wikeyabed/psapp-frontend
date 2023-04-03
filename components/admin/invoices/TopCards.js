@@ -1,6 +1,7 @@
-import { Grid, Paper, Typography, Divider } from "@mui/material";
+import { Grid, Paper, Typography, Divider, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import theme from "../../../src/theme";
+import { ChartLayout as InvoiceChart } from "../layout/Chart";
 
 const TopBox = styled(Paper)({
   padding: "10px",
@@ -33,11 +34,11 @@ function TopCards() {
         >
           آمار
         </Typography>
-        <StyledDivider />
+        {/* <StyledDivider /> */}
       </Grid>
 
       {/* finished invoices */}
-      <CardContainer item xs={12} lg={4}>
+      <CardContainer item xs={12} lg={3.5}>
         <TopBox
           sx={{
             backgroundColor: "primary.purple",
@@ -55,7 +56,7 @@ function TopCards() {
       </CardContainer>
 
       {/* today invoices */}
-      <CardContainer item xs={12} lg={4}>
+      <CardContainer item xs={12} lg={3.5}>
         <TopBox
           sx={{
             backgroundColor: "primary.blue",
@@ -73,21 +74,21 @@ function TopCards() {
       </CardContainer>
 
       {/* all invoices */}
-      <CardContainer item xs={12} lg={4}>
-        <TopBox
+      <CardContainer sx={{ position: "relative" }} item xs={12} lg={5}>
+        <Box
           sx={{
-            backgroundColor: "primary.orange",
+            width: "100%",
+            top: -20,
+            position: "relative",
           }}
-          elevation={6}
         >
-          <Typography variant="h5" sx={{ textAlign: "center", paddingTop: 5 }}>
-            فاکتور های تکمیل شده
-          </Typography>
-
-          <Typography variant="h2" sx={{ textAlign: "center", padding: 5 }}>
-            12
-          </Typography>
-        </TopBox>
+          {" "}
+          <InvoiceChart
+            columns={10}
+            typeOfChart="bar"
+            title="تعداد تمامی فاکتور ها"
+          />
+        </Box>
       </CardContainer>
     </Grid>
   );

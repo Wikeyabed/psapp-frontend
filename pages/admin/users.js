@@ -1,8 +1,9 @@
-import UsersTable from "../../components/admin/users/UsersTable";
+// import UsersTable from "../../components/admin/users/UsersTable";
 function Users() {
   return (
     <>
-      <UsersTable />
+      {/* <UsersTable /> */}
+      users
     </>
   );
 }
