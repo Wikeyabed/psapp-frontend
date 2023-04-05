@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^1.9.3",
     "@tinymce/tinymce-react": "^4.3.0",
     "apexcharts": "^3.37.1",
+    "moment-jalaali": "^0.9.6",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "persian-date": "^1.1.0"
   }
 }

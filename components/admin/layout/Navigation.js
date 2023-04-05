@@ -64,8 +64,8 @@ export default function NavigationBar() {
       sx={{
         minHeight: 48,
         py: 1,
-        px: 2,
-        bgcolor: "primary.lightBg",
+        px: { xs: 2, md: 5 },
+        bgcolor: "primary.lightDarker",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

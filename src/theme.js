@@ -9,6 +9,7 @@ import {
   brown,
   teal,
   orange,
+  purple,
 } from "@mui/material/colors";
 
 // Create a theme instance.
@@ -25,9 +26,9 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: teal[700],
-      lightBg: grey[50],
-      light: grey[700],
+      main: "#49344f",
+      lightBg: "#FCF9FF",
+      lightDarker: "#f9f3ff",
       dark: grey[900],
       purple: deepPurple[600],
       blue: blue[600],
@@ -37,8 +38,12 @@ const theme = createTheme({
       borderColor: blue[500],
     },
     secondary: {
-      main: green[500],
+      main: "#445486",
     },
+    lightPrimary: {
+      main: "#6E5176",
+    },
+
     error: {
       main: red.A400,
     },

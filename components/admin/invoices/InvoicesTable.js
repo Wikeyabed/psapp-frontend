@@ -8,26 +8,17 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Divider,
   TablePagination,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import ModalBox from "../layout/Modal";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-
-const StyledDivider = styled(Divider)(({ theme }) => ({
-  width: "20%",
-  margin: "auto",
-  marginBottom: "10px",
-  borderColor: theme.palette.primary.main,
-  borderWidth: 1,
-  borderRadius: "50%",
-  opacity: "0.5",
-}));
-
+import InvoiceForm from "./InvoiceForm";
+import InvoiceStatus from "./InvoiceStatus";
+import ToPersianDate from "../../../src/TimestampToPersian";
 const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.lightPrimary.main,
   borderRadius: "10px",
   color: theme.palette.primary.lightBg,
 }));
@@ -138,11 +129,20 @@ const InvoicesTable = (props) => {
           <TableHead>
             <StyledTableHeaderRow>
               <StyledTableCell style={{ textAlign: "right" }}>
+                شماره فاکتور
+              </StyledTableCell>
+
+              <StyledTableCell style={{ textAlign: "right" }}>
                 نام مشتری
               </StyledTableCell>
               <StyledTableCell style={{ textAlign: "right" }}>
                 تاریخ صدور
               </StyledTableCell>
+
+              <StyledTableCell style={{ textAlign: "right" }}>
+                وضعیت
+              </StyledTableCell>
+
               <StyledTableCell style={{ textAlign: "right" }}>
                 مبلغ کل
               </StyledTableCell>
@@ -158,20 +158,32 @@ const InvoicesTable = (props) => {
                       handleOpen={() => handleOpen(invoice.id)}
                       handleClose={() => handleClose(invoice.id)}
                       open={open[invoice.id] || false}
-                      buttonText={invoice.customerName}
+                      buttonText={`شماره فاکتور ${invoice.id}`}
                       icon={<ReceiptIcon />}
                       buttonStyle={{
                         paddingRight: "0 !important",
                       }}
                     >
-                      <h1 style={{ padding: 50 }}>
-                        {invoice.id} {invoice.customerName}
-                      </h1>
+                      {/* Generating invoice */}
+
+                      <InvoiceForm invoice={invoice} />
                     </ModalBox>
                   </TableCell>
+
                   <TableCell style={{ textAlign: "right" }}>
-                    {invoice.date}
+                    {/* Generating invoice */}
+
+                    {invoice.customerName}
                   </TableCell>
+
+                  <TableCell style={{ textAlign: "right" }}>
+                    <ToPersianDate timestamp={1677148856} />
+                  </TableCell>
+
+                  <TableCell style={{ textAlign: "right" }}>
+                    <InvoiceStatus />
+                  </TableCell>
+
                   <TableCell style={{ textAlign: "right" }}>
                     {invoice.totalAmount}
                   </TableCell>

@@ -6,7 +6,7 @@ import InvoicesTable from "./InvoicesTable";
 function InvoiceList() {
   return (
     <AdminLayout>
-      <Grid xs={12} container>
+      <Grid xs={12} item container>
         <TopCards />
         <InvoicesTable />
       </Grid>

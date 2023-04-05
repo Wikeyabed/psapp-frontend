@@ -50,7 +50,7 @@ export default function Navbar() {
           position: "fixed",
           top: 0,
           right: 0,
-          width: "240px",
+          width: "260px",
           height: "100vh",
         }}
       >
