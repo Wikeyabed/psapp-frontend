@@ -34,7 +34,7 @@ const theme = createTheme({
       blue: blue[600],
       orange: orange[600],
       brown: brown[600],
-      borderRadius: "10px",
+      borderRadius: "20px",
       borderColor: blue[500],
     },
     secondary: {

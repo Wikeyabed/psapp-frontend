@@ -27,6 +27,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: "bold",
   color: theme.palette.primary.lightBg,
   padding: "20px",
+  textAlign: "right",
+  minWidth: "180px",
 }));
 
 const InvoicesTable = (props) => {
@@ -128,24 +130,14 @@ const InvoicesTable = (props) => {
         <Table>
           <TableHead>
             <StyledTableHeaderRow>
-              <StyledTableCell style={{ textAlign: "right" }}>
-                شماره فاکتور
-              </StyledTableCell>
+              <StyledTableCell>شماره فاکتور</StyledTableCell>
 
-              <StyledTableCell style={{ textAlign: "right" }}>
-                نام مشتری
-              </StyledTableCell>
-              <StyledTableCell style={{ textAlign: "right" }}>
-                تاریخ صدور
-              </StyledTableCell>
+              <StyledTableCell>نام مشتری</StyledTableCell>
+              <StyledTableCell>تاریخ صدور</StyledTableCell>
 
-              <StyledTableCell style={{ textAlign: "right" }}>
-                وضعیت
-              </StyledTableCell>
+              <StyledTableCell>وضعیت</StyledTableCell>
 
-              <StyledTableCell style={{ textAlign: "right" }}>
-                مبلغ کل
-              </StyledTableCell>
+              <StyledTableCell>مبلغ کل</StyledTableCell>
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>

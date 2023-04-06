@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
   Box,
-  Link,
   Typography,
   Breadcrumbs,
   IconButton,
@@ -15,9 +14,11 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
+import Link from "../../../src/Link";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import SmallNavbar from "./SmallNavbar";
 export default function NavigationBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [notifications, setNotifications] = React.useState([
@@ -26,21 +27,44 @@ export default function NavigationBar() {
     { id: 3, message: "Notification 3" },
   ]);
   const [open, setOpen] = React.useState(false);
+
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+
+  const toggleDrawer = () => {
+    setOpenDrawer(!openDrawer);
+  };
   const breadcrumbs = [
-    <Link underline="none" key="1" color="primary" href="/">
+    <Link
+      sx={{
+        color: "#fff",
+      }}
+      underline="none"
+      key="1"
+      color="lightBg"
+      href="/"
+    >
       داشبورد
     </Link>,
     <Link
+      sx={{
+        color: "#fff",
+      }}
       underline="none"
       key="2"
-      color="primary"
       href="/material-ui/getting-started/installation/"
     >
       کاربران
     </Link>,
-    <Typography key="3" color="text.primary">
+    <Link
+      sx={{
+        color: "#fff",
+      }}
+      underline="none"
+      key="2"
+      href="/material-ui/getting-started/installation/"
+    >
       ممد یوسفی
-    </Typography>,
+    </Link>,
   ];
 
   const handleMenuOpen = (event) => {
@@ -64,15 +88,31 @@ export default function NavigationBar() {
       sx={{
         minHeight: 48,
         py: 1,
-        px: { xs: 2, md: 5 },
-        bgcolor: "primary.lightDarker",
+        // px: { xs: 2, md: 5 },
+        bgcolor: "primary.main", // changed background color
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        boxShadow: 2, // added shadow
+        boxShadow: 2,
       }}
     >
-      <Breadcrumbs sx={{ color: "#5f5f5f" }} aria-label="breadcrumb">
+      <SmallNavbar open={openDrawer} toggleDrawer={toggleDrawer} />
+      <Breadcrumbs
+        sx={{
+          fontSize: { xs: "10px", lg: "inherit" },
+          paddingRight: { xs: 0, md: 4 },
+        }}
+        separator={
+          <ArrowBackIosNewIcon
+            fontSize="small"
+            sx={{
+              color: "primary.lightBg",
+              paddingTop: 0.5,
+            }}
+          />
+        }
+        aria-label="breadcrumb"
+      >
         {breadcrumbs}
       </Breadcrumbs>
 
@@ -83,7 +123,10 @@ export default function NavigationBar() {
           overlap="circular"
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          <IconButton color="primary" onClick={handleNotificationsOpen}>
+          <IconButton
+            sx={{ color: "primary.lightBg" }}
+            onClick={handleNotificationsOpen}
+          >
             <NotificationsIcon />
           </IconButton>
         </Badge>
@@ -93,12 +136,12 @@ export default function NavigationBar() {
           aria-labelledby="notification-dialog-title"
           aria-describedby="notification-dialog-description"
         >
-          <DialogTitle id="notification-dialog-title">
+          <DialogTitle id="notification-dialog-title" color="lightBg">
             Notifications
           </DialogTitle>
           <DialogContent>
             {notifications.map((notification) => (
-              <DialogContentText key={notification.id}>
+              <DialogContentText key={notification.id} color="lightBg">
                 {notification.message}
               </DialogContentText>
             ))}
@@ -111,9 +154,8 @@ export default function NavigationBar() {
         <IconButton
           size="large"
           edge="end"
-          color="primary"
           aria-label="profile"
-          sx={{ mr: 2 }}
+          sx={{ mr: 1, color: "primary.lightBg" }}
           onClick={handleMenuOpen}
         >
           <AccountCircleIcon />

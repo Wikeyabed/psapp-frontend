@@ -1,0 +1,114 @@
+import React from "react";
+import {
+  Drawer,
+  List,
+  ListItemIcon,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import SendIcon from "@mui/icons-material/Send";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
+import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import Link from "next/link";
+import styled from "@emotion/styled";
+
+const Icon = styled(ListItemIcon)(({ theme }) => ({
+  color: theme.palette.primary.lightBg,
+}));
+
+const MenuItem = styled(ListItemText)(({ theme }) => ({
+  color: theme.palette.primary.lightBg,
+  marginBottom: 1,
+  padding: 1,
+  "& span, & svg": {
+    fontSize: "1rem",
+  },
+}));
+
+function SmallNavbar({ open, toggleDrawer }) {
+  return (
+    <>
+      {/* The menu for md and xs */}
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={toggleDrawer}
+        sx={{ height: "100vh", overflow: "auto" }}
+      >
+        <List
+          sx={{
+            bgcolor: "primary.main",
+            height: "100vh",
+            width: "200px",
+          }}
+        >
+          <ListItemButton>
+            <Icon>
+              <DashboardOutlinedIcon />
+            </Icon>
+
+            <Link href="/admin">
+              <MenuItem primary="داشبورد" />
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <PeopleAltOutlinedIcon />
+            </Icon>
+
+            <Link href="/admin/users">
+              <MenuItem primary="کاربران" />
+            </Link>
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <SendIcon />
+            </Icon>
+            <MenuItem primary="سفارشات" />
+          </ListItemButton>
+          <ListItemButton>
+            <Icon>
+              <SupportAgentOutlinedIcon />
+            </Icon>
+            <MenuItem primary="پشتیبانی" />
+          </ListItemButton>
+          <Link href="/admin/products">
+            <ListItemButton>
+              <Icon>
+                <LocalGroceryStoreOutlinedIcon />
+              </Icon>
+              <MenuItem primary="محصولات" />
+            </ListItemButton>
+          </Link>
+          <ListItemButton>
+            <Icon>
+              <PowerSettingsNewOutlinedIcon />
+            </Icon>
+            <MenuItem primary="خروج" />
+          </ListItemButton>{" "}
+        </List>
+      </Drawer>
+      {/* The toggle button for md and xs */}
+      <List
+        sx={{
+          bgcolor: "primary.main",
+          display: { lg: "none", xl: "none" },
+        }}
+      >
+        <ListItemButton sx={{ pr: 2 }} onClick={toggleDrawer}>
+          <Icon>
+            <DashboardOutlinedIcon
+              fontSize="small"
+              sx={{ color: "primary.lightBg" }}
+            />
+          </Icon>
+        </ListItemButton>
+      </List>
+    </>
+  );
+}
+
+export default SmallNavbar;

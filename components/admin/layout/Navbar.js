@@ -33,13 +33,6 @@ export default function Navbar() {
       fontSize: "1rem",
     },
   }));
-
-  const [open, setOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   return (
     <>
       {/* The menu for lg and xl */}
@@ -50,7 +43,7 @@ export default function Navbar() {
           position: "fixed",
           top: 0,
           right: 0,
-          width: "260px",
+          width: "calc(100% / 7.6)", // change fixed value to dynamic value
           height: "100vh",
         }}
       >
@@ -128,81 +121,6 @@ export default function Navbar() {
           <MenuItem primary="خروج" />
         </ListItemButton>
         {/*  */}
-      </List>
-
-      {/* The menu for md and xs */}
-      <Drawer
-        anchor="right"
-        open={open}
-        onClose={toggleDrawer}
-        sx={{ height: "100vh", overflow: "auto" }}
-      >
-        <List
-          sx={{
-            bgcolor: theme.palette.primary.main,
-            height: "100vh",
-            width: "200px",
-          }}
-        >
-          <ListItemButton>
-            <Icon>
-              <DashboardOutlinedIcon />
-            </Icon>
-
-            <Link href="/admin">
-              <MenuItem primary="داشبورد" />
-            </Link>
-          </ListItemButton>
-          <ListItemButton>
-            <Icon>
-              <PeopleAltOutlinedIcon />
-            </Icon>
-
-            <Link href="/admin/users">
-              <MenuItem primary="کاربران" />
-            </Link>
-          </ListItemButton>
-          <ListItemButton>
-            <Icon>
-              <SendIcon />
-            </Icon>
-            <MenuItem primary="سفارشات" />
-          </ListItemButton>
-          <ListItemButton>
-            <Icon>
-              <SupportAgentOutlinedIcon />
-            </Icon>
-            <MenuItem primary="پشتیبانی" />
-          </ListItemButton>
-          <Link href="/admin/products">
-            <ListItemButton>
-              <Icon>
-                <LocalGroceryStoreOutlinedIcon />
-              </Icon>
-              <MenuItem primary="محصولات" />
-            </ListItemButton>
-          </Link>
-          <ListItemButton>
-            <Icon>
-              <PowerSettingsNewOutlinedIcon />
-            </Icon>
-            <MenuItem primary="خروج" />
-          </ListItemButton>{" "}
-        </List>
-      </Drawer>
-
-      {/* The toggle button for md and xs */}
-      <List
-        sx={{
-          bgcolor: theme.palette.primary.main,
-          display: { lg: "none", xl: "none" },
-        }}
-      >
-        <ListItemButton onClick={toggleDrawer}>
-          <Icon>
-            <DashboardOutlinedIcon />
-          </Icon>
-        </ListItemButton>
       </List>
     </>
   );
