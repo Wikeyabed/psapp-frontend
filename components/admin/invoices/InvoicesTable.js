@@ -151,20 +151,6 @@ const InvoicesTable = (props) => {
                     <Link href={`invoices/${invoice.id}`}>
                       شماره {invoice.id}
                     </Link>
-                    {/* <ModalBox
-                      handleOpen={() => handleOpen(invoice.id)}
-                      handleClose={() => handleClose(invoice.id)}
-                      open={open[invoice.id] || false}
-                      buttonText={`شماره فاکتور ${invoice.id}`}
-                      icon={<ReceiptIcon />}
-                      buttonStyle={{
-                        paddingRight: "0 !important",
-                      }}
-                    >
-                      {/* Generating invoice */}
-
-                    {/* <InvoiceForm invoice={invoice} /> */}
-                    {/* </ModalBox> */}
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
