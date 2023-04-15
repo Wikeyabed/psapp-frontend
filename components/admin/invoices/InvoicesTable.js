@@ -17,6 +17,8 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import InvoiceForm from "./InvoiceForm";
 import InvoiceStatus from "./InvoiceStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
+import Link from "../../../src/Link";
+
 const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
   backgroundColor: theme.palette.lightPrimary.main,
   borderRadius: "10px",
@@ -146,7 +148,10 @@ const InvoicesTable = (props) => {
               .map((invoice) => (
                 <TableRow key={invoice.id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <ModalBox
+                    <Link href={`invoices/${invoice.id}`}>
+                      شماره {invoice.id}
+                    </Link>
+                    {/* <ModalBox
                       handleOpen={() => handleOpen(invoice.id)}
                       handleClose={() => handleClose(invoice.id)}
                       open={open[invoice.id] || false}
@@ -158,8 +163,8 @@ const InvoicesTable = (props) => {
                     >
                       {/* Generating invoice */}
 
-                      <InvoiceForm invoice={invoice} />
-                    </ModalBox>
+                    {/* <InvoiceForm invoice={invoice} /> */}
+                    {/* </ModalBox> */}
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>

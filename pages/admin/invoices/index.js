@@ -1,4 +1,4 @@
-import InvoiceList from "../../components/admin/invoices";
+import InvoiceList from "../../../components/admin/invoices";
 
 function Invoices() {
   return <InvoiceList />;

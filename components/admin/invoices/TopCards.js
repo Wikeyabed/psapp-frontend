@@ -47,7 +47,7 @@ const DashboardCardIcon = styled(Box)(({ theme }) => ({
 function TopCards() {
   return (
     <Grid container>
-      <Grid xs={12}>
+      <Grid xs={12} item>
         {" "}
         <Typography
           variant="h4"
