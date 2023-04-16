@@ -22,6 +22,9 @@ function UserPage() {
   return (
     <AdminLayout>
       <Grid container spacing={2}>
+        <Typography sx={{ margin: "10px   auto" }} variant="h4">
+          مشخصات کاربر
+        </Typography>
         <Grid item xs={12}>
           <Card sx={{ padding: 2 }}>
             <CardContent>
@@ -65,11 +68,11 @@ function UserPage() {
               </Typography>
               <Grid container spacing={2}>
                 {userInfo.invoices.map((invoice, index) => (
-                  <Grid item xs={4} key={invoice.id}>
+                  <Grid item xs={12} sm={6} md={4} key={invoice.id}>
                     <Card
                       sx={{
-                        backgroundColor: "#f7ede2",
-                        // index % 2 === 0 ? "#f7ede2" : "#f9d9c2",
+                        backgroundColor:
+                          index % 2 === 0 ? "#f7ede2" : "#f9d9c2",
                       }}
                     >
                       <CardContent>
