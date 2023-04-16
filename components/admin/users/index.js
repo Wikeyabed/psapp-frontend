@@ -1,29 +1,13 @@
 import React from "react";
 import AdminLayout from "../layout/index";
+import UsersTable from "./UsersTable";
 
-import { Grid, Box, Typography } from "@mui/material";
-
-function UsersTable() {
+function UsersList() {
   return (
     <AdminLayout>
-      <Box>
-        <Grid container justifyContent="center">
-          <Grid item xs={12} md={8}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h6" align="center">
-                  Hello
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                {/* <ProductsTable /> */}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
+      <UsersTable />
     </AdminLayout>
   );
 }
 
-export default UsersTable;
+export default UsersList;
