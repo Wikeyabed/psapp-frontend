@@ -22,7 +22,7 @@ function UserPage() {
   return (
     <AdminLayout>
       <Grid container spacing={2}>
-        <Typography sx={{ margin: "10px   auto" }} variant="h4">
+        <Typography sx={{ margin: "10px auto" }} variant="h4">
           مشخصات کاربر
         </Typography>
         <Grid item xs={12}>

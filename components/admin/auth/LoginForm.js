@@ -13,7 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import Link from "../../src/Link";
+import Link from "../../../src/Link";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -43,7 +43,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-function LoginFrom() {
+function LoginForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
@@ -92,4 +92,4 @@ function LoginFrom() {
   );
 }
 
-export default LoginFrom;
+export default LoginForm;
