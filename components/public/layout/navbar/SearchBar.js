@@ -6,10 +6,11 @@ import styled from "@emotion/styled";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  border: `1px solid ${theme.palette.primary.main}`,
+  borderRadius: "10px",
+  backgroundColor: alpha(theme.palette.primary.main, 0.15),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.primary.main, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -32,7 +33,8 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  // color: "inherit",
+
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -49,7 +51,7 @@ function SearchBar() {
   return (
     <Search>
       <SearchIconWrapper>
-        <SearchIcon />
+        <SearchIcon color="primary" />
       </SearchIconWrapper>
       <StyledInputBase
         placeholder="جستجو ..."
