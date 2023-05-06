@@ -3,8 +3,8 @@
     "javascript": "javascriptreact",
     "typescript": "typescriptreact"
   },
-  "editor.fontFamily": "Fira Code",
-  "editor.fontSize": 15,
+  "editor.fontFamily": "Dank Mono",
+  "editor.fontSize": 20,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "CodeGPT.maxTokens": 4097,
   "editor.formatOnPaste": true,

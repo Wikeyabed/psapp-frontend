@@ -6,8 +6,8 @@ import styled from "@emotion/styled";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  border: `1px solid ${theme.palette.primary.main}`,
-  borderRadius: "10px",
+  border: `1px solid #d1d1d1`,
+  borderRadius: "5px !important",
   backgroundColor: alpha(theme.palette.primary.main, 0.15),
   "&:hover": {
     backgroundColor: alpha(theme.palette.primary.main, 0.25),
