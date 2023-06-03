@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 const FeatureContainer = styled(Paper)({
   //   backgroundColor: "red",
   height: "100px !important",
+  borderRadius: "10px",
   transition: ".3s ease all",
   "&:hover": {
     transform: "scale(1.03)",

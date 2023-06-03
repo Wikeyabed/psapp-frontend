@@ -7,29 +7,52 @@ const BannerBox = styled(Grid)({
 
 const BannerPaper = styled(Paper)({
   height: "100%",
+  borderRadius: "10px",
+});
+
+const BannerImage = styled("img")({
+  width: "100%",
+  height: "100%",
+  objectFit: "fill",
+  borderRadius: "10px",
 });
 
 function Banners() {
   return (
-    <Grid
-      container
-      sx={{
-        height: { lg: "450px" },
-      }}
-    >
-      <BannerBox item lg={7}>
-        <BannerPaper elevation={3}></BannerPaper>
+    <Grid container>
+      <BannerBox
+        sx={{
+          height: "500px",
+        }}
+        item
+        lg={7}
+      >
+        <BannerPaper elevation={10}>
+          <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+        </BannerPaper>
       </BannerBox>
 
       <Grid item container lg={5}>
-        <BannerBox xs={12}>
-          {" "}
-          <BannerPaper elevation={3}></BannerPaper>
+        <BannerBox
+          sx={{
+            height: "250px",
+          }}
+          xs={12}
+        >
+          <BannerPaper elevation={10}>
+            <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+          </BannerPaper>
         </BannerBox>
 
-        <BannerBox xs={12}>
-          {" "}
-          <BannerPaper elevation={3}></BannerPaper>
+        <BannerBox
+          sx={{
+            height: "250px",
+          }}
+          xs={12}
+        >
+          <BannerPaper elevation={10}>
+            <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+          </BannerPaper>
         </BannerBox>
       </Grid>
     </Grid>

@@ -3,10 +3,13 @@
     "javascript": "javascriptreact",
     "typescript": "typescriptreact"
   },
-  "editor.fontFamily": "Dank Mono",
-  "editor.fontSize": 20,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontSize": 17,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "CodeGPT.maxTokens": 4097,
   "editor.formatOnPaste": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "editor.fontVariations": false,
+  "CodeGPT.model": "j2-jumbo-instruct",
+  "CodeGPT.apiKey": "AI21"
 }
