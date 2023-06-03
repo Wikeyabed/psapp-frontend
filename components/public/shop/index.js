@@ -2,8 +2,8 @@ import React from "react";
 import PublicLayout from "../layout";
 import { Grid, Box, Paper } from "@mui/material";
 import Banners from "./Banners";
-import CategoryBar from "./CategoryBar";
 import Features from "./Features";
+import Products from "./products";
 
 function Shop() {
   return (
@@ -24,6 +24,7 @@ function Shop() {
         <Grid item md={8} lg={7}>
           <Banners />
           <Features />
+          <Products />
         </Grid>
       </Grid>
     </PublicLayout>
