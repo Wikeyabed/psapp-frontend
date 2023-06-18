@@ -6,10 +6,10 @@
   "editor.fontFamily": "Fira Code",
   "editor.fontSize": 17,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "CodeGPT.maxTokens": 4097,
+  "CodeGPT.maxTokens": 3800,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.fontVariations": false,
-  "CodeGPT.model": "j2-jumbo-instruct",
-  "CodeGPT.apiKey": "AI21"
+  "CodeGPT.model": "gpt-3.5-turbo",
+  "CodeGPT.apiKey": "OpenAI"
 }

@@ -2,6 +2,7 @@ import { Grid, Box, Paper } from "@mui/material";
 import styled from "@emotion/styled";
 import CategoryBar from "./CategoryBar";
 import ProductList from "./ProductList";
+import FilterBar from "./FilterBar";
 function Products() {
   return (
     <Grid
@@ -11,6 +12,10 @@ function Products() {
       }}
       container
     >
+      <Grid item xs={12}>
+        <FilterBar />
+      </Grid>
+
       <Grid item lg={3}>
         <CategoryBar />
       </Grid>

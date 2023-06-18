@@ -1,6 +1,6 @@
 import { Grid, Box, Paper } from "@mui/material";
 import styled from "@emotion/styled";
-
+import DogPic from "../../../public/images/dog.jpg";
 const BannerBox = styled(Grid)({
   padding: 10,
 });
@@ -28,7 +28,7 @@ function Banners() {
         lg={7}
       >
         <BannerPaper elevation={10}>
-          <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+          <BannerImage src={DogPic.src} alt="pic" />
         </BannerPaper>
       </BannerBox>
 
@@ -40,7 +40,7 @@ function Banners() {
           xs={12}
         >
           <BannerPaper elevation={10}>
-            <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+            <BannerImage src={DogPic.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
 
@@ -51,7 +51,7 @@ function Banners() {
           xs={12}
         >
           <BannerPaper elevation={10}>
-            <BannerImage src="https://picsum.photos/1400/1400" alt="pic" />
+            <BannerImage src={DogPic.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
       </Grid>
