@@ -2,6 +2,7 @@ import { Grid, Box, Paper, TextField, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { Scale } from "@mui/icons-material";
+// Styled component for the text field with right-to-left direction and custom styles
 const RtlTextField = styled(TextField)(({ theme }) => ({
   marginTop: 2,
   minWidth: "100%",
@@ -36,19 +37,18 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     },
   },
 }));
+// Styled component for the select icon with custom styles
 const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
   position: "absolute",
   right: "90% !important",
 }));
+// Main component for the filter bar
 function FilterBar() {
   return (
-    <Grid
-      container
-      sx={{
-        marginBottom: 5,
-      }}
-    >
+    <Grid container sx={{ marginBottom: 5 }}>
+      {/* Empty grid item */}
       <Grid item lg={3}></Grid>
+      {/* Grid item for product category select field */}
       <Grid item lg={2.5}>
         <RtlTextField
           SelectProps={{
@@ -63,7 +63,9 @@ function FilterBar() {
           <MenuItem value={"3"}>item 3</MenuItem>
         </RtlTextField>
       </Grid>
+      {/* Empty grid item */}
       <Grid item lg={1}></Grid>
+      {/* Grid item for sorting select field */}
       <Grid item lg={2.5}>
         <RtlTextField
           SelectProps={{

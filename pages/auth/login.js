@@ -1,13 +1,8 @@
 import React from "react";
-import Login from "../../components/public/auth/Login";
+// import Login from "../../components/public/auth/Login";
 
 function LoginPage() {
-  return (
-    <>
-      <Login />
-      hello
-    </>
-  );
+  return <>hello</>;
 }
 
 export default LoginPage;

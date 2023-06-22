@@ -1,4 +1,3 @@
-jsx;
 import React from "react";
 import { Paper, Grid } from "@mui/material";
 import styled from "@emotion/styled";
@@ -24,16 +23,16 @@ function Features() {
         padding: "10px",
       }}
     >
-      <Grid item md={3}>
+      <Grid padding={1} item xs={12} md={3}>
         <FeatureContainer elevation={3}>تحویل اکسپرس</FeatureContainer>
       </Grid>
-      <Grid item md={3}>
+      <Grid padding={1} item xs={12} md={3}>
         <FeatureContainer elevation={3}>ضمانت اصل بودن کالا</FeatureContainer>
       </Grid>
-      <Grid item md={3}>
+      <Grid padding={1} item xs={12} md={3}>
         <FeatureContainer elevation={3}>پشتیبانی 24 ساعته</FeatureContainer>
       </Grid>
-      <Grid item md={3}>
+      <Grid padding={1} item xs={12} md={3}>
         <FeatureContainer elevation={3}>امکان پرداخت در محل</FeatureContainer>
       </Grid>
     </Grid>

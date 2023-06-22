@@ -1,105 +1,119 @@
-import React from "react";
-
-import { Grid, Box, Toolbar, Typography } from "@mui/material";
-import styled from "@emotion/styled";
+import React, { useState } from "react";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import {
+  Inventory as InventoryIcon,
+  Inbox as InboxIcon,
+  AllInbox as AllInboxIcon,
+  LocalShipping as LocalShippingIcon,
+  Menu as MenuIcon,
+} from "@mui/icons-material";
 import Link from "../../../../src/Link";
-
-import InventoryIcon from "@mui/icons-material/Inventory";
-import InboxIcon from "@mui/icons-material/Inbox";
-import AllInboxIcon from "@mui/icons-material/AllInbox";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import styled from "@emotion/styled";
 import theme from "../../../../src/theme";
-
-const Menu = styled.ul({
-  textAlign: "center",
-});
-
-const Icon = styled.span({
-  padding: "1px 5px !important",
-  display: "flex",
-  float: "right",
-  alignItems: "center",
-});
-
-const MenuItem = styled.li({
-  display: "inline-block",
-  padding: "8px 16px",
-  margin: "0 10px",
-  borderRadius: "5px",
-  transition: ".01s linear all",
-  borderRight: `3px solid transparent`,
-  borderLeft: `3px solid transparent`,
-
-  "&:hover": {
-    backgroundColor: theme.palette.primary.lightDarker,
-    borderRight: `3px solid ${theme.palette.primary.main}`,
-    borderLeft: `3px solid ${theme.palette.primary.main}`,
-  },
-});
 
 const StyledLink = styled(Link)({
   textDecoration: "none",
+  textAlign: "center !important",
 });
-
 function MenuBar() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+  const menuItems = [
+    {
+      label: "کارتن پستی",
+      icon: <InventoryIcon />,
+      url: "#",
+    },
+    {
+      label: "کارتن استوک",
+      icon: <InboxIcon />,
+      url: "#",
+    },
+    {
+      label: "کارتن ماسک",
+      icon: <AllInboxIcon />,
+      url: "#",
+    },
+    {
+      label: "لوازم اسباب کشی",
+      icon: <LocalShippingIcon />,
+      url: "#",
+    },
+  ];
   return (
-    <Grid container>
-      <Toolbar
-        component={Toolbar}
-        sx={{
-          textAlign: "center",
-          margin: "auto",
-        }}
-        item
-        md={12}
+    <>
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={handleDrawerToggle}
+        sx={{ mr: 2, display: { xs: "block", md: "none" } }}
       >
-        <Menu>
-          <MenuItem>
-            <StyledLink href="#">
-              <Typography variant="button">
-                <Icon>
-                  <InventoryIcon fontSize={"small"} />
-                </Icon>
-                کارتن پستی
-              </Typography>
-            </StyledLink>
-          </MenuItem>
-          <MenuItem>
-            <StyledLink href="#">
-              <Typography variant="button">
-                <Icon>
-                  <InboxIcon fontSize={"small"} />
-                </Icon>
-                کارتن استوک
-              </Typography>
-            </StyledLink>
-          </MenuItem>
-
-          <MenuItem>
-            <StyledLink href="#">
-              <Typography variant="button">
-                <Icon>
-                  <AllInboxIcon fontSize={"small"} />
-                </Icon>
-                کارتن ماسک
-              </Typography>
-            </StyledLink>
-          </MenuItem>
-
-          <MenuItem>
-            <StyledLink href="#">
-              <Typography variant="button">
-                <Icon>
-                  <LocalShippingIcon fontSize={"small"} />
-                </Icon>
-                لوازم اسباب کشی
-              </Typography>
-            </StyledLink>
-          </MenuItem>
-        </Menu>
-      </Toolbar>
-    </Grid>
+        <MenuIcon />
+      </IconButton>
+      <Drawer
+        variant="temporary"
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+      >
+        <List>
+          {menuItems.map((menuItem, index) => (
+            <ListItem
+              key={index}
+              component={StyledLink}
+              href={menuItem.url}
+              sx={{
+                textAlign: "center",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.lightDarker,
+                },
+              }}
+            >
+              <ListItemIcon>{menuItem.icon}</ListItemIcon>
+              <ListItemText primary={menuItem.label} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <List
+        sx={{
+          marginX: "auto",
+          width: { md: "100%", lg: "70%" },
+          display: { xs: "none", md: "flex" },
+        }}
+      >
+        {menuItems.map((menuItem, index) => (
+          <ListItem
+            key={index}
+            component={StyledLink}
+            href={menuItem.url}
+            sx={{
+              textAlign: "center",
+              "&:hover": {
+                backgroundColor: theme.palette.primary.lightDarker,
+              },
+            }}
+          >
+            <ListItemIcon>{menuItem.icon}</ListItemIcon>
+            <ListItemText primary={menuItem.label} />
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 }
-
 export default MenuBar;

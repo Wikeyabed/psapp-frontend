@@ -2,27 +2,28 @@ import { Paper, Grid, Button, Typography } from "@mui/material";
 import { jsx, css } from "@emotion/react";
 import Slider from "./Slider";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
 const ProductPage = () => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid md={2} lg={2.5}></Grid>
+        <Grid item xs={false} md={2} lg={2.5}></Grid>
         <Grid item xs={12} md={8} lg={7}>
           <Paper
             elevation={5}
             sx={{
               padding: 5,
-              marginTop: 10,
+              marginTop: { xs: 3, sm: 5, md: 10 },
               borderRadius: "10px",
             }}
           >
             <Grid container>
               <Grid
                 item
+                xs={12}
                 md={6}
                 sx={{
                   padding: 2,
+                  textAlign: { xs: "center", md: "left" },
                 }}
               >
                 <Typography
@@ -31,17 +32,18 @@ const ProductPage = () => {
                     paddingY: 5,
                   }}
                 >
-                  نام محصول
+                  Product Name
                 </Typography>
                 <Slider />
               </Grid>
-
               <Grid
                 item
+                xs={12}
                 md={6}
                 sx={{
                   padding: 2,
-                  paddingTop: 30,
+                  paddingTop: { xs: 5, md: 30 },
+                  textAlign: { xs: "center", md: "left" },
                 }}
               >
                 <ul>
@@ -56,11 +58,10 @@ const ProductPage = () => {
                   pellentesque consequat quam, sit amet efficitur libero
                   ullamcorper quis. Praesent at aliquet arcu, ut eleifend nunc.
                 </Typography>
-
                 <Button
                   sx={{
                     py: 2,
-                    px: 3,
+                    px: { xs: 2, sm: 3 },
                     borderRadius: "10px",
                   }}
                   variant="contained"
@@ -74,16 +75,15 @@ const ProductPage = () => {
                     />
                   }
                 >
-                  اضافه کردن به سبد خرید
+                  Add to Cart
                 </Button>
               </Grid>
             </Grid>
           </Paper>
         </Grid>
-        <Grid md={2} lg={2.5}></Grid>
+        <Grid item xs={false} md={2} lg={2.5}></Grid>
       </Grid>
     </>
   );
 };
-
 export default ProductPage;

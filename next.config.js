@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  distDir: "build-app",
+  distDir: "builded",
   images: {
     domains: ["picsum.photos"],
   },
