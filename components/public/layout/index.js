@@ -6,11 +6,15 @@ import { Grid, Box } from "@mui/material";
 
 function PublicLayout({ children }) {
   return (
-    <>
+    <Box
+      sx={{
+        backgroundColor: "#fefefe",
+      }}
+    >
       <Navbar />
-      <MenuBar/>
+      {/* <MenuBar/> */}
       {children}
-    </>
+    </Box>
   );
 }
 

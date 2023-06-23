@@ -6,14 +6,16 @@ import styled from "@emotion/styled";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  border: `1px solid #d1d1d1`,
-  borderRadius: "5px !important",
-  backgroundColor: alpha(theme.palette.primary.main, 0.15),
+
+  border: `2px solid ${theme.palette.primary.main}`,
+  boxShadow: `0px 0px 2px 2px${theme.palette.primary.lightBg} `,
+  borderRadius: "10px !important",
+  backgroundColor: "#fff",
   "&:hover": {
-    backgroundColor: alpha(theme.palette.primary.main, 0.25),
+    backgroundColor: "#e2e2e2",
   },
   marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginLeft: "5rem !important",
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),

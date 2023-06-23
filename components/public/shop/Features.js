@@ -1,13 +1,19 @@
 import React from "react";
-import { Paper, Grid } from "@mui/material";
+import { Paper, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
+import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import UpdateIcon from "@mui/icons-material/Update";
+import AddCardIcon from "@mui/icons-material/AddCard";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
-  height: "100px !important",
+  height: "140px !important",
   borderRadius: "10px",
   textAlign: "center",
   paddingTop: "25px",
-  transition: ".3s ease all",
+  transition: ".2s ease all",
+  padding: "15px 25px",
+  position: "relative",
   // Add a hover effect to the Paper component
   "&:hover": {
     transform: "scale(1.03)",
@@ -18,22 +24,94 @@ function Features() {
     // Use the Grid component to create a responsive grid layout
     <Grid
       container
-      columnSpacing={8}
+      columnSpacing={{ xs: 1, md: 6 }}
       sx={{
         padding: "10px",
+        marginTop: "25px",
       }}
     >
-      <Grid padding={1} item xs={12} md={3}>
-        <FeatureContainer elevation={3}>تحویل اکسپرس</FeatureContainer>
+      <Grid item xs={6} md={3}>
+        <FeatureContainer
+          sx={{
+            backgroundColor: "primary.dark",
+            color: "#fff",
+          }}
+          elevation={1}
+        >
+          <Typography variant="h6">تحویل اکسپرس</Typography>
+          <DeliveryDiningIcon
+            sx={{
+              fontSize: "75px !important",
+              position: "absolute",
+              left: 15,
+              bottom: 5,
+            }}
+            color="warning"
+          />
+        </FeatureContainer>
       </Grid>
-      <Grid padding={1} item xs={12} md={3}>
-        <FeatureContainer elevation={3}>ضمانت اصل بودن کالا</FeatureContainer>
+      <Grid item xs={6} md={3}>
+        <FeatureContainer
+          sx={{
+            backgroundColor: "secondary.main",
+            color: "#fff",
+          }}
+          elevation={3}
+        >
+          <Typography variant="h6"> ضمانت اصل بودن کالا</Typography>
+
+          <AssignmentIcon
+            sx={{
+              fontSize: "65px !important",
+              position: "absolute",
+              left: 15,
+              bottom: 5,
+            }}
+            color="warning"
+          />
+        </FeatureContainer>
       </Grid>
-      <Grid padding={1} item xs={12} md={3}>
-        <FeatureContainer elevation={3}>پشتیبانی 24 ساعته</FeatureContainer>
+      <Grid item xs={6} md={3}>
+        <FeatureContainer
+          sx={{
+            backgroundColor: "secondary.main",
+            color: "#fff",
+          }}
+          elevation={3}
+        >
+          <Typography variant="h6"> پشتیبانی 24 ساعته</Typography>
+
+          <UpdateIcon
+            sx={{
+              fontSize: "70px !important",
+              position: "absolute",
+              left: 15,
+              bottom: 5,
+            }}
+            color="warning"
+          />
+        </FeatureContainer>
       </Grid>
-      <Grid padding={1} item xs={12} md={3}>
-        <FeatureContainer elevation={3}>امکان پرداخت در محل</FeatureContainer>
+      <Grid item xs={6} md={3}>
+        <FeatureContainer
+          sx={{
+            backgroundColor: "secondary.main",
+            color: "#fff",
+          }}
+          elevation={3}
+        >
+          <Typography variant="h6"> امکان پرداخت در محل</Typography>
+
+          <AddCardIcon
+            sx={{
+              fontSize: "70px !important",
+              position: "absolute",
+              left: 15,
+              bottom: 5,
+            }}
+            color="warning"
+          />
+        </FeatureContainer>
       </Grid>
     </Grid>
   );

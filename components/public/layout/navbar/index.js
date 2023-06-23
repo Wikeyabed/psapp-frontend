@@ -9,14 +9,18 @@ export default function Navbar() {
 
   return (
     <>
+      {/* bottom menu for mobile */}
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <BottomNav />
       </Box>
 
+      {/* main menu for pc and laptop */}
       <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>
         <AppBar
           sx={{
-            backgroundColor: "primary.lightBg",
+            backgroundColor: "#2f2f2f",
+            paddingY: 1,
+            marginBottom: 4,
           }}
           position="static"
         >
@@ -28,17 +32,17 @@ export default function Navbar() {
               component="div"
               sx={{
                 display: { xs: "none", sm: "block" },
-                color: "primary.main",
+                color: "primary.lightbg",
               }}
             >
               ایباکس
             </Typography>
 
-            <Box
+            {/* <Box
               sx={{
                 flexGrow: 2,
                 display: "flex",
-                color: "#000",
+                color: "primary.lightbg",
                 justifyContent: "flex-end",
               }}
             >
@@ -46,7 +50,7 @@ export default function Navbar() {
               <Typography variant="caption">
                 0912-8169771 : شماره تماس
               </Typography>
-            </Box>
+            </Box> */}
 
             <Box
               sx={{
