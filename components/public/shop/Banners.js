@@ -1,4 +1,4 @@
-import { Grid, Box, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import styled from "@emotion/styled";
 import DogPic from "../../../public/images/dog.jpg";
 const BannerBox = styled(Grid)({
