@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -45,33 +45,63 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function PhoneVerification() {
-  const [otp, setOtp] = React.useState("");
-  const [sms, setSms] = React.useState(false);
-  const [counter, setCounter] = React.useState(120);
-  const [counterStarted, setCounterStarted] = React.useState(false);
+  const [otp, setOtp] = useState("");
+  const [sms, setSms] = useState(false);
+  const [initiated, setInitiated] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(15);
 
-  React.useEffect(() => {
-    console.log("loging Effect");
-    if (counterStarted) {
-      counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
-    }
-  }, [counter]);
+  useEffect(() => {
+    console.log("effectisnsg");
+    const interval = setInterval(() => {
+      if (seconds > 0 && sms) {
+        setSeconds(seconds - 1);
+      } else {
+        setSms(false);
+      }
 
-  const handleCountDown = () => {
-    setCounterStarted(true);
-    console.log(counterStarted);
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(interval);
+        } else {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [seconds, sms]);
+
+  const resendOTP = () => {
+    setMinutes(0);
+    setSeconds(15);
   };
 
+  const handleCountDown = () => {
+    setSms(true);
+    setInitiated(true);
+    resendOTP();
+  };
+
+  const handleEditNumber = () => {
+    setSms(false);
+    setInitiated(false);
+  };
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
 
+  const min = minutes < 10 ? `0${minutes}` : minutes;
+  const sec = seconds < 10 ? `0${seconds}` : seconds;
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
         <Card item xs={10} md={3}>
           <Grid component={Item} container>
-            {1 > 2 ? (
+            {initiated ? (
               <>
                 <Grid sx={{ mb: 6 }} item xs={12}>
                   <Typography sx={{ mb: 5 }} variant="h6">
@@ -88,16 +118,50 @@ function PhoneVerification() {
                   />
                 </Grid>
 
-                <Grid xs={12} item>
-                  <Button
-                    onClick={handleCountDown}
-                    size="large"
-                    sx={{ p: 2 }}
-                    fullWidth
-                    variant="contained"
+                <Grid xs={12} container item>
+                  <Grid padding={1} xs={6}>
+                    {" "}
+                    <Button
+                      //   onClick={handleCountDown}
+                      size="large"
+                      sx={{ p: 2 }}
+                      fullWidth
+                      variant="contained"
+                    >
+                      ثبت کد
+                    </Button>
+                  </Grid>
+                  <Grid padding={1} xs={6}>
+                    <Button
+                      disabled={sms && (seconds > -1 || minutes > 0)}
+                      onClick={handleCountDown}
+                      size="large"
+                      sx={{ p: 2 }}
+                      fullWidth
+                      variant="outlined"
+                    >
+                      {sms ? `${sec} : ${min}` : " دریافت  دوباره کد"}
+                    </Button>
+                  </Grid>
+
+                  <Grid
+                    onClick={handleEditNumber}
+                    disabled={sms && (seconds > -1 || minutes > 0)}
+                    component={Button}
+                    variant="text"
+                    sx={{
+                      cursor: "pointer",
+                      fontSize: 14,
+                      textAlign: "center",
+                      mt: 4,
+                      textDecoration: "none",
+                      color: "red",
+                    }}
+                    item
+                    xs={12}
                   >
-                    ثبت کد
-                  </Button>
+                    تغییر شماره تماس
+                  </Grid>
                 </Grid>
               </>
             ) : (
@@ -111,15 +175,17 @@ function PhoneVerification() {
 
                 <Grid xs={12} item>
                   <Button
-                    // disabled={counterStarted === true}
+                    disabled={sms && (seconds > -1 || minutes > 0)}
                     onClick={handleCountDown}
                     size="large"
                     sx={{ p: 2 }}
                     fullWidth
                     variant="contained"
                   >
-                    دریافت کد {counter}
+                    {sms ? `${sec} : ${min}` : "دریافت کد"}
                   </Button>
+
+                  {/* */}
                 </Grid>
               </>
             )}
