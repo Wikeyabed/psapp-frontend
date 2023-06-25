@@ -3,6 +3,7 @@ import { styled as stylize, alpha } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Link from "../../../../src/Link";
 
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
@@ -104,9 +105,11 @@ export default function TopMenu() {
       <StyledUl>
         <StyledLi>
           {" "}
-          <Button variant="text" color="secondary" disableElevation>
-            <StyledText> محصولات</StyledText>
-          </Button>
+          <Link href="/shop">
+            <Button variant="text" color="secondary" disableElevation>
+              <StyledText> فروشگاه</StyledText>
+            </Button>
+          </Link>
         </StyledLi>
         <StyledLi>
           {" "}
@@ -159,9 +162,11 @@ export default function TopMenu() {
 
         <StyledLi>
           {" "}
-          <Button variant="text" color="secondary" disableElevation>
-            <StyledText> تماس با ما</StyledText>
-          </Button>
+          <Link href="/contact">
+            <Button variant="text" color="secondary" disableElevation>
+              <StyledText> تماس با ما</StyledText>
+            </Button>
+          </Link>
         </StyledLi>
       </StyledUl>
 
