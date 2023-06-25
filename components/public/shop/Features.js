@@ -8,6 +8,8 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
+  background:
+    "linear-gradient(180deg, rgba(19,19,19,1) 0%, rgba(61,61,61,1) 50%, rgba(108,108,108,1) 100%)",
   borderRadius: "10px",
   textAlign: "center",
   paddingTop: "25px",
@@ -19,21 +21,21 @@ const FeatureContainer = styled(Paper)({
     transform: "scale(1.03)",
   },
 });
+
 function Features() {
   return (
     // Use the Grid component to create a responsive grid layout
     <Grid
       container
-      columnSpacing={{ xs: 1, md: 6 }}
+      columnSpacing={{ xs: 1, lg: 6 }}
       sx={{
         padding: "10px",
         marginTop: "25px",
       }}
     >
-      <Grid item xs={6} md={3}>
+      <Grid paddingBottom={1} item xs={6} lg={3}>
         <FeatureContainer
           sx={{
-            backgroundColor: "primary.dark",
             color: "#fff",
           }}
           elevation={1}
@@ -50,10 +52,9 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid paddingBottom={1} item xs={6} lg={3}>
         <FeatureContainer
           sx={{
-            backgroundColor: "secondary.main",
             color: "#fff",
           }}
           elevation={3}
@@ -71,7 +72,7 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={6} lg={3}>
         <FeatureContainer
           sx={{
             backgroundColor: "secondary.main",
@@ -92,7 +93,7 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid item xs={6} md={3}>
+      <Grid item xs={6} lg={3}>
         <FeatureContainer
           sx={{
             backgroundColor: "secondary.main",
