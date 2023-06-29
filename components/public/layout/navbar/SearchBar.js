@@ -6,19 +6,19 @@ import styled from "@emotion/styled";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-
-  border: `2px solid ${theme.palette.primary.main}`,
-  boxShadow: `0px 0px 2px 2px${theme.palette.primary.lightBg} `,
+  border: `1px solid #e0e0e0`,
   borderRadius: "10px !important",
-  backgroundColor: "#fff",
+  paddingRight: "5px",
+  lineHeight: "45px !important",
+  transform: "scale(.9)",
+  boxShadow: "0px 4px 0px 0px #e2e2e2",
+  borderRadius: "10px",
   "&:hover": {
-    backgroundColor: "#e2e2e2",
+    backgroundColor: "#efefef",
   },
-  marginRight: theme.spacing(2),
-  marginLeft: "5rem !important",
+  margin: "0 auto !important",
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));

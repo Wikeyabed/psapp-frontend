@@ -8,7 +8,7 @@ function PublicLayout({ children }) {
   return (
     <Box
       sx={{
-        backgroundColor: "#fefefe",
+        backgroundColor: "#fafafa",
       }}
     >
       <Navbar />

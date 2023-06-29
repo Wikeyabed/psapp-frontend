@@ -14,7 +14,7 @@ import Quantity from "./Quantity";
 
 export default function ProductCard() {
   return (
-    <Card elevation={2} sx={{ position: "relative", borderRadius: "5px" }}>
+    <Card elevation={2} sx={{ position: "relative", borderRadius: "10px" }}>
       {/* Ratting */}
       <Rating
         sx={{ position: "absolute", left: 5, top: 5 }}
@@ -34,7 +34,7 @@ export default function ProductCard() {
       <CardContent
         sx={
           {
-            //   backgroundColor: "#f9f9f9",
+            // backgroundColor: "#f9f9f9",
           }
         }
       >

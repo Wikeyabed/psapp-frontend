@@ -2,6 +2,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styled from "@emotion/styled";
 import {
   Box,
+  Paper,
   Typography,
   AccordionSummary,
   Accordion,
@@ -22,7 +23,15 @@ const AcordItem = styled(AccordionSummary)({
 });
 export default function CategoryBar() {
   return (
-    <Box>
+    <Box
+      component={Paper}
+      sx={{
+        backgroundColor: "#fdfdfd",
+        // border: "1px solid #e2e2e2",
+        borderRadius: "10px",
+        padding: "5px",
+      }}
+    >
       <AcordMenu>
         <AcordItem
           expandIcon={<ExpandMoreIcon />}

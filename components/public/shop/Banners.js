@@ -8,6 +8,8 @@ const BannerBox = styled(Grid)({
 const BannerPaper = styled(Paper)({
   height: "100%",
   borderRadius: "10px",
+  // border: "1px solid #e0e0e0",
+  // borderBottom: "4px solid #e0e0e0",
 });
 
 const BannerImage = styled("img")({
@@ -27,7 +29,7 @@ function Banners() {
         item
         lg={7}
       >
-        <BannerPaper elevation={10}>
+        <BannerPaper elevation={5}>
           <BannerImage src={DogPic.src} alt="pic" />
         </BannerPaper>
       </BannerBox>
@@ -39,7 +41,7 @@ function Banners() {
           }}
           xs={12}
         >
-          <BannerPaper elevation={10}>
+          <BannerPaper elevation={5}>
             <BannerImage src={DogPic.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
@@ -50,7 +52,7 @@ function Banners() {
           }}
           xs={12}
         >
-          <BannerPaper elevation={10}>
+          <BannerPaper elevation={5}>
             <BannerImage src={DogPic.src} alt="pic" />
           </BannerPaper>
         </BannerBox>

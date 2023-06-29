@@ -8,9 +8,10 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
-  background:
-    "linear-gradient(180deg, rgba(19,19,19,1) 0%, rgba(61,61,61,1) 50%, rgba(108,108,108,1) 100%)",
+  cursor: "pointer",
   borderRadius: "10px",
+  border: "1px solid #e0e0e0",
+  borderBottom: "5px solid #e0e0e0",
   textAlign: "center",
   paddingTop: "25px",
   transition: ".2s ease all",
@@ -34,12 +35,7 @@ function Features() {
       }}
     >
       <Grid paddingBottom={1} item xs={6} lg={3}>
-        <FeatureContainer
-          sx={{
-            color: "#fff",
-          }}
-          elevation={1}
-        >
+        <FeatureContainer elevation={1}>
           <Typography variant="h6">تحویل اکسپرس</Typography>
           <DeliveryDiningIcon
             sx={{
@@ -53,12 +49,7 @@ function Features() {
         </FeatureContainer>
       </Grid>
       <Grid paddingBottom={1} item xs={6} lg={3}>
-        <FeatureContainer
-          sx={{
-            color: "#fff",
-          }}
-          elevation={3}
-        >
+        <FeatureContainer elevation={1}>
           <Typography variant="h6"> ضمانت اصل بودن کالا</Typography>
 
           <AssignmentIcon
@@ -73,13 +64,7 @@ function Features() {
         </FeatureContainer>
       </Grid>
       <Grid item xs={6} lg={3}>
-        <FeatureContainer
-          sx={{
-            backgroundColor: "secondary.main",
-            color: "#fff",
-          }}
-          elevation={3}
-        >
+        <FeatureContainer elevation={1}>
           <Typography variant="h6"> پشتیبانی 24 ساعته</Typography>
 
           <UpdateIcon
@@ -94,13 +79,7 @@ function Features() {
         </FeatureContainer>
       </Grid>
       <Grid item xs={6} lg={3}>
-        <FeatureContainer
-          sx={{
-            backgroundColor: "secondary.main",
-            color: "#fff",
-          }}
-          elevation={3}
-        >
+        <FeatureContainer elevation={1}>
           <Typography variant="h6"> امکان پرداخت در محل</Typography>
 
           <AddCardIcon
