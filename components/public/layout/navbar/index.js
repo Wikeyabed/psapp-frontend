@@ -64,9 +64,7 @@ export default function Navbar() {
               <TopMenu />
             </Box>
 
-            <Box sx={{ display: "flex" }}>
-              <SearchBar />
-            </Box>
+            <Box sx={{ display: "flex" }}>{/* <SearchBar /> */}</Box>
 
             {/* navbar  icons  */}
 

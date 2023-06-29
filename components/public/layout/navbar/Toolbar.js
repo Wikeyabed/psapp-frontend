@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   AppBar,
   Box,
+  Button,
   Toolbar,
   IconButton,
   Typography,
@@ -14,6 +15,7 @@ import {
   Mail as MailIcon,
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
+  Login as LoginIcon,
 } from "@mui/icons-material";
 
 function ToolbarIcons() {
@@ -63,7 +65,7 @@ function ToolbarIcons() {
             <NotificationsIcon />
           </Badge>
         </IconButton> */}
-        <IconButton
+        {/* <IconButton
           size="large"
           edge="start"
           aria-label="account of current user"
@@ -77,7 +79,28 @@ function ToolbarIcons() {
             {" "}
             ممد یوسفی
           </Typography>
-        </IconButton>
+        </IconButton> */}
+
+        <Button
+          color="secondary"
+          variant="text"
+          // size="large"
+          sx={{
+            fontSize: 16,
+            color: "#e0e0e0",
+            padding: "2px 20px 7px 5px",
+            // lineHeight: "25px",
+            backgroundColor: "#111",
+          }}
+          endIcon={
+            <LoginIcon
+              color="warning"
+              sx={{ mr: 1, pt: 0.5, fontSize: "25px !important" }}
+            />
+          }
+        >
+          ورود
+        </Button>
       </Box>
       {renderMenu}
     </>

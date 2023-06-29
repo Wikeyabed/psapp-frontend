@@ -19,8 +19,8 @@ const mapper = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 function ProductList() {
   return (
     <Grid
-      columnSpacing={4}
-      rowSpacing={4}
+      columnSpacing={2}
+      rowSpacing={2}
       container
       sx={{
         padding: "10px",

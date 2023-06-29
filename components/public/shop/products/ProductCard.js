@@ -1,8 +1,7 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
+import { Box } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
@@ -11,10 +10,12 @@ import Tape from "../../../../public/images/tape.jpg";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Tooltip from "@mui/material/Tooltip";
 import Rating from "@mui/material/Rating";
+import Quantity from "./Quantity";
 
 export default function ProductCard() {
   return (
-    <Card elevation={4} sx={{ position: "relative", borderRadius: "10px" }}>
+    <Card elevation={2} sx={{ position: "relative", borderRadius: "5px" }}>
+      {/* Ratting */}
       <Rating
         sx={{ position: "absolute", left: 5, top: 5 }}
         name="size-small"
@@ -25,8 +26,7 @@ export default function ProductCard() {
         sx={{
           height: 180,
           backgroundSize: "fill",
-          //   borderBottom: "1px solid #e2e2e2",
-          boxShadow: "1px 1px 1px 1px #e1e1e1",
+          borderBottom: "1px solid #e2e2e2",
         }}
         image={Tape.src}
         title="ایباکس"
@@ -61,6 +61,27 @@ export default function ProductCard() {
         </Typography>
 
         <Typography
+          variant="caption"
+          color={"ButtonShadow"}
+          textAlign={"right"}
+          component="div"
+        >
+          تعداد در هر بسته{" "}
+          <span
+            style={{
+              textDecoration: "underline",
+              color: "darkred",
+            }}
+          >
+            400
+          </span>{" "}
+          عدد
+        </Typography>
+
+        <Quantity />
+      </CardContent>
+      <CardActions>
+        <Typography
           mt={2}
           color="secondary"
           variant="body1"
@@ -69,8 +90,7 @@ export default function ProductCard() {
         >
           ۱,۵۰۰ تومان
         </Typography>
-      </CardContent>
-      <CardActions>
+
         <Tooltip title="اضافه کردن به سبد خرید" placement="right-start">
           <Button
             sx={{
