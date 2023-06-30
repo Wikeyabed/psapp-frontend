@@ -32,7 +32,7 @@ export default function CategoryBar() {
         padding: "5px",
       }}
     >
-      <AcordMenu>
+      <AcordMenu defaultExpanded>
         <AcordItem
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -51,7 +51,7 @@ export default function CategoryBar() {
         </AccordionDetails>
       </AcordMenu>
 
-      <AcordMenu>
+      <AcordMenu defaultExpanded>
         <AcordItem
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -69,7 +69,7 @@ export default function CategoryBar() {
           </ul>
         </AccordionDetails>
       </AcordMenu>
-      <AcordMenu>
+      <AcordMenu defaultExpanded>
         <AcordItem
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
