@@ -15,8 +15,9 @@ function Products() {
         sx={{
           borderRadius: "10px",
           padding: "10px 20px 20px",
+          border: "20px sold #444 !important",
         }}
-        elevation={1}
+        elevation={2}
         component={Grid}
         container
       >
@@ -37,15 +38,7 @@ function Products() {
           >
             <CategoryBar />
           </Grid>
-          {/* <Grid
-          sx={{
-            paddingRight: "20px",
-            paddingTop: "10px",
-          }}
-          lg={0.5}
-        >
-          <Divider orientation="vertical" variant="middle" />
-        </Grid> */}
+
           <Grid item lg={9}>
             <ProductList />
           </Grid>

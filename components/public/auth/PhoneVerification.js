@@ -20,11 +20,11 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   marginTop: 150,
   padding: 20,
+  borderRadius: "10px",
 }));
 
 const Card = styled(Grid)(({ theme }) => ({
   margin: "auto",
-  backgroundColor: theme.palette.primary.lightBg,
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -100,7 +100,7 @@ function PhoneVerification() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
         <Card item xs={10} md={3}>
-          <Grid component={Item} container>
+          <Grid component={Item} elevation={4} container>
             {initiated ? (
               <>
                 <Grid sx={{ mb: 6 }} item xs={12}>

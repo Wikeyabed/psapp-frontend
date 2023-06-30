@@ -51,10 +51,8 @@ export default function ProductCard() {
       <CardContent>
         <Typography
           sx={{
-            // fontWeight: "bold",
             textAlign: "center",
             marginBottom: "20px",
-            // color : "#444"
           }}
           gutterBottom
           variant="h6"
