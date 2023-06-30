@@ -2,6 +2,7 @@ import { Paper, Grid, Button, Typography } from "@mui/material";
 import { jsx, css } from "@emotion/react";
 import Slider from "./Slider";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 const ProductPage = () => {
   return (
     <>

@@ -34,7 +34,8 @@
     "react-drag-drop-files": "^2.3.9",
     "react-dropzone": "^14.2.3",
     "react-redux": "^8.0.5",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "sharp": "^0.32.1"
   },
   "devDependencies": {
     "eslint": "latest",

@@ -29,6 +29,7 @@ function Products() {
           <Grid
             sx={{
               paddingTop: "10px",
+              paddingX: { xs: "20px" },
             }}
             item
             xs={12}

@@ -1,12 +1,10 @@
-import { Grid, Box, Paper } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import styled from "@emotion/styled";
 import React from "react";
 import ProductCard from "./ProductCard";
 
-const ProductWrapper = styled(Grid)({
-  padding: "10px",
-});
+const ProductWrapper = styled(Grid)({});
 
 const mapper = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -19,7 +17,9 @@ function ProductList() {
       rowSpacing={2}
       container
       sx={{
-        padding: "10px",
+        paddingX: "20px",
+        paddingY: "10px",
+        textAlign: "center !important",
       }}
     >
       {mapper.map((i) => {

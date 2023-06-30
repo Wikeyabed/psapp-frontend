@@ -21,7 +21,7 @@ export default function MyApp(props) {
       <CacheProvider value={emotionCache}>
         <Head>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <meta name="application-name" content="PWA App" />
+          {/* <meta name="application-name" content="PWA App" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
@@ -100,7 +100,7 @@ export default function MyApp(props) {
           <meta
             property="og:image"
             content="https://yourdomain.com/icons/apple-touch-icon.png"
-          />
+          /> */}
         </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

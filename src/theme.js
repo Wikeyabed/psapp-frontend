@@ -38,7 +38,7 @@ const theme = createTheme({
       borderColor: blue[500],
     },
     secondary: {
-      main: "#445486",
+      main: "#274060",
     },
     lightPrimary: {
       main: "#6E5176",
