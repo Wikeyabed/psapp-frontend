@@ -12,6 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AlertBar from "./AlertBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Quantity from "./Quantity";
+import PersianNumber from "../../../../src/PersianDigits";
 export default function ProductCard() {
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -88,7 +89,29 @@ export default function ProductCard() {
           تعداد در هر بسته : 400
         </Typography>
 
-        <Quantity />
+        {/* <Quantity /> */}
+
+        <Typography
+          sx={{
+            textAlign: "center",
+            marginTop: "20px",
+            color: "red",
+          }}
+          variant="h6"
+        >
+          {" "}
+          {/* Price */}
+          <Typography
+            textAlign={"center"}
+            sx={{
+              color: "#ed6c02",
+            }}
+            variant="h6"
+          >
+            <PersianNumber number={1250000} />
+            &nbsp;ریال
+          </Typography>
+        </Typography>
       </CardContent>
       <CardActions>
         <Tooltip title="اضافه کردن به سبد خرید" placement="bottom">
