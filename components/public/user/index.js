@@ -62,6 +62,7 @@ function User() {
           <Paper
             sx={{
               borderRadius: "10px !important",
+              minHeight: "800px",
             }}
             elevation={2}
           >
