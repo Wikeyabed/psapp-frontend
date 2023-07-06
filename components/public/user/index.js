@@ -26,11 +26,7 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -43,8 +39,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `vertical-tab-${index}`,
-    "aria-controls": `vertical-tabpanel-${index}`,
+    id: `horizontal-tab-${index}`,
+    "aria-controls": `horizontal-tabpanel-${index}`,
   };
 }
 
@@ -79,7 +75,7 @@ function User() {
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
-                <UserProfile />
+                <UserProfile hello="hello" />
               </TabPanel>
               <TabPanel value={value} index={1}>
                 <UserInvoices />

@@ -91,6 +91,7 @@ export default function ProductCard() {
 
         {/* <Quantity /> */}
 
+        {/* Price */}
         <Typography
           sx={{
             textAlign: "center",
@@ -99,18 +100,8 @@ export default function ProductCard() {
           }}
           variant="h6"
         >
-          {" "}
-          {/* Price */}
-          <Typography
-            textAlign={"center"}
-            sx={{
-              color: "#ed6c02",
-            }}
-            variant="h6"
-          >
-            <PersianNumber number={1250000} />
-            &nbsp;ریال
-          </Typography>
+          <PersianNumber number={110000} />
+          &nbsp;ریال
         </Typography>
       </CardContent>
       <CardActions>

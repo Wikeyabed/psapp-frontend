@@ -12,9 +12,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import ModalBox from "../layout/Modal";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import InvoiceForm from "./InvoiceForm";
+
 import InvoiceStatus from "./InvoiceStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
@@ -115,7 +113,7 @@ const InvoicesTable = (props) => {
   ];
 
   return (
-    <Grid xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
+    <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
       <Typography
         variant="h5"
         sx={{ marginBottom: "10px", textAlign: "center" }}

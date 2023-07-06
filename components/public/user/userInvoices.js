@@ -6,7 +6,6 @@ function UserInvoices() {
     <Grid container>
       <Grid item xs={12}>
         <InvoicesTable />
-        hello
       </Grid>
     </Grid>
   );

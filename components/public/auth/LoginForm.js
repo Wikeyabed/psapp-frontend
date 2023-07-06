@@ -28,7 +28,6 @@ const Card = styled(Grid)(({ theme }) => ({
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
-  marginTop: 5,
   marginBottom: 5,
   minWidth: "100%",
   direction: "rtl",
