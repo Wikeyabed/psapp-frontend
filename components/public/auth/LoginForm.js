@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -43,6 +44,50 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function LoginForm() {
+  const [loginInfo, setLoginInfo] = useState({
+    phoneNumber: "",
+    password: "",
+  });
+
+  const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("phone_number", loginInfo.phoneNumber);
+    urlencoded.append("password", loginInfo.password);
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+    fetch("http://localhost:3000/api/v1/auth/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+
+    // ****************
+  }, [login]);
+
+  const handlePhoneNumber = (event) => {
+    setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
+  };
+
+  const handlePassword = (event) => {
+    setLoginInfo({ ...loginInfo, password: event.target.value });
+  };
+
+  // handle login success
+
+  const handleLogin = () => {
+    setLogin(true);
+    setTimeout(() => {
+      setLogin(false);
+    }, 5000);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
@@ -53,12 +98,26 @@ function LoginForm() {
                 ورود به حساب کاربری
               </Typography>
 
-              <RtlTextField fullWidth label="شماره تماس" />
-              <RtlTextField fullWidth label="رمز عبور" type="password" />
+              <RtlTextField
+                fullWidth
+                onChange={handlePhoneNumber}
+                label="شماره تماس"
+              />
+              <RtlTextField
+                fullWidth
+                onChange={handlePassword}
+                label="رمز عبور"
+                type="password"
+              />
             </Grid>
 
             <Grid xs={6} item>
-              <Button sx={{ p: 1 }} fullWidth variant="contained">
+              <Button
+                sx={{ p: 1 }}
+                onClick={handleLogin}
+                fullWidth
+                variant="contained"
+              >
                 ورود
               </Button>
             </Grid>
