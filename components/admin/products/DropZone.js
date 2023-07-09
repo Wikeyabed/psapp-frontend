@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { Box, ClickAwayListener, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { FileUploader } from "react-drag-drop-files";

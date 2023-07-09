@@ -54,7 +54,7 @@ export default function App() {
     <>
       <div ref={sliderRef} className="keen-slider">
         <div className="keen-slider__slide number-slide1">
-          {" "}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://via.placeholder.com/150x150" alt="" />
         </div>
         <div className="keen-slider__slide number-slide2">2</div>
@@ -66,6 +66,7 @@ export default function App() {
 
       <div ref={thumbnailRef} className="keen-slider thumbnail">
         <div className="keen-slider__slide number-slide1">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://via.placeholder.com/150x150" alt="" />
         </div>
         <div className="keen-slider__slide number-slide2">2</div>

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
-import useSWR from "swr";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -14,8 +13,10 @@ import {
   FormControl,
   FormGroup,
 } from "@mui/material";
-
 import Link from "../../../src/Link";
+
+import { userLogin } from "../../../redux/reducers/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -46,6 +47,8 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function LoginForm() {
+  const dispatch = useDispatch();
+
   const [loginInfo, setLoginInfo] = useState({
     phoneNumber: "",
     password: "",
@@ -54,15 +57,14 @@ function LoginForm() {
   const [isValid, setIsValid] = useState(true);
 
   const handlePhoneNumber = (event) => {
+    setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
     var regex = new RegExp("^(\\+98|0)?9\\d{9}$");
     var result = regex.test(event.target.value);
 
     if (result) {
       setIsValid(true);
-      setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
     } else {
       setIsValid(false);
-      setLoginInfo({ ...loginInfo, phoneNumber: "" });
     }
   };
 
@@ -70,7 +72,7 @@ function LoginForm() {
     setLoginInfo({ ...loginInfo, password: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     var myHeaders = new Headers();
@@ -82,14 +84,28 @@ function LoginForm() {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
-      redirect: "follow",
     };
-    fetch("http://localhost:3000/api/v1/auth/login", requestOptions).then(
+    await fetch("http://localhost:3000/api/v1/auth/login", requestOptions).then(
       (res) => {
         if (res.status == 200) {
           res.json().then((data) => {
             console.log(data);
+
+            // set token to local storage
             localStorage.setItem("token", data.token);
+
+            dispatch(
+              userLogin({
+                firstName: data.user.first_name,
+                lastName: data.user.last_name,
+                phoneNumber: data.user.phone_number,
+                address: data.user.address,
+                email: data.user.email,
+                refer: data.user.refer,
+                invoiceIds: data.user.invoices_id,
+                shoppingCartIds: data.user.shopping_list_id,
+              })
+            );
           });
         } else {
           res.text("error");
