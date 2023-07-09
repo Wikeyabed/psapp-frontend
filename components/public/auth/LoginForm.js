@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -11,7 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
   FormControl,
-  useMediaQuery,
+  FormGroup,
 } from "@mui/material";
 
 import Link from "../../../src/Link";
@@ -19,6 +20,7 @@ import Link from "../../../src/Link";
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   marginTop: 150,
+  marginBottom: 150,
   padding: 20,
   borderRadius: "10px",
 }));
@@ -49,9 +51,28 @@ function LoginForm() {
     password: "",
   });
 
-  const [login, setLogin] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
-  useEffect(() => {
+  const handlePhoneNumber = (event) => {
+    var regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+    var result = regex.test(event.target.value);
+
+    if (result) {
+      setIsValid(true);
+      setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
+    } else {
+      setIsValid(false);
+      setLoginInfo({ ...loginInfo, phoneNumber: "" });
+    }
+  };
+
+  const handlePassword = (event) => {
+    setLoginInfo({ ...loginInfo, password: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     var urlencoded = new URLSearchParams();
@@ -63,104 +84,104 @@ function LoginForm() {
       body: urlencoded,
       redirect: "follow",
     };
-    fetch("http://localhost:3000/api/v1/auth/login", requestOptions)
-      .then((response) => response.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-
-    // ****************
-  }, [login]);
-
-  const handlePhoneNumber = (event) => {
-    setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
-  };
-
-  const handlePassword = (event) => {
-    setLoginInfo({ ...loginInfo, password: event.target.value });
-  };
-
-  // handle login success
-
-  const handleLogin = () => {
-    setLogin(true);
-    setTimeout(() => {
-      setLogin(false);
-    }, 5000);
+    fetch("http://localhost:3000/api/v1/auth/login", requestOptions).then(
+      (res) => {
+        if (res.status == 200) {
+          res.json().then((data) => {
+            console.log(data);
+            localStorage.setItem("token", data.token);
+          });
+        } else {
+          res.text("error");
+        }
+      }
+    );
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid component={FormControl} container spacing={2}>
+      <Grid container spacing={2}>
         <Card item xs={10} md={3}>
-          <Grid component={Item} elevation={4} container>
-            <Grid sx={{ mb: 6 }} item xs={12}>
-              <Typography sx={{ mb: 5 }} variant="h6">
-                ورود به حساب کاربری
-              </Typography>
+          <form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Grid component={Item} elevation={4} container>
+                <Grid sx={{ mb: 6 }} item xs={12}>
+                  <Typography sx={{ mb: 5 }} variant="h6">
+                    ورود به حساب کاربری
+                  </Typography>
 
-              <RtlTextField
-                fullWidth
-                onChange={handlePhoneNumber}
-                label="شماره تماس"
-              />
-              <RtlTextField
-                fullWidth
-                onChange={handlePassword}
-                label="رمز عبور"
-                type="password"
-              />
-            </Grid>
+                  <RtlTextField
+                    value={loginInfo.phoneNumber}
+                    required
+                    fullWidth
+                    onChange={handlePhoneNumber}
+                    label="شماره تماس"
+                  />
+                  <RtlTextField
+                    value={loginInfo.password}
+                    required
+                    fullWidth
+                    onChange={handlePassword}
+                    label="رمز عبور"
+                    type="password"
+                  />
+                </Grid>
 
-            <Grid xs={6} item>
-              <Button
-                sx={{ p: 1 }}
-                onClick={handleLogin}
-                fullWidth
-                variant="contained"
-              >
-                ورود
-              </Button>
-            </Grid>
+                <Grid xs={6} item>
+                  <Button
+                    disabled={!isValid}
+                    sx={{ p: 1 }}
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                  >
+                    ورود
+                  </Button>
+                </Grid>
+                <Grid xs={6} item>
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label={
+                      <Typography variant="caption">
+                        مرا به خاطر بسپار
+                      </Typography>
+                    }
+                  />
+                </Grid>
 
-            <Grid xs={6} item>
-              {" "}
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="مرا به خاطر بسپار"
-              />
-            </Grid>
+                <Grid
+                  href="/shop"
+                  sx={{
+                    fontSize: 12,
+                    textAlign: "center",
+                    mt: 4,
+                    textDecoration: "none",
+                  }}
+                  component={Link}
+                  item
+                  xs={12}
+                >
+                  بازگشت به فروشگاه
+                </Grid>
 
-            <Grid
-              href="/shop"
-              sx={{
-                fontSize: 12,
-                textAlign: "center",
-                mt: 4,
-                textDecoration: "none",
-              }}
-              component={Link}
-              item
-              xs={12}
-            >
-              بازگشت به فروشگاه
-            </Grid>
-
-            <Grid
-              href="/auth/register"
-              sx={{
-                fontSize: 14,
-                textAlign: "center",
-                mt: 4,
-                textDecoration: "none",
-                color: "darkgray",
-              }}
-              component={Link}
-              item
-              xs={12}
-            >
-              حساب کاربری ندارید ؟ ثبت نام کنید
-            </Grid>
-          </Grid>
+                <Grid
+                  href="/auth/register"
+                  sx={{
+                    fontSize: 14,
+                    textAlign: "center",
+                    mt: 4,
+                    textDecoration: "none",
+                    color: "darkgray",
+                  }}
+                  component={Link}
+                  item
+                  xs={12}
+                >
+                  حساب کاربری ندارید ؟ ثبت نام کنید
+                </Grid>
+              </Grid>
+            </FormGroup>
+          </form>
         </Card>
       </Grid>
     </Box>
