@@ -16,7 +16,11 @@ import {
 import Link from "../../../src/Link";
 
 import { userLogin } from "../../../redux/reducers/authSlice";
-import { useSelector, useDispatch } from "react-redux";
+import {
+  startProgress,
+  endProgress,
+} from "../../../redux/reducers/loadingSlice";
+import { useDispatch } from "react-redux";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -74,7 +78,7 @@ function LoginForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    dispatch(startProgress());
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     var urlencoded = new URLSearchParams();
@@ -107,6 +111,8 @@ function LoginForm() {
               })
             );
           });
+
+          dispatch(endProgress());
         } else {
           res.text("error");
         }

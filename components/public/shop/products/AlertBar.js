@@ -26,6 +26,7 @@ export default function AlertBar({ openAlert }) {
     if (openAlert) {
       setOpen(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAlert]);
 
   const handleClose = (event, reason) => {
