@@ -3,6 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/reducers/authSlice";
+import { startProgress, endProgress } from "../../redux/reducers/loadingSlice";
 
 function AuthCheck({ children }) {
   const dispatch = useDispatch();
@@ -11,15 +12,16 @@ function AuthCheck({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (token != null && token != undefined) {
-      console.log("entered condition");
+    if (token != null && token != undefined && !checkToken) {
+      dispatch(startProgress());
+      setCheckToken(true);
+      console.log("check token", checkToken);
       var myHeaders = new Headers();
       myHeaders.append("token", token);
 
       var requestOptions = {
         method: "GET",
         headers: myHeaders,
-        redirect: "follow",
       };
 
       fetch("http://localhost:3000/api/v1/token", requestOptions)
@@ -43,10 +45,12 @@ function AuthCheck({ children }) {
               shoppingCartIds: data.shopping_list_id,
             })
           );
+
+          dispatch(endProgress());
         })
         .catch((error) => console.log("error", error));
     }
-  }, [checkToken]);
+  }, []);
   return <>{children}</>;
 }
 
