@@ -102,7 +102,7 @@ export default function UserProfile() {
             />
           </Grid>
 
-          <Grid xs={6}>
+          <Grid item xs={6}>
             {" "}
             <RtlTextField
               label="کد دریافتی"
@@ -116,6 +116,7 @@ export default function UserProfile() {
               paddingRight: "14px ",
             }}
             xs={6}
+            item
           >
             {" "}
             <Button fullWidth size="large" variant="outlined">

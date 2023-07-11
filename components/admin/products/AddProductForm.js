@@ -231,7 +231,7 @@ function AddProductForm() {
 
             <StyledDivider />
             <Grid component={Item} container>
-              <Grid sx={{ px: 1, mx: "auto" }} xs={8}>
+              <Grid item sx={{ px: 1, mx: "auto" }} xs={8}>
                 <DropZone />
               </Grid>
 

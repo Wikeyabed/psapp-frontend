@@ -232,7 +232,7 @@ const EditForm = () => {
 
         <StyledDivider />
         <Grid component={Item} container>
-          <Grid sx={{ px: 1, mx: "auto" }} xs={12} md={8}>
+          <Grid sx={{ px: 1, mx: "auto" }} item xs={12} md={8}>
             <DropZone />
           </Grid>
 

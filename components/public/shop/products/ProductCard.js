@@ -120,7 +120,7 @@ export default function ProductCard() {
             }}
             size="large"
             color="secondary"
-            fullWidth="true"
+            fullWidth
             variant="contained"
             startIcon={loading ? "" : <AddShoppingCartIcon sx={{ ml: 2 }} />}
           >

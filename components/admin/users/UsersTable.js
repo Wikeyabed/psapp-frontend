@@ -111,7 +111,7 @@ const UsersTable = (props) => {
   ];
 
   return (
-    <Grid xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
+    <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
       <Typography
         variant="h5"
         sx={{ marginBottom: "10px", textAlign: "center" }}

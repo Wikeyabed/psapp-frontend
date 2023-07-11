@@ -36,6 +36,7 @@ function Banners() {
 
       <Grid item container lg={5}>
         <BannerBox
+          item
           sx={{
             height: "250px",
           }}
@@ -47,6 +48,7 @@ function Banners() {
         </BannerBox>
 
         <BannerBox
+          item
           sx={{
             height: "250px",
           }}

@@ -119,7 +119,7 @@ function PhoneVerification() {
                 </Grid>
 
                 <Grid xs={12} container item>
-                  <Grid padding={1} xs={6}>
+                  <Grid item padding={1} xs={6}>
                     {" "}
                     <Button
                       //   onClick={handleCountDown}
@@ -131,7 +131,7 @@ function PhoneVerification() {
                       ثبت کد
                     </Button>
                   </Grid>
-                  <Grid padding={1} xs={6}>
+                  <Grid item padding={1} xs={6}>
                     <Button
                       disabled={sms && (seconds > -1 || minutes > 0)}
                       onClick={handleCountDown}

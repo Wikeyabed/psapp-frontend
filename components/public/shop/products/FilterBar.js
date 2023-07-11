@@ -114,7 +114,6 @@ function FilterBar() {
         xs={12}
         lg={4}
         sx={{
-          // px: { xs: 2 },
           pt: 1,
           textAlign: "center",
           mt: { xs: 4, lg: 0 },
