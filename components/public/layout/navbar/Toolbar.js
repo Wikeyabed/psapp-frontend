@@ -17,9 +17,13 @@ import {
   AccountCircle as AccountCircleIcon,
   Login as LoginIcon,
 } from "@mui/icons-material";
+import Link from "../../../../src/Link";
+
+import { useSelector } from "react-redux";
 
 function ToolbarIcons() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const user = useSelector((state) => state.auth);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -65,42 +69,47 @@ function ToolbarIcons() {
             <NotificationsIcon />
           </Badge>
         </IconButton> */}
-        {/* <IconButton
-          size="large"
-          edge="start"
-          aria-label="account of current user"
-          aria-controls={menuId}
-          aria-haspopup="true"
-          onClick={handleProfileMenuOpen}
-          color="info"
-        >
-          <AccountCircleIcon />
-          <Typography sx={{ mr: 1, color: "#e0e0e0", fontSize: "13px" }}>
-            {" "}
-            ممد یوسفی
-          </Typography>
-        </IconButton> */}
-
-        <Button
-          color="secondary"
-          variant="text"
-          // size="large"
-          sx={{
-            fontSize: 16,
-            color: "#e0e0e0",
-            padding: "2px 20px 7px 5px",
-            // lineHeight: "25px",
-            backgroundColor: "#111",
-          }}
-          endIcon={
-            <LoginIcon
-              color="warning"
-              sx={{ mr: 1, pt: 0.5, fontSize: "25px !important" }}
-            />
-          }
-        >
-          ورود
-        </Button>
+        {user.isLoggedIn ? (
+          <IconButton
+            size="large"
+            edge="start"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="info"
+          >
+            <AccountCircleIcon />
+            <Typography sx={{ mr: 1, color: "#e0e0e0", fontSize: "13px" }}>
+              {" "}
+              {user.userInformation.firstName +
+                " " +
+                user.userInformation.lastName}
+            </Typography>
+          </IconButton>
+        ) : (
+          <Button
+            component={Link}
+            href="/auth/login"
+            color="secondary"
+            variant="text"
+            // size="large"
+            sx={{
+              fontSize: 16,
+              color: "#e0e0e0",
+              padding: "2px 20px 7px 5px",
+              backgroundColor: "#111",
+            }}
+            endIcon={
+              <LoginIcon
+                color="warning"
+                sx={{ mr: 1, pt: 0.5, fontSize: "25px !important" }}
+              />
+            }
+          >
+            ورود
+          </Button>
+        )}
       </Box>
       {renderMenu}
     </>
