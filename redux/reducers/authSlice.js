@@ -3,7 +3,7 @@ import { AUTH } from "../constants/constants";
 
 const initialState = {
   isLoggedIn: false,
-  isTokenSet: false,
+  isTokenChecked: false,
   isSmsSent: false,
   isSmsVerified: false,
   userInformation: {
@@ -41,6 +41,10 @@ export const authSlice = createSlice({
       };
     },
 
+    checkToken: (state) => {
+      state.isTokenChecked = true;
+    },
+
     sendSms: (state) => {
       state.isSmsSent = true;
     },
@@ -55,7 +59,13 @@ export const authSlice = createSlice({
   },
 });
 
-export const { resetSms, sendSms, userLogin, userLogout, verifySms } =
-  authSlice.actions;
+export const {
+  resetSms,
+  sendSms,
+  userLogin,
+  checkToken,
+  userLogout,
+  verifySms,
+} = authSlice.actions;
 
 export default authSlice.reducer;

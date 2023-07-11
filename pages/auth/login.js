@@ -3,6 +3,7 @@ import LoginForm from "../../components/public/auth/LoginForm";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import BlankScreen from "../../components/HOC/BlankScreen";
 
 function LoginPage() {
   const router = useRouter();
@@ -14,7 +15,18 @@ function LoginPage() {
     }
   }, [isLoggedIn, router]);
 
-  return <> {!isLoggedIn ? <LoginForm /> : ""}</>;
+  return (
+    <>
+      {" "}
+      {!isLoggedIn ? (
+        <BlankScreen>
+          <LoginForm />
+        </BlankScreen>
+      ) : (
+        ""
+      )}
+    </>
+  );
 }
 
 export default LoginPage;

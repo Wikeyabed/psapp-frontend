@@ -10,6 +10,7 @@ import {
   Badge,
   Menu,
   MenuItem,
+  Skeleton,
 } from "@mui/material";
 import {
   Mail as MailIcon,
@@ -19,7 +20,8 @@ import {
 } from "@mui/icons-material";
 import Link from "../../../../src/Link";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 function ToolbarIcons() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,6 +31,10 @@ function ToolbarIcons() {
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleUserLogout = () => {
+    setAnchorEl(null);
   };
 
   const handleMenuClose = () => {
@@ -52,8 +58,10 @@ function ToolbarIcons() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>پروفایل</MenuItem>
-      <MenuItem onClick={handleMenuClose}>خروج</MenuItem>
+      <MenuItem href="/user" component={Link}>
+        پروفایل
+      </MenuItem>
+      <MenuItem onClick={handleUserLogout}>خروج</MenuItem>
     </Menu>
   );
 
@@ -69,6 +77,7 @@ function ToolbarIcons() {
             <NotificationsIcon />
           </Badge>
         </IconButton> */}
+
         {user.isLoggedIn ? (
           <IconButton
             size="large"
