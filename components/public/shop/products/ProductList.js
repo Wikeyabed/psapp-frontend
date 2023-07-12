@@ -2,12 +2,12 @@ import { Grid } from "@mui/material";
 
 import React from "react";
 import ProductCard from "./ProductCard";
-
-const mapper = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { useSelector } from "react-redux";
 
 // get product list from database
 
 function ProductList() {
+  const productList = useSelector((state) => state.product.products);
   return (
     <Grid
       columnSpacing={3}
@@ -19,10 +19,16 @@ function ProductList() {
         textAlign: "center !important",
       }}
     >
-      {mapper.map((i) => {
+      {productList.map((product, i) => {
         return (
           <Grid key={i} item xs={12} sm={6} lg={4}>
-            <ProductCard />
+            <ProductCard
+              productName={product.product_name}
+              productCode={product.product_id}
+              price={product.price}
+              quantity={product.quantity}
+              imageUrl={product.images_url[product.images_url.length - 1]}
+            />
           </Grid>
         );
       })}

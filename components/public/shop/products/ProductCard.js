@@ -13,7 +13,14 @@ import AlertBar from "./AlertBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Quantity from "./Quantity";
 import PersianNumber from "../../../../src/PersianDigits";
-export default function ProductCard() {
+
+export default function ProductCard({
+  productName,
+  productCode,
+  price,
+  quantity,
+  imageUrl,
+}) {
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +53,7 @@ export default function ProductCard() {
           backgroundSize: "fill",
           borderBottom: "1px solid #e2e2e2",
         }}
-        image={Tape.src}
+        image={`/images/${imageUrl}`}
         title="ایباکس"
       />
       <CardContent>
@@ -59,7 +66,7 @@ export default function ProductCard() {
           variant="h6"
           component="div"
         >
-          کارتن پستی کد ۱
+          {productName}
         </Typography>
 
         <Typography
@@ -77,7 +84,7 @@ export default function ProductCard() {
           textAlign={"right"}
           component="div"
         >
-          کد محصول : k112
+          کد محصول : {productCode}
         </Typography>
 
         <Typography
@@ -86,7 +93,7 @@ export default function ProductCard() {
           textAlign={"right"}
           component="div"
         >
-          تعداد در هر بسته : 400
+          تعداد در هر بسته : {quantity}
         </Typography>
 
         {/* <Quantity /> */}
@@ -100,7 +107,7 @@ export default function ProductCard() {
           }}
           variant="h6"
         >
-          <PersianNumber number={110000} />
+          <PersianNumber number={price} />
           &nbsp;ریال
         </Typography>
       </CardContent>
