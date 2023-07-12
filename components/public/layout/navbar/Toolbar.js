@@ -22,10 +22,13 @@ import Link from "../../../../src/Link";
 
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { userLogout } from "../../../../redux/reducers/authSlice";
 
-function ToolbarIcons() {
+function ToolbarMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -33,8 +36,11 @@ function ToolbarIcons() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleUserLogout = () => {
+  const handleUserLogout = async () => {
     setAnchorEl(null);
+    localStorage.removeItem("token");
+    dispatch(userLogout());
+    router.push("/auth/login");
   };
 
   const handleMenuClose = () => {
@@ -68,16 +74,6 @@ function ToolbarIcons() {
   return (
     <>
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
-        {/* <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="primary"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton> */}
-
         {user.isLoggedIn ? (
           <IconButton
             size="large"
@@ -125,4 +121,4 @@ function ToolbarIcons() {
   );
 }
 
-export default ToolbarIcons;
+export default ToolbarMenu;
