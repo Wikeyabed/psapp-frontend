@@ -105,11 +105,15 @@ export default function TopMenu() {
       <StyledUl>
         <StyledLi>
           {" "}
-          <Link href="/shop">
-            <Button variant="text" color="secondary" disableElevation>
-              <StyledText> فروشگاه</StyledText>
-            </Button>
-          </Link>
+          <Button
+            href="/shop"
+            component={Link}
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText> فروشگاه</StyledText>
+          </Button>
         </StyledLi>
         <StyledLi>
           {" "}
@@ -162,11 +166,15 @@ export default function TopMenu() {
 
         <StyledLi>
           {" "}
-          <Link href="/contact">
-            <Button variant="text" color="secondary" disableElevation>
-              <StyledText> تماس با ما</StyledText>
-            </Button>
-          </Link>
+          <Button
+            component={Link}
+            href="/contact"
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText> تماس با ما</StyledText>
+          </Button>
         </StyledLi>
       </StyledUl>
 

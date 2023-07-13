@@ -45,10 +45,9 @@ function AuthCheck({ children }) {
               shoppingCartIds: data.shopping_list_id,
             })
           );
-
-          dispatch(endProgress());
         })
         .catch((error) => console.log("error", error));
+      dispatch(endProgress());
     }
   }, []);
   return <>{children}</>;

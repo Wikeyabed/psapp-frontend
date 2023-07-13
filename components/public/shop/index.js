@@ -7,7 +7,7 @@ import Banners from "./Banners";
 import Features from "./Features";
 import Products from "./products";
 // Define Shop component
-function Shop({ products }) {
+function Shop() {
   return (
     <PublicLayout>
       <Grid container sx={{ height: "100%" }}>
