@@ -12,7 +12,7 @@ export default function Home({ products }) {
   return <Shop />;
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch("http://localhost:3000/api/v1/products/");
   const products = await res.json();
   return {

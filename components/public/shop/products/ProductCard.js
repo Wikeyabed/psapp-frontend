@@ -6,7 +6,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Tape from "../../../../public/images/tape.jpg";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Tooltip from "@mui/material/Tooltip";
 import AlertBar from "./AlertBar";
@@ -53,7 +52,7 @@ export default function ProductCard({
           backgroundSize: "fill",
           borderBottom: "1px solid #e2e2e2",
         }}
-        image={`/images/${imageUrl}`}
+        image={`http://localhost:3000/static/${imageUrl}`}
         title="ایباکس"
       />
       <CardContent>
