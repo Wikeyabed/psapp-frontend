@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 // get product list from database
 
 function ProductList() {
-  const productList = useSelector((state) => state.product.products);
+  const productList = useSelector((state) => state.product.filteredProducts);
   return (
     <Grid
       columnSpacing={3}

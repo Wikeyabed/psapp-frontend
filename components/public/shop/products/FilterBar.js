@@ -2,6 +2,10 @@ import { Grid, Box, Paper, TextField, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchBar from "../../layout/navbar/SearchBar";
+
+import { useSelector, useDispatch } from "react-redux";
+import { getFilteredProducts } from "../../../../redux/reducers/productSlice";
+
 // Styled component for the text field with right-to-left direction and custom styles
 const RtlTextField = styled(TextField)(({ theme }) => ({
   minWidth: "100%",
@@ -32,8 +36,29 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
   right: "85% !important",
   // backgroundColor : theme.palette.primary.main.
 }));
+
 // Main component for the filter bar
 function FilterBar() {
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.product.products);
+  const categories = productList.map((product) => {
+    return product.category;
+  });
+  let uniqueCategories = [...new Set(categories)];
+
+  // filter the selected categories
+  const handleChangeCategory = (e) => {
+    const category = e.target.value;
+    if (category != "all") {
+      const result = productList.filter(
+        (product) => product.category == category
+      );
+
+      dispatch(getFilteredProducts(result));
+    } else {
+      dispatch(getFilteredProducts(productList));
+    }
+  };
   return (
     <Grid
       container
@@ -59,6 +84,7 @@ function FilterBar() {
         lg={3}
       >
         <RtlTextField
+          onChange={handleChangeCategory}
           color="warning"
           size="small"
           SelectProps={{
@@ -72,9 +98,14 @@ function FilterBar() {
           select
           label="دسته بندی محصول"
         >
-          <MenuItem value={"1"}>item 1</MenuItem>
-          <MenuItem value={"2"}>item 2</MenuItem>
-          <MenuItem value={"3"}>item 3</MenuItem>
+          <MenuItem value="all">تمام دسته بندی ها</MenuItem>
+          {uniqueCategories.map((category, i) => {
+            return (
+              <MenuItem key={i} value={category}>
+                {category}
+              </MenuItem>
+            );
+          })}
         </RtlTextField>
       </Grid>
       {/* Empty grid item */}

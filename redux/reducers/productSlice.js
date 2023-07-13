@@ -3,6 +3,7 @@ import { PRODUCT } from "../constants/constants";
 
 const initialState = {
   products: [],
+  filteredProducts: [],
   shoppingCartIds: [],
 };
 
@@ -12,6 +13,10 @@ export const productSlice = createSlice({
   reducers: {
     getProducts: (state, action) => {
       state.products = action.payload;
+    },
+
+    getFilteredProducts: (state, action) => {
+      state.filteredProducts = action.payload;
     },
 
     addToCart: (state, action) => {
@@ -30,7 +35,12 @@ export const productSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, loadCart, getProducts } =
-  productSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  getFilteredProducts,
+  loadCart,
+  getProducts,
+} = productSlice.actions;
 
 export default productSlice.reducer;

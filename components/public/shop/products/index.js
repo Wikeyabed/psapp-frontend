@@ -34,13 +34,25 @@ function Products() {
             }}
             item
             xs={12}
-            lg={2.6}
+            lg={1}
           >
-            <CategoryBar />
+            {/* <CategoryBar /> */}
           </Grid>
 
-          <Grid item lg={9}>
+          <Grid item lg={10}>
             <ProductList />
+          </Grid>
+
+          <Grid
+            sx={{
+              paddingTop: "10px",
+              paddingX: { xs: "20px" },
+            }}
+            item
+            xs={12}
+            lg={1}
+          >
+            {/* <CategoryBar /> */}
           </Grid>
         </Grid>
       </Paper>
