@@ -5,6 +5,8 @@ const initialState = {
   products: [],
   filteredProducts: [],
   shoppingCartIds: [],
+  search: "",
+  filter: "all",
 };
 
 export const productSlice = createSlice({
@@ -19,6 +21,12 @@ export const productSlice = createSlice({
       state.filteredProducts = action.payload;
     },
 
+    searchValue: (state, action) => {
+      state.search = action.payload;
+    },
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
     addToCart: (state, action) => {
       state.shoppingCartIds.push(action.payload);
     },
@@ -37,7 +45,9 @@ export const productSlice = createSlice({
 
 export const {
   addToCart,
+  searchValue,
   removeFromCart,
+  setFilter,
   getFilteredProducts,
   loadCart,
   getProducts,

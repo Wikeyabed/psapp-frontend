@@ -1,8 +1,9 @@
 import * as React from "react";
-import { alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
+import { useSelector, useDispatch } from "react-redux";
+import { searchValue } from "../../../../redux/reducers/productSlice";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,12 +51,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function SearchBar() {
+  const dispatch = useDispatch();
+
+  const handleProductSearch = (e) => {
+    dispatch(searchValue(e.target.value));
+  };
   return (
     <Search>
       <SearchIconWrapper>
         <SearchIcon color="primary" />
       </SearchIconWrapper>
       <StyledInputBase
+        onChange={handleProductSearch}
         placeholder="جستجو ..."
         inputProps={{ "aria-label": "جستجو" }}
       />

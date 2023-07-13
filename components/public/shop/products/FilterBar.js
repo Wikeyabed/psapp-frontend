@@ -5,6 +5,7 @@ import SearchBar from "../../layout/navbar/SearchBar";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getFilteredProducts } from "../../../../redux/reducers/productSlice";
+import { setFilter } from "../../../../redux/reducers/productSlice";
 
 // Styled component for the text field with right-to-left direction and custom styles
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -48,16 +49,7 @@ function FilterBar() {
 
   // filter the selected categories
   const handleChangeCategory = (e) => {
-    const category = e.target.value;
-    if (category != "all") {
-      const result = productList.filter(
-        (product) => product.category == category
-      );
-
-      dispatch(getFilteredProducts(result));
-    } else {
-      dispatch(getFilteredProducts(productList));
-    }
+    dispatch(setFilter(e.target.value));
   };
   return (
     <Grid
