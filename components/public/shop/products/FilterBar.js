@@ -4,8 +4,11 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchBar from "../../layout/navbar/SearchBar";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getFilteredProducts } from "../../../../redux/reducers/productSlice";
-import { setFilter } from "../../../../redux/reducers/productSlice";
+import { useState } from "react";
+import {
+  setFilter,
+  setPriceSort,
+} from "../../../../redux/reducers/productSlice";
 
 // Styled component for the text field with right-to-left direction and custom styles
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -42,6 +45,7 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
 function FilterBar() {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.products);
+  const priceSort = useSelector((state) => state.product.priceSort);
   const categories = productList.map((product) => {
     return product.category;
   });
@@ -50,6 +54,10 @@ function FilterBar() {
   // filter the selected categories
   const handleChangeCategory = (e) => {
     dispatch(setFilter(e.target.value));
+  };
+
+  const handlePriceSort = (e) => {
+    dispatch(setPriceSort(e.target.value));
   };
   return (
     <Grid
@@ -79,6 +87,7 @@ function FilterBar() {
           onChange={handleChangeCategory}
           color="warning"
           size="small"
+          defaultValue={"all"}
           SelectProps={{
             IconComponent: SelectIcon,
             style: {
@@ -114,6 +123,8 @@ function FilterBar() {
         <RtlTextField
           color="warning"
           size="small"
+          value={priceSort}
+          onChange={handlePriceSort}
           SelectProps={{
             IconComponent: SelectIcon,
             style: {
@@ -126,9 +137,9 @@ function FilterBar() {
           fullWidth
           label="مرتب سازی بر اساس"
         >
-          <MenuItem value={"1"}>پربازدید ترین</MenuItem>
-          <MenuItem value={"2"}>ارزانترین</MenuItem>
-          <MenuItem value={"3"}>گرانترین</MenuItem>
+          {/* <MenuItem value={"1"}>پربازدید ترین</MenuItem> */}
+          <MenuItem value={"cheap"}>ارزانترین</MenuItem>
+          <MenuItem value={"expensive"}>گرانترین</MenuItem>
         </RtlTextField>
       </Grid>
       <Grid item lg={1.7}></Grid>

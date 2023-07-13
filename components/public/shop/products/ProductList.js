@@ -10,6 +10,7 @@ function ProductList() {
   const productList = useSelector((state) => state.product.filteredProducts);
   const searchValue = useSelector((state) => state.product.search);
   const category = useSelector((state) => state.product.filter);
+  const priceSort = useSelector((state) => state.product.priceSort);
 
   return (
     <Grid
@@ -28,6 +29,13 @@ function ProductList() {
             (product.category == category || category == "all") &&
             product.product_name.includes(searchValue)
         )
+        .sort((a, b) => {
+          if (priceSort == "cheap") {
+            return a.price - b.price;
+          } else {
+            return b.price - a.price;
+          }
+        })
         .map((product, i) => (
           <Grid key={i} item xs={12} sm={6} lg={4}>
             <ProductCard

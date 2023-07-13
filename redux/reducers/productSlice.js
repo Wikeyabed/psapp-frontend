@@ -7,6 +7,7 @@ const initialState = {
   shoppingCartIds: [],
   search: "",
   filter: "all",
+  priceSort: "cheap",
 };
 
 export const productSlice = createSlice({
@@ -27,6 +28,10 @@ export const productSlice = createSlice({
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
+
+    setPriceSort: (state, action) => {
+      state.priceSort = action.payload;
+    },
     addToCart: (state, action) => {
       state.shoppingCartIds.push(action.payload);
     },
@@ -46,6 +51,7 @@ export const productSlice = createSlice({
 export const {
   addToCart,
   searchValue,
+  setPriceSort,
   removeFromCart,
   setFilter,
   getFilteredProducts,
