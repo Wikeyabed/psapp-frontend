@@ -1,8 +1,9 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Divider, Toolbar, Typography } from "@mui/material";
 import ToolbarIcons from "./Toolbar";
 import SearchBar from "./SearchBar";
 import TopMenu from "./TopMenu";
 import BottomNav from "./BottomNav";
+import MiniShoppingCart from "./shoppingCart/index";
 
 export default function Navbar() {
   // mobile menu item
@@ -67,7 +68,16 @@ export default function Navbar() {
             <Box sx={{ display: "flex" }}>{/* <SearchBar /> */}</Box>
 
             {/* navbar  icons  */}
-
+            <MiniShoppingCart />
+            <Divider
+              orientation="vertical"
+              sx={{
+                color: "#fff",
+                backgroundColor: "#999",
+                marginX: "5px",
+                height: "50%",
+              }}
+            />
             <ToolbarIcons />
           </Toolbar>
         </AppBar>

@@ -75,23 +75,33 @@ function ToolbarMenu() {
     <>
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
         {user.isLoggedIn ? (
-          <IconButton
-            size="large"
-            edge="start"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="info"
-          >
-            <AccountCircleIcon />
-            <Typography sx={{ mr: 1, color: "#e0e0e0", fontSize: "13px" }}>
+          <Box onClick={handleProfileMenuOpen}>
+            <IconButton
+              size="large"
+              edge="start"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="info"
+            >
+              <AccountCircleIcon />
+            </IconButton>
+            <Typography
+              sx={{
+                mr: 1,
+                color: "#e0e0e0",
+                fontSize: "12px",
+                display: "inline-block",
+                mt: 1,
+                cursor: "pointer",
+              }}
+            >
               {" "}
               {user.userInformation.firstName +
                 " " +
                 user.userInformation.lastName}
             </Typography>
-          </IconButton>
+          </Box>
         ) : (
           <Button
             component={Link}
@@ -104,6 +114,7 @@ function ToolbarMenu() {
               color: "#e0e0e0",
               padding: "2px 20px 7px 5px",
               backgroundColor: "#111",
+              marginRight: "5px",
             }}
             endIcon={
               <LoginIcon
