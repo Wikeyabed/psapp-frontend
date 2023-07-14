@@ -1,16 +1,12 @@
 import Shop from "../../components/public/shop";
 import { useDispatch } from "react-redux";
-import {
-  getFilteredProducts,
-  getProducts,
-} from "../../redux/reducers/productSlice";
+import { getProducts } from "../../redux/reducers/productSlice";
 import { useEffect } from "react";
 
 export default function Home({ products }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts(products));
-    dispatch(getFilteredProducts(products));
   });
 
   return <Shop />;

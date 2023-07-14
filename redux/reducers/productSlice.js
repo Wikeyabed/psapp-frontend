@@ -3,7 +3,6 @@ import { PRODUCT } from "../constants/constants";
 
 const initialState = {
   products: [],
-  filteredProducts: [],
   shoppingCartIds: [],
   search: "",
   filter: "all",
@@ -16,10 +15,6 @@ export const productSlice = createSlice({
   reducers: {
     getProducts: (state, action) => {
       state.products = action.payload;
-    },
-
-    getFilteredProducts: (state, action) => {
-      state.filteredProducts = action.payload;
     },
 
     searchValue: (state, action) => {
@@ -54,7 +49,6 @@ export const {
   setPriceSort,
   removeFromCart,
   setFilter,
-  getFilteredProducts,
   loadCart,
   getProducts,
 } = productSlice.actions;

@@ -16,6 +16,7 @@ function Products() {
           borderRadius: "10px",
           padding: "10px 20px 20px",
           border: "20px sold #444 !important",
+          minHeight: { md: "600px" },
         }}
         elevation={2}
         component={Grid}
