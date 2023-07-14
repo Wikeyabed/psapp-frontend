@@ -56,7 +56,6 @@ function DropZone() {
   const handleChange = (files) => {
     setFiles(files);
     const convertedToArray = handlePreview(objToArray(files));
-    console.log("dropped");
     return convertedToArray;
   };
 

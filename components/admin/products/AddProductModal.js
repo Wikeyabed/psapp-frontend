@@ -9,7 +9,6 @@ export default function AddProductModal() {
     setOpen(true);
   };
   const handleClose = () => {
-    console.log("clicked on close");
     setOpen(false);
   };
 
