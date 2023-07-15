@@ -1,14 +1,21 @@
 import ProductPage from "../../components/public/shop/productPage";
 import PublicLayout from "../../components/public/layout";
-import { useRouter } from "next/router";
 
-export default function ProductSingle() {
-  const router = useRouter();
-
+export default function ProductSingle({ product }) {
   return (
     <PublicLayout>
-      product: {router.query.productId}
-      <ProductPage />
+      <ProductPage product={product} />
     </PublicLayout>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const res = await fetch(
+    `http://localhost:3000/api/v1/products/${context.params.productId}`
+  );
+  const product = await res.json();
+
+  console.log(product);
+
+  return { props: { product: product[0] } };
+};

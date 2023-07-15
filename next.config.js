@@ -24,7 +24,7 @@ module.exports = {
   reactStrictMode: true,
   distDir: "builded",
   images: {
-    domains: ["picsum.photos"],
+    domains: ["picsum.photos", "localhost"],
   },
 
   eslint: {

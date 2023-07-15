@@ -22,7 +22,9 @@ export default function MyApp(props) {
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
         <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          {/* <meta name="viewport" content="initial-scale=1, width=device-width" /> */}
+          <meta name="viewport" content="viewport-fit=cover" />
+
           {/* <meta name="application-name" content="PWA App" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta

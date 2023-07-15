@@ -3,45 +3,48 @@ import { Box, Typography, Chip } from "@mui/material";
 import PersianNumber from "../../../../src/PersianDigits";
 PersianNumber;
 
-function PriceBox() {
+function PriceBox({ price, discount = 0 }) {
   return (
     <Box
       sx={{
         pt: 3,
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: discount > 0 ? "space-between" : "space-evenly",
       }}
     >
-      <Typography
-        sx={{
-          color: "text.secondary",
-          position: "relative",
-          display: "inline-block",
-          "&:before": {
-            transform: "rotate(-10deg)",
-            content: '""',
-            borderBottom: "1px solid red",
-            width: "100%",
-            position: "absolute",
-            right: 0,
-            top: "40%",
-          },
-          "&:after": {
-            transform: "rotate(10deg)",
-            content: '""',
-            borderBottom: "1px solid red",
-            width: "100%",
-            position: "absolute",
-            right: 0,
-            top: "40%",
-          },
-        }}
-        variant="h6"
-      >
-        {" "}
-        <PersianNumber number={12500} />
-        &nbsp;ریال
-      </Typography>
+      {discount > 0 ? (
+        <Typography
+          sx={{
+            color: "text.secondary",
+            position: "relative",
+            display: "inline-block",
+            "&:before": {
+              transform: "rotate(-10deg)",
+              content: '""',
+              borderBottom: "1px solid red",
+              width: "100%",
+              position: "absolute",
+              right: 0,
+              top: "40%",
+            },
+            "&:after": {
+              transform: "rotate(10deg)",
+              content: '""',
+              borderBottom: "1px solid red",
+              width: "100%",
+              position: "absolute",
+              right: 0,
+              top: "40%",
+            },
+          }}
+          variant="h6"
+        >
+          <PersianNumber number={price} />
+          &nbsp;ریال
+        </Typography>
+      ) : (
+        " "
+      )}
       <Typography
         sx={{
           color: "text.primary",
@@ -49,10 +52,15 @@ function PriceBox() {
           typography: { xs: "h5", md: "h4" },
         }}
       >
-        <PersianNumber number={12500} />
+        <PersianNumber number={price * (1 - discount * 0.01)} />
         &nbsp;ریال
       </Typography>
-      <Chip label="10% تخفیف" color="success" variant="filled" />{" "}
+      <Chip
+        sx={{ alignSelf: "flex-end" }}
+        label={discount > 0 ? `${discount}% تخفیف` : "پیشنهاد ویژه"}
+        color={discount > 0 ? "success" : "info"}
+        variant="filled"
+      />{" "}
     </Box>
   );
 }

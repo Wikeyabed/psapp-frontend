@@ -6,7 +6,7 @@ import BottomTabs from "./BottomTabs";
 import SmallDescription from "./SmallDescription";
 import PriceBox from "./PriceBox";
 
-const ProductPage = () => {
+const ProductPage = ({ product }) => {
   return (
     <>
       <Grid container display={"flex"} justifyContent={"center"} spacing={3}>
@@ -40,7 +40,7 @@ const ProductPage = () => {
                   textAlign: { xs: "center", md: "left" },
                 }}
               >
-                <Slider />
+                <Slider images={product.images_url} />
               </Grid>
               <Grid
                 item
@@ -55,16 +55,18 @@ const ProductPage = () => {
                 <Typography
                   variant="h4"
                   sx={{
+                    fontSize: "35px",
                     paddingBottom: 5,
+                    fontWeight: "bold",
                   }}
                 >
-                  نام محصول
+                  {product.product_name}
                 </Typography>
 
-                <SmallDescription />
+                <SmallDescription desc={product.product_features.split("-")} />
 
                 <Divider />
-                <PriceBox />
+                <PriceBox discount={product.discount} price={product.price} />
 
                 <Box
                   sx={{
@@ -97,7 +99,7 @@ const ProductPage = () => {
             </Grid>
 
             <Grid item xs={12}>
-              <BottomTabs />
+              <BottomTabs description={product.product_description} />
             </Grid>
           </Paper>
         </Grid>

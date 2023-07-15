@@ -1,6 +1,8 @@
 import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
+import { Box } from "@mui/material";
+import Image from "next/image";
 
 function ThumbnailPlugin(mainRef) {
   return (slider) => {
@@ -35,7 +37,7 @@ function ThumbnailPlugin(mainRef) {
   };
 }
 
-export default function App() {
+export default function ProductSlicer({ images }) {
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
   });
@@ -52,62 +54,54 @@ export default function App() {
 
   return (
     <>
-      <div
+      <Box
         style={{
           borderRadius: "20px",
         }}
         ref={sliderRef}
         className="keen-slider"
       >
-        <div className="keen-slider__slide number-slide2">2</div>
-        <div className="keen-slider__slide number-slide3">3</div>
-        <div className="keen-slider__slide number-slide4">4</div>
-        <div className="keen-slider__slide number-slide5">5</div>
-        <div className="keen-slider__slide number-slide6">6</div>
-      </div>
+        {images.map((image, i) => (
+          <Box
+            sx={{
+              width: "100%",
+              height: "400px",
+            }}
+            key={image + i}
+            className="keen-slider__slide"
+          >
+            <Image
+              style={{ width: "100%", height: "100%" }}
+              width={0}
+              height={0}
+              sizes="100vw"
+              src={`http://localhost:3000/static/${image}`}
+              alt=""
+            />
+          </Box>
+        ))}
+      </Box>
 
-      <div ref={thumbnailRef} className="keen-slider thumbnail">
-        <div
-          style={{
-            borderRadius: "20px",
-          }}
-          className="keen-slider__slide number-slide2"
-        >
-          2
-        </div>
-        <div
-          style={{
-            borderRadius: "20px",
-          }}
-          className="keen-slider__slide number-slide3"
-        >
-          3
-        </div>
-        <div
-          style={{
-            borderRadius: "20px",
-          }}
-          className="keen-slider__slide number-slide4"
-        >
-          4
-        </div>
-        <div
-          style={{
-            borderRadius: "20px",
-          }}
-          className="keen-slider__slide number-slide5"
-        >
-          5
-        </div>
-        <div
-          style={{
-            borderRadius: "20px",
-          }}
-          className="keen-slider__slide number-slide6"
-        >
-          6
-        </div>
-      </div>
+      <Box ref={thumbnailRef} className="keen-slider thumbnail">
+        {images.map((image, i) => (
+          <Box
+            key={image + i}
+            style={{
+              borderRadius: "20px",
+            }}
+            className="keen-slider__slide number-slide2"
+          >
+            <Image
+              style={{ width: "100%", height: "200px", objectFit: "cover" }}
+              width={0}
+              height={0}
+              sizes="100vw"
+              src={`http://localhost:3000/static/${image}`}
+              alt=""
+            />
+          </Box>
+        ))}
+      </Box>
     </>
   );
 }
