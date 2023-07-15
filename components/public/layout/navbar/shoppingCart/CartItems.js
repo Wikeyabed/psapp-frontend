@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 
 import Typography from "@mui/material/Typography";
 
-import { Badge, Paper } from "@mui/material";
+import { Badge, Divider, Paper } from "@mui/material";
 
 const mapper = [1, 2, 3, 1];
 export default function CartItems() {
@@ -16,80 +16,77 @@ export default function CartItems() {
   return (
     <Box
       sx={{
-        width: { xs: "400px", md: "600px" },
+        width: { xs: "400px", md: "500px" },
         overflow: "hidden",
       }}
     >
       {mapper.map((i) => {
         return (
-          <Card
-            elevation={1}
-            key={i}
-            sx={{
-              display: "flex",
-              borderBottom:
-                i == mapper.length ? "4px solid #bbb" : "4px solid #efefef",
-              borderLeft: "4px solid #e2e2e2",
-              borderRight: "4px solid #e2e2e2",
+          <>
+            <Card
+              elevation={0}
+              key={i}
+              sx={{
+                display: "flex",
+                position: "relative",
+                borderRadius: 0,
+                borderBottom: "1px solid #ccc",
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{ width: 140 }}
+                image="/images/dog.jpg"
+                alt="Live from space album cover"
+              />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <CardContent sx={{ flex: "1 0 auto" }}>
+                  <Typography component="div" variant="h6">
+                    نام محصول{" "}
+                    <Badge
+                      sx={{ color: "#fff", padding: "10px" }}
+                      badgeContent={`x${1}`}
+                      color="info"
+                    ></Badge>
+                  </Typography>
 
-              borderTop: i == 1 ? "4px solid #bbb" : "none",
-              position: "relative",
-              borderRadius: 0,
-            }}
-          >
-            <CardMedia
-              component="img"
-              sx={{ width: 140 }}
-              image="/images/dog.jpg"
-              alt="Live from space album cover"
-            />
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <CardContent sx={{ flex: "1 0 auto" }}>
-                <Typography component="div" variant="h6">
-                  نام محصول{" "}
-                  <Badge
-                    sx={{ color: "#fff", padding: "10px" }}
-                    badgeContent={`x${1}`}
-                    color="info"
-                  ></Badge>
-                </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    color="text.secondary"
+                    component="div"
+                  >
+                    تعداد کل : 500
+                  </Typography>
 
-                <Typography
-                  variant="subtitle2"
-                  color="text.secondary"
-                  component="div"
-                >
-                  تعداد کل : 500
-                </Typography>
+                  <Typography
+                    variant="body2"
+                    color="secondary"
+                    component="div"
+                    sx={{
+                      position: "absolute",
+                      left: 10,
+                      bottom: 25,
+                    }}
+                  >
+                    مبلغ هر عدد : 4000
+                  </Typography>
 
-                <Typography
-                  variant="body2"
-                  color="secondary"
-                  component="div"
-                  sx={{
-                    position: "absolute",
-                    left: 10,
-                    bottom: 25,
-                  }}
-                >
-                  مبلغ هر عدد : 4000
-                </Typography>
-
-                <Typography
-                  variant="body2"
-                  color="secondary"
-                  component="div"
-                  sx={{
-                    position: "absolute",
-                    left: 10,
-                    bottom: 5,
-                  }}
-                >
-                  مبلغ کل : 4000
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
+                  <Typography
+                    variant="body2"
+                    color="secondary"
+                    component="div"
+                    sx={{
+                      position: "absolute",
+                      left: 10,
+                      bottom: 5,
+                    }}
+                  >
+                    مبلغ کل : 4000
+                  </Typography>
+                </CardContent>
+              </Box>
+            </Card>
+          </>
         );
       })}
 

@@ -9,6 +9,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import CartItems from "./CartItems";
+import Link from "../../../../../src/Link";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -73,6 +74,8 @@ function MiniShoppingCart() {
           }}
         >
           <Button
+            component={Link}
+            href="/shop/cart"
             sx={{ m: 1 }}
             color="secondary"
             variant="contained"
