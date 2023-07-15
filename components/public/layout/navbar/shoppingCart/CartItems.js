@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 
 import { Badge, Paper } from "@mui/material";
 
-const mapper = [1, 2, 3, 4];
+const mapper = [1, 2, 3, 1];
 export default function CartItems() {
   const theme = useTheme();
 
@@ -17,6 +17,7 @@ export default function CartItems() {
     <Box
       sx={{
         width: { xs: "400px", md: "600px" },
+        overflow: "hidden",
       }}
     >
       {mapper.map((i) => {

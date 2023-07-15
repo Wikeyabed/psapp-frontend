@@ -44,8 +44,22 @@ function MiniShoppingCart() {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        PaperProps={{
+          style: {
+            borderRadius: "10px",
+            padding: "10px",
+          },
+        }}
       >
-        <DialogTitle>سبد خرید</DialogTitle>
+        <DialogTitle
+          variant="h5"
+          sx={{
+            textAlign: "center",
+            mb: 2,
+          }}
+        >
+          سبد خرید
+        </DialogTitle>
         <DialogContent
           sx={{
             padding: 5,
@@ -53,11 +67,23 @@ function MiniShoppingCart() {
         >
           <CartItems />
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
+        <DialogActions
+          sx={{
+            padding: 4,
+          }}
+        >
+          <Button
+            sx={{ m: 1 }}
+            color="secondary"
+            variant="contained"
+            onClick={handleClose}
+          >
             پرداخت
           </Button>
-          <Button onClick={handleClose}>ادامه خرید</Button>
+
+          <Button variant="outlined" color="secondary" onClick={handleClose}>
+            ادامه خرید
+          </Button>
         </DialogActions>
       </Dialog>
     </>
