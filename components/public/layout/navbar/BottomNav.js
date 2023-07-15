@@ -31,9 +31,6 @@ export default function BottomNav() {
       <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
       <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
       <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-      <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-      <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-      <BottomNavigationAction label="تماس با ما" icon={<ContactIcon />} />
     </BottomNavigation>
   );
 }

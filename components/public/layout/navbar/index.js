@@ -11,9 +11,9 @@ export default function Navbar() {
   return (
     <>
       {/* bottom menu for mobile */}
-      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+      {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <BottomNav />
-      </Box>
+      </Box> */}
 
       {/* main menu for pc and laptop */}
       <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>

@@ -52,11 +52,13 @@ export default function App() {
 
   return (
     <>
-      <div ref={sliderRef} className="keen-slider">
-        <div className="keen-slider__slide number-slide1">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://via.placeholder.com/150x150" alt="" />
-        </div>
+      <div
+        style={{
+          borderRadius: "20px",
+        }}
+        ref={sliderRef}
+        className="keen-slider"
+      >
         <div className="keen-slider__slide number-slide2">2</div>
         <div className="keen-slider__slide number-slide3">3</div>
         <div className="keen-slider__slide number-slide4">4</div>
@@ -65,15 +67,46 @@ export default function App() {
       </div>
 
       <div ref={thumbnailRef} className="keen-slider thumbnail">
-        <div className="keen-slider__slide number-slide1">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="https://via.placeholder.com/150x150" alt="" />
+        <div
+          style={{
+            borderRadius: "20px",
+          }}
+          className="keen-slider__slide number-slide2"
+        >
+          2
         </div>
-        <div className="keen-slider__slide number-slide2">2</div>
-        <div className="keen-slider__slide number-slide3">3</div>
-        <div className="keen-slider__slide number-slide4">4</div>
-        <div className="keen-slider__slide number-slide5">5</div>
-        <div className="keen-slider__slide number-slide6">6</div>
+        <div
+          style={{
+            borderRadius: "20px",
+          }}
+          className="keen-slider__slide number-slide3"
+        >
+          3
+        </div>
+        <div
+          style={{
+            borderRadius: "20px",
+          }}
+          className="keen-slider__slide number-slide4"
+        >
+          4
+        </div>
+        <div
+          style={{
+            borderRadius: "20px",
+          }}
+          className="keen-slider__slide number-slide5"
+        >
+          5
+        </div>
+        <div
+          style={{
+            borderRadius: "20px",
+          }}
+          className="keen-slider__slide number-slide6"
+        >
+          6
+        </div>
       </div>
     </>
   );

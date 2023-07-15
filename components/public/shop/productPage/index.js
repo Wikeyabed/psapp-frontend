@@ -1,20 +1,33 @@
-import { Paper, Grid, Button, Typography } from "@mui/material";
+import { Paper, Grid, Button, Typography, Divider, Box } from "@mui/material";
 import { jsx, css } from "@emotion/react";
 import Slider from "./Slider";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import BottomTabs from "./BottomTabs";
+import SmallDescription from "./SmallDescription";
+import PriceBox from "./PriceBox";
 
 const ProductPage = () => {
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={false} md={2} lg={2.5}></Grid>
-        <Grid item xs={12} md={8} lg={7}>
+      <Grid container display={"flex"} justifyContent={"center"} spacing={3}>
+        {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
+        <Grid
+          sx={{
+            p: { xs: 2, md: 0 },
+          }}
+          item
+          xs={12}
+          md={8}
+          lg={8}
+        >
           <Paper
-            elevation={5}
+            elevation={7}
             sx={{
-              padding: 5,
-              marginTop: { xs: 3, sm: 5, md: 10 },
-              borderRadius: "10px",
+              padding: { xs: 0, md: 4 },
+
+              marginY: { xs: 2, sm: 5, md: 10 },
+
+              borderRadius: "20px",
             }}
           >
             <Grid container>
@@ -27,14 +40,6 @@ const ProductPage = () => {
                   textAlign: { xs: "center", md: "left" },
                 }}
               >
-                <Typography
-                  variant="h4"
-                  sx={{
-                    paddingY: 5,
-                  }}
-                >
-                  Product Name
-                </Typography>
                 <Slider />
               </Grid>
               <Grid
@@ -42,47 +47,61 @@ const ProductPage = () => {
                 xs={12}
                 md={6}
                 sx={{
+                  position: "relative",
                   padding: 2,
-                  paddingTop: { xs: 5, md: 30 },
                   textAlign: { xs: "center", md: "left" },
                 }}
               >
-                <ul>
-                  <li>f1</li>
-                  <li>f2</li>
-                  <li>f3</li>
-                  <li>f4</li>
-                  <li>f5</li>
-                </ul>
-                <Typography variant="caption">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                  pellentesque consequat quam, sit amet efficitur libero
-                  ullamcorper quis. Praesent at aliquet arcu, ut eleifend nunc.
-                </Typography>
-                <Button
+                <Typography
+                  variant="h4"
                   sx={{
-                    py: 2,
-                    px: { xs: 2, sm: 3 },
-                    borderRadius: "10px",
+                    paddingBottom: 5,
                   }}
-                  variant="contained"
-                  size="large"
-                  color="primary"
-                  startIcon={
-                    <ShoppingCartIcon
-                      sx={{
-                        ml: 2,
-                      }}
-                    />
-                  }
                 >
-                  Add to Cart
-                </Button>
+                  نام محصول
+                </Typography>
+
+                <SmallDescription />
+
+                <Divider />
+                <PriceBox />
+
+                <Box
+                  sx={{
+                    mt: { xs: 2 },
+                  }}
+                >
+                  <Button
+                    sx={{
+                      mt: 2,
+                      py: 2,
+                      px: { xs: 2, sm: 3 },
+                      borderRadius: "10px",
+                    }}
+                    fullWidth={true}
+                    variant="contained"
+                    size="large"
+                    color="secondary"
+                    startIcon={
+                      <ShoppingCartIcon
+                        sx={{
+                          ml: 2,
+                        }}
+                      />
+                    }
+                  >
+                    اضافه کردن به سبد خرید
+                  </Button>
+                </Box>
               </Grid>
+            </Grid>
+
+            <Grid item xs={12}>
+              <BottomTabs />
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={false} md={2} lg={2.5}></Grid>
+        {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
       </Grid>
     </>
   );
