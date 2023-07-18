@@ -13,7 +13,7 @@ export default function Home({ products }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.API_URL}/products`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
   const products = await res.json();
 
   return {

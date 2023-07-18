@@ -16,15 +16,15 @@ function AuthCheck({ children }) {
       dispatch(startProgress());
       setCheckToken(true);
       console.log("check token", checkToken);
-      var myHeaders = new Headers();
+      let myHeaders = new Headers();
       myHeaders.append("token", token);
 
-      var requestOptions = {
+      let requestOptions = {
         method: "GET",
         headers: myHeaders,
       };
 
-      fetch(`${process.env.API_URL}/token`, requestOptions)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/token`, requestOptions)
         .then((response, error) => {
           if (response.status == 200) {
             return response.json();

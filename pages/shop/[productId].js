@@ -11,7 +11,7 @@ export default function ProductSingle({ product }) {
 
 export const getServerSideProps = async (context) => {
   const res = await fetch(
-    `${process.env.API_URL}/products/${context.params.productId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/products/${context.params.productId}`
   );
   const product = await res.json();
 

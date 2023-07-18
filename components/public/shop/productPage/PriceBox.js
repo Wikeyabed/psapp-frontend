@@ -52,7 +52,7 @@ function PriceBox({ price, discount = 0, quantity }) {
           typography: { xs: "h5", md: "h4" },
         }}
       >
-        {price * (1 - discount * 0.01) * quantity}
+        {persianNumber(price * (1 - discount * 0.01) * quantity)}
         &nbsp;ریال
       </Typography>
       <Chip

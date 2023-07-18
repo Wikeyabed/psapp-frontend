@@ -62,8 +62,8 @@ function LoginForm() {
 
   const handlePhoneNumber = (event) => {
     setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
-    var regex = new RegExp("^(\\+98|0)?9\\d{9}$");
-    var result = regex.test(event.target.value);
+    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+    let result = regex.test(event.target.value);
 
     if (result) {
       setIsValid(true);
@@ -79,45 +79,46 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     dispatch(startProgress());
-    var myHeaders = new Headers();
+    let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    var urlencoded = new URLSearchParams();
+    let urlencoded = new URLSearchParams();
     urlencoded.append("phone_number", loginInfo.phoneNumber);
     urlencoded.append("password", loginInfo.password);
-    var requestOptions = {
+    let requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
     };
-    await fetch(`${process.env.API_URL}/auth/login`, requestOptions).then(
-      (res) => {
-        if (res.status == 200) {
-          res.json().then((data) => {
-            console.log(data);
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      requestOptions
+    ).then((res) => {
+      if (res.status == 200) {
+        res.json().then((data) => {
+          console.log(data);
 
-            // set token to local storage
-            localStorage.setItem("token", data.token);
+          // set token to local storage
+          localStorage.setItem("token", data.token);
 
-            dispatch(
-              userLogin({
-                firstName: data.user.first_name,
-                lastName: data.user.last_name,
-                phoneNumber: data.user.phone_number,
-                address: data.user.address,
-                email: data.user.email,
-                refer: data.user.refer,
-                invoiceIds: data.user.invoices_id,
-                shoppingCartIds: data.user.shopping_list_id,
-              })
-            );
-          });
+          dispatch(
+            userLogin({
+              firstName: data.user.first_name,
+              lastName: data.user.last_name,
+              phoneNumber: data.user.phone_number,
+              address: data.user.address,
+              email: data.user.email,
+              refer: data.user.refer,
+              invoiceIds: data.user.invoices_id,
+              shoppingCartIds: data.user.shopping_list_id,
+            })
+          );
+        });
 
-          dispatch(endProgress());
-        } else {
-          res.text("error");
-        }
+        dispatch(endProgress());
+      } else {
+        res.text("error");
       }
-    );
+    });
   };
 
   return (
