@@ -89,7 +89,7 @@ function LoginForm() {
       headers: myHeaders,
       body: urlencoded,
     };
-    await fetch("http://localhost:3000/api/v1/auth/login", requestOptions).then(
+    await fetch(`${process.env.API_URL}/auth/login`, requestOptions).then(
       (res) => {
         if (res.status == 200) {
           res.json().then((data) => {

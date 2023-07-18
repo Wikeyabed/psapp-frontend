@@ -13,7 +13,7 @@ export default function Home({ products }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3000/api/v1/products/");
+  const res = await fetch(`${process.env.API_URL}/products`);
   const products = await res.json();
 
   return {

@@ -24,7 +24,7 @@ function AuthCheck({ children }) {
         headers: myHeaders,
       };
 
-      fetch("http://localhost:3000/api/v1/token", requestOptions)
+      fetch(`${process.env.API_URL}/token`, requestOptions)
         .then((response, error) => {
           if (response.status == 200) {
             return response.json();
