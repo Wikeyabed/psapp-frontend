@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Typography, Chip } from "@mui/material";
-import PersianNumber from "../../../../src/PersianDigits";
-PersianNumber;
 
-function PriceBox({ price, discount = 0 }) {
+import { persianNumber } from "../../../../src/PersianDigits";
+
+function PriceBox({ price, discount = 0, quantity }) {
   return (
     <Box
       sx={{
@@ -39,7 +39,7 @@ function PriceBox({ price, discount = 0 }) {
           }}
           variant="h6"
         >
-          <PersianNumber number={price} />
+          {persianNumber(price)}
           &nbsp;ریال
         </Typography>
       ) : (
@@ -52,12 +52,14 @@ function PriceBox({ price, discount = 0 }) {
           typography: { xs: "h5", md: "h4" },
         }}
       >
-        <PersianNumber number={price * (1 - discount * 0.01)} />
+        {price * (1 - discount * 0.01) * quantity}
         &nbsp;ریال
       </Typography>
       <Chip
         sx={{ alignSelf: "flex-end" }}
-        label={discount > 0 ? `${discount}% تخفیف` : "پیشنهاد ویژه"}
+        label={
+          discount > 0 ? `${persianNumber(discount)}% تخفیف` : "پیشنهاد ویژه"
+        }
         color={discount > 0 ? "success" : "info"}
         variant="filled"
       />{" "}

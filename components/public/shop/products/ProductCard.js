@@ -8,10 +8,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Tooltip from "@mui/material/Tooltip";
-import AlertBar from "./AlertBar";
 import CircularProgress from "@mui/material/CircularProgress";
-import Quantity from "./Quantity";
-import PersianNumber from "../../../../src/PersianDigits";
+import { persianNumber } from "../../../../src/PersianDigits";
+
+import Link from "../../../../src/Link";
 
 export default function ProductCard({
   productName,
@@ -23,29 +23,8 @@ export default function ProductCard({
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLoading = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  };
-  const handleAlertOpen = () => {
-    setAlert(true);
-    handleLoading();
-  };
-
-  useEffect(() => {
-    if (alert) {
-      setTimeout(() => {
-        setAlert(false);
-      }, 3000);
-    }
-    return () => {};
-  }, [alert]);
-
   return (
     <Card elevation={2} sx={{ position: "relative", borderRadius: "10px" }}>
-      <AlertBar openAlert={alert} />
       <CardMedia
         sx={{
           height: 250,
@@ -106,15 +85,15 @@ export default function ProductCard({
           }}
           variant="h6"
         >
-          <PersianNumber number={price} />
+          {persianNumber(price)}
           &nbsp;ریال
         </Typography>
       </CardContent>
       <CardActions>
         <Tooltip title="اضافه کردن به سبد خرید" placement="bottom">
           <Button
-            disabled={loading}
-            onClick={handleAlertOpen}
+            href={`/shop/${productCode}/`}
+            component={Link}
             sx={{
               paddingLeft: 5,
               marginRight: "auto",
@@ -130,16 +109,7 @@ export default function ProductCard({
             variant="contained"
             startIcon={loading ? "" : <AddShoppingCartIcon sx={{ ml: 2 }} />}
           >
-            {loading ? (
-              <CircularProgress
-                size={26.3}
-                sx={{
-                  color: "#999",
-                }}
-              />
-            ) : (
-              "خرید"
-            )}
+            خرید
           </Button>
         </Tooltip>
       </CardActions>

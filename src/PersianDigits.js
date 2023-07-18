@@ -1,6 +1,4 @@
-import React from "react";
-
-export default function PersianNumber({ number }) {
+export function persianNumber(number) {
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -12,5 +10,5 @@ export default function PersianNumber({ number }) {
     return persianMap[parseInt(m)];
   });
 
-  return <span>{persian_number}</span>;
+  return persian_number;
 }

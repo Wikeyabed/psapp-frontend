@@ -1,15 +1,45 @@
 import { Paper, Grid, Button, Typography, Divider, Box } from "@mui/material";
-import { jsx, css } from "@emotion/react";
+
 import Slider from "./Slider";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CircularProgress from "@mui/material/CircularProgress";
+import AlertBar from "../products/AlertBar";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import BottomTabs from "./BottomTabs";
 import SmallDescription from "./SmallDescription";
 import PriceBox from "./PriceBox";
+import { useState, useEffect } from "react";
+
+import Quantity from "./Quantity";
 
 const ProductPage = ({ product }) => {
+  const [alert, setAlert] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleAlertOpen = () => {
+    setAlert(true);
+    handleLoading();
+  };
+
+  const handleLoading = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    if (alert) {
+      setTimeout(() => {
+        setAlert(false);
+      }, 2000);
+    }
+    return () => {};
+  }, [alert]);
   return (
     <>
       <Grid container display={"flex"} justifyContent={"center"} spacing={3}>
+        <AlertBar openAlert={alert} />
+
         {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
         <Grid
           sx={{
@@ -64,9 +94,8 @@ const ProductPage = ({ product }) => {
                 </Typography>
 
                 <SmallDescription desc={product.product_features.split("-")} />
-
                 <Divider />
-                <PriceBox discount={product.discount} price={product.price} />
+                <Quantity discount={product.discount} price={product.price} />
 
                 <Box
                   sx={{
@@ -74,25 +103,35 @@ const ProductPage = ({ product }) => {
                   }}
                 >
                   <Button
+                    disabled={loading}
+                    onClick={handleAlertOpen}
                     sx={{
-                      mt: 2,
-                      py: 2,
-                      px: { xs: 2, sm: 3 },
+                      paddingLeft: 5,
+                      marginRight: "auto",
                       borderRadius: "10px",
+                      backgroundColor: "#274060",
+
+                      border: `2px solid ${loading ? "#ccc" : "#1B2845"} `,
+                      borderBottom: `4px solid ${loading ? "#999" : "#1B2845"}`,
                     }}
-                    fullWidth={true}
-                    variant="contained"
                     size="large"
                     color="secondary"
+                    fullWidth
+                    variant="contained"
                     startIcon={
-                      <ShoppingCartIcon
-                        sx={{
-                          ml: 2,
-                        }}
-                      />
+                      loading ? "" : <AddShoppingCartIcon sx={{ ml: 2 }} />
                     }
                   >
-                    اضافه کردن به سبد خرید
+                    {loading ? (
+                      <CircularProgress
+                        size={26.3}
+                        sx={{
+                          color: "#999",
+                        }}
+                      />
+                    ) : (
+                      "اضافه کردن به سبد خرید"
+                    )}
                   </Button>
                 </Box>
               </Grid>
