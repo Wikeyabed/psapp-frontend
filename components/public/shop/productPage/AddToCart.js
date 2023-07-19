@@ -47,7 +47,7 @@ function AddToCart({ quantity, productId }) {
       credentials: "include",
     };
 
-    await fetch(`http://localhost:3000/api/v1/cart/add`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add`, requestOptions)
       .then((response) => response.json())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));

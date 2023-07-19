@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -10,13 +9,19 @@ import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import CartItems from "./CartItems";
 import Link from "../../../../../src/Link";
+import { useState, useEffect, forwardRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../../../../redux/reducers/productSlice";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function MiniShoppingCart() {
-  const [open, setOpen] = React.useState(false);
+  const allProducts = useSelector((state) => state.product.products);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,6 +30,44 @@ function MiniShoppingCart() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const fetchProducts = () => {
+    if (!allProducts.length > 0) {
+      var myHeaders = new Headers();
+
+      var requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow",
+      };
+
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => dispatch(getProducts(result)))
+        .catch((error) => console.log("error", error));
+    }
+  };
+
+  const checkCart = () => {
+    var myHeaders = new Headers();
+
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+      credentials: "include",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {})
+      .catch((error) => console.log("error", error));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+    checkCart();
+  }, [open]);
 
   return (
     <>
@@ -66,7 +109,7 @@ function MiniShoppingCart() {
             padding: 5,
           }}
         >
-          <CartItems />
+          <CartItems products={products} />
         </DialogContent>
         <DialogActions
           sx={{

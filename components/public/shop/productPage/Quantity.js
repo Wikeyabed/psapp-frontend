@@ -77,7 +77,11 @@ function Quantity({ discount, price, quantity, productId }) {
         </ButtonGroup>
       </Box>
       <PriceBox discount={discount} price={price} quantity={counter} />
-      <AddToCart quantity={quantity * counter} productId={productId} />
+      <AddToCart
+        quantity={quantity * counter}
+        counter={counter}
+        productId={productId}
+      />
     </>
   );
 }
