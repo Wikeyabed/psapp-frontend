@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 
 import { Box, Button, CircularProgress } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
-import { cookies } from "next/headers";
 
 import AlertBar from "../products/AlertBar";
-
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../../../redux/reducers/productSlice";
 function AddToCart({ quantity, productId }) {
+  const dispatch = useDispatch();
+  const allProducts = useSelector((state) => state.product.products);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -22,13 +25,28 @@ function AddToCart({ quantity, productId }) {
     }, 2000);
   };
 
+  const findProductFromStore = (SessionProducts, StoredProducts) => {
+    return StoredProducts.filter((storeProduct) => {
+      return SessionProducts.some(
+        (sessionProduct) =>
+          sessionProduct.product_id === storeProduct.product_id
+      );
+    }).map((product, i) => {
+      if (SessionProducts[i].product_id == product.product_id) {
+      }
+      return {
+        ...product,
+        ...{ cart_quantity: SessionProducts[i].quantity },
+      };
+    });
+  };
+
   useEffect(() => {
     if (alert) {
       setTimeout(() => {
         setAlert(false);
       }, 2000);
     }
-    return () => {};
   }, [alert]);
 
   const handleAddToCart = async () => {
@@ -49,8 +67,36 @@ function AddToCart({ quantity, productId }) {
 
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add`, requestOptions)
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        dispatch(addToCart(findProductFromStore(result, allProducts)));
+        handleUserCart(
+          JSON.stringify(findProductFromStore(result, allProducts))
+        );
+      })
       .catch((error) => console.log("error", error));
+  };
+
+  const handleUserCart = (products) => {
+    if (isLoggedIn) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      myHeaders.append("token", localStorage.getItem("token"));
+
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("shopping_list_id", products);
+
+      var requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/user`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+    }
   };
 
   return (

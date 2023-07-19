@@ -22,7 +22,6 @@ export default function AlertBar({ openAlert }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log(open);
     if (openAlert) {
       setOpen(true);
     }

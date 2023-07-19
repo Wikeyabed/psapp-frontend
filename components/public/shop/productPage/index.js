@@ -67,7 +67,7 @@ const ProductPage = ({ product }) => {
                 <Divider />
                 <Quantity
                   productId={product.product_id}
-                  quantity={product.quantity}
+                  quantity={product.product_quantity}
                   discount={product.discount}
                   price={product.price}
                 />

@@ -3,7 +3,7 @@ import { PRODUCT } from "../constants/constants";
 
 const initialState = {
   products: [],
-  shoppingCartIds: [],
+  shoppingCart: [],
   search: "",
   filter: "all",
   priceSort: "cheap",
@@ -28,14 +28,14 @@ export const productSlice = createSlice({
       state.priceSort = action.payload;
     },
     addToCart: (state, action) => {
-      state.shoppingCartIds.push(action.payload);
+      state.shoppingCart = action.payload;
     },
 
-    removeFromCart: (state, action) => {
-      state.shoppingCartIds = state.shoppingCartIds.filter(
-        (id) => id !== action.payload
-      );
-    },
+    // removeFromCart: (state, action) => {
+    //   state.shoppingCart = state.shoppingCartIds.filter(
+    //     (id) => id !== action.payload
+    //   );
+    // },
 
     loadCart: (state, action) => {
       state.shoppingCartIds = action.payload;
