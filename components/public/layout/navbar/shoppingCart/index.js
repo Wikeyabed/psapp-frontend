@@ -16,6 +16,7 @@ import {
   addToCart,
   getProducts,
 } from "../../../../../redux/reducers/productSlice";
+import { persianNumber } from "../../../../../src/PersianDigits";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -100,13 +101,14 @@ function MiniShoppingCart() {
           color: "#fff",
         }}
       >
-        <Badge color="info" badgeContent={shoppingCart.length}>
+        <Badge color="info" badgeContent={persianNumber(shoppingCart.length)}>
           <AddShoppingCartIcon />
         </Badge>
       </IconButton>
       <Dialog
         open={open}
         TransitionComponent={Transition}
+        maxWidth="md"
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"

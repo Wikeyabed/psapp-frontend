@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Badge } from "@mui/material";
 
 import { useSelector } from "react-redux";
+import DeleteFromCart from "./DeleteFromCart";
 
 export default function CartItems() {
   const cartItems = useSelector((state) => state.product.shoppingCart);
@@ -16,7 +17,7 @@ export default function CartItems() {
   return (
     <Box
       sx={{
-        minWidth: { xs: "400px", md: "500px" },
+        minWidth: { xs: "400px", md: "700px" },
 
         overflow: "hidden",
       }}
@@ -49,10 +50,17 @@ export default function CartItems() {
                     {product.product_name}
 
                     <Badge
-                      sx={{ color: "#fff", padding: "10px" }}
-                      badgeContent={`x${product.cart_quantity / product.stack}`}
+                      sx={{
+                        color: "#fff",
+                        paddingX: "40px",
+                        marginRight: "30px",
+                      }}
+                      badgeContent={`${persianNumber(
+                        product.cart_quantity / product.stack
+                      )} ${"بسته"} `}
                       color="info"
-                    ></Badge>
+                    />
+                    <DeleteFromCart productId={product.product_id} />
                   </Typography>
 
                   <Typography

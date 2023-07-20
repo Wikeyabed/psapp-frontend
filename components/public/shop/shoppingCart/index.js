@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import CartItems from "../../layout/navbar/shoppingCart/CartItems";
 import PublicLayout from "../../layout";
@@ -12,7 +13,6 @@ import {
 
 function ShoppingCart() {
   const allProducts = useSelector((state) => state.product.products);
-  const shoppingCart = useSelector((state) => state.product.shoppingCart);
   const dispatch = useDispatch();
 
   const findProductFromStore = (SessionProducts, StoredProducts) => {

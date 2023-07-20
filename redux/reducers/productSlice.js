@@ -31,14 +31,10 @@ export const productSlice = createSlice({
       state.shoppingCart = action.payload;
     },
 
-    // removeFromCart: (state, action) => {
-    //   state.shoppingCart = state.shoppingCartIds.filter(
-    //     (id) => id !== action.payload
-    //   );
-    // },
-
-    loadCart: (state, action) => {
-      state.shoppingCartIds = action.payload;
+    removeFromCart: (state, action) => {
+      state.shoppingCart = state.shoppingCart.filter(
+        (product) => product.product_id != action.payload
+      );
     },
   },
 });
