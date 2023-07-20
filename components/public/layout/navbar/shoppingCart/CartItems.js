@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-
+import { persianNumber } from "../../../../../src/PersianDigits";
 import Typography from "@mui/material/Typography";
 
 import { Badge } from "@mui/material";
@@ -11,16 +11,23 @@ import { useSelector } from "react-redux";
 
 export default function CartItems() {
   const cartItems = useSelector((state) => state.product.shoppingCart);
+
+  let totalPrice = 0;
   return (
     <Box
       sx={{
-        width: { xs: "400px", md: "500px" },
+        minWidth: { xs: "400px", md: "500px" },
+
         overflow: "hidden",
       }}
     >
       {cartItems.map((product, i) => {
+        const discountedPrice = product.price * (1 - product.discount * 0.01);
+
+        totalPrice += discountedPrice * product.cart_quantity;
+
         return (
-          <div key={i}>
+          <Box key={i}>
             <Card
               elevation={0}
               sx={{
@@ -53,7 +60,7 @@ export default function CartItems() {
                     color="text.secondary"
                     component="div"
                   >
-                    تعداد کل : {product.cart_quantity}
+                    تعداد کل : {persianNumber(product.cart_quantity)} عدد
                   </Typography>
 
                   <Typography
@@ -66,7 +73,7 @@ export default function CartItems() {
                       bottom: 25,
                     }}
                   >
-                    مبلغ هر عدد : {product.price}
+                    مبلغ هر عدد : {persianNumber(discountedPrice)} ریال
                   </Typography>
 
                   <Typography
@@ -79,25 +86,28 @@ export default function CartItems() {
                       bottom: 5,
                     }}
                   >
-                    مبلغ کل : {product.price * product.cart_quantity}
+                    مبلغ کل :{" "}
+                    {persianNumber(discountedPrice * product.cart_quantity)}{" "}
+                    ریال
                   </Typography>
                 </CardContent>
               </Box>
             </Card>
-          </div>
+          </Box>
         );
       })}
 
       <Box>
         <Typography
-          variant="h5"
+          color="Highlight"
+          variant="subtitle1"
           sx={{
-            direction: "ltr",
+            direction: "ltr !important",
             textAlign: "center",
-            mt: 2,
+            mt: 4,
           }}
         >
-          {/* 120000 : مبلغ نهایی */}
+          مبلغ نهایی به ریال : {persianNumber(totalPrice * 1)}
         </Typography>
       </Box>
     </Box>

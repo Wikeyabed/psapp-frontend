@@ -26,7 +26,6 @@ function MiniShoppingCart() {
   const shoppingCart = useSelector((state) => state.product.shoppingCart);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [products, setProducts] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
