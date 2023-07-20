@@ -36,7 +36,7 @@ function AddToCart({ counter, price, productId, fullStack }) {
       }
       return {
         ...product,
-        ...{ cart_quantity: SessionProducts[i].quantity, counter: counter },
+        ...{ cart_quantity: SessionProducts[i].quantity },
       };
     });
   };

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -11,7 +12,10 @@ import CartItems from "./CartItems";
 import Link from "../../../../../src/Link";
 import { useState, useEffect, forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../../../../redux/reducers/productSlice";
+import {
+  addToCart,
+  getProducts,
+} from "../../../../../redux/reducers/productSlice";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -30,6 +34,22 @@ function MiniShoppingCart() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const findProductFromStore = (SessionProducts, StoredProducts) => {
+    return StoredProducts.filter((storeProduct) => {
+      return SessionProducts.some(
+        (sessionProduct) =>
+          sessionProduct.product_id === storeProduct.product_id
+      );
+    }).map((product, i) => {
+      if (SessionProducts[i].product_id == product.product_id) {
+      }
+      return {
+        ...product,
+        ...{ cart_quantity: SessionProducts[i].quantity },
+      };
+    });
   };
 
   const fetchProducts = () => {
@@ -59,10 +79,10 @@ function MiniShoppingCart() {
       credentials: "include",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setProducts(result);
+        dispatch(addToCart(findProductFromStore(result, allProducts)));
       })
       .catch((error) => console.log("error", error));
   };
@@ -112,7 +132,7 @@ function MiniShoppingCart() {
             padding: 5,
           }}
         >
-          <CartItems products={products} />
+          <CartItems />
         </DialogContent>
         <DialogActions
           sx={{
