@@ -19,6 +19,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 function MiniShoppingCart() {
   const allProducts = useSelector((state) => state.product.products);
+  const shoppingCart = useSelector((state) => state.product.shoppingCart);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [products, setProducts] = useState([]);
@@ -60,7 +61,9 @@ function MiniShoppingCart() {
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart`, requestOptions)
       .then((response) => response.json())
-      .then((result) => {})
+      .then((result) => {
+        setProducts(result);
+      })
       .catch((error) => console.log("error", error));
   };
 
@@ -78,7 +81,7 @@ function MiniShoppingCart() {
           color: "#fff",
         }}
       >
-        <Badge color="info" badgeContent={4}>
+        <Badge color="info" badgeContent={shoppingCart.length}>
           <AddShoppingCartIcon />
         </Badge>
       </IconButton>

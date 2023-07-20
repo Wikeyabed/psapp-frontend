@@ -5,7 +5,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import PriceBox from "./PriceBox";
 import { persianNumber } from "../../../../src/PersianDigits";
 import AddToCart from "./AddToCart";
-function Quantity({ discount, price, quantity, productId }) {
+function Quantity({ discount, price, stack, quantity, productId }) {
   const [counter, setCounter] = useState(1);
 
   const handleIncrement = () => {
@@ -76,9 +76,15 @@ function Quantity({ discount, price, quantity, productId }) {
           )}
         </ButtonGroup>
       </Box>
-      <PriceBox discount={discount} price={price} quantity={counter} />
+      <PriceBox
+        discount={discount}
+        price={price}
+        quantity={quantity}
+        counter={counter}
+        stack={stack}
+      />
       <AddToCart
-        quantity={quantity * counter}
+        fullStack={stack * counter}
         counter={counter}
         productId={productId}
       />

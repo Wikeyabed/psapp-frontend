@@ -7,7 +7,10 @@ import Typography from "@mui/material/Typography";
 
 import { Badge } from "@mui/material";
 
-export default function CartItems({ products }) {
+import { useSelector } from "react-redux";
+
+export default function CartItems() {
+  const cartItems = useSelector((state) => state.product.shoppingCart);
   return (
     <Box
       sx={{
@@ -15,7 +18,7 @@ export default function CartItems({ products }) {
         overflow: "hidden",
       }}
     >
-      {products.map((product, i) => {
+      {cartItems.map((product, i) => {
         return (
           <div key={i}>
             <Card
@@ -30,17 +33,17 @@ export default function CartItems({ products }) {
               <CardMedia
                 component="img"
                 sx={{ width: 140 }}
-                image={`${process.env.NEXT_PUBLIC_API_URL}/static/${product.images_url[0]}`}
+                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
                 alt="Live from space album cover"
               />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
                   <Typography component="div" variant="h6">
-                    {products.product_name}
+                    {product.product_name}
 
                     <Badge
                       sx={{ color: "#fff", padding: "10px" }}
-                      badgeContent={`x${1}`}
+                      badgeContent={`x${product.cart_quantity / product.stack}`}
                       color="info"
                     ></Badge>
                   </Typography>
@@ -50,7 +53,7 @@ export default function CartItems({ products }) {
                     color="text.secondary"
                     component="div"
                   >
-                    تعداد کل : 500
+                    تعداد کل : {product.cart_quantity}
                   </Typography>
 
                   <Typography
@@ -63,7 +66,7 @@ export default function CartItems({ products }) {
                       bottom: 25,
                     }}
                   >
-                    مبلغ هر عدد : 4000
+                    مبلغ هر عدد : {product.price}
                   </Typography>
 
                   <Typography
@@ -76,7 +79,7 @@ export default function CartItems({ products }) {
                       bottom: 5,
                     }}
                   >
-                    مبلغ کل : 4000
+                    مبلغ کل : {product.price * product.cart_quantity}
                   </Typography>
                 </CardContent>
               </Box>

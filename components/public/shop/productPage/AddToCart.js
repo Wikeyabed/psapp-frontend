@@ -6,7 +6,7 @@ import { AddShoppingCart } from "@mui/icons-material";
 import AlertBar from "../products/AlertBar";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/reducers/productSlice";
-function AddToCart({ quantity, productId }) {
+function AddToCart({ counter, price, productId, fullStack }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -36,7 +36,7 @@ function AddToCart({ quantity, productId }) {
       }
       return {
         ...product,
-        ...{ cart_quantity: SessionProducts[i].quantity },
+        ...{ cart_quantity: SessionProducts[i].quantity, counter: counter },
       };
     });
   };
@@ -56,7 +56,7 @@ function AddToCart({ quantity, productId }) {
 
     let urlencoded = new URLSearchParams();
     urlencoded.append(`product_id`, `${productId}`);
-    urlencoded.append(`quantity`, `${quantity}`);
+    urlencoded.append(`quantity`, `${fullStack}`);
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
