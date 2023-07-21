@@ -1,12 +1,10 @@
 import React from "react";
-import PhoneVerification from "../../components/public/auth/PhoneVerification";
-import RegisterForm from "../../components/public/auth/RegisterForm";
+import RegisterSteps from "../../components/public/auth/RegisterSteps";
 
 function Register() {
   return (
     <>
-      <PhoneVerification />
-      <RegisterForm />
+      <RegisterSteps />
     </>
   );
 }

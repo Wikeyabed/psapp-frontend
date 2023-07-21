@@ -40,7 +40,6 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   minWidth: "100%",
   direction: "rtl",
   textAlign: "center !important",
-  // display: "block",
   "& label": {
     transformOrigin: "right !important",
     textAlign: "right !important",
@@ -90,7 +89,7 @@ function LoginForm() {
       body: urlencoded,
     };
     await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
       requestOptions
     ).then((res) => {
       if (res.status == 200) {
@@ -129,8 +128,8 @@ function LoginForm() {
             <FormGroup>
               <Grid component={Item} elevation={4} container>
                 <Grid sx={{ mb: 6 }} item xs={12}>
-                  <Typography sx={{ mb: 5 }} variant="h6">
-                    ورود به حساب کاربری
+                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
+                    ورود بـه حساب کـاربـری
                   </Typography>
 
                   <RtlTextField
