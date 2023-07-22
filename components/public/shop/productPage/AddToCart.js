@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
 
-import AlertBar from "../products/AlertBar";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/reducers/productSlice";
+import { setNotificationOn } from "../../../../redux/reducers/notificationSlice";
+
 function AddToCart({ counter, price, productId, fullStack }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
@@ -14,7 +15,12 @@ function AddToCart({ counter, price, productId, fullStack }) {
   const [loading, setLoading] = useState(false);
 
   const handleAlertOpen = () => {
-    setAlert(true);
+    dispatch(
+      setNotificationOn({
+        message: "محصول با موفقیت به سبد خرید اضافه شد ",
+        color: "success",
+      })
+    );
     handleLoading();
   };
 
@@ -40,14 +46,6 @@ function AddToCart({ counter, price, productId, fullStack }) {
       };
     });
   };
-
-  useEffect(() => {
-    if (alert) {
-      setTimeout(() => {
-        setAlert(false);
-      }, 2000);
-    }
-  }, [alert]);
 
   const handleAddToCart = async () => {
     handleAlertOpen();
@@ -105,8 +103,6 @@ function AddToCart({ counter, price, productId, fullStack }) {
         mt: { xs: 2 },
       }}
     >
-      <AlertBar openAlert={alert} />
-
       <Button
         disabled={loading}
         onClick={handleAddToCart}

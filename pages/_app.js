@@ -11,7 +11,7 @@ import { store } from "../redux/store.js";
 import { Provider } from "react-redux";
 import AuthCheck from "../components/HOC/AuthCheck";
 import TopLoadingBar from "../components/public/layout/TopLoadingBar";
-
+import Notification from "../components/public/notification";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -111,6 +111,7 @@ export default function MyApp(props) {
           <CssBaseline />
           <TopLoadingBar />
           <AuthCheck>
+            <Notification />
             <Component {...pageProps} />
           </AuthCheck>
         </ThemeProvider>
