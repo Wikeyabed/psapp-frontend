@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
-import * as persianRex from "persian-rex";
-
+import { useRouter } from "next/router";
 import {
   Box,
   Grid,
@@ -54,6 +53,8 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function RegisterForm() {
+  const router = useRouter();
+  const { id } = router.query;
   const dispatch = useDispatch();
 
   const [RegisterInfo, setRegisterInfo] = useState({
@@ -130,52 +131,67 @@ function RegisterForm() {
   };
 
   const handleSubmit = async (event) => {
+    console.log(id);
+    const { email, password, passwordR, firstName, lastName, address } =
+      RegisterInfo;
     event.preventDefault();
-    dispatch(startProgress());
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
     let urlencoded = new URLSearchParams();
-    urlencoded.append("phone_number", RegisterInfo.phoneNumber);
-    urlencoded.append("password", RegisterInfo.password);
+    urlencoded.append("first_name", firstName);
+    urlencoded.append("last_name", lastName);
+    urlencoded.append("email", email);
+    urlencoded.append("password", password);
+    urlencoded.append("phone_number", "09387001058");
+    urlencoded.append("gender", "male");
+    urlencoded.append("address", address);
+    urlencoded.append("invoices_id", "{}");
+    urlencoded.append("shopping_list_id", "{}");
+    urlencoded.append("refer", id);
+
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
+      redirect: "follow",
     };
+
     await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
       requestOptions
-    ).then((res) => {
-      if (res.status == 200) {
-        res.json().then((data) => {
-          console.log(data);
+    )
+      .then((res) => {
+        if (res.status == 200 || res.status == 201) {
+          res.json().then((data) => {
+            console.log(data);
 
-          // set token to local storage
-          localStorage.setItem("token", data.token);
+            localStorage.setItem("token", data.token);
+            dispatch(
+              userLogin({
+                firstName: data.first_name,
+                lastName: data.last_name,
+                phoneNumber: data.phone_number,
+                address: data.address,
+                email: data.email,
+                refer: data.refer,
+                invoiceIds: data.invoices_id,
+                shoppingCartIds: data.shopping_list_id,
+              })
+            );
+          });
 
-          dispatch(
-            userLogin({
-              firstName: data.user.first_name,
-              lastName: data.user.last_name,
-              phoneNumber: data.user.phone_number,
-              address: data.user.address,
-              email: data.user.email,
-              refer: data.user.refer,
-              invoiceIds: data.user.invoices_id,
-              shoppingCartIds: data.user.shopping_list_id,
-            })
-          );
-        });
-
-        dispatch(endProgress());
-      } else {
-        res.text("error");
-      }
-    });
+          dispatch(endProgress());
+        } else {
+          res.json().then((res) => console.log(res.detail));
+        }
+      })
+      .catch((error) => console.log("error", error));
   };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      reffer = {id}
       <Grid container spacing={2}>
         <Card item xs={10} md={3}>
           <form onSubmit={handleSubmit}>
@@ -188,13 +204,13 @@ function RegisterForm() {
 
                   <RtlTextField
                     value={RegisterInfo.email}
-                    required
+                    // required
                     name="email"
                     color={isValid.email ? "success" : ""}
                     error={!isValid.email && RegisterInfo.email.length > 0}
                     fullWidth
                     onChange={handleSetValue}
-                    label="ایمیل"
+                    label="ایمیل (اختیاری)"
                     helperText={
                       !isValid.email && RegisterInfo.email.length > 0
                         ? "لطفا ایمیل معتبر وارد کنید"
