@@ -89,7 +89,7 @@ function LoginForm() {
       body: urlencoded,
     };
     await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
       requestOptions
     ).then((res) => {
       if (res.status == 200) {
