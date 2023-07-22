@@ -246,7 +246,7 @@ function RegisterForm() {
                     fullWidth
                     onChange={handleSetValue}
                     label="تکرار رمز عبور"
-                    type={showPassword ? "text" : "password"}
+                    type="password"
                     helperText={
                       RegisterInfo.password == RegisterInfo.passwordR
                         ? ""
