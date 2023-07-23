@@ -21,7 +21,7 @@ import {
   endProgress,
 } from "../../../redux/reducers/loadingSlice";
 import { useDispatch } from "react-redux";
-
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   marginTop: 150,
@@ -111,11 +111,25 @@ function LoginForm() {
               shoppingCartIds: data.user.shopping_list_id,
             })
           );
+          dispatch(
+            setNotificationOn({
+              message: "شما با موفقیت وارد سیستم شدید",
+              color: "info",
+            })
+          );
         });
 
         dispatch(endProgress());
       } else {
-        res.text("error");
+        dispatch(
+          setNotificationOn({
+            message: "نام کاربری یا رمزعبور اشتباه است",
+            color: "error",
+          })
+        );
+
+        dispatch(endProgress());
+        setLoginInfo({ ...loginInfo, password: "" });
       }
     });
   };
