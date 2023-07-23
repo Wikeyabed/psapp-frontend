@@ -25,19 +25,24 @@ export default function Notification() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(setNotificationOff());
-    }, 2000);
+    if (notification.showNotification) {
+      setTimeout(() => {
+        dispatch(setNotificationOff());
+      }, 2500);
+    }
   });
 
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
-      <Snackbar open={notification.showNotification}>
+      <Snackbar
+        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+        open={notification.showNotification}
+      >
         <Alert
           severity={notification.color}
           sx={{
             width: "100%",
-            padding: "20px",
+            padding: "15px 10px ",
           }}
         >
           <Typography

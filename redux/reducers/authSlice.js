@@ -4,7 +4,7 @@ import { AUTH } from "../constants/constants";
 const initialState = {
   isLoggedIn: false,
   isTokenChecked: false,
-  isSmsSent: false,
+  isSmsReceived: false,
   isSmsVerified: false,
   userInformation: {
     firstName: null,
@@ -27,30 +27,14 @@ export const authSlice = createSlice({
       state.userInformation = action.payload;
     },
 
-    userLogout: (state) => {
-      state.isLoggedIn = false;
-      state.userInformation = {
-        firstName: null,
-        lastName: null,
-        phoneNumber: null,
-        address: null,
-        email: null,
-        refer: null,
-        invoiceIds: [],
-        shoppingCartIds: [],
-      };
-    },
+    userLogout: () => initialState,
 
     checkToken: (state) => {
       state.isTokenChecked = true;
     },
 
-    sendSms: (state) => {
-      state.isSmsSent = true;
-    },
-
-    resetSms: (state) => {
-      state.isSmsSent = false;
+    receiveSms: (state) => {
+      state.isSmsReceived = true;
     },
 
     verifySms: (state) => {
@@ -59,13 +43,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const {
-  resetSms,
-  sendSms,
-  userLogin,
-  checkToken,
-  userLogout,
-  verifySms,
-} = authSlice.actions;
+export const { userLogin, checkToken, userLogout, receiveSms, verifySms } =
+  authSlice.actions;
 
 export default authSlice.reducer;

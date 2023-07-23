@@ -13,8 +13,10 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { MuiOtpInput } from "mui-one-time-password-input";
-
+import { useDispatch, useSelector } from "react-redux";
 import Link from "../../../src/Link";
+import { receiveSms } from "../../../redux/reducers/authSlice";
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -45,6 +47,8 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function PhoneVerification() {
+  const dispatch = useDispatch();
+  const isSmsReceived = useSelector((state) => state.auth.isSmsReceived);
   const [otp, setOtp] = useState("");
   const [number, setNumber] = useState("");
   const [sms, setSms] = useState(false);
@@ -75,25 +79,67 @@ function PhoneVerification() {
     };
   }, [seconds, sms]);
 
-  const handleSendSms = () => {
+  const handleSendSms = async () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     var urlencoded = new URLSearchParams();
-    urlencoded.append("phone_number", otp);
+    urlencoded.append("phone_number", number);
 
     var requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
       redirect: "follow",
+      credentials: "include",
     };
 
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/phone_verification`,
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/sms_send`,
       requestOptions
     )
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status == 200 || response.status == 201) {
+          const sms = response.json();
+          sms.then((data) => {
+            dispatch(receiveSms());
+            dispatch(
+              setNotificationOn({
+                message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
+                color: "success",
+              })
+            );
+          });
+        } else {
+          dispatch(
+            setNotificationOn({
+              message: "شماره شما قبلا در سیستم وارد شده است",
+              color: "warning",
+            })
+          );
+        }
+      })
+
+      .catch((error) => console.log("error", error));
+  };
+
+  const handleVerifyCode = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("otp", otp);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+      credentials: "include",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/sms_verify`, requestOptions)
+      .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
   };
@@ -102,20 +148,19 @@ function PhoneVerification() {
     setNumber(parseInt(event.target.value));
     console.log(number);
   };
-  const resendOTP = () => {
+  const setTimer = () => {
     setMinutes(2);
     setSeconds(0);
   };
 
   const handleCountDown = () => {
     setSms(true);
-    setInitiated(true);
-    resendOTP();
+
+    setTimer();
   };
 
   const handleEditNumber = () => {
     setSms(false);
-    setInitiated(false);
   };
   const handleChange = (newValue) => {
     setOtp(newValue);
@@ -128,7 +173,7 @@ function PhoneVerification() {
       <Grid component={FormControl} container spacing={2}>
         <Card item xs={10} md={3}>
           <Grid component={Item} elevation={4} container>
-            {initiated ? (
+            {isSmsReceived ? (
               <>
                 <Grid sx={{ mb: 6 }} item xs={12}>
                   <Typography sx={{ mb: 5 }} variant="h6">
@@ -149,7 +194,7 @@ function PhoneVerification() {
                   <Grid item padding={1} xs={6}>
                     {" "}
                     <Button
-                      //   onClick={handleCountDown}
+                      onClick={handleVerifyCode}
                       size="large"
                       sx={{ p: 2 }}
                       fullWidth
