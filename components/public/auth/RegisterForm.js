@@ -23,6 +23,7 @@ import {
   endProgress,
 } from "../../../redux/reducers/loadingSlice";
 import { useDispatch } from "react-redux";
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -183,7 +184,14 @@ function RegisterForm() {
 
           dispatch(endProgress());
         } else {
-          res.json().then((res) => console.log(res.detail));
+          res.json().then((res) =>
+            dispatch(
+              setNotificationOn({
+                message: "ایمبل شما قبلا استفاده شده است.",
+                color: "error",
+              })
+            )
+          );
         }
       })
       .catch((error) => console.log("error", error));

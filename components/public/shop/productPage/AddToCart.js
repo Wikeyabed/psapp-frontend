@@ -11,7 +11,6 @@ function AddToCart({ counter, price, productId, fullStack }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleAlertOpen = () => {

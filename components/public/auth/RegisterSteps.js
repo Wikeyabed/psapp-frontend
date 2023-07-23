@@ -1,9 +1,11 @@
+import PhoneVerification from "./PhoneVerification";
 import RegisterForm from "./RegisterForm";
 
 function RegisterSteps() {
   return (
     <>
-      <RegisterForm />
+      <PhoneVerification />
+      {/* <RegisterForm /> */}
     </>
   );
 }

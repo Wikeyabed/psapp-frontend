@@ -46,13 +46,13 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 function PhoneVerification() {
   const [otp, setOtp] = useState("");
+  const [number, setNumber] = useState("");
   const [sms, setSms] = useState(false);
   const [initiated, setInitiated] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(15);
 
   useEffect(() => {
-    console.log("effectisnsg");
     const interval = setInterval(() => {
       if (seconds > 0 && sms) {
         setSeconds(seconds - 1);
@@ -75,9 +75,36 @@ function PhoneVerification() {
     };
   }, [seconds, sms]);
 
+  const handleSendSms = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("phone_number", otp);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/phone_verification`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+
+  const handleSetPhoneNumber = (event) => {
+    setNumber(parseInt(event.target.value));
+    console.log(number);
+  };
   const resendOTP = () => {
-    setMinutes(0);
-    setSeconds(15);
+    setMinutes(2);
+    setSeconds(0);
   };
 
   const handleCountDown = () => {
@@ -170,13 +197,18 @@ function PhoneVerification() {
                   <Typography sx={{ mb: 5 }} variant="h6">
                     شماره موبایل خود را وارد کنید
                   </Typography>
-                  <RtlTextField type="number" fullWidth label="شماره تماس" />
+                  <RtlTextField
+                    type="number"
+                    fullWidth
+                    onChange={handleSetPhoneNumber}
+                    label="شماره تماس"
+                  />
                 </Grid>
 
                 <Grid xs={12} item>
                   <Button
                     disabled={sms && (seconds > -1 || minutes > 0)}
-                    onClick={handleCountDown}
+                    onClick={handleSendSms}
                     size="large"
                     sx={{ p: 2 }}
                     fullWidth
