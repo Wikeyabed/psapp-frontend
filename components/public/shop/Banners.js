@@ -21,7 +21,7 @@ const BannerImage = styled("img")({
 
 function Banners() {
   return (
-    <Grid container>
+    <Grid sx={{ display: { xs: "none", md: "flex" } }} container>
       <BannerBox
         sx={{
           height: "500px",

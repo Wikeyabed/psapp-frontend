@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar";
 import TopMenu from "./TopMenu";
 import BottomNav from "./BottomNav";
 import MiniShoppingCart from "./shoppingCart/index";
+import TopNavMobile from "./TopNavMobile";
 
 export default function Navbar() {
   // mobile menu item
@@ -11,9 +12,10 @@ export default function Navbar() {
   return (
     <>
       {/* bottom menu for mobile */}
-      {/* <Box sx={{ display: { xs: "flex", md: "none" } }}>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <BottomNav />
-      </Box> */}
+        <TopNavMobile />
+      </Box>
 
       {/* main menu for pc and laptop */}
       <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>

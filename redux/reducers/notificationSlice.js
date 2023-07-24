@@ -3,7 +3,6 @@ import { NOTIFICATION } from "../constants/constants";
 
 const initialState = {
   showNotification: false,
-  timeout: 5000,
   message: "",
   color: "",
 };

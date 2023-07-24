@@ -30,7 +30,7 @@ function Quantity({ discount, price, stack, quantity, productId }) {
         <ButtonGroup
           sx={{
             direction: "ltr",
-            mt: 4,
+            my: 4,
             // transform: "scale(.8)",
           }}
           component={"div"}

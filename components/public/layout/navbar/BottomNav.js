@@ -1,36 +1,47 @@
-import { useState } from "react";
+import * as React from "react";
+
+import RestoreIcon from "@mui/icons-material/Restore";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ArchiveIcon from "@mui/icons-material/Archive";
 import {
+  Paper,
+  Box,
   BottomNavigation,
   BottomNavigationAction,
-  Typography,
+  CssBaseline,
 } from "@mui/material";
-import { css } from "@emotion/react";
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-import ContactIcon from "@mui/icons-material/ContactEmergency";
-const styles = css`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  font-size: 0.5rem;
-`;
-export default function BottomNav() {
-  const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+
+export default function SimpleBottomNavigation() {
+  const [value, setValue] = React.useState(0);
+
   return (
-    <BottomNavigation
-      showLabels
-      value={value}
-      onChange={handleChange}
-      sx={styles}
+    <Paper
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+
+        width: "100%",
+      }}
+      elevation={8}
     >
-      <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-      <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-      <BottomNavigationAction label="فروشگاه" icon={<HomeIcon />} />
-    </BottomNavigation>
+      <CssBaseline />
+
+      <BottomNavigation
+        sx={{}}
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+      </BottomNavigation>
+    </Paper>
   );
 }

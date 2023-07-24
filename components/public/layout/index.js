@@ -11,7 +11,7 @@ function PublicLayout({ children }) {
       }}
     >
       <Navbar />
-      {/* <MenuBar/> */}
+
       {children}
     </Box>
   );

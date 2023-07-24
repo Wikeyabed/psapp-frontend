@@ -2,14 +2,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Skeleton } from "@mui/material";
 import { useState, useEffect } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
 
-function BlankScreen({ children }) {
+function LoadingBar({ children }) {
   const [delay, setDelay] = useState(true);
 
   const loadingDelay = () => {
     setTimeout(() => {
       setDelay(false);
-    }, 1000);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -21,23 +22,29 @@ function BlankScreen({ children }) {
       {delay ? (
         <Box
           sx={{
-            position: "absolute",
+            position: "fixed",
             width: "100%",
-
+            backgroundColor: "rgba(0, 0, 0,0.6)",
             height: "100%",
             textAlign: "center",
+            zIndex: 4000,
+            overflow: "hidden",
+            overflowY: "hidden",
           }}
         >
-          <CircularProgress
+          <LinearProgress
+            color="info"
             sx={{
               position: "absolute",
+              height: "10px",
               marginX: "auto",
               top: "45%",
+              width: "350px",
               left: 0,
               right: 0,
+              borderRadius: "5px",
             }}
-            size={50}
-            color="primary"
+            size={10}
           />
         </Box>
       ) : (
@@ -47,4 +54,4 @@ function BlankScreen({ children }) {
   );
 }
 
-export default BlankScreen;
+export default LoadingBar;

@@ -45,7 +45,7 @@ export default function ProductSlicer({ images }) {
     {
       initial: 0,
       slides: {
-        perView: 4,
+        perView: 3,
         spacing: 10,
       },
     },

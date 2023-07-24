@@ -35,7 +35,7 @@ export default function Notification() {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         open={notification.showNotification}
       >
         <Alert

@@ -77,7 +77,7 @@ function PhoneVerification() {
     return () => {
       clearInterval(interval);
     };
-  }, [seconds, sms]);
+  }, [minutes, seconds, sms]);
 
   const handleSendSms = async () => {
     var myHeaders = new Headers();

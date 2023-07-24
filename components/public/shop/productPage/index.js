@@ -9,7 +9,7 @@ import Quantity from "./Quantity";
 const ProductPage = ({ product }) => {
   return (
     <>
-      <Grid container display={"flex"} justifyContent={"center"} spacing={3}>
+      <Grid container display={"flex"} justifyContent={"center"}>
         {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
         <Grid
           sx={{
@@ -25,7 +25,8 @@ const ProductPage = ({ product }) => {
             sx={{
               padding: { xs: 0, md: 4 },
 
-              marginY: { xs: 2, sm: 5, md: 10 },
+              marginY: { sm: 5, md: 10 },
+              mb: { xs: 10, md: "auto" },
 
               borderRadius: "20px",
             }}
