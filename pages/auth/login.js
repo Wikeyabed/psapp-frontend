@@ -3,7 +3,7 @@ import LoginForm from "../../components/public/auth/LoginForm";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import BlankScreen from "../../components/HOC/BlankScreen";
+import LoadingBar from "../../components/HOC/LoadingBar";
 
 function LoginPage() {
   const router = useRouter();
@@ -19,9 +19,9 @@ function LoginPage() {
     <>
       {" "}
       {!isLoggedIn ? (
-        <BlankScreen>
+        <LoadingBar>
           <LoginForm />
-        </BlankScreen>
+        </LoadingBar>
       ) : (
         ""
       )}
