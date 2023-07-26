@@ -75,7 +75,7 @@ export default function ProductSlicer({ images }) {
               width={0}
               height={0}
               sizes="100vw"
-              src={`http://localhost:3000/static/${image}`}
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${image}`}
               alt=""
             />
           </Box>
@@ -96,7 +96,7 @@ export default function ProductSlicer({ images }) {
               width={0}
               height={0}
               sizes="100vw"
-              src={`http://localhost:3000/static/${image}`}
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${image}`}
               alt=""
             />
           </Box>

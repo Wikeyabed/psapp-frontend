@@ -21,10 +21,11 @@
 // });
 
 module.exports = {
+  output: "standalone",
   reactStrictMode: true,
   distDir: "builded",
   images: {
-    domains: ["picsum.photos", "localhost"],
+    domains: ["picsum.photos", "localhost", "eebox.ir", "api.eebox.ir"],
   },
 
   eslint: {

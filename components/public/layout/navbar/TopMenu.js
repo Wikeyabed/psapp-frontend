@@ -8,6 +8,7 @@ import Link from "../../../../src/Link";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useDispatch } from "react-redux";
 
 import {
   Inventory as InventoryIcon,
@@ -19,6 +20,7 @@ import {
 
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
+import { setFilter } from "../../../../redux/reducers/productSlice";
 
 const StyledMenu = stylize((props) => (
   <Menu
@@ -79,6 +81,7 @@ const StyledText = styled(Typography)({
 });
 
 export default function TopMenu() {
+  const dispatch = useDispatch();
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorServices, setAnchorServices] = React.useState(null);
 
@@ -87,8 +90,9 @@ export default function TopMenu() {
   const handleClickProduct = (event) => {
     setAnchorProduct(event.currentTarget);
   };
-  const handleCloseProduct = () => {
+  const handleCloseProduct = (name) => {
     setAnchorProduct(null);
+    dispatch(setFilter(name));
   };
 
   const openServices = Boolean(anchorServices);
@@ -173,7 +177,20 @@ export default function TopMenu() {
             color="secondary"
             disableElevation
           >
-            <StyledText> تماس با ما</StyledText>
+            <StyledText>تماس با ما</StyledText>
+          </Button>
+        </StyledLi>
+
+        <StyledLi>
+          {" "}
+          <Button
+            component={Link}
+            href="/contact"
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText>وبلاگ</StyledText>
           </Button>
         </StyledLi>
       </StyledUl>
@@ -195,8 +212,10 @@ export default function TopMenu() {
             pr: 0,
             py: 1.5,
           }}
-          onClick={handleCloseProduct}
+          onClick={() => handleCloseProduct("کارتن پستی")}
           disableRipple
+          component={Link}
+          href="/shop/#product_list"
         >
           <InboxIcon
             sx={{
@@ -271,6 +290,8 @@ export default function TopMenu() {
           }}
           onClick={handleCloseServices}
           disableRipple
+          component={Link}
+          href="/order"
         >
           <FileCopyIcon
             sx={{
@@ -286,6 +307,8 @@ export default function TopMenu() {
           }}
           onClick={handleCloseServices}
           disableRipple
+          component={Link}
+          href="/partnership"
         >
           <SupervisorAccountIcon
             sx={{

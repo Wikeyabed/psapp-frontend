@@ -46,6 +46,7 @@ function FilterBar() {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.products);
   const priceSort = useSelector((state) => state.product.priceSort);
+  const currentCategory = useSelector((state) => state.product.filter);
   const categories = productList.map((product) => {
     return product.category;
   });
@@ -59,6 +60,9 @@ function FilterBar() {
   const handlePriceSort = (e) => {
     dispatch(setPriceSort(e.target.value));
   };
+
+
+  
   return (
     <Grid
       container

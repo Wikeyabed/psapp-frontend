@@ -31,7 +31,7 @@ export default function ProductCard({
           backgroundSize: "fill",
           borderBottom: "1px solid #e2e2e2",
         }}
-        image={`http://localhost:3000/static/${imageUrl}`}
+        image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
         title="ایباکس"
       />
       <CardContent>

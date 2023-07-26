@@ -6,6 +6,7 @@ import FilterBar from "./FilterBar";
 function Products() {
   return (
     <Grid
+      id="product_list"
       sx={{
         padding: "10px",
         marginTop: "75px",
