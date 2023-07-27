@@ -5,6 +5,7 @@ import TopMenu from "./TopMenu";
 import BottomNav from "./BottomNav";
 import MiniShoppingCart from "./shoppingCart/index";
 import TopNavMobile from "./TopNavMobile";
+import Logo from "./Logo";
 
 export default function Navbar() {
   // mobile menu item
@@ -21,7 +22,7 @@ export default function Navbar() {
       <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>
         <AppBar
           sx={{
-            backgroundColor: "#2f2f2f",
+            backgroundColor: "primary",
             paddingY: 1,
             marginBottom: 4,
           }}
@@ -29,7 +30,7 @@ export default function Navbar() {
         >
           <Toolbar>
             {/*  Title and logo */}
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -39,7 +40,8 @@ export default function Navbar() {
               }}
             >
               ایباکس
-            </Typography>
+            </Typography> */}
+            <Logo />
 
             {/* <Box
               sx={{

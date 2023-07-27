@@ -5,11 +5,7 @@ import { Grid, Box } from "@mui/material";
 
 function PublicLayout({ children }) {
   return (
-    <Box
-      sx={{
-        backgroundColor: "#fafafa",
-      }}
-    >
+    <Box>
       <Navbar />
       <Box
         sx={{

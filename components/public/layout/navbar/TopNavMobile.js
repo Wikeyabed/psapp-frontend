@@ -16,7 +16,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "../../../../src/Link";
-
+import Logo from "./Logo";
 const drawerWidth = 240;
 const navItems = [
   { title: "بلاگ", link: "/blog" },
@@ -35,9 +35,16 @@ function TopNavMobile(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2, pr: 4 }}>
-        ایباکس
-      </Typography>
+      <Box
+        sx={{
+          py: 2,
+        }}
+        display={"flex"}
+        justifyContent={"center"}
+      >
+        <Logo />
+      </Box>
+
       <Divider />
       <List>
         {/* {navItems.map((item, i) => (
@@ -51,7 +58,7 @@ function TopNavMobile(props) {
             </ListItemButton>
           </ListItem>
         ))} */}
-        {navItems.title}
+        {/* {navi} */}
       </List>
     </Box>
   );
@@ -63,7 +70,13 @@ function TopNavMobile(props) {
     <Box sx={{ display: "flex", direction: "ltr !important" }}>
       <CssBaseline />
       <AppBar component="nav">
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            py: 1,
+          }}
+        >
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -71,8 +84,16 @@ function TopNavMobile(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            <MenuIcon
+              sx={{
+                fontSize: 40,
+              }}
+              color="secondary"
+            />
           </IconButton>
+          <Box>
+            <Logo small={true} />
+          </Box>
         </Toolbar>
       </AppBar>
       <Box component="nav">

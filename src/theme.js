@@ -2,14 +2,10 @@ import { createTheme } from "@mui/material/styles";
 import {
   red,
   grey,
-  indigo,
-  green,
   blue,
   deepPurple,
   brown,
-  teal,
   orange,
-  purple,
 } from "@mui/material/colors";
 
 // Create a theme instance.
@@ -26,9 +22,10 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: "#49344f",
-      lightBg: "#FCF9FF",
-      lightDarker: "#f9f3ff",
+      main: "#342121 ",
+      lightBg: "#fafafa",
+      text: "#222",
+      textWhite: "#fff",
       dark: grey[900],
       purple: deepPurple[600],
       blue: blue[600],
@@ -38,12 +35,13 @@ const theme = createTheme({
       borderColor: blue[500],
     },
     secondary: {
-      main: "#274060",
-    },
-    lightPrimary: {
-      main: "#6E5176",
+      main: "#DD925C",
+      text: "#444",
     },
 
+    lightPrimary: {
+      main: "#74423B",
+    },
     error: {
       main: red.A400,
     },
