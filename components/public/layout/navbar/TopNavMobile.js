@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import Link from "../../../../src/Link";
 import Logo from "./Logo";
 import MobileFilterBar from "../../shop/products/MobileFilterBar";
+import { useRouter } from "next/router";
 const drawerWidth = 240;
 
 const navItems = [
@@ -28,6 +29,7 @@ const navItems = [
 ];
 
 function TopNavMobile(props) {
+  const router = useRouter();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -96,7 +98,7 @@ function TopNavMobile(props) {
             <Logo small={true} />
           </Box>
         </Toolbar>
-        <MobileFilterBar />
+        {router.pathname === "/shop" ? <MobileFilterBar /> : ""}
       </AppBar>
 
       <Box component="nav">

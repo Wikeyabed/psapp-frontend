@@ -25,7 +25,7 @@ function LoadingBar({ children }) {
             backgroundColor: "#fff",
             height: "100%",
             textAlign: "center",
-            zIndex: 900,
+            zIndex: 3900,
             overflow: "hidden",
             overflowY: "hidden",
           }}
