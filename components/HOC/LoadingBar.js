@@ -24,27 +24,26 @@ function LoadingBar({ children }) {
           sx={{
             position: "fixed",
             width: "100%",
-            backgroundColor: "rgba(0, 0, 0,0.6)",
+            backgroundColor: "#fff",
             height: "100%",
             textAlign: "center",
-            zIndex: 4000,
+            zIndex: 900,
             overflow: "hidden",
             overflowY: "hidden",
           }}
         >
           <LinearProgress
-            color="info"
+            color="primary"
             sx={{
               position: "absolute",
-              height: "10px",
+              height: "70px",
               marginX: "auto",
               top: "45%",
-              width: "350px",
+              width: "70px",
               left: 0,
               right: 0,
-              borderRadius: "5px",
+              borderRadius: "50%",
             }}
-            size={10}
           />
         </Box>
       ) : (

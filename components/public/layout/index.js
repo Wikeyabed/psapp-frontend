@@ -14,6 +14,7 @@ function PublicLayout({ children }) {
       <Box
         sx={{
           p: 1,
+          mb: 10,
         }}
       >
         {children}
