@@ -109,13 +109,14 @@ function AddToCart({ counter, price, productId, fullStack }) {
           paddingLeft: 5,
           marginRight: "auto",
           borderRadius: "10px",
-          backgroundColor: "#274060",
-
-          border: `2px solid ${loading ? "#ccc" : "#1B2845"} `,
-          borderBottom: `4px solid ${loading ? "#999" : "#1B2845"}`,
+          backgroundColor: "primary.main",
+          border: "1px solid",
+          borderColor: "lightPrimary.main",
+          borderBottom: "4px solid",
+          borderBottomColor: "lightPrimary.main",
         }}
         size="large"
-        color="secondary"
+        color="primary"
         fullWidth
         variant="contained"
         startIcon={loading ? "" : <AddShoppingCart sx={{ ml: 2 }} />}

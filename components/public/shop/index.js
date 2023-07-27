@@ -1,6 +1,6 @@
 // Import necessary dependencies
 import React from "react";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 // Import components
 import PublicLayout from "../layout";
 import Banners from "./Banners";
@@ -20,7 +20,16 @@ function Shop() {
           {/* Display banners */}
           <Banners />
           {/* Display features */}
-          <Features />
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            {" "}
+            <Features />
+          </Box>
+
           {/* Display products */}
           <Products />
         </Grid>

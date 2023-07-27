@@ -98,13 +98,15 @@ export default function ProductCard({
               paddingLeft: 5,
               marginRight: "auto",
               borderRadius: "10px",
-              backgroundColor: "#274060",
+              backgroundColor: "primary.main",
 
-              border: `2px solid ${loading ? "#e2e2e2" : "#1B2845"} `,
-              borderBottom: `4px solid ${loading ? "#999" : "#1B2845"}`,
+              border: "1px solid",
+              borderColor: "lightPrimary.main",
+              borderBottom: "4px solid",
+              borderBottomColor: "lightPrimary.main",
             }}
             size="large"
-            color="secondary"
+            color="primary"
             fullWidth
             variant="contained"
             startIcon={loading ? "" : <AddShoppingCartIcon sx={{ ml: 2 }} />}

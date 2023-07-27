@@ -90,17 +90,18 @@ function ShoppingCart() {
         <Grid display={"flex"} justifyContent={"center"} item xs={12}>
           <Button
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              maxWidth: " 400px",
-              marginTop: 5,
+              mt: 4,
+              paddingLeft: 5,
+              marginRight: "auto",
               borderRadius: "10px",
-              backgroundColor: "#274060",
-              border: `2px solid  #1B2845 `,
-              borderBottom: `4px solid  #1B2845`,
+              backgroundColor: "primary.main",
+              border: "1px solid",
+              borderColor: "lightPrimary.main",
+              borderBottom: "4px solid",
+              borderBottomColor: "lightPrimary.main",
             }}
             size="large"
-            color="secondary"
+            color="primary"
             variant="contained"
             endIcon={<PaymentIcon sx={{ mr: 1 }} />}
             fullWidth={true}
