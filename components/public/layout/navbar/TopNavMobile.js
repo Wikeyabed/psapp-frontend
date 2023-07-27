@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import Link from "../../../../src/Link";
 import Logo from "./Logo";
 const drawerWidth = 240;
+
 const navItems = [
   { title: "بلاگ", link: "/blog" },
   { title: "فرم سفارش محصول", link: "/order-product" },
@@ -47,18 +48,17 @@ function TopNavMobile(props) {
 
       <Divider />
       <List>
-        {/* {navItems.map((item, i) => (
+        {navItems.map((item, i) => (
           <ListItem key={i} disablePadding>
             <ListItemButton
               component={Link}
               href={item.link}
               sx={{ textAlign: "center" }}
             >
-              <ListItemText primary={item} />
+              <ListItemText primary={item.title} />
             </ListItemButton>
           </ListItem>
-        ))} */}
-        {/* {navi} */}
+        ))}
       </List>
     </Box>
   );
