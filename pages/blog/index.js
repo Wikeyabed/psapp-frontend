@@ -9,27 +9,10 @@ import {
 } from "@mui/material";
 import PublicLayout from "../../components/public/layout";
 import Link from "../../src/Link";
+import moment from "moment-jalaali";
+import ToPersianDate from "../../src/TimestampToPersian";
 
-const blogPosts = [
-  {
-    title: "نام پست",
-    description: "توضیحات پست 1",
-    author: "ادمین",
-    imageUrl: "https://via.placeholder.com/150",
-    avatarUrl: "https://via.placeholder.com/150",
-    date: "1/1/2017",
-  },
-  {
-    title: "نام پست",
-    description: "توضیحات پست 1",
-    author: "ادمین",
-    imageUrl: "https://via.placeholder.com/150",
-    avatarUrl: "https://via.placeholder.com/150",
-    date: "1/1/2017",
-  },
-];
-
-export default function BlogSection() {
+export default function BlogSection({ blogPosts = [] }) {
   return (
     <PublicLayout>
       <Container>
@@ -42,43 +25,61 @@ export default function BlogSection() {
           </Typography>
         </Box>
         <Grid container spacing={4}>
-          {blogPosts.map((post, index) => (
-            <Grid item xs={12} md={6} key={index}>
-              <Card sx={{ display: "flex" }}>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 151 }}
-                  image={post.imageUrl}
-                  alt={post.title}
-                />
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <CardContent sx={{ flex: "1 0 auto" }}>
-                    <Typography
-                      component={Link}
-                      href={`/blog/${20}`}
-                      variant="h5"
-                    >
-                      {post.title}
-                    </Typography>
-                    <Typography variant="subtitle1" color="text.secondary">
-                      {post.description}
-                    </Typography>
-                  </CardContent>
-                  <Box sx={{ display: "flex", alignItems: "center", p: 1 }}>
-                    {/* <Avatar alt={post.author} src={post.avatarUrl} /> */}
-                    <Box sx={{ ml: 1 }}>
-                      <Typography variant="subtitle2">{post.author}</Typography>
-                      <Typography variant="subtitle2" color="text.secondary">
-                        {post.date}
-                      </Typography>
+          {blogPosts.length > 0
+            ? blogPosts.map((post, index) => (
+                <Grid item xs={12} md={6} key={index}>
+                  <Card sx={{ display: "flex" }}>
+                    <CardMedia
+                      component="img"
+                      sx={{ width: 150 }}
+                      image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
+                      alt={post.title}
+                    />
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <CardContent sx={{ flex: "1 0 auto" }}>
+                        <Typography
+                          component={Link}
+                          href={`/blog/${post.id}`}
+                          variant="h5"
+                        >
+                          {post.title}
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary">
+                          {post.description}
+                        </Typography>
+                      </CardContent>
+                      <Box sx={{ display: "flex", alignItems: "center", p: 1 }}>
+                        {/* <Avatar alt={post.author} src={post.avatarUrl} /> */}
+                        <Box sx={{ ml: 1 }}>
+                          <Typography variant="subtitle2">
+                            {post.author}
+                          </Typography>
+                          <Typography
+                            variant="subtitle2"
+                            color="text.secondary"
+                          >
+                            <ToPersianDate timestamp={post.create_time} />
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
-                </Box>
-              </Card>
-            </Grid>
-          ))}
+                  </Card>
+                </Grid>
+              ))
+            : "هیچ پستی وجود ندارد"}
         </Grid>
       </Container>
     </PublicLayout>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`);
+  const blogPosts = await res.json();
+
+  return {
+    props: {
+      blogPosts,
+    },
+  };
 }

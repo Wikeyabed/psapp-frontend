@@ -14,16 +14,13 @@ function ToPersianDate({ timestamp }) {
       <ButtonGroup
         size="small"
         color="secondary"
-        sx={{ direction: "ltr !important", bgcolor: "primary.lightDarker" }}
+        sx={{ direction: "ltr !important", bgcolor: "secondary" }}
       >
-        <Button
-          startIcon={<CalendarMonth fontSize="small" />}
-          variant="contained"
-        >
+        <Button startIcon={<CalendarMonth fontSize="small" />} variant="text">
           {date}
         </Button>
 
-        <Button startIcon={<AccessTime fontSize="small" />} variant="outlined">
+        <Button startIcon={<AccessTime fontSize="small" />} variant="text">
           {time}
         </Button>
       </ButtonGroup>
