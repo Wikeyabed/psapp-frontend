@@ -185,7 +185,7 @@ export default function TopMenu() {
           {" "}
           <Button
             component={Link}
-            href="/contact"
+            href="/blog"
             variant="text"
             color="secondary"
             disableElevation

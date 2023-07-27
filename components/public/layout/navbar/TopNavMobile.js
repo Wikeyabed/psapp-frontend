@@ -15,9 +15,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Link from "../../../../src/Link";
 
 const drawerWidth = 240;
-const navItems = ["درباره ما", "درخواست همکاری", "تماس با ما", "وبلاگ"];
+const navItems = [
+  { title: "بلاگ", link: "/blog" },
+  { title: "فرم سفارش محصول", link: "/order-product" },
+  { title: "فرم درخواست همکاری", link: "/request-partnership" },
+  { title: "تماس با ما", link: "/contact" },
+];
 
 function TopNavMobile(props) {
   const { window } = props;
@@ -34,13 +40,18 @@ function TopNavMobile(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
+        {/* {navItems.map((item, i) => (
+          <ListItem key={i} disablePadding>
+            <ListItemButton
+              component={Link}
+              href={item.link}
+              sx={{ textAlign: "center" }}
+            >
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
-        ))}
+        ))} */}
+        {navItems.title}
       </List>
     </Box>
   );

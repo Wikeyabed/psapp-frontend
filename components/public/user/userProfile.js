@@ -27,10 +27,9 @@ export default function UserProfile() {
         item
         md={8}
         container
-        rowSpacing={2}
-        columnSpacing={4}
         sx={{
           mt: 1,
+          p: 1,
         }}
       >
         <Grid item xs={12}>

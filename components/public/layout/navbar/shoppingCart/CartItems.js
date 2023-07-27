@@ -17,7 +17,7 @@ export default function CartItems() {
   return (
     <Box
       sx={{
-        minWidth: { xs: "400px", md: "700px" },
+        minWidth: { md: "700px" },
 
         overflow: "hidden",
       }}

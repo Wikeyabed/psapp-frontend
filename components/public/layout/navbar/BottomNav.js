@@ -1,9 +1,5 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import ArchiveIcon from "@mui/icons-material/Archive";
 import {
   Paper,
   Box,
@@ -11,10 +7,33 @@ import {
   BottomNavigationAction,
   CssBaseline,
 } from "@mui/material";
+import Link from "../../../../src/Link";
+import {
+  AccountBoxOutlined,
+  AccountBox,
+  ShoppingBasket,
+  ShoppingBasketOutlined,
+  ShoppingCart,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
+
+import { useRouter } from "next/router";
 
 export default function SimpleBottomNavigation() {
-  const [value, setValue] = React.useState(0);
+  const router = useRouter();
+  const [value, setValue] = useState(0);
 
+  useEffect(() => {
+    if (router.route == "/shop") {
+      setValue(0);
+    } else if (router.route == "/shop/cart") {
+      setValue(1);
+    } else {
+      setValue(2);
+    }
+  }, [router]);
+
+  console.log(router);
   return (
     <Paper
       sx={{
@@ -30,17 +49,43 @@ export default function SimpleBottomNavigation() {
     >
       <CssBaseline />
 
-      <BottomNavigation
-        sx={{}}
-        showLabels
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Archive" icon={<ArchiveIcon />} />
+      <BottomNavigation showLabels value={value}>
+        <BottomNavigationAction
+          component={Link}
+          href="/shop"
+          label="فروشگاه"
+          icon={
+            value == 0 && router.route == "/shop" ? (
+              <ShoppingBasket color="secondary" />
+            ) : (
+              <ShoppingBasketOutlined color="secondary" />
+            )
+          }
+        />
+        <BottomNavigationAction
+          component={Link}
+          href="/shop/cart"
+          label="سبد خرید"
+          icon={
+            value == 1 && router.route == "/shop/cart" ? (
+              <ShoppingCart color="secondary" />
+            ) : (
+              <ShoppingCartOutlined color="secondary" />
+            )
+          }
+        />
+        <BottomNavigationAction
+          component={Link}
+          href="/user"
+          label="پروفایل"
+          icon={
+            value == 2 && router.route == "/user" ? (
+              <AccountBox color="secondary" />
+            ) : (
+              <AccountBoxOutlined color="secondary" />
+            )
+          }
+        />
       </BottomNavigation>
     </Paper>
   );

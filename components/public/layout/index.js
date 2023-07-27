@@ -11,8 +11,13 @@ function PublicLayout({ children }) {
       }}
     >
       <Navbar />
-
-      {children}
+      <Box
+        sx={{
+          p: 1,
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 }
