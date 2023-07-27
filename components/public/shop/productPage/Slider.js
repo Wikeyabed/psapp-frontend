@@ -65,7 +65,7 @@ export default function ProductSlicer({ images }) {
           <Box
             sx={{
               width: "100%",
-              height: "400px",
+              height: { xs: 250, md: 400 },
             }}
             key={image + i}
             className="keen-slider__slide"
@@ -86,13 +86,18 @@ export default function ProductSlicer({ images }) {
         {images.map((image, i) => (
           <Box
             key={image + i}
-            style={{
+            sx={{
               borderRadius: "20px",
+              height: { xs: "80px !important", md: "140px !important" },
             }}
             className="keen-slider__slide number-slide2"
           >
             <Image
-              style={{ width: "100%", height: "200px", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "200px",
+                objectFit: "cover",
+              }}
               width={0}
               height={0}
               sizes="100vw"
