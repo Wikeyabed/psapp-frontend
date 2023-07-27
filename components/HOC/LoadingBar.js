@@ -8,7 +8,7 @@ function LoadingBar({ children }) {
   const loadingDelay = () => {
     setTimeout(() => {
       setDelay(false);
-    }, 1500);
+    }, 2500);
   };
 
   useEffect(() => {

@@ -61,18 +61,16 @@ function FilterBar() {
     dispatch(setPriceSort(e.target.value));
   };
 
-
-  
   return (
     <Grid
       container
       sx={{
         paddingTop: "5px",
-
         marginTop: "5px",
         marginBottom: "30px",
         borderRadius: "10px",
-
+        display: "flex",
+        justifyContent: "space-between",
         paddingBottom: "15px",
       }}
     >

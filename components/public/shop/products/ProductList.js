@@ -27,20 +27,20 @@ function ProductList() {
     });
 
   return (
-    <Grid
-      columnSpacing={3}
-      rowSpacing={3}
-      container
-      sx={{
-        paddingX: "20px",
-        paddingY: "10px",
-        textAlign: "center !important",
-      }}
-    >
+    <Grid container>
       {filteredProductList.length > 0 ? (
         filteredProductList.map((product, i) => {
           return (
-            <Grid key={i} item xs={12} lg={4}>
+            <Grid
+              sx={{
+                p: 2,
+              }}
+              key={i}
+              item
+              xs={12}
+              md={6}
+              lg={4}
+            >
               <ProductCard
                 productName={product.product_name}
                 productCode={product.product_id}

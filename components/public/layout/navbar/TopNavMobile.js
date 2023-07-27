@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "../../../../src/Link";
 import Logo from "./Logo";
+import MobileFilterBar from "../../shop/products/MobileFilterBar";
 const drawerWidth = 240;
 
 const navItems = [
@@ -95,7 +96,9 @@ function TopNavMobile(props) {
             <Logo small={true} />
           </Box>
         </Toolbar>
+        <MobileFilterBar />
       </AppBar>
+
       <Box component="nav">
         <SwipeableDrawer
           anchor="left"

@@ -20,9 +20,6 @@ export default function ProductCard({
   quantity,
   imageUrl,
 }) {
-  const [alert, setAlert] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   return (
     <Card elevation={2} sx={{ position: "relative", borderRadius: "10px" }}>
       <CardMedia
@@ -99,7 +96,6 @@ export default function ProductCard({
               marginRight: "auto",
               borderRadius: "10px",
               backgroundColor: "primary.main",
-
               border: "1px solid",
               borderColor: "lightPrimary.main",
               borderBottom: "4px solid",
@@ -109,7 +105,7 @@ export default function ProductCard({
             color="primary"
             fullWidth
             variant="contained"
-            startIcon={loading ? "" : <AddShoppingCartIcon sx={{ ml: 2 }} />}
+            startIcon={<AddShoppingCartIcon sx={{ ml: 2 }} />}
           >
             خرید
           </Button>
