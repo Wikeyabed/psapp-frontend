@@ -23,8 +23,8 @@ const drawerWidth = 240;
 
 const navItems = [
   { title: "بلاگ", link: "/blog" },
-  { title: "فرم سفارش محصول", link: "/order-product" },
-  { title: "فرم درخواست همکاری", link: "/request-partnership" },
+  { title: "فرم سفارش محصول", link: "/order" },
+  { title: "فرم درخواست همکاری", link: "/partnership" },
   { title: "تماس با ما", link: "/contact" },
 ];
 
