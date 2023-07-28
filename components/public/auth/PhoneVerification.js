@@ -114,7 +114,7 @@ function PhoneVerification() {
             dispatch(
               setNotificationOn({
                 message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
-                color: "success",
+                color: "info",
               })
             );
           });
