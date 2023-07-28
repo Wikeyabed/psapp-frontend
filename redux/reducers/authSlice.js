@@ -6,6 +6,7 @@ const initialState = {
   isTokenChecked: false,
   isSmsReceived: false,
   isSmsVerified: false,
+  tempSmsNumber: 0,
   userInformation: {
     firstName: null,
     lastName: null,
@@ -37,13 +38,28 @@ export const authSlice = createSlice({
       state.isSmsReceived = true;
     },
 
+    requestSmsAgain: (state) => {
+      state.isSmsReceived = false;
+    },
+
     verifySms: (state) => {
       state.isSmsVerified = true;
+    },
+
+    setTempNumber: (state, { payload }) => {
+      state.tempSmsNumber = payload;
     },
   },
 });
 
-export const { userLogin, checkToken, userLogout, receiveSms, verifySms } =
-  authSlice.actions;
+export const {
+  userLogin,
+  checkToken,
+  userLogout,
+  receiveSms,
+  verifySms,
+  setTempNumber,
+  requestSmsAgain,
+} = authSlice.actions;
 
 export default authSlice.reducer;

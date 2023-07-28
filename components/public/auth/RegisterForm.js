@@ -22,7 +22,7 @@ import {
   startProgress,
   endProgress,
 } from "../../../redux/reducers/loadingSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -57,6 +57,7 @@ function RegisterForm() {
   const router = useRouter();
   const { id } = router.query;
   const dispatch = useDispatch();
+  const phone_number = useSelector((state) => state.auth.tempSmsNumber);
 
   const [RegisterInfo, setRegisterInfo] = useState({
     email: "",
@@ -144,7 +145,7 @@ function RegisterForm() {
     urlencoded.append("last_name", lastName);
     urlencoded.append("email", email);
     urlencoded.append("password", password);
-    urlencoded.append("phone_number", "09387001058");
+    urlencoded.append("phone_number", phone_number);
     urlencoded.append("gender", "male");
     urlencoded.append("address", address);
     urlencoded.append("invoices_id", "{}");

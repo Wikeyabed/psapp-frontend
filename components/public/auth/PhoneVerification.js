@@ -15,7 +15,12 @@ import {
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "../../../src/Link";
-import { receiveSms } from "../../../redux/reducers/authSlice";
+import {
+  receiveSms,
+  requestSmsAgain,
+  verifySms,
+  setTempNumber,
+} from "../../../redux/reducers/authSlice";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -50,18 +55,18 @@ function PhoneVerification() {
   const dispatch = useDispatch();
   const isSmsReceived = useSelector((state) => state.auth.isSmsReceived);
   const [otp, setOtp] = useState("");
+  const [isValid, setIsValid] = useState(false);
   const [number, setNumber] = useState("");
-  const [sms, setSms] = useState(false);
   const [initiated, setInitiated] = useState(false);
   const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(15);
+  const [seconds, setSeconds] = useState(10);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (seconds > 0 && sms) {
+      if (seconds != 0 && isSmsReceived) {
         setSeconds(seconds - 1);
-      } else {
-        setSms(false);
+      } else if (minutes == 0 && seconds == 0) {
+        dispatch(requestSmsAgain());
       }
 
       if (seconds === 0) {
@@ -77,12 +82,11 @@ function PhoneVerification() {
     return () => {
       clearInterval(interval);
     };
-  }, [minutes, seconds, sms]);
+  }, [minutes, seconds, isSmsReceived]);
 
   const handleSendSms = async () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
     var urlencoded = new URLSearchParams();
     urlencoded.append("phone_number", number);
 
@@ -101,8 +105,12 @@ function PhoneVerification() {
       .then((response) => {
         if (response.status == 200 || response.status == 201) {
           const sms = response.json();
+
           sms.then((data) => {
+            setInitiated(true);
+            console.log(data);
             dispatch(receiveSms());
+            dispatch(setTempNumber(data.phone_number));
             dispatch(
               setNotificationOn({
                 message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
@@ -111,6 +119,8 @@ function PhoneVerification() {
             );
           });
         } else {
+          dispatch(requestSmsAgain());
+          setInitiated(false);
           dispatch(
             setNotificationOn({
               message: "شماره شما قبلا در سیستم وارد شده است",
@@ -139,28 +149,55 @@ function PhoneVerification() {
     };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/sms_verify`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => {
+        if (response.status == 200 || response.status == 201) {
+          dispatch(verifySms());
+
+          dispatch(
+            setNotificationOn({
+              message: "کد ورودی صحیح می باشد",
+              color: "success",
+            })
+          );
+          // return response.json();
+        } else {
+          dispatch(
+            setNotificationOn({
+              message: "کد ورودی صحیح نمی باشد",
+              color: "error",
+            })
+          );
+        }
+      })
       .catch((error) => console.log("error", error));
   };
 
   const handleSetPhoneNumber = (event) => {
     setNumber(parseInt(event.target.value));
+
+    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+    let result = regex.test(event.target.value);
+
     console.log(number);
+    if (result) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
   };
   const setTimer = () => {
-    setMinutes(2);
-    setSeconds(0);
+    setMinutes(0);
+    setSeconds(10);
   };
 
   const handleCountDown = () => {
-    setSms(true);
-
+    dispatch(receiveSms());
     setTimer();
   };
 
   const handleEditNumber = () => {
-    setSms(false);
+    dispatch(requestSmsAgain());
+    setInitiated(false);
   };
   const handleChange = (newValue) => {
     setOtp(newValue);
@@ -173,7 +210,7 @@ function PhoneVerification() {
       <Grid component={FormControl} container spacing={2}>
         <Card item xs={10} md={3}>
           <Grid component={Item} elevation={4} container>
-            {isSmsReceived ? (
+            {initiated ? (
               <>
                 <Grid sx={{ mb: 6 }} item xs={12}>
                   <Typography sx={{ mb: 5 }} variant="h6">
@@ -205,20 +242,20 @@ function PhoneVerification() {
                   </Grid>
                   <Grid item padding={1} xs={6}>
                     <Button
-                      disabled={sms && (seconds > -1 || minutes > 0)}
+                      disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
                       onClick={handleCountDown}
                       size="large"
                       sx={{ p: 2 }}
                       fullWidth
                       variant="outlined"
                     >
-                      {sms ? `${sec} : ${min}` : " دریافت  دوباره کد"}
+                      {isSmsReceived ? `${sec} : ${min}` : " دریافت  دوباره کد"}
                     </Button>
                   </Grid>
 
                   <Grid
                     onClick={handleEditNumber}
-                    disabled={sms && (seconds > -1 || minutes > 0)}
+                    disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
                     component={Button}
                     variant="text"
                     sx={{
@@ -252,14 +289,17 @@ function PhoneVerification() {
 
                 <Grid xs={12} item>
                   <Button
-                    disabled={sms && (seconds > -1 || minutes > 0)}
+                    disabled={
+                      (isSmsReceived && (seconds > -1 || minutes > 0)) ||
+                      !isValid
+                    }
                     onClick={handleSendSms}
                     size="large"
                     sx={{ p: 2 }}
                     fullWidth
                     variant="contained"
                   >
-                    {sms ? `${sec} : ${min}` : "دریافت کد"}
+                    {isSmsReceived ? `${sec} : ${min}` : "دریافت کد"}
                   </Button>
 
                   {/* */}
