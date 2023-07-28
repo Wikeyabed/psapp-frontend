@@ -36,7 +36,9 @@ function Features() {
     >
       <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography variant="h6">تحویل اکسپرس</Typography>
+          <Typography color={"lightPrimary.main"} variant="h6">
+            تحویل اکسپرس
+          </Typography>
           <DeliveryDiningIcon
             sx={{
               fontSize: "75px !important",
@@ -44,13 +46,16 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="warning"
+            color="secondary"
           />
         </FeatureContainer>
       </Grid>
       <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography variant="h6"> ضمانت اصل بودن کالا</Typography>
+          <Typography color={"lightPrimary.main"} variant="h6">
+            {" "}
+            ضمانت اصل بودن کالا
+          </Typography>
 
           <AssignmentIcon
             sx={{
@@ -59,13 +64,16 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="warning"
+            color="secondary"
           />
         </FeatureContainer>
       </Grid>
       <Grid item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography variant="h6"> پشتیبانی 24 ساعته</Typography>
+          <Typography color={"lightPrimary.main"} variant="h6">
+            {" "}
+            پشتیبانی 24 ساعته
+          </Typography>
 
           <UpdateIcon
             sx={{
@@ -74,13 +82,16 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="warning"
+            color="secondary"
           />
         </FeatureContainer>
       </Grid>
       <Grid item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography variant="h6"> امکان پرداخت در محل</Typography>
+          <Typography color={"lightPrimary.main"} variant="h6">
+            {" "}
+            امکان پرداخت در محل
+          </Typography>
 
           <AddCardIcon
             sx={{
@@ -89,7 +100,7 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="warning"
+            color="secondary"
           />
         </FeatureContainer>
       </Grid>

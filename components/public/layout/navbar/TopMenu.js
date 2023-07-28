@@ -136,7 +136,7 @@ export default function TopMenu() {
                   marginRight: 1,
                   fontSize: "25px !important",
                 }}
-                color="warning"
+                color="secondary"
               />
             }
           >
@@ -160,7 +160,7 @@ export default function TopMenu() {
                   marginRight: 1,
                   fontSize: "25px !important",
                 }}
-                color="warning"
+                color="secondary"
               />
             }
           >
@@ -207,15 +207,15 @@ export default function TopMenu() {
         open={openProduct}
         onClose={handleCloseProduct}
       >
+        {/* need to fix menus for category change when selected and show the products */}
         <MenuItem
           sx={{
             pr: 0,
             py: 1.5,
           }}
-          onClick={() => handleCloseProduct("کارتن پستی")}
+          onClick={handleCloseProduct}
           disableRipple
-          component={Link}
-          href="/shop/#product_list"
+          // component={Link}
         >
           <InboxIcon
             sx={{
