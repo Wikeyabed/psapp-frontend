@@ -32,8 +32,6 @@ export default function SimpleBottomNavigation() {
       setValue(2);
     }
   }, [router]);
-
-  console.log(router);
   return (
     <Paper
       sx={{

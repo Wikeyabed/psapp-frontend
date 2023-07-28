@@ -92,7 +92,6 @@ export default function TopMenu() {
   };
   const handleCloseProduct = (name) => {
     setAnchorProduct(null);
-    dispatch(setFilter(name));
   };
 
   const openServices = Boolean(anchorServices);

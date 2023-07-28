@@ -12,5 +12,5 @@
   "editor.fontVariations": false,
   "CodeGPT.model": "gpt-3.5-turbo",
   "CodeGPT.apiKey": "OpenAI",
-  "cSpell.words": ["reduxjs"]
+  "cSpell.words": ["reduxjs", "Swipeable"]
 }

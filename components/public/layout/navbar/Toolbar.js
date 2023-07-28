@@ -107,11 +107,9 @@ function ToolbarMenu() {
             component={Link}
             href="/auth/login"
             color="secondary"
-            variant="text"
-            // size="large"
+            variant="outlined"
             sx={{
               fontSize: 16,
-              color: "#e0e0e0",
               padding: "2px 20px 7px 5px",
               backgroundColor: "#111",
               marginRight: "5px",

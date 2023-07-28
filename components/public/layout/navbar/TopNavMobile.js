@@ -103,6 +103,7 @@ function TopNavMobile(props) {
 
       <Box component="nav">
         <SwipeableDrawer
+          onOpen={() => console.log("mobile nav oepened")}
           anchor="left"
           disableBackdropTransition={true}
           container={container}
