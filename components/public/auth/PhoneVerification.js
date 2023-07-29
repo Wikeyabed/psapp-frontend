@@ -193,6 +193,7 @@ function PhoneVerification() {
   const handleCountDown = () => {
     dispatch(receiveSms());
     setTimer();
+    handleSendSms();
   };
 
   const handleEditNumber = () => {

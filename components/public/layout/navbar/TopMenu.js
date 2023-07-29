@@ -20,7 +20,6 @@ import {
 
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
-import { setFilter } from "../../../../redux/reducers/productSlice";
 
 const StyledMenu = stylize((props) => (
   <Menu

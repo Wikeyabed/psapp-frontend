@@ -2,6 +2,7 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 // @refresh reset
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -22,17 +23,37 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 export default function UserProfile() {
+  const user = useSelector((state) => state.auth.userInformation);
+
+  const [isValid, setIsValid] = useState(false);
+  const [info, setInfo] = useState({
+    address: user.address,
+  });
+
+  const handleSetInfo = (event) => {
+    setInfo({ ...info, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("submited");
+  };
   return (
     <Grid container>
-      <Grid item md={2}></Grid>
+      <Grid item md={3}></Grid>
+
       <Grid
         item
+        xs={12}
         md={8}
+        lg={6}
         container
         sx={{
           mt: 1,
           p: 1,
         }}
+        onSubmit={handleSubmit}
+        component="form"
       >
         <Grid item xs={12}>
           <Typography
@@ -49,7 +70,7 @@ export default function UserProfile() {
         <Grid item xs={12} md={6}>
           <RtlTextField
             size="medium"
-            defaultValue={"علی رضا"}
+            value={user.firstName}
             placeholder="نام"
             label="نام"
             disabled
@@ -58,82 +79,53 @@ export default function UserProfile() {
         <Grid item xs={12} md={6}>
           <RtlTextField
             disabled
-            defaultValue={"محمدی"}
+            value={user.lastName}
             size="medium"
             placeholder="نام خانوادگی"
             label="نام خانوادگی"
           />
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <RtlTextField
-            label="رمز عبور جدید"
+            label="شماره تماس"
+            disabled
+            value={user.phoneNumber}
             size="medium"
-            type="password"
-            placeholder="رمز عبور جدید"
+            type="text"
+            placeholder="شماره تماس"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12}>
           <RtlTextField
-            label="تکرار رمز عبور جدید"
-            size="medium"
-            type="password"
-            placeholder="تکرار رمز عبور جدید"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <RtlTextField
+            onChange={handleSetInfo}
+            defaultValue={info.address}
             multiline
             maxRows={4}
             minRows={4}
+            name="address"
             label="آدرس"
             type="textarea"
             placeholder="آدرس"
           />
         </Grid>
-        <Grid container item xs={12} md={6}>
-          <Grid item xs={12}>
-            <RtlTextField
-              label="شماره تماس"
-              disabled
-              defaultValue={"09198169771"}
-              size="medium"
-              type="text"
-              placeholder="شماره تماس"
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            {" "}
-            <RtlTextField
-              label="کد دریافتی"
-              type="number"
-              placeholder="کد دریافتی"
-            />
-          </Grid>
-          <Grid
-            sx={{
-              paddingTop: "14px ",
-              paddingRight: "14px ",
-            }}
-            xs={6}
-            item
-          >
-            {" "}
-            <Button fullWidth size="large" variant="outlined">
-              دریافت کد تایید
-            </Button>
-          </Grid>
-        </Grid>
 
         {/*  */}
 
-        <Grid item xs={12} md={6}>
-          <Button fullWidth size="large" variant="contained">
+        <Grid item container xs={12}>
+          <Button
+            type="submit"
+            fullWidth
+            size="large"
+            sx={{ mt: 4 }}
+            variant="contained"
+          >
             اعمال تفییرات
           </Button>
         </Grid>
       </Grid>
+
+      <Grid item md={3}></Grid>
     </Grid>
   );
 }

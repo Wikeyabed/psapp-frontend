@@ -134,8 +134,7 @@ function RegisterForm() {
 
   const handleSubmit = async (event) => {
     console.log(id);
-    const { email, password, passwordR, firstName, lastName, address } =
-      RegisterInfo;
+    const { email, password, firstName, lastName, address } = RegisterInfo;
     event.preventDefault();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");

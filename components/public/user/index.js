@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import UserInvoices from "./userInvoices";
 import UserProfile from "./UserProfile";
+import ChangePassword from "./ChangePassword";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,8 +54,8 @@ function User() {
   return (
     <PublicLayout>
       <Grid container sx={{ height: "100%" }}>
-        <Grid item xs={12} md={2.25}></Grid>
-        <Grid item xs={12} md={7.5}>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={6}>
           <Paper
             sx={{
               borderRadius: "10px !important",
@@ -70,14 +71,18 @@ function User() {
                   onChange={handleChange}
                   aria-label="basic tabs example"
                 >
-                  <Tab label="پروفایل" {...a11yProps(0)} />
-                  <Tab label="مشاهده فاکتور ها" {...a11yProps(1)} />
+                  <Tab label="اطلاعات کاربر" {...a11yProps(0)} />
+                  <Tab label="تغییر رمز عبور" {...a11yProps(1)} />
+                  <Tab label="مشاهده فاکتور ها" {...a11yProps(2)} />
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
                 <UserProfile hello="hello" />
               </TabPanel>
               <TabPanel value={value} index={1}>
+                <ChangePassword />
+              </TabPanel>
+              <TabPanel value={value} index={2}>
                 <UserInvoices />
               </TabPanel>
             </Box>
