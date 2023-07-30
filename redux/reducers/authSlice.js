@@ -7,6 +7,8 @@ const initialState = {
   isSmsReceived: false,
   isSmsVerified: false,
   tempSmsNumber: 0,
+  tempCaptchaNumber: 0,
+  tempCaptchaText: "",
   userInformation: {
     firstName: null,
     lastName: null,
@@ -49,11 +51,17 @@ export const authSlice = createSlice({
     setTempNumber: (state, { payload }) => {
       state.tempSmsNumber = payload;
     },
+
+    setCaptcha: (state, { payload }) => {
+      state.tempCaptchaNumber = payload.sum;
+      state.tempCaptchaText = payload.text;
+    },
   },
 });
 
 export const {
   userLogin,
+  setCaptcha,
   checkToken,
   userLogout,
   receiveSms,

@@ -36,7 +36,23 @@ export default function UserProfile() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submited");
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("address", user.address);
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/update-info/`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
   return (
     <Grid container>

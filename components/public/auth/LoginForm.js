@@ -8,20 +8,16 @@ import {
   TextField,
   Button,
   Typography,
-  FormControlLabel,
-  Checkbox,
-  FormControl,
   FormGroup,
+  Divider,
 } from "@mui/material";
 import Link from "../../../src/Link";
 
 import { userLogin } from "../../../redux/reducers/authSlice";
-import {
-  startProgress,
-  endProgress,
-} from "../../../redux/reducers/loadingSlice";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import Captcha from "./Captcha";
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   marginTop: 150,
@@ -51,10 +47,12 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaNumber);
 
   const [loginInfo, setLoginInfo] = useState({
     phoneNumber: "",
     password: "",
+    captcha: null,
   });
 
   const [isValid, setIsValid] = useState(true);
@@ -71,67 +69,78 @@ function LoginForm() {
     }
   };
 
+  const handleCaptcha = (event) => {
+    setLoginInfo({ ...loginInfo, captcha: event.target.value });
+    console.log(tempCaptcha);
+  };
+
   const handlePassword = (event) => {
     setLoginInfo({ ...loginInfo, password: event.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(startProgress());
-    let myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    let urlencoded = new URLSearchParams();
-    urlencoded.append("phone_number", loginInfo.phoneNumber);
-    urlencoded.append("password", loginInfo.password);
-    let requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-    };
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-      requestOptions
-    ).then((res) => {
-      if (res.status == 200) {
-        res.json().then((data) => {
-          console.log(data);
 
-          // set token to local storage
-          localStorage.setItem("token", data.token);
+    if (loginInfo.captcha == tempCaptcha) {
+      let myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      let urlencoded = new URLSearchParams();
+      urlencoded.append("phone_number", loginInfo.phoneNumber);
+      urlencoded.append("password", loginInfo.password);
+      let requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+      };
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        requestOptions
+      ).then((res) => {
+        if (res.status == 200) {
+          res.json().then((data) => {
+            console.log(data);
 
-          dispatch(
-            userLogin({
-              firstName: data.user.first_name,
-              lastName: data.user.last_name,
-              phoneNumber: data.user.phone_number,
-              address: data.user.address,
-              email: data.user.email,
-              refer: data.user.refer,
-              invoiceIds: data.user.invoices_id,
-              shoppingCartIds: data.user.shopping_list_id,
-            })
-          );
+            // set token to local storage
+            localStorage.setItem("token", data.token);
+
+            dispatch(
+              userLogin({
+                firstName: data.user.first_name,
+                lastName: data.user.last_name,
+                phoneNumber: data.user.phone_number,
+                address: data.user.address,
+                email: data.user.email,
+                refer: data.user.refer,
+                invoiceIds: data.user.invoices_id,
+                shoppingCartIds: data.user.shopping_list_id,
+              })
+            );
+            dispatch(
+              setNotificationOn({
+                message: "شما با موفقیت وارد سیستم شدید",
+                color: "info",
+              })
+            );
+          });
+        } else {
           dispatch(
             setNotificationOn({
-              message: "شما با موفقیت وارد سیستم شدید",
-              color: "info",
+              message: "نام کاربری یا رمزعبور اشتباه است",
+              color: "error",
             })
           );
-        });
 
-        dispatch(endProgress());
-      } else {
-        dispatch(
-          setNotificationOn({
-            message: "نام کاربری یا رمزعبور اشتباه است",
-            color: "error",
-          })
-        );
-
-        dispatch(endProgress());
-        setLoginInfo({ ...loginInfo, password: "" });
-      }
-    });
+          setLoginInfo({ ...loginInfo, password: "" });
+        }
+      });
+    } else {
+      dispatch(
+        setNotificationOn({
+          message: "پاسخ سوال امنیت اشتباه است",
+          color: "error",
+        })
+      );
+    }
   };
 
   return (
@@ -141,7 +150,7 @@ function LoginForm() {
           <form onSubmit={handleSubmit}>
             <FormGroup>
               <Grid component={Item} elevation={4} container>
-                <Grid sx={{ mb: 6 }} item xs={12}>
+                <Grid sx={{ mb: 1 }} item xs={12}>
                   <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
                     ورود بـه حساب کـاربـری
                   </Typography>
@@ -163,7 +172,35 @@ function LoginForm() {
                   />
                 </Grid>
 
+                <Grid xs={12} item>
+                  {" "}
+                  <Divider sx={{ my: 4, width: "95%", mx: "auto" }} />
+                </Grid>
+
                 <Grid xs={6} item>
+                  <Captcha />
+                </Grid>
+                <Grid xs={6} container item>
+                  <Grid item xs={4}>
+                    <RtlTextField
+                      value={loginInfo.captcha}
+                      size="small"
+                      required
+                      color="warning"
+                      focused
+                      inputProps={{ maxLength: 2 }}
+                      // fullWidth
+                      onChange={handleCaptcha}
+                      type="text"
+                      sx={{
+                        pr: 2,
+                      }}
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+
+                <Grid sx={{ mt: 4 }} xs={12} item>
                   <Button
                     disabled={!isValid}
                     sx={{ p: 1 }}
@@ -173,16 +210,6 @@ function LoginForm() {
                   >
                     ورود
                   </Button>
-                </Grid>
-                <Grid xs={6} item>
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label={
-                      <Typography variant="caption">
-                        مرا به خاطر بسپار
-                      </Typography>
-                    }
-                  />
                 </Grid>
 
                 <Grid
