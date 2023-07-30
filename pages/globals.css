@@ -8,6 +8,12 @@
   src: url("../public/fonts/Iranyekan-bold.ttf");
 }
 
+@font-face {
+  font-family: "cv";
+  font-style: italic;
+  src: url("../public/fonts/hillock.ttf");
+}
+
 * {
   font-family: "iranyekan" !important;
   text-align: right;

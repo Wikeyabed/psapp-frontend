@@ -47,7 +47,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 function LoginForm() {
   const dispatch = useDispatch();
-  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaNumber);
+  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaText);
 
   const [loginInfo, setLoginInfo] = useState({
     phoneNumber: "",
@@ -81,7 +81,7 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (loginInfo.captcha == tempCaptcha) {
+    if (loginInfo.captcha.toLowerCase() == tempCaptcha.toLowerCase()) {
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
       let urlencoded = new URLSearchParams();
@@ -134,9 +134,10 @@ function LoginForm() {
         }
       });
     } else {
+      setLoginInfo({ ...loginInfo, password: "" });
       dispatch(
         setNotificationOn({
-          message: "پاسخ سوال امنیت اشتباه است",
+          message: "متن امنیتی وارد شده اشتباه است",
           color: "error",
         })
       );
@@ -180,24 +181,23 @@ function LoginForm() {
                 <Grid xs={6} item>
                   <Captcha />
                 </Grid>
-                <Grid xs={6} container item>
-                  <Grid item xs={4}>
-                    <RtlTextField
-                      value={loginInfo.captcha}
-                      size="small"
-                      required
-                      color="warning"
-                      focused
-                      inputProps={{ maxLength: 2 }}
-                      // fullWidth
-                      onChange={handleCaptcha}
-                      type="text"
-                      sx={{
-                        pr: 2,
-                      }}
-                      variant="outlined"
-                    />
-                  </Grid>
+
+                <Grid item xs={4}>
+                  <RtlTextField
+                    textAlign={"center"}
+                    value={loginInfo.captcha}
+                    size="medium"
+                    required
+                    label="متن تصویر"
+                    color="info"
+                    inputProps={{
+                      maxLength: 4,
+                    }}
+                    // fullWidth
+                    onChange={handleCaptcha}
+                    type="text"
+                    variant="outlined"
+                  />
                 </Grid>
 
                 <Grid sx={{ mt: 4 }} xs={12} item>

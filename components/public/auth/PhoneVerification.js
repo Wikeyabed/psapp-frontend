@@ -22,6 +22,7 @@ import {
   setTempNumber,
 } from "../../../redux/reducers/authSlice";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import Captcha from "./Captcha";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -53,10 +54,13 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 function PhoneVerification() {
   const dispatch = useDispatch();
+  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaText);
   const isSmsReceived = useSelector((state) => state.auth.isSmsReceived);
   const [otp, setOtp] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [number, setNumber] = useState("");
+  const [captcha, setCaptcha] = useState("");
+
   const [initiated, setInitiated] = useState(false);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(10);
@@ -84,53 +88,65 @@ function PhoneVerification() {
     };
   }, [minutes, seconds, isSmsReceived]);
 
+  const handleCaptcha = (event) => {
+    setCaptcha(event.target.value);
+  };
   const handleSendSms = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("phone_number", number);
+    if (captcha.toLowerCase() == tempCaptcha) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("phone_number", number);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-      credentials: "include",
-    };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+        credentials: "include",
+      };
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/sms_send`,
-      requestOptions
-    )
-      .then((response) => {
-        if (response.status == 200 || response.status == 201) {
-          const sms = response.json();
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/sms_send`,
+        requestOptions
+      )
+        .then((response) => {
+          if (response.status == 200 || response.status == 201) {
+            const sms = response.json();
 
-          sms.then((data) => {
-            setInitiated(true);
-            console.log(data);
-            dispatch(receiveSms());
-            dispatch(setTempNumber(data.phone_number));
+            sms.then((data) => {
+              setInitiated(true);
+              console.log(data);
+              dispatch(receiveSms());
+              dispatch(setTempNumber(data.phone_number));
+              dispatch(
+                setNotificationOn({
+                  message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
+                  color: "info",
+                })
+              );
+            });
+          } else {
+            dispatch(requestSmsAgain());
+            setInitiated(false);
             dispatch(
               setNotificationOn({
-                message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
-                color: "info",
+                message: "شماره شما قبلا در سیستم وارد شده است",
+                color: "warning",
               })
             );
-          });
-        } else {
-          dispatch(requestSmsAgain());
-          setInitiated(false);
-          dispatch(
-            setNotificationOn({
-              message: "شماره شما قبلا در سیستم وارد شده است",
-              color: "warning",
-            })
-          );
-        }
-      })
+          }
+        })
 
-      .catch((error) => console.log("error", error));
+        .catch((error) => console.log("error", error));
+    } else {
+      dispatch(
+        setNotificationOn({
+          message: "متن امنیتی وارد شده اشتباه است",
+          color: "error",
+        })
+      );
+    }
   };
 
   const handleVerifyCode = () => {
@@ -276,7 +292,7 @@ function PhoneVerification() {
               </>
             ) : (
               <>
-                <Grid sx={{ mb: 6 }} item xs={12}>
+                <Grid sx={{ mb: 3 }} item xs={12}>
                   <Typography sx={{ mb: 5 }} variant="h6">
                     شماره موبایل خود را وارد کنید
                   </Typography>
@@ -285,6 +301,28 @@ function PhoneVerification() {
                     fullWidth
                     onChange={handleSetPhoneNumber}
                     label="شماره تماس"
+                  />
+                </Grid>
+
+                <Grid item xs={6} sx={{ mb: 4 }}>
+                  <Captcha />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <RtlTextField
+                    textAlign={"center"}
+                    value={captcha}
+                    size="medium"
+                    required
+                    label="متن تصویر"
+                    color="info"
+                    inputProps={{
+                      maxLength: 4,
+                    }}
+                    // fullWidth
+                    onChange={handleCaptcha}
+                    type="text"
+                    variant="outlined"
                   />
                 </Grid>
 
