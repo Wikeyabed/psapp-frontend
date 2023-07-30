@@ -2,10 +2,10 @@ import React from "react";
 import AdminLayout from "../layout/index";
 import UsersTable from "./UsersTable";
 
-function UsersList() {
+function UsersList({ users }) {
   return (
     <AdminLayout>
-      <UsersTable />
+      <UsersTable users={users} />
     </AdminLayout>
   );
 }

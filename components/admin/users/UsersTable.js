@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   minWidth: "180px",
 }));
 
-const UsersTable = (props) => {
+const UsersTable = ({ users }) => {
   const [open, setOpen] = useState({});
   const handleOpen = (id) => setOpen({ ...open, [id]: true });
   const handleClose = (id) => setOpen({ ...open, [id]: false });
@@ -46,69 +46,71 @@ const UsersTable = (props) => {
     setPage(0);
   };
 
-  const invoices = [
-    { id: 1, customerName: "جان دو", date: "2022-01-15", totalAmount: 500 },
-    {
-      id: 2,
-      customerName: "جین اسمیت",
-      date: "2022-01-20",
-      totalAmount: 1000,
-    },
-    {
-      id: 3,
-      customerName: "باب جانسون",
-      date: "2022-01-22",
-      totalAmount: 750,
-    },
-    {
-      id: 4,
-      customerName: "آلیسون جونز",
-      date: "2022-01-23",
-      totalAmount: 2000,
-    },
-    {
-      id: 5,
-      customerName: "مریم شجاع",
-      date: "2022-01-23",
-      totalAmount: 300,
-    },
-    {
-      id: 6,
-      customerName: "فواد عزیزی",
-      date: "2022-01-24",
-      totalAmount: 900,
-    },
-    {
-      id: 7,
-      customerName: "صالح رحمانی",
-      date: "2022-01-25",
-      totalAmount: 600,
-    },
-    {
-      id: 8,
-      customerName: "سارا عباسی",
-      date: "2022-01-26",
-      totalAmount: 1500,
-    },
-    {
-      id: 9,
-      customerName: "جواد عزیزی",
-      date: "2022-01-27",
-      totalAmount: 800,
-    },
-    {
-      id: 10,
-      customerName: "آرمین شاهین",
-      date: "2022-01-28",
-      totalAmount: 1200,
-    },
-    {
-      id: 11,
-      customerName: "نرگس حسینی",
-      date: "2022-01-29",
-      totalAmount: 400,
-    },
-  ];
+  console.log(users);
+
+  // const invoices = [
+  //   { id: 1, customerName: "جان دو", date: "2022-01-15", totalAmount: 500 },
+  //   {
+  //     id: 2,
+  //     customerName: "جین اسمیت",
+  //     date: "2022-01-20",
+  //     totalAmount: 1000,
+  //   },
+  //   {
+  //     id: 3,
+  //     customerName: "باب جانسون",
+  //     date: "2022-01-22",
+  //     totalAmount: 750,
+  //   },
+  //   {
+  //     id: 4,
+  //     customerName: "آلیسون جونز",
+  //     date: "2022-01-23",
+  //     totalAmount: 2000,
+  //   },
+  //   {
+  //     id: 5,
+  //     customerName: "مریم شجاع",
+  //     date: "2022-01-23",
+  //     totalAmount: 300,
+  //   },
+  //   {
+  //     id: 6,
+  //     customerName: "فواد عزیزی",
+  //     date: "2022-01-24",
+  //     totalAmount: 900,
+  //   },
+  //   {
+  //     id: 7,
+  //     customerName: "صالح رحمانی",
+  //     date: "2022-01-25",
+  //     totalAmount: 600,
+  //   },
+  //   {
+  //     id: 8,
+  //     customerName: "سارا عباسی",
+  //     date: "2022-01-26",
+  //     totalAmount: 1500,
+  //   },
+  //   {
+  //     id: 9,
+  //     customerName: "جواد عزیزی",
+  //     date: "2022-01-27",
+  //     totalAmount: 800,
+  //   },
+  //   {
+  //     id: 10,
+  //     customerName: "آرمین شاهین",
+  //     date: "2022-01-28",
+  //     totalAmount: 1200,
+  //   },
+  //   {
+  //     id: 11,
+  //     customerName: "نرگس حسینی",
+  //     date: "2022-01-29",
+  //     totalAmount: 400,
+  //   },
+  // ];
 
   return (
     <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
@@ -133,13 +135,13 @@ const UsersTable = (props) => {
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {invoices
+            {users
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((invoice) => (
-                <TableRow key={invoice.id}>
+              .map((user) => (
+                <TableRow key={user.id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <Link href={`users/${invoice.id}`}>
-                      کاربر {invoice.customerName}
+                    <Link href={`users/${user.id}`}>
+                      کاربر {user.customerName}
                     </Link>
                   </TableCell>
 
@@ -148,7 +150,7 @@ const UsersTable = (props) => {
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    {invoice.totalAmount}
+                    {user.totalAmount}
                   </TableCell>
                 </TableRow>
               ))}
@@ -158,7 +160,7 @@ const UsersTable = (props) => {
           component="div"
           rowsPerPageOptions={[5, 10, 25]}
           rowsPerPage={rowsPerPage}
-          count={invoices.length}
+          count={users.length}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}

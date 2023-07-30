@@ -24,6 +24,7 @@ import {
 } from "../../../redux/reducers/loadingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import { setCookie } from "cookies-next";
 
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
@@ -167,7 +168,7 @@ function RegisterForm() {
           res.json().then((data) => {
             console.log(data);
 
-            localStorage.setItem("token", data.token);
+            setCookie("x-auth-token", data.token);
             dispatch(
               userLogin({
                 firstName: data.first_name,

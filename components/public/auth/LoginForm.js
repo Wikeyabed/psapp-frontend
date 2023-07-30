@@ -12,7 +12,7 @@ import {
   Divider,
 } from "@mui/material";
 import Link from "../../../src/Link";
-
+import { setCookie } from "cookies-next";
 import { userLogin } from "../../../redux/reducers/authSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -101,7 +101,8 @@ function LoginForm() {
             console.log(data);
 
             // set token to local storage
-            localStorage.setItem("token", data.token);
+
+            setCookie("x-auth-token", data.token);
 
             dispatch(
               userLogin({

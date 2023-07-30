@@ -6,6 +6,7 @@ import { AddShoppingCart } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/reducers/productSlice";
 import { setNotificationOn } from "../../../../redux/reducers/notificationSlice";
+import { getCookie } from "cookies-next";
 
 function AddToCart({ counter, price, productId, fullStack }) {
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ function AddToCart({ counter, price, productId, fullStack }) {
     if (isLoggedIn) {
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-      myHeaders.append("token", localStorage.getItem("token"));
+      myHeaders.append("token", getCookie("x-auth-token"));
 
       var urlencoded = new URLSearchParams();
       urlencoded.append("shopping_list_id", products);

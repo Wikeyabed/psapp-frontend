@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import { getCookie } from "cookies-next";
 // @refresh reset
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -57,7 +58,7 @@ export default function ChangePassword() {
     event.preventDefault();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    myHeaders.append("token", localStorage.getItem("token"));
+    myHeaders.append("token", getCookie("x-auth-token"));
     let urlencoded = new URLSearchParams();
     urlencoded.append("old_password", info.oldPassword);
     urlencoded.append("new_password", info.newPassword);

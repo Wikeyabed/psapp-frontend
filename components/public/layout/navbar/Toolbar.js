@@ -23,6 +23,7 @@ import Link from "../../../../src/Link";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { userLogout } from "../../../../redux/reducers/authSlice";
+import { deleteCookie } from "cookies-next";
 
 function ToolbarMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -38,7 +39,7 @@ function ToolbarMenu() {
 
   const handleUserLogout = async () => {
     setAnchorEl(null);
-    localStorage.removeItem("token");
+    deleteCookie("x-auth-token");
     dispatch(userLogout());
     router.push("/auth/login");
   };

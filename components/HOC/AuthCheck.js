@@ -2,6 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getCookie } from "cookies-next";
 import { userLogin } from "../../redux/reducers/authSlice";
 import { startProgress, endProgress } from "../../redux/reducers/loadingSlice";
 
@@ -10,7 +11,7 @@ function AuthCheck({ children }) {
   const [checkToken, setCheckToken] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = getCookie("x-auth-token");
 
     if (token != null && token != undefined && !checkToken) {
       dispatch(startProgress());
