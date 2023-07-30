@@ -135,7 +135,7 @@ const UsersTable = ({ users }) => {
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {users
+            {/* {users
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((user) => (
                 <TableRow key={user.id}>
@@ -153,14 +153,14 @@ const UsersTable = ({ users }) => {
                     {user.totalAmount}
                   </TableCell>
                 </TableRow>
-              ))}
+              ))} */}
           </TableBody>
         </Table>
         <TablePagination
           component="div"
           rowsPerPageOptions={[5, 10, 25]}
           rowsPerPage={rowsPerPage}
-          count={users.length}
+          count={50}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
