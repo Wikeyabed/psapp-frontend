@@ -57,6 +57,7 @@ export default function Captcha() {
       createCanvas();
       setData({ ...data, isSet: true });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, setData, reset]);
   console.log(data);
   return (

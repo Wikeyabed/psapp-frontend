@@ -129,31 +129,46 @@ const UsersTable = ({ users }) => {
         <Table>
           <TableHead>
             <StyledTableHeaderRow>
-              <StyledTableCell>نام مشتری</StyledTableCell>
-              <StyledTableCell>تاریخ صدور</StyledTableCell>
+              <StyledTableCell>نام یوزر</StyledTableCell>
+              <StyledTableCell>سمت</StyledTableCell>
               <StyledTableCell>تعداد فاکتور ها</StyledTableCell>
+              <StyledTableCell>تاریخ ثبت نام</StyledTableCell>
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {/* {users
+            {users
+              .sort((a, b) => a.role - b.role)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((user) => (
                 <TableRow key={user.id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <Link href={`users/${user.id}`}>
-                      کاربر {user.customerName}
+                    <Link
+                      sx={{
+                        textDecoration: "none !important",
+                      }}
+                      href={`users/${user.id}`}
+                    >
+                      {user.first_name + " " + user.last_name}
                     </Link>
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <ToPersianDate timestamp={1677148856} />
+                    {user.role === "3"
+                      ? "کاربر معمولی"
+                      : user.role == "1"
+                      ? "ادمین"
+                      : "فروشنده"}
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
                     {user.totalAmount}
                   </TableCell>
+
+                  <TableCell style={{ textAlign: "right" }}>
+                    <ToPersianDate timestamp={user.register_date} />
+                  </TableCell>
                 </TableRow>
-              ))} */}
+              ))}
           </TableBody>
         </Table>
         <TablePagination

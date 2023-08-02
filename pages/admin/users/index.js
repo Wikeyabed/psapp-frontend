@@ -12,13 +12,15 @@ function Users({ users }) {
 export default Users;
 
 export async function getServerSideProps({ req, res }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`, {
+    headers: {
+      token: getCookie("x-auth-token", { req, res }),
+    },
+  });
+  // const headers = await req.getHeaders();
+  // await res.setHeader("token", getCookie("x-auth-token", { req, res }));
 
-  res.setHeader("token", getCookie("x-auth-token", { req, res }));
-  res.setHeader("Set-Cookie", "foo=bar");
-
-  console.log(getCookie("x-auth-token", { req, res }));
-
+  // console.log(req.headers);
   const users = await response.json();
 
   return {
