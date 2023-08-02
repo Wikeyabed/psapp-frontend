@@ -113,6 +113,7 @@ function LoginForm() {
                 email: data.user.email,
                 refer: data.user.refer,
                 invoiceIds: data.user.invoices_id,
+                r: data.user.role,
                 shoppingCartIds: data.user.shopping_list_id,
               })
             );

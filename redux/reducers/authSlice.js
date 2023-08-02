@@ -15,6 +15,7 @@ const initialState = {
     address: null,
     email: null,
     refer: null,
+    r: "",
     invoiceIds: [],
     shoppingCartIds: [],
   },

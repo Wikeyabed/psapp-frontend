@@ -46,8 +46,6 @@ const UsersTable = ({ users }) => {
     setPage(0);
   };
 
-  console.log(users);
-
   // const invoices = [
   //   { id: 1, customerName: "جان دو", date: "2022-01-15", totalAmount: 500 },
   //   {
@@ -133,42 +131,50 @@ const UsersTable = ({ users }) => {
               <StyledTableCell>سمت</StyledTableCell>
               <StyledTableCell>تعداد فاکتور ها</StyledTableCell>
               <StyledTableCell>تاریخ ثبت نام</StyledTableCell>
+
+              <StyledTableCell>معرف</StyledTableCell>
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {users
-              .sort((a, b) => a.role - b.role)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell style={{ textAlign: "right" }}>
-                    <Link
-                      sx={{
-                        textDecoration: "none !important",
-                      }}
-                      href={`users/${user.id}`}
-                    >
-                      {user.first_name + " " + user.last_name}
-                    </Link>
-                  </TableCell>
+            {users.length > 0
+              ? users
+                  .sort((a, b) => a.role - b.role)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell style={{ textAlign: "right" }}>
+                        <Link
+                          sx={{
+                            textDecoration: "none !important",
+                          }}
+                          href={`users/${user.id}`}
+                        >
+                          {user.first_name + " " + user.last_name}
+                        </Link>
+                      </TableCell>
 
-                  <TableCell style={{ textAlign: "right" }}>
-                    {user.role === "3"
-                      ? "کاربر معمولی"
-                      : user.role == "1"
-                      ? "ادمین"
-                      : "فروشنده"}
-                  </TableCell>
+                      <TableCell style={{ textAlign: "right" }}>
+                        {user.role === "3"
+                          ? "کاربر معمولی"
+                          : user.role == "1"
+                          ? "ادمین"
+                          : "فروشنده"}
+                      </TableCell>
 
-                  <TableCell style={{ textAlign: "right" }}>
-                    {user.totalAmount}
-                  </TableCell>
+                      <TableCell style={{ textAlign: "right" }}>
+                        {user.totalAmount}
+                      </TableCell>
 
-                  <TableCell style={{ textAlign: "right" }}>
-                    <ToPersianDate timestamp={user.register_date} />
-                  </TableCell>
-                </TableRow>
-              ))}
+                      <TableCell style={{ textAlign: "right" }}>
+                        <ToPersianDate timestamp={user.register_date} />
+                      </TableCell>
+
+                      <TableCell style={{ textAlign: "right" }}>
+                        {user.refer != null ? user.refer : "ایباکس"}
+                      </TableCell>
+                    </TableRow>
+                  ))
+              : ""}
           </TableBody>
         </Table>
         <TablePagination

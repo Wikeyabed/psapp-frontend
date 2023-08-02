@@ -42,6 +42,7 @@ function AuthCheck({ children }) {
               address: data.address,
               email: data.email,
               refer: data.refer,
+              r: data.role,
               invoiceIds: data.invoices_id,
               shoppingCartIds: data.shopping_list_id,
             })

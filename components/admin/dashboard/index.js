@@ -12,7 +12,6 @@ function AdminDashboard() {
       <Box>
         <Grid container>
           <TopBoxes />
-
           <DashboardCharts />
         </Grid>
       </Box>
