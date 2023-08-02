@@ -16,8 +16,9 @@ export default function Captcha() {
 
   function makeId(length) {
     let result = "";
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const characters = "0123456789";
     // abcdefghijklmnopqrstuvwxyz;
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ;
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
@@ -29,15 +30,15 @@ export default function Captcha() {
   }
 
   function createCanvas() {
-    var r = (255 * Math.random()) | 0,
-      g = (255 * Math.random()) | 0,
-      b = (255 * Math.random()) | 0;
+    var r = (190 * Math.random()) | 0,
+      g = (190 * Math.random()) | 0,
+      b = (190 * Math.random()) | 0;
     const cssColor = "rgb(" + r + "," + g + "," + b + ")";
     const canvas = document.getElementById("captcha");
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, canvas.width, canvas.height / 1.3);
-    ctx.font = "75px cv";
+    ctx.font = "85px cv";
     ctx.fillStyle = cssColor;
     ctx.textAlign = "center";
 
@@ -83,9 +84,7 @@ export default function Captcha() {
       <Box
         id="captcha"
         sx={{
-          width: 120,
-          mt: 2,
-          fontFamily: "cv !important",
+          width: 150,
         }}
         component="canvas"
       ></Box>
