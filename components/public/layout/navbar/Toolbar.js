@@ -26,6 +26,9 @@ import { userLogout } from "../../../../redux/reducers/authSlice";
 import { deleteCookie } from "cookies-next";
 
 function ToolbarMenu() {
+  const isAdminLoggedIn = useSelector(
+    (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
+  );
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -69,6 +72,20 @@ function ToolbarMenu() {
         پروفایل
       </MenuItem>
       <MenuItem onClick={handleUserLogout}>خروج</MenuItem>
+
+      {isAdminLoggedIn ? (
+        <MenuItem
+          sx={{
+            color: "red",
+          }}
+          component={Link}
+          href="/admin"
+        >
+          ورود به پنل ادمین
+        </MenuItem>
+      ) : (
+        ""
+      )}
     </Menu>
   );
 

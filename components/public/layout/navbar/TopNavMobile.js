@@ -19,6 +19,8 @@ import Link from "../../../../src/Link";
 import Logo from "./Logo";
 import MobileFilterBar from "../../shop/products/MobileFilterBar";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+
 const drawerWidth = 240;
 
 const navItems = [
@@ -29,6 +31,9 @@ const navItems = [
 ];
 
 function TopNavMobile(props) {
+  const isAdminLoggedIn = useSelector(
+    (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
+  );
   const router = useRouter();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -62,6 +67,20 @@ function TopNavMobile(props) {
             </ListItemButton>
           </ListItem>
         ))}
+
+        {isAdminLoggedIn ? (
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              href="/admin"
+              sx={{ textAlign: "center", color: "red" }}
+            >
+              <ListItemText primary={"ورود به پنل ادمین"} />
+            </ListItemButton>
+          </ListItem>
+        ) : (
+          ""
+        )}
       </List>
     </Box>
   );
