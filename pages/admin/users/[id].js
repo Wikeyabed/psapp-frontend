@@ -3,13 +3,10 @@ import UserPage from "../../../components/admin/users/UserPage";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 
-function User({ userData }) {
-  const router = useRouter();
-  const id = router.query.id;
-
+function User({ userData, userInvoices }) {
   return (
     <>
-      <UserPage userData={userData} />
+      <UserPage userData={userData} userInvoices={userInvoices} />
     </>
   );
 }
@@ -17,7 +14,7 @@ function User({ userData }) {
 export default User;
 
 export async function getServerSideProps({ req, res, params }) {
-  const response = await fetch(
+  const info = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`,
     {
       headers: {
@@ -26,13 +23,24 @@ export async function getServerSideProps({ req, res, params }) {
     }
   );
 
-  const userData = await response.json();
+  const invoices = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/invoices/user/${params.id}`,
+    {
+      headers: {
+        token: getCookie("x-auth-token", { req, res }),
+      },
+    }
+  );
 
-  console.log(userData);
+  const userData = await info.json();
+  const userInvoices = await invoices.json();
+
+  console.log(userInvoices);
 
   return {
     props: {
       userData: userData[0],
+      userInvoices,
     },
   };
 }

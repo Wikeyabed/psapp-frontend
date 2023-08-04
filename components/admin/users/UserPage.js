@@ -1,25 +1,23 @@
 import React from "react";
 import { useRouter } from "next/router";
 import AdminLayout from "../layout";
-import { Grid, Card, CardContent, Typography, Divider } from "@mui/material";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Divider,
+  Badge,
+  Chip,
+} from "@mui/material";
 import ToPersianDate from "../../../src/TimestampToPersian";
+import { persianNumber } from "../../../src/PersianDigits";
+import Link from "../../../src/Link";
 
-const userInfo = {
-  name: "جان دو",
-  email: "johndoe@example.com",
-  age: 28,
-  registerDate: "2021-10-01",
-  invoices: [
-    { id: 1, date: "2021-10-02", amount: 100 },
-    { id: 2, date: "2021-11-05", amount: 50 },
-    { id: 3, date: "2022-01-10", amount: 200 },
-  ],
-};
-
-function UserPage({ userData }) {
+function UserPage({ userData, userInvoices }) {
   return (
     <AdminLayout>
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Typography sx={{ margin: "10px auto" }} variant="h4">
           مشخصات کاربر
         </Typography>
@@ -65,6 +63,12 @@ function UserPage({ userData }) {
                     <ToPersianDate timestamp={userData.register_date} />
                   </Typography>
                 </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <Typography variant="body2">
+                    آدرس: {userData.address}
+                  </Typography>
+                </Grid>
               </Grid>
             </CardContent>
           </Card>
@@ -81,20 +85,76 @@ function UserPage({ userData }) {
                 فاکتورها
               </Typography>
               <Grid container spacing={2}>
-                {userInfo.invoices.map((invoice, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={invoice.id}>
-                    <Card
+                {userInvoices.map((invoice) => (
+                  <Grid item xs={12} sm={6} md={4} key={invoice.invoice_id}>
+                    <Link
                       sx={{
-                        backgroundColor:
-                          index % 2 === 0 ? "#f7ede2" : "#f9d9c2",
+                        textDecoration: "none !important",
                       }}
+                      href={`/admin/invoices/${invoice.invoice_id}`}
                     >
-                      <CardContent>
-                        <Typography>شناسه: {invoice.id}</Typography>
-                        <Typography>تاریخ: {invoice.date}</Typography>
-                        <Typography>مبلغ: {invoice.amount}</Typography>
-                      </CardContent>
-                    </Card>
+                      <Card
+                        sx={{
+                          backgroundColor: "lightPrimary.main",
+                          color: "primary.textWhite",
+                        }}
+                      >
+                        <CardContent>
+                          <Typography variant="h5">
+                            فاکتور شماره: {invoice.invoice_id}
+                          </Typography>
+                          <Divider
+                            color="#fff"
+                            sx={{
+                              my: 4,
+                            }}
+                          />
+                          <Typography display={"flex"} sx={{ mt: 2 }}>
+                            تاریخ:
+                            <ToPersianDate timestamp={invoice.invoice_date} />
+                          </Typography>
+                          <Typography sx={{ mt: 2 }}>
+                            شماره تراکنش : {invoice.transaction_id}
+                          </Typography>
+                          <Typography sx={{ mt: 2 }}>
+                            شماره پیگیری : {invoice.track_id}
+                          </Typography>
+                          <Typography sx={{ mt: 2 }}>
+                            شماره سفارش : {invoice.order_id}
+                          </Typography>
+                          <Typography sx={{ mt: 2 }}>
+                            مبلغ: {persianNumber(invoice.finished_price)} ریال
+                          </Typography>
+                          <Typography sx={{ mt: 2 }} component="div">
+                            وضعیت فعلی :
+                            <Chip
+                              sx={{ mx: 2 }}
+                              label={
+                                invoice.status == "1"
+                                  ? "در انتظار تایید"
+                                  : invoice.status == "2"
+                                  ? "در حال پردازش"
+                                  : invoice.status == "3"
+                                  ? "تکمیل شده"
+                                  : "کنسل شده"
+                              }
+                              color={
+                                invoice.status == "1"
+                                  ? "warning"
+                                  : invoice.status == "2"
+                                  ? "info"
+                                  : invoice.status == "3"
+                                  ? "success"
+                                  : "error"
+                              }
+                              variant="filled"
+                            >
+                              در حال اطلاعات
+                            </Chip>
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   </Grid>
                 ))}
               </Grid>
