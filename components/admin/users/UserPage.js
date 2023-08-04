@@ -1,7 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 import AdminLayout from "../layout";
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Divider } from "@mui/material";
+import ToPersianDate from "../../../src/TimestampToPersian";
 
 const userInfo = {
   name: "جان دو",
@@ -15,10 +16,7 @@ const userInfo = {
   ],
 };
 
-function UserPage() {
-  const router = useRouter();
-  const { id } = router.query;
-
+function UserPage({ userData }) {
   return (
     <AdminLayout>
       <Grid container spacing={2}>
@@ -37,18 +35,34 @@ function UserPage() {
                 اطلاعات کاربر
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography>نام: {userInfo.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>ایمیل: {userInfo.email}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography>شناسه کاربری: {id}</Typography>
-                </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={4}>
                   <Typography>
-                    تاریخ ثبت نام: {userInfo.registerDate}
+                    نام: {userData.first_name + " " + userData.last_name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Typography>ایمیل: {userData.email}</Typography>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Typography variant="body2">
+                    شناسه کاربری: {userData.id}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <Typography>شماره تماس : {userData.phone_number}</Typography>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: 1,
+                    }}
+                  >
+                    تاریخ ثبت نام:{" "}
+                    <ToPersianDate timestamp={userData.register_date} />
                   </Typography>
                 </Grid>
               </Grid>

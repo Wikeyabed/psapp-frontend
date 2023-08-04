@@ -43,7 +43,7 @@ function AdminLayout({ children }) {
           </Grid>
         </Box>
       ) : (
-        <Error />
+        ""
       )}
     </>
   );
