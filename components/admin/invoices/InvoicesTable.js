@@ -16,6 +16,7 @@ import { useState } from "react";
 import InvoiceStatus from "./InvoiceStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
+import { persianNumber } from "../../../src/PersianDigits";
 
 const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
   backgroundColor: theme.palette.lightPrimary.main,
@@ -31,10 +32,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   minWidth: "180px",
 }));
 
-const InvoicesTable = (props) => {
+const InvoicesTable = ({ invoices }) => {
   const [open, setOpen] = useState({});
-  const handleOpen = (id) => setOpen({ ...open, [id]: true });
-  const handleClose = (id) => setOpen({ ...open, [id]: false });
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -47,70 +46,6 @@ const InvoicesTable = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  const invoices = [
-    { id: 1, customerName: "جان دو", date: "2022-01-15", totalAmount: 500 },
-    {
-      id: 2,
-      customerName: "جین اسمیت",
-      date: "2022-01-20",
-      totalAmount: 1000,
-    },
-    {
-      id: 3,
-      customerName: "باب جانسون",
-      date: "2022-01-22",
-      totalAmount: 750,
-    },
-    {
-      id: 4,
-      customerName: "آلیسون جونز",
-      date: "2022-01-23",
-      totalAmount: 2000,
-    },
-    {
-      id: 5,
-      customerName: "مریم شجاع",
-      date: "2022-01-23",
-      totalAmount: 300,
-    },
-    {
-      id: 6,
-      customerName: "فواد عزیزی",
-      date: "2022-01-24",
-      totalAmount: 900,
-    },
-    {
-      id: 7,
-      customerName: "صالح رحمانی",
-      date: "2022-01-25",
-      totalAmount: 600,
-    },
-    {
-      id: 8,
-      customerName: "سارا عباسی",
-      date: "2022-01-26",
-      totalAmount: 1500,
-    },
-    {
-      id: 9,
-      customerName: "جواد عزیزی",
-      date: "2022-01-27",
-      totalAmount: 800,
-    },
-    {
-      id: 10,
-      customerName: "آرمین شاهین",
-      date: "2022-01-28",
-      totalAmount: 1200,
-    },
-    {
-      id: 11,
-      customerName: "نرگس حسینی",
-      date: "2022-01-29",
-      totalAmount: 400,
-    },
-  ];
 
   return (
     <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
@@ -144,29 +79,29 @@ const InvoicesTable = (props) => {
             {invoices
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((invoice) => (
-                <TableRow key={invoice.id}>
+                <TableRow key={invoice.invoice_id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <Link href={`invoices/${invoice.id}`}>
-                      شماره {invoice.id}
+                    <Link href={`invoices/${invoice.invoice_id}`}>
+                      فاکتور شماره {invoice.invoice_id}
                     </Link>
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
                     {/* Generating invoice */}
 
-                    {invoice.customerName}
+                    {invoice.customer_name}
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <ToPersianDate timestamp={1677148856} />
+                    <ToPersianDate timestamp={invoice.invoice_date} />
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <InvoiceStatus />
+                    <InvoiceStatus status={invoice.status} />
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    {invoice.totalAmount}
+                    {persianNumber(invoice.finished_price)} ریال
                   </TableCell>
                 </TableRow>
               ))}

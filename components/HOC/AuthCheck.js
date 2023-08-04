@@ -16,7 +16,6 @@ function AuthCheck({ children }) {
     if (token != null && token != undefined && !checkToken) {
       dispatch(startProgress());
       setCheckToken(true);
-      console.log("check token", checkToken);
       let myHeaders = new Headers();
       myHeaders.append("token", token);
 

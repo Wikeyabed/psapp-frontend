@@ -3,32 +3,38 @@ import dynamic from "next/dynamic";
 import theme from "../../../src/theme";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useState, useEffect } from "react";
+import moment from "moment-jalaali";
 
-const data = {
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
+export function ChartLayout({
+  typeOfChart,
+  title,
+  columns,
+  bottomData,
+  name,
+  chartData,
+}) {
+  const [showChart, setChart] = useState(false);
+
+  const data = {
+    options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+      },
+
+      xaxis: {
+        type: "category",
       },
     },
+    series: [
+      {
+        name: name,
+        data: chartData,
+      },
+    ],
+  };
 
-    toolbar: {
-      show: false,
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
-    },
-  },
-  series: [
-    {
-      name: "کاربران",
-      data: [30, 40, 45, 50, 49, 60, 70, 150],
-    },
-  ],
-};
-
-export function ChartLayout({ typeOfChart, title, columns }) {
-  const [showChart, setChart] = useState(false);
   useEffect(() => {
     setChart(true);
   }, []);

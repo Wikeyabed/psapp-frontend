@@ -4,6 +4,10 @@ import theme from "../../../src/theme";
 import { ChartLayout as InvoiceChart } from "../layout/Chart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { persianNumber } from "../../../src/PersianDigits";
+import moment from "moment-jalaali";
+import { useState, useEffect } from "react";
+
 const TopBox = styled(Paper)({
   padding: "10px",
   color: theme.palette.primary.main,
@@ -16,19 +20,8 @@ const CardContainer = styled(Grid)({
   padding: "20px",
 });
 
-const StyledDivider = styled(Divider)(({ theme }) => ({
-  width: "20%",
-  margin: "auto",
-  marginBottom: "10px",
-  borderColor: theme.palette.primary.main,
-  borderWidth: 1,
-  borderRadius: "50%",
-  opacity: "0.5",
-}));
-
 const DashboardCardIcon = styled(Box)(({ theme }) => ({
   position: "absolute",
-  backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.lightBg,
   bottom: 15,
   left: 15,
@@ -44,7 +37,33 @@ const DashboardCardIcon = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-function TopCards() {
+function TopCards({ invoices }) {
+  const [chartData, setChartData] = useState([]);
+
+  const handleChartFormat = () => {
+    let arr = [];
+    const format = invoices.map((invoice, i) => {
+      const day = moment.unix(invoice.invoice_date).format("jYYYY/jMM/jDD");
+      return [...day].join("");
+    });
+    const counts = {};
+
+    format.forEach(function (x) {
+      counts[x] = (counts[x] || 0) + 1;
+    });
+    // console.log(counts);
+
+    for (const property in counts) {
+      arr.push({ x: property, y: counts[property] });
+    }
+
+    setChartData(arr);
+  };
+
+  useEffect(() => {
+    handleChartFormat();
+  }, [invoices]);
+
   return (
     <Grid container>
       <Grid xs={12} item>
@@ -66,13 +85,13 @@ function TopCards() {
               variant="h6"
               sx={{ textAlign: "center", paddingTop: 3 }}
             >
-              فاکتور های تکمیل شده
+              تمامی فاکتور ها{" "}
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              12
+              {persianNumber(invoices.length)}
             </Typography>
-            <DashboardCardIcon>
+            <DashboardCardIcon sx={{ backgroundColor: "lightPrimary.main" }}>
               <DescriptionIcon />
             </DashboardCardIcon>
           </TopBox>
@@ -89,10 +108,12 @@ function TopCards() {
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              12
+              {persianNumber(
+                invoices.filter((invoice) => invoice.status == "3").length
+              )}
             </Typography>
 
-            <DashboardCardIcon>
+            <DashboardCardIcon sx={{ backgroundColor: "green" }}>
               <InsertDriveFileIcon />
             </DashboardCardIcon>
           </TopBox>
@@ -104,13 +125,15 @@ function TopCards() {
               variant="h6"
               sx={{ textAlign: "center", paddingTop: 3 }}
             >
-              فاکتور های تکمیل شده
+              فاکتور های در انتظار تایید
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              12
+              {persianNumber(
+                invoices.filter((invoice) => invoice.status == "1").length
+              )}
             </Typography>
-            <DashboardCardIcon>
+            <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
               <DescriptionIcon />
             </DashboardCardIcon>
           </TopBox>
@@ -123,14 +146,16 @@ function TopCards() {
               variant="h6"
               sx={{ textAlign: "center", paddingTop: 3 }}
             >
-              فاکتور های تکمیل شده
+              فاکتور های در حال پردازش
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              12
+              {persianNumber(
+                invoices.filter((invoice) => invoice.status == "2").length
+              )}
             </Typography>
 
-            <DashboardCardIcon>
+            <DashboardCardIcon sx={{ backgroundColor: "#0288d1" }}>
               <InsertDriveFileIcon />
             </DashboardCardIcon>
           </TopBox>
@@ -150,8 +175,10 @@ function TopCards() {
           {" "}
           <InvoiceChart
             columns={10}
+            name={"فاکتور"}
             typeOfChart="bar"
             title="تعداد تمامی فاکتور ها"
+            chartData={chartData}
           />
         </Box>
       </CardContainer>

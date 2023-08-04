@@ -148,9 +148,7 @@ function UserPage({ userData, userInvoices }) {
                                   : "error"
                               }
                               variant="filled"
-                            >
-                              در حال اطلاعات
-                            </Chip>
+                            ></Chip>
                           </Typography>
                         </CardContent>
                       </Card>
