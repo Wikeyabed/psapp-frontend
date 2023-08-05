@@ -6,13 +6,13 @@ import { Grid, Box, Paper } from "@mui/material";
 import TopBoxes from "./TopBoxes";
 import DashboardCharts from "./DashboardCharts";
 
-function AdminDashboard() {
+function AdminDashboard({ users }) {
   return (
     <AdminLayout>
       <Box>
         <Grid container>
           <TopBoxes />
-          <DashboardCharts />
+          <DashboardCharts users={users} />
         </Grid>
       </Box>
     </AdminLayout>

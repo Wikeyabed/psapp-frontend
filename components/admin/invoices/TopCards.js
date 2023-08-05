@@ -42,16 +42,22 @@ function TopCards({ invoices }) {
 
   const handleChartFormat = () => {
     let arr = [];
-    const format = invoices.map((invoice, i) => {
-      const day = moment.unix(invoice.invoice_date).format("jYYYY/jMM/jDD");
-      return [...day].join("");
+
+    const times = invoices.map((invoice) => {
+      return [...invoice.invoice_date].join("");
     });
+
+    const format = times
+      .sort((a, b) => a - b)
+      .map((time, i) => {
+        const day = moment.unix(time).format("jYYYY/jMM/jDD");
+        return [...day].join("");
+      });
     const counts = {};
 
     format.forEach(function (x) {
       counts[x] = (counts[x] || 0) + 1;
     });
-    // console.log(counts);
 
     for (const property in counts) {
       arr.push({ x: property, y: counts[property] });
