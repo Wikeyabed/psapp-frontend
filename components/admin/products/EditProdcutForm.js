@@ -56,7 +56,7 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   opacity: "0.5",
 }));
 
-const EditForm = () => {
+const EditForm = ({ product }) => {
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -78,12 +78,46 @@ const EditForm = () => {
       <StyledDivider />
       <Grid component={Item} container>
         <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField size="small" fullWidth label="نام محصول" />
+          <RtlTextField
+            name="product_name"
+            size="small"
+            defaultValue={product.product_name}
+            fullWidth
+            label="نام محصول"
+          />
         </Grid>
 
-        <Grid item xs={12} md={4} sx={{ px: 1 }}>
-          {" "}
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField
+            size="small"
+            defaultValue={product.product_id}
+            fullWidth
+            label="کد محصول"
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1 }} item xs={6} md={4}>
+          <RtlTextField
+            size="small"
+            type="number"
+            defaultValue={product.product_quantity}
+            fullWidth
+            label="مقدار موجود"
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1 }} item xs={6} md={4}>
+          <RtlTextField
+            size="small"
+            defaultValue={product.stack}
+            fullWidth
+            label="تعداد در هر بسته"
+          />
+        </Grid>
+
+        <Grid item xs={12} sx={{ px: 1 }}>
+          {" "}
+          {/* <RtlTextField
             size="small"
             SelectProps={{
               IconComponent: SelectIcon,
@@ -95,30 +129,14 @@ const EditForm = () => {
             <MenuItem value={"1"}>item 1</MenuItem>
             <MenuItem value={"2"}>item 2</MenuItem>
             <MenuItem value={"3"}>item 3</MenuItem>
-          </RtlTextField>
-        </Grid>
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField size="small" fullWidth label="کد محصول" />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            size="small"
-            type="number"
-            fullWidth
-            label="مقدار عمده فروشی"
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField size="small" fullWidth label="تعداد در هر بسته" />
+          </RtlTextField> */}
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue="مشخصات محصول"
+            initialValue={product.product_features}
             init={{
               height: 300,
               menubar: false,
@@ -147,8 +165,7 @@ const EditForm = () => {
                 "bold italic forecolor | alignleft aligncenter " +
                 "alignright alignjustify | bullist numlist outdent indent | " +
                 "removeformat | help",
-              content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              content_style: "body { font-family:'iranyekan'; font-size:14px }",
             }}
           />
         </Grid>
@@ -157,7 +174,7 @@ const EditForm = () => {
           <Editor
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue="توضیحات محصول"
+            initialValue={product.product_description}
             init={{
               height: 300,
               menubar: false,
@@ -206,15 +223,25 @@ const EditForm = () => {
         <StyledDivider />
         <Grid component={Item} container>
           <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField size="small" fullWidth label="قیمت محصول" />
+            <RtlTextField
+              defaultValue={product.price}
+              size="small"
+              fullWidth
+              label=" قیمت محصول به ریال"
+            />
           </Grid>
 
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
+          {/* <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField size="small" fullWidth label="قیمت عمده" />
-          </Grid>
+          </Grid> */}
 
           <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField size="small" fullWidth label="درصد تخفیف" />
+            <RtlTextField
+              defaultValue={product.discount}
+              size="small"
+              fullWidth
+              label="درصد تخفیف"
+            />
           </Grid>
         </Grid>
       </Grid>
@@ -266,7 +293,7 @@ const EditForm = () => {
                 startIcon={<AddIcon />}
                 variant="contained"
               >
-                ایجاد محصول جدید
+                اعمال تغییرات
               </Button>
             </Box>
           </Grid>
@@ -276,7 +303,7 @@ const EditForm = () => {
   );
 };
 
-function EditProductForm() {
+function EditProductForm({ product }) {
   const [productId, setProductId] = useState(false);
 
   const handleProductId = () => {
@@ -287,7 +314,7 @@ function EditProductForm() {
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
         <Grid item xs={12}>
-          <EditForm />
+          <EditForm product={product} />
         </Grid>
       </Grid>
     </Box>

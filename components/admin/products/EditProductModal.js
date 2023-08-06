@@ -3,7 +3,7 @@ import ModalBox from "../layout/Modal";
 import EditIcon from "@mui/icons-material/Edit";
 import EditProductForm from "./EditProdcutForm";
 
-function EditProductModal() {
+function EditProductModal({ product }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -26,7 +26,7 @@ function EditProductModal() {
         }}
         icon={<EditIcon />}
       >
-        <EditProductForm />
+        <EditProductForm product={product} />
       </ModalBox>
     </>
   );

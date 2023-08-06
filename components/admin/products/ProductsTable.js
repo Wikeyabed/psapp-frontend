@@ -54,10 +54,11 @@ function ProductsTable({ products }) {
   const filteredProducts = products
     ? products.filter((product) => {
         if (category === "All") {
-          return product.name.includes(searchValue);
+          return product.product_name.includes(searchValue);
         } else {
           return (
-            product.category === category && product.name.includes(searchValue)
+            product.category === category &&
+            product.product_name.includes(searchValue)
           );
         }
       })
@@ -123,7 +124,7 @@ function ProductsTable({ products }) {
           xs={12}
           sm={6}
           md={3}
-          key={product.id}
+          key={product.product_id}
         >
           <DashboardCard>
             <Box sx={{ position: "relative" }}>
@@ -131,7 +132,7 @@ function ProductsTable({ products }) {
                 variant="h6"
                 sx={{ fontWeight: "bold", textAlign: "center", py: 1 }}
               >
-                {product.name}
+                {product.product_name}
               </Typography>
               <Box sx={{ margin: "auto", textAlign: "center" }}>
                 {" "}
@@ -141,12 +142,12 @@ function ProductsTable({ products }) {
                   }}
                   width={250}
                   height={230}
-                  src={product.image}
-                  alt={product.name}
+                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
+                  alt={product.product_name}
                 />
               </Box>
 
-              <EditProductModal />
+              <EditProductModal product={product} />
             </Box>
           </DashboardCard>
         </Grid>
