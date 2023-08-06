@@ -14,6 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
@@ -47,20 +48,30 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
 }));
 
 const EditForm = ({ product }) => {
-  const editorRef = useRef(null);
+  const dispatch = useDispatch();
+  const descRef = useRef(null);
+
   const [data, setData] = useState({
     name: product.product_name,
     description: product.product_description,
+    features: product.product_features,
     price: product.price,
     quantity: product.product_quantity,
     stack: product.stack,
     discount: product.discount,
-    features: product.product_features,
   });
   const [files, setFiles] = useState([]);
 
   const handleSetValues = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
+
+    console.log(data);
+  };
+
+  const handleEditorsContent = (event) => {
+    if (event.target.targetElm.name == "description") {
+      setData({ ...data, description: descRef.current.getContent() });
+    }
   };
   const handleGetFiles = (getFiles) => {
     setFiles(getFiles);
@@ -95,8 +106,22 @@ const EditForm = ({ product }) => {
       requestOptions
     )
       .then((response) => {
-        console.log("inside response");
-        return response.json();
+        if (response.status == 201 || response.status == 200) {
+          dispatch(
+            setNotificationOn({
+              message: "محصول با موفقیت بروز رسانی شد",
+              color: "success",
+            })
+          );
+          return response.json();
+        } else {
+          dispatch(
+            setNotificationOn({
+              message: "مشکلی پیش آمده",
+              color: "error",
+            })
+          );
+        }
       })
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
@@ -159,69 +184,48 @@ const EditForm = ({ product }) => {
           />
         </Grid>
 
-        <Grid item xs={12} sx={{ px: 1 }}>
+        <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
-          {/* <RtlTextField
+          <RtlTextField
+            disabled
+            defaultValue={product.category}
             size="small"
-            SelectProps={{
-              IconComponent: SelectIcon,
-            }}
-            select
+            // SelectProps={{
+            //   IconComponent: SelectIcon,
+            // }}
+            // select
             fullWidth
             label="دسته بندی محصول"
           >
-            <MenuItem value={"1"}>item 1</MenuItem>
+            {/* <MenuItem value={"1"}>item 1</MenuItem>
             <MenuItem value={"2"}>item 2</MenuItem>
-            <MenuItem value={"3"}>item 3</MenuItem>
-          </RtlTextField> */}
+            <MenuItem value={"3"}>item 3</MenuItem> */}
+          </RtlTextField>
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
-          <Editor
+          <RtlTextField
             onChange={handleSetValues}
             name="features"
-            apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
-            onInit={(evt, editor) => (editorRef.current = editor)}
-            initialValue={product.product_features}
-            init={{
-              height: 300,
-              menubar: false,
-              plugins: [
-                "advlist",
-                "autolink",
-                "lists",
-                "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "code",
-                "fullscreen",
-                "insertdatetime",
-                "media",
-                "table",
-                "code",
-                "help",
-                "wordcount",
-              ],
-              toolbar:
-                "undo redo | blocks | " +
-                "bold italic forecolor | alignleft aligncenter " +
-                "alignright alignjustify | bullist numlist outdent indent | " +
-                "removeformat | help",
-              content_style: "body { font-family:'iranyekan'; font-size:14px }",
+            size="small"
+            sx={{
+              minHeight: 400,
             }}
+            multiline
+            minRows={11}
+            maxRows={11}
+            defaultValue={product.product_features}
+            fullWidth
+            label="ویژگی های محصول"
           />
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
-            onChange={handleSetValues}
-            name="description"
+            onChange={handleEditorsContent}
+            textareaName="description"
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
-            onInit={(evt, editor) => (editorRef.current = editor)}
+            onInit={(evt, editor) => (descRef.current = editor)}
             initialValue={product.product_description}
             init={{
               height: 300,

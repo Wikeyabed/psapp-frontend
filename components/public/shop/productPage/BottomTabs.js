@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -54,14 +55,7 @@ export default function BottomTabs({ description }) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Typography
-          sx={{
-            textAlign: "justify",
-          }}
-          variant="body2"
-        >
-          {description}
-        </Typography>
+        {parse(description)}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         هیج نظری ثبت نشده است
