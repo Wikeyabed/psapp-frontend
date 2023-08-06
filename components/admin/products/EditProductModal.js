@@ -2,11 +2,16 @@ import { useState } from "react";
 import ModalBox from "../layout/Modal";
 import EditIcon from "@mui/icons-material/Edit";
 import EditProductForm from "./EditProdcutForm";
+import { useEffect } from "react";
 
 function EditProductModal({ product }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // useEffect(() => {
+  //   handleClose();
+  // }, [product]);
 
   return (
     <>

@@ -34,7 +34,7 @@ const img = {
 
 const fileTypes = ["jpg", "png", "jpeg"];
 
-function DropZone() {
+function DropZone({ getFiles }) {
   const [files, setFiles] = useState([]);
 
   const objToArray = (obj) => {
@@ -42,6 +42,14 @@ function DropZone() {
     console.log("first", arr);
     return arr;
   };
+
+  const handleGetFilesToParent = () => {
+    getFiles(files);
+  };
+
+  useEffect(() => {
+    handleGetFilesToParent();
+  }, [files]);
 
   const handlePreview = (uploadedFiles) => {
     setFiles(

@@ -13,7 +13,10 @@ function ProductsList({ products }) {
           <Grid item xs={12}>
             <AddProductModal />
             <AddCategotyModal />
-            <ProductsTable products={products} />
+            <ProductsTable
+              //  update={handleListUpdate}
+              products={products}
+            />
           </Grid>
         </Grid>
       </Box>

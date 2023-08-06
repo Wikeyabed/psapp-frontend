@@ -6,24 +6,19 @@ import {
   TextField,
   Button,
   FormControl,
-  MenuItem,
   Typography,
   Divider,
 } from "@mui/material";
 import DropZone from "./DropZone";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
+import { getCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
 
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
   marginTop: 10,
   padding: 20,
-}));
-
-const Card = styled(Grid)(({ theme }) => ({
-  margin: "auto",
-  backgroundColor: theme.palette.primary.lightBg,
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -42,11 +37,6 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
-  position: "absolute",
-  right: "90% !important",
-}));
-
 const StyledDivider = styled(Divider)(({ theme }) => ({
   width: "20%",
   margin: "auto",
@@ -58,11 +48,58 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
 
 const EditForm = ({ product }) => {
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      // Logs the value entered in the editor
-      console.log(editorRef.current.getContent());
+  const [data, setData] = useState({
+    name: product.product_name,
+    description: product.product_description,
+    price: product.price,
+    quantity: product.product_quantity,
+    stack: product.stack,
+    discount: product.discount,
+    features: product.product_features,
+  });
+  const [files, setFiles] = useState([]);
+
+  const handleSetValues = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+  const handleGetFiles = (getFiles) => {
+    setFiles(getFiles);
+  };
+
+  const handleEditForm = async () => {
+    console.log("submitted");
+    var formData = new FormData();
+    formData.append("product_name", data.name);
+    formData.append("product_description", data.description);
+    formData.append("price", data.price);
+    formData.append("product_quantity", data.quantity);
+    formData.append("stack", data.stack);
+    formData.append("discount", data.discount);
+    formData.append("product_features", data.features);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images_url", files[i], files[i].name);
     }
+
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        token: getCookie("x-auth-token"),
+      },
+      body: formData,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/products/${product.product_id}`,
+      requestOptions
+    )
+      .then((response) => {
+        console.log("inside response");
+        return response.json();
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
   return (
     <>
@@ -79,7 +116,8 @@ const EditForm = ({ product }) => {
       <Grid component={Item} container>
         <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField
-            name="product_name"
+            onChange={handleSetValues}
+            name="name"
             size="small"
             defaultValue={product.product_name}
             fullWidth
@@ -89,6 +127,8 @@ const EditForm = ({ product }) => {
 
         <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField
+            onChange={handleSetValues}
+            disabled
             size="small"
             defaultValue={product.product_id}
             fullWidth
@@ -98,6 +138,8 @@ const EditForm = ({ product }) => {
 
         <Grid sx={{ px: 1 }} item xs={6} md={4}>
           <RtlTextField
+            onChange={handleSetValues}
+            name="quantity"
             size="small"
             type="number"
             defaultValue={product.product_quantity}
@@ -108,6 +150,8 @@ const EditForm = ({ product }) => {
 
         <Grid sx={{ px: 1 }} item xs={6} md={4}>
           <RtlTextField
+            onChange={handleSetValues}
+            name="stack"
             size="small"
             defaultValue={product.stack}
             fullWidth
@@ -134,6 +178,8 @@ const EditForm = ({ product }) => {
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
+            onChange={handleSetValues}
+            name="features"
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue={product.product_features}
@@ -172,6 +218,8 @@ const EditForm = ({ product }) => {
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <Editor
+            onChange={handleSetValues}
+            name="description"
             apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
             onInit={(evt, editor) => (editorRef.current = editor)}
             initialValue={product.product_description}
@@ -224,6 +272,8 @@ const EditForm = ({ product }) => {
         <Grid component={Item} container>
           <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField
+              onChange={handleSetValues}
+              name="price"
               defaultValue={product.price}
               size="small"
               fullWidth
@@ -237,6 +287,8 @@ const EditForm = ({ product }) => {
 
           <Grid sx={{ px: 1 }} item xs={12} md={4}>
             <RtlTextField
+              onChange={handleSetValues}
+              name="discount"
               defaultValue={product.discount}
               size="small"
               fullWidth
@@ -260,7 +312,7 @@ const EditForm = ({ product }) => {
         <StyledDivider />
         <Grid component={Item} container>
           <Grid sx={{ px: 1, mx: "auto" }} item xs={12} md={8}>
-            <DropZone />
+            <DropZone getFiles={handleGetFiles} />
           </Grid>
 
           <Grid sx={{ px: 1 }} item xs={12} md={12}></Grid>
@@ -277,6 +329,7 @@ const EditForm = ({ product }) => {
               }}
             >
               <Button
+                onClick={handleEditForm}
                 sx={{
                   p: "12px 24px",
                   fontSize: "16px",
@@ -304,12 +357,6 @@ const EditForm = ({ product }) => {
 };
 
 function EditProductForm({ product }) {
-  const [productId, setProductId] = useState(false);
-
-  const handleProductId = () => {
-    setProductId(true);
-  };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
