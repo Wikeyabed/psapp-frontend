@@ -8,9 +8,10 @@ import {
   Select,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditProductModal from "./EditProductModal";
 import Image from "next/image";
+import { getCookie } from "cookies-next";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -38,16 +39,55 @@ const CardContainer = styled(Grid)(({ theme }) => ({
   marginTop: "30px",
 }));
 
-function ProductsTable({ products }) {
+function ProductsTable() {
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All");
+  const [categoryList, setCategoryList] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
   };
 
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts();
+  }, [category]);
+
+  const fetchProducts = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setProducts(result))
+      .catch((error) => console.log("error", error));
+  };
+
+  const fetchCategories = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setCategoryList(result))
+      .catch((error) => console.log("error", error));
+  };
+
   const handleCategoryChange = (event) => {
-    console.log(products);
+    // console.log("cats", categories);
     setCategory(event.target.value);
   };
 
@@ -94,6 +134,7 @@ function ProductsTable({ products }) {
             }}
           >
             <Select
+              onOpen={fetchCategories}
               id="category-filter"
               value={category}
               onChange={handleCategoryChange}
@@ -101,14 +142,18 @@ function ProductsTable({ products }) {
               size="small"
             >
               <MenuItem value="All">تمام دسته بندی ها</MenuItem>
-              {products
-                ? [...new Set(products.map((product) => product.category))].map(
-                    (category) => (
-                      <MenuItem key={category} value={category}>
-                        {category}
+
+              {categoryList
+                ? categoryList.map((category) => {
+                    return (
+                      <MenuItem
+                        value={category.category_name}
+                        key={category.category_id}
+                      >
+                        {category.category_name}
                       </MenuItem>
-                    )
-                  )
+                    );
+                  })
                 : ""}
             </Select>
           </Grid>

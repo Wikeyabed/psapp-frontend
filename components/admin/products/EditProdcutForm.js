@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -8,8 +8,11 @@ import {
   FormControl,
   Typography,
   Divider,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import DropZone from "./DropZone";
+import { SelectAll } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
@@ -49,7 +52,29 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
 
 const EditForm = ({ product }) => {
   const dispatch = useDispatch();
+  const [category, setCategory] = useState(product.category);
+  const [categoryList, setCategoryList] = useState([]);
   const descRef = useRef(null);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [category]);
+
+  const fetchCategories = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setCategoryList(result))
+      .catch((error) => console.log("error", error));
+  };
 
   const [data, setData] = useState({
     name: product.product_name,
@@ -82,6 +107,7 @@ const EditForm = ({ product }) => {
     var formData = new FormData();
     formData.append("product_name", data.name);
     formData.append("product_description", data.description);
+    formData.append("category", category);
     formData.append("price", data.price);
     formData.append("product_quantity", data.quantity);
     formData.append("stack", data.stack);
@@ -125,6 +151,10 @@ const EditForm = ({ product }) => {
       })
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+  };
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
   };
   return (
     <>
@@ -186,21 +216,26 @@ const EditForm = ({ product }) => {
 
         <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
-          <RtlTextField
-            disabled
-            defaultValue={product.category}
+          <Select
+            onChange={handleCategoryChange}
             size="small"
-            // SelectProps={{
-            //   IconComponent: SelectIcon,
-            // }}
-            // select
+            value={category}
             fullWidth
             label="دسته بندی محصول"
           >
-            {/* <MenuItem value={"1"}>item 1</MenuItem>
-            <MenuItem value={"2"}>item 2</MenuItem>
-            <MenuItem value={"3"}>item 3</MenuItem> */}
-          </RtlTextField>
+            {categoryList
+              ? categoryList.map((category) => {
+                  return (
+                    <MenuItem
+                      key={category.category_id}
+                      value={category.category_name}
+                    >
+                      {category.category_name}
+                    </MenuItem>
+                  );
+                })
+              : ""}
+          </Select>
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProductsList from "../../components/admin/products";
+import { getCookie } from "cookies-next";
 
 export default function Products({ products }) {
   const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ export default function Products({ products }) {
   return (
     <>
       {loading ? (
-        <p>Loading products...</p> // Show a loading message until the products are loaded
+        <p>در حال بارگذاری...</p> // Show a loading message until the products are loaded
       ) : (
         <ProductsList products={products} />
       )}
@@ -18,9 +19,10 @@ export default function Products({ products }) {
   );
 }
 
-export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-  const products = await res.json();
+export async function getServerSideProps({ req, res }) {
+  const prods = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+
+  const products = await prods.json();
 
   return {
     props: {
