@@ -11,7 +11,7 @@ function ProductsList({ products }) {
       <Box>
         <Grid container>
           <Grid item xs={12}>
-            <AddProductModal />
+            <AddProductModal products={products} />
             <AddCategoryModal />
             <ProductsTable products={products} />
           </Grid>
