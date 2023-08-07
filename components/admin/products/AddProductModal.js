@@ -1,16 +1,23 @@
-import * as React from "react";
+import { useState } from "react";
 import ModalBox from "../layout/Modal";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import AddProductForm from "./AddProductForm";
+import EditIcon from "@mui/icons-material/Edit";
+import EditProductForm from "./EditProductForm";
+import { useEffect } from "react";
 
-export default function AddProductModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+function EditProductModal({ product }) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const closeAfterUpdate = (value) => {
+    if (value) {
+      setOpen(false);
+    }
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
+  // useEffect(() => {
+  //   handleClose();
+  // }, [product]);
 
   return (
     <>
@@ -19,12 +26,23 @@ export default function AddProductModal() {
         handleOpen={handleOpen}
         handleClose={handleClose}
         open={open}
-        buttonText={"محصول جدید"}
-        buttonVariant={"contained"}
-        icon={<InventoryIcon />}
+        // buttonText={"ویرایش محصول"}
+        buttonVariant="contained"
+        buttonStyle={{
+          padding: "20px  0",
+          position: "absolute",
+          left: "10px",
+          bottom: "5px",
+          borderRadius: "50%",
+        }}
+        icon={<EditIcon />}
       >
-        <AddProductForm />
+        <EditProductForm
+          closeAfterUpdate={closeAfterUpdate}
+          product={product}
+        />
       </ModalBox>
     </>
   );
 }
+export default EditProductModal;
