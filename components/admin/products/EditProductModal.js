@@ -9,6 +9,12 @@ function EditProductModal({ product }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const closeAfterUpdate = (value) => {
+    if (value) {
+      setOpen(false);
+    }
+  };
+
   // useEffect(() => {
   //   handleClose();
   // }, [product]);
@@ -31,7 +37,10 @@ function EditProductModal({ product }) {
         }}
         icon={<EditIcon />}
       >
-        <EditProductForm product={product} />
+        <EditProductForm
+          closeAfterUpdate={closeAfterUpdate}
+          product={product}
+        />
       </ModalBox>
     </>
   );

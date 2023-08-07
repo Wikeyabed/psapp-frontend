@@ -10,9 +10,9 @@ import {
   Divider,
   MenuItem,
   Select,
+  InputLabel,
 } from "@mui/material";
 import DropZone from "./DropZone";
-import { SelectAll } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
@@ -50,7 +50,7 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   opacity: "0.5",
 }));
 
-const EditForm = ({ product }) => {
+const EditForm = ({ product, closeAfterUpdate }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState(product.category);
   const [categoryList, setCategoryList] = useState([]);
@@ -87,21 +87,24 @@ const EditForm = ({ product }) => {
   });
   const [files, setFiles] = useState([]);
 
+  // all fields data set
   const handleSetValues = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
-
-    console.log(data);
   };
 
+  // tinyMCE data handling
   const handleEditorsContent = (event) => {
     if (event.target.targetElm.name == "description") {
       setData({ ...data, description: descRef.current.getContent() });
     }
   };
+
+  // handle images files
   const handleGetFiles = (getFiles) => {
     setFiles(getFiles);
   };
 
+  // send new or existing data for update to api route
   const handleEditForm = async () => {
     console.log("submitted");
     var formData = new FormData();
@@ -139,6 +142,10 @@ const EditForm = ({ product }) => {
               color: "success",
             })
           );
+
+          // close parent modal after a short timeout
+          setTimeout(() => closeAfterUpdate(true), 500);
+
           return response.json();
         } else {
           dispatch(
@@ -216,7 +223,8 @@ const EditForm = ({ product }) => {
 
         <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
-          <Select
+          <RtlTextField
+            select
             onChange={handleCategoryChange}
             size="small"
             value={category}
@@ -235,7 +243,7 @@ const EditForm = ({ product }) => {
                   );
                 })
               : ""}
-          </Select>
+          </RtlTextField>
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
@@ -395,12 +403,12 @@ const EditForm = ({ product }) => {
   );
 };
 
-function EditProductForm({ product }) {
+function EditProductForm({ product, closeAfterUpdate }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid component={FormControl} container spacing={2}>
         <Grid item xs={12}>
-          <EditForm product={product} />
+          <EditForm closeAfterUpdate={closeAfterUpdate} product={product} />
         </Grid>
       </Grid>
     </Box>
