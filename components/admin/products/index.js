@@ -3,7 +3,7 @@ import AdminLayout from "../layout";
 import AddProductModal from "./AddProductModal";
 import { Grid, Box, Typography } from "@mui/material";
 import ProductsTable from "./ProductsTable";
-import AddCategotyModal from "./AddCategoryModal";
+import AddCategoryModal from "./AddCategoryModal";
 import EditProductModal from "./EditProductModal";
 function ProductsList({ products }) {
   return (
@@ -12,7 +12,7 @@ function ProductsList({ products }) {
         <Grid container>
           <Grid item xs={12}>
             <AddProductModal />
-            <AddCategotyModal />
+            <AddCategoryModal />
             <ProductsTable
               //  update={handleListUpdate}
               products={products}

@@ -11,8 +11,14 @@ import {
   Paper,
 } from "@mui/material";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { DeleteOutline, CreateOutlined } from "@mui/icons-material";
+import { getCookie } from "cookies-next";
+import {
+  setNotificationOff,
+  setNotificationOn,
+} from "../../../redux/reducers/notificationSlice";
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
   width: "20%",
@@ -25,9 +31,9 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
 const ListItem = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   padding: 12,
-  border: `1px solid ${theme.palette.primary.borderColor}`,
+  border: `1px solid ${theme.palette.primary.main}`,
   color: theme.palette.text.secondary,
-  borderRadius: theme.palette.primary.borderRadius,
+  borderRadius: "10px",
 }));
 
 const Item = styled(Box)(({ theme }) => ({
@@ -53,29 +59,89 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function AddCategoryForm() {
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState([]);
-  const [textValue, setTextValue] = useState("");
-  const [editItem, setEditItem] = useState("");
+  const [data, setData] = useState({
+    category_name: "",
+    parent_category_id: null,
+  });
 
-  const handleCategories = () => {
-    if (textValue) {
-      setCategories([...categories, textValue]);
-      setTextValue("");
-    }
+  useEffect(() => {
+    return () => {
+      fetchCategories();
+    };
+  }, []);
+
+  const fetchCategories = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => setCategories(result))
+      .catch((error) => console.log("error", error));
   };
 
-  const handleDelete = (item) => {
-    setCategories(categories.filter((selected) => selected !== item));
+  const handleNewCategory = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("category_name", data.category_name);
+    urlencoded.append("parent_category_id", data.parent_category_id);
+
+    let requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/add`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        fetchCategories();
+        dispatch(
+          setNotificationOn({
+            message: "دسته بندی جدید اضافه شد",
+            color: "success",
+          })
+        );
+      })
+      .catch((error) => console.log("error", error));
   };
 
-  const handleClick = (item) => {
-    setEditItem(item);
-  };
+  const handleDeleteCategory = (id) => {
+    let myHeaders = new Headers();
 
-  const handleUpdate = (e, index) => {
-    categories[index] = e.target.value;
-    setCategories([...categories]);
-    setEditItem("");
+    myHeaders.append("token", getCookie("x-auth-token"));
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    let requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/${id}`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        fetchCategories();
+        dispatch(
+          setNotificationOn({
+            message: "دسته بندی مورد نظر حذف شد",
+            color: "warning",
+          })
+        );
+      })
+      .catch((error) => console.log("error", error));
   };
 
   return (
@@ -103,8 +169,9 @@ function AddCategoryForm() {
                 item
               >
                 <RtlTextField
+                  name="category_name"
                   onChange={(e) => {
-                    setTextValue(e.target.value);
+                    setData({ ...data, [e.target.name]: e.target.value });
                   }}
                   InputProps={{
                     startAdornment: (
@@ -115,23 +182,28 @@ function AddCategoryForm() {
                         }}
                       >
                         <Button
-                          onClick={handleCategories}
+                          disabled={data.category_name.length <= 0}
+                          onClick={handleNewCategory}
                           color="success"
                           size="medium"
                           variant="contained"
                         >
-                          اضافه کردن
+                          اضافه کردن دسته بندی جدید
                         </Button>
                       </InputAdornment>
                     ),
                   }}
                   size="small"
                   fullWidth
-                  value={textValue}
                   label="نام دسته بندی"
                 />
               </Grid>
             </Grid>
+          </Grid>
+
+          <Grid xs={12} item>
+            {" "}
+            <Divider />
           </Grid>
 
           <Grid xs={12} item>
@@ -149,47 +221,13 @@ function AddCategoryForm() {
               {categories.length > 0
                 ? categories.map((item, i) => {
                     return (
-                      <Grid key={i} sx={{ padding: 1 }} item xs={4}>
+                      <Grid key={i} sx={{ padding: 1 }} item xs={6} md={3}>
                         <ListItem
                           sx={{
                             position: "relative",
                           }}
                         >
-                          {editItem === item ? (
-                            <RtlTextField
-                              size="small"
-                              fullWidth
-                              autoFocus
-                              defaultValue={item}
-                              onBlur={() => setEditItem("")}
-                              onKeyDown={(e) =>
-                                e.key === "Enter" && handleUpdate(e, i)
-                              }
-                              sx={{
-                                border: "none",
-                                "& .MuiOutlinedInput-root": {
-                                  "& fieldset": {
-                                    border: "none",
-                                  },
-                                },
-                              }}
-                            />
-                          ) : (
-                            <RtlTextField
-                              size="small"
-                              disabled
-                              value={item}
-                              sx={{
-                                border: "none",
-                                "& .MuiOutlinedInput-root": {
-                                  "& fieldset": {
-                                    border: "none",
-                                  },
-                                },
-                              }}
-                            />
-                          )}
-
+                          {item.category_name}
                           <Box
                             sx={{
                               position: "absolute",
@@ -197,25 +235,11 @@ function AddCategoryForm() {
                               top: 5,
                             }}
                           >
-                            {editItem === item ? (
-                              <IconButton onClick={() => setEditItem("")}>
-                                <CreateOutlined
-                                  sx={{
-                                    color: "black",
-                                  }}
-                                />
-                              </IconButton>
-                            ) : (
-                              <IconButton onClick={() => handleClick(item)}>
-                                <CreateOutlined
-                                  sx={{
-                                    color: "blue",
-                                  }}
-                                />
-                              </IconButton>
-                            )}
-
-                            <IconButton onClick={() => handleDelete(item)}>
+                            <IconButton
+                              onClick={() =>
+                                handleDeleteCategory(item.category_id)
+                              }
+                            >
                               <DeleteOutline
                                 sx={{
                                   color: "red",
@@ -227,7 +251,7 @@ function AddCategoryForm() {
                       </Grid>
                     );
                   })
-                : "no items"}
+                : "دسته بندی وجود ندارد"}
             </Grid>
           </Grid>
         </Grid>
