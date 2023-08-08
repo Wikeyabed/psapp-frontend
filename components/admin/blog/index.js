@@ -41,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-export default function AdminBlog({ blogs }) {
+export default function AdminBlog() {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -65,7 +65,7 @@ export default function AdminBlog({ blogs }) {
           <NewBlog />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <BlogList blogs={blogs} />
+          <BlogList />
         </CustomTabPanel>
       </Box>
     </AdminLayout>

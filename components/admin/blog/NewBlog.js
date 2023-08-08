@@ -1,10 +1,12 @@
 import React from "react";
 import DropZone from "../products/DropZone";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
+import { useDispatch } from "react-redux";
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   marginBottom: 5,
@@ -21,6 +23,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 function NewBlog() {
+  const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
 
   const descRef = useRef(null);
@@ -61,15 +64,42 @@ function NewBlog() {
     };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/add`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .then((response) => {
+        if (response.status == 200 || response.status == 201) {
+          dispatch(
+            setNotificationOn({
+              message: "بلاگ با موفقیت ایجاد شد",
+              color: "success",
+            })
+          );
+
+          setData({ title: "", description: "" });
+          setFiles([]);
+        } else {
+          dispatch(
+            setNotificationOn({
+              message: "مشکلی پیش آمده",
+              color: "error",
+            })
+          );
+        }
+      })
+
+      .catch((error) => {
+        dispatch(
+          setNotificationOn({
+            message: "مشکلی پیش آمده",
+            color: "error",
+          })
+        );
+      });
   };
 
   return (
     <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
       <Grid xs={12} item md={6}>
         <RtlTextField
+          value={data.title}
           onChange={(e) => setData({ ...data, title: e.target.value })}
           label="موضوع"
         />
@@ -103,6 +133,7 @@ function NewBlog() {
       <Grid xs={12} item>
         <Editor
           onChange={handleEditorsContent}
+          initialValue={data.description}
           textareaName="description"
           apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
           onInit={(evt, editor) => (descRef.current = editor)}
@@ -140,7 +171,20 @@ function NewBlog() {
         />{" "}
       </Grid>
       <Grid xs={12} md={6} item>
-        <Button onClick={handleCreateBlog}>ایجاد بلاگ جدید</Button>
+        <Button
+          disabled={
+            data.title == "" || data.description == "" || files.length == 0
+          }
+          sx={{
+            my: 10,
+          }}
+          fullWidth
+          variant="contained"
+          size="large"
+          onClick={handleCreateBlog}
+        >
+          ایجاد بلاگ جدید
+        </Button>
       </Grid>
     </Grid>
   );

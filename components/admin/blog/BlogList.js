@@ -30,19 +30,36 @@ function BlogList() {
     <Grid container spacing={2}>
       <Grid
         sx={{
-          px: 1,
           display: { xs: "none", md: "flex" },
         }}
-        xs={12}
+        lg={4}
         item
-        justifyContent={"space-between"}
       >
+        {" "}
         <Typography variant="h6" color={"ActiveCaption"}>
           موضوع
         </Typography>
+      </Grid>
+
+      <Grid
+        sx={{
+          display: { xs: "none", md: "flex" },
+        }}
+        lg={4}
+        item
+      >
         <Typography variant="h6" color={"ActiveCaption"}>
           توضیحات
         </Typography>
+      </Grid>
+
+      <Grid
+        sx={{
+          display: { xs: "none", md: "flex" },
+        }}
+        lg={4}
+        item
+      >
         <Typography variant="h6" color={"ActiveCaption"}>
           تاریخ ایجاد
         </Typography>
@@ -66,14 +83,20 @@ function BlogList() {
 
       {blogs.map((blog) => {
         return (
-          <Box component={Grid} item xs={12} key={blog.id}>
-            <Grid
-              sx={{
-                display: { xs: "block", md: "flex" },
-              }}
-              item
-              justifyContent={"space-between"}
-            >
+          <Box
+            sx={{
+              borderBottom: "1px solid #e2e2e2",
+              backgroundColor: `${(blog.id * 1) % 2 == 0 ? "#e2e2e2" : "#fff"}`,
+              p: 1,
+            }}
+            container
+            component={Grid}
+            item
+            xs={12}
+            key={blog.id}
+          >
+            <Grid xs={12} md={6} lg={4} item>
+              {" "}
               <Link
                 sx={{
                   textDecoration: "none",
@@ -82,13 +105,22 @@ function BlogList() {
               >
                 <Typography>{blog.title}</Typography>
               </Link>
-              <Typography variant="body2" color={"GrayText"}>
+            </Grid>
+            <Grid xs={12} md={6} lg={4} item>
+              <Box
+                sx={{
+                  fontSize: 14,
+                }}
+                variant="body2"
+                color={"GrayText"}
+              >
                 {parse(blog.description.slice(0, 10) + " ... ")}
-              </Typography>
-
+              </Box>
+            </Grid>
+            <Grid xs={12} md={6} lg={4} item>
+              {" "}
               <ToPersianDate timestamp={blog.create_time} />
             </Grid>
-            <Divider />
           </Box>
         );
       })}
