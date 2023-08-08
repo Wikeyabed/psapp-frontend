@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ProductsList from "../../components/admin/products";
+import ProductsList from "../../../components/admin/products";
 import { getCookie } from "cookies-next";
 
 export default function Products({ products }) {

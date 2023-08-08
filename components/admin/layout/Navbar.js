@@ -16,6 +16,7 @@ import {
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "../../../src/Link";
 
 export default function Navbar() {
@@ -105,7 +106,7 @@ export default function Navbar() {
           <MenuItem primary="پشتیبانی" />
         </ListItemButton>
 
-        <Link href="/admin/products">
+        <Link href="/admin/support">
           <ListItemButton>
             <Icon>
               <LocalGroceryStoreOutlinedIcon />
@@ -113,6 +114,16 @@ export default function Navbar() {
             <MenuItem primary="محصولات" />
           </ListItemButton>
         </Link>
+
+        <Link href="/admin/blog">
+          <ListItemButton>
+            <Icon>
+              <HistoryEduIcon />
+            </Icon>
+            <MenuItem primary="بلاگ" />
+          </ListItemButton>
+        </Link>
+
         {/*  */}
         <ListItemButton>
           <Icon>
