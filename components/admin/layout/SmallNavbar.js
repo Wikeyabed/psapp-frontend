@@ -12,6 +12,7 @@ import SendIcon from "@mui/icons-material/Send";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "next/link";
 import styled from "@emotion/styled";
 
@@ -75,12 +76,20 @@ function SmallNavbar({ open, toggleDrawer }) {
             </Icon>
             <MenuItem primary="پشتیبانی" />
           </ListItemButton>
-          <Link href="/admin/products">
+          <Link href="/admin/support">
             <ListItemButton>
               <Icon>
                 <LocalGroceryStoreOutlinedIcon />
               </Icon>
               <MenuItem primary="محصولات" />
+            </ListItemButton>
+          </Link>
+          <Link href="/admin/products">
+            <ListItemButton>
+              <Icon>
+                <HistoryEduIcon />
+              </Icon>
+              <MenuItem primary="بلاگ" />
             </ListItemButton>
           </Link>
           <ListItemButton>

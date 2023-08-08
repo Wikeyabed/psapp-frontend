@@ -55,16 +55,6 @@ export default function NavigationBar() {
     >
       کاربران
     </Link>,
-    <Link
-      sx={{
-        color: "#fff",
-      }}
-      underline="none"
-      key="2"
-      href="/material-ui/getting-started/installation/"
-    >
-      ممد یوسفی
-    </Link>,
   ];
 
   const handleMenuOpen = (event) => {
@@ -113,7 +103,7 @@ export default function NavigationBar() {
         }
         aria-label="breadcrumb"
       >
-        {breadcrumbs}
+        {/* {breadcrumbs} */}
       </Breadcrumbs>
 
       <div>

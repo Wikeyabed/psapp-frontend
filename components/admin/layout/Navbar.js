@@ -6,13 +6,7 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import theme from "../../../src/theme";
 import styled from "@emotion/styled";
-import {
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Typography,
-  Drawer,
-} from "@mui/material";
+import { ListItemIcon, ListItemText, Divider, Typography } from "@mui/material";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
