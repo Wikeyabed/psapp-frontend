@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -9,7 +10,6 @@ import {
 } from "@mui/material";
 import PublicLayout from "../../components/public/layout";
 import Link from "../../src/Link";
-import moment from "moment-jalaali";
 import ToPersianDate from "../../src/TimestampToPersian";
 
 export default function BlogSection({ blogPosts = [] }) {
@@ -31,26 +31,33 @@ export default function BlogSection({ blogPosts = [] }) {
                   <Card sx={{ display: "flex" }}>
                     <CardMedia
                       component="img"
-                      sx={{ width: 150 }}
+                      sx={{ width: 200 }}
                       image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
                       alt={post.title}
                     />
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <CardContent sx={{ flex: "1 0 auto" }}>
+                      <CardContent>
                         <Typography
                           component={Link}
                           href={`/blog/${post.id}`}
                           variant="h5"
+                          sx={{
+                            textDecoration: "none",
+                          }}
                         >
                           {post.title}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary">
-                          {post.description}
+                          {post.description.slice(0, 30) + "..."}
                         </Typography>
                       </CardContent>
                       <Box sx={{ display: "flex", alignItems: "center", p: 1 }}>
                         {/* <Avatar alt={post.author} src={post.avatarUrl} /> */}
-                        <Box sx={{ ml: 1 }}>
+                        <Box
+                          sx={{ ml: 1 }}
+                          display={"flex"}
+                          justifyContent={"space-between"}
+                        >
                           <Typography variant="subtitle2">
                             {post.author}
                           </Typography>

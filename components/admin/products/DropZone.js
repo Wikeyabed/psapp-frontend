@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/no-children-prop */
 import { Box, ClickAwayListener, Typography } from "@mui/material";
@@ -86,11 +87,11 @@ function DropZone({ getFiles }) {
     <Box
       sx={{
         width: "100%",
+        minHeight: "250px",
         // Styles for the outer box
-        marginTop: 2,
+        p: 2,
         border: "1px solid #ccc",
-        borderRadius: 4,
-        padding: 2,
+        borderRadius: "4px",
       }}
     >
       <FileUploader

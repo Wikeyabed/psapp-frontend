@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import AdminLayout from "./../layout/index";
+import NewBlog from "./NewBlog";
+import BlogList from "./BlogList";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-export default function AdminBlog() {
+export default function AdminBlog({ blogs }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -60,10 +62,10 @@ export default function AdminBlog() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Item One
+          <NewBlog />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <BlogList blogs={blogs} />
         </CustomTabPanel>
       </Box>
     </AdminLayout>

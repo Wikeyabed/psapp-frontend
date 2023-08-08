@@ -1,5 +1,7 @@
+import BlogSingle from "../../../components/admin/blog/BlogSingle";
+
 function EditBlog() {
-  return <div>EditBlog</div>;
+  return <BlogSingle />;
 }
 
 export default EditBlog;
