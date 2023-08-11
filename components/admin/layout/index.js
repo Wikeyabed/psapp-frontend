@@ -36,7 +36,7 @@ function AdminLayout({ children }) {
                 <NavigationBar />
               </Grid>
 
-              <Grid item lg={9} sx={{ mx: "auto" }}>
+              <Grid item lg={9} sx={{ mx: "auto", p: 3 }}>
                 {children}
               </Grid>
             </Grid>

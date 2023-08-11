@@ -52,7 +52,7 @@ export default function BlogSingle({ blog }) {
 
 export async function getServerSideProps(context) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/blog/${context.params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/blog/${context.params.blogId}`
   );
   const blog = await res.json();
 
