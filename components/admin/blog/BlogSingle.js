@@ -27,7 +27,8 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 function BlogSingle({ blog }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  // const [files, setFiles] = useState([]);
+
+  // const [files, setFiles] = useState([]);     if wanted image change uncomment this
 
   const descRef = useRef(null);
 
@@ -36,7 +37,7 @@ function BlogSingle({ blog }) {
     description: blog.description,
   });
 
-  // const handleGetFiles = (getFiles) => {
+  // const handleGetFiles = (getFiles) => { if wanted image change uncomment this
   //   setFiles(getFiles);
   // };
 
@@ -52,14 +53,11 @@ function BlogSingle({ blog }) {
     let myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
 
+    // if wanted image change  change this to formData
     let body = new URLSearchParams();
     body.append("title", data.title);
     body.append("category", "");
     body.append("description", data.description);
-
-    // for (let i = 0; i < files.length; i++) {
-    //   formData.append("images_url", files[i], files[i].name);
-    // }
 
     let requestOptions = {
       method: "PUT",
@@ -134,7 +132,7 @@ function BlogSingle({ blog }) {
 
         {/* <Grid xs={12} md={6} item>
         {" "}
-        <DropZone getFiles={handleGetFiles} />
+        <DropZone getFiles={handleGetFiles} /> if wanted image change uncomment this
       </Grid> */}
 
         <Grid xs={12} item>

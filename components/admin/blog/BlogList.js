@@ -4,6 +4,7 @@ import Link from "../../../src/Link";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { useState, useEffect } from "react";
 import parse from "html-react-parser";
+import DeleteBlog from "./DeleteBlog";
 
 function BlogList() {
   const [blogs, setBlogs] = useState([]);
@@ -32,7 +33,7 @@ function BlogList() {
         sx={{
           display: { xs: "none", md: "flex" },
         }}
-        lg={4}
+        lg={3}
         item
       >
         {" "}
@@ -45,7 +46,7 @@ function BlogList() {
         sx={{
           display: { xs: "none", md: "flex" },
         }}
-        lg={4}
+        lg={3}
         item
       >
         <Typography variant="h6" color={"ActiveCaption"}>
@@ -57,11 +58,23 @@ function BlogList() {
         sx={{
           display: { xs: "none", md: "flex" },
         }}
-        lg={4}
+        lg={3}
         item
       >
         <Typography variant="h6" color={"ActiveCaption"}>
           تاریخ ایجاد
+        </Typography>
+      </Grid>
+
+      <Grid
+        sx={{
+          display: { xs: "none", md: "flex" },
+        }}
+        lg={3}
+        item
+      >
+        <Typography variant="h6" color={"ActiveCaption"}>
+          عملیات
         </Typography>
       </Grid>
 
@@ -81,49 +94,71 @@ function BlogList() {
         />
       </Grid>
 
-      {blogs.map((blog) => {
-        return (
-          <Box
-            sx={{
-              borderBottom: "1px solid #e2e2e2",
-              backgroundColor: `${(blog.id * 1) % 2 == 0 ? "#e2e2e2" : "#fff"}`,
-              p: 1,
-            }}
-            container
-            component={Grid}
-            item
-            xs={12}
-            key={blog.id}
-          >
-            <Grid xs={12} md={6} lg={4} item>
-              {" "}
-              <Link
-                sx={{
-                  textDecoration: "none",
-                }}
-                href={`/admin/blog/${blog.id}`}
-              >
-                <Typography>{blog.title}</Typography>
-              </Link>
-            </Grid>
-            <Grid xs={12} md={6} lg={4} item>
-              <Box
-                sx={{
-                  fontSize: 14,
-                }}
-                variant="body2"
-                color={"GrayText"}
-              >
-                {parse(blog.description.slice(0, 10) + " ... ")}
-              </Box>
-            </Grid>
-            <Grid xs={12} md={6} lg={4} item>
-              {" "}
-              <ToPersianDate timestamp={blog.create_time} />
-            </Grid>
-          </Box>
-        );
-      })}
+      {blogs.length > 0 ? (
+        blogs.map((blog) => {
+          return (
+            <Box
+              sx={{
+                borderBottom: "1px solid #e2e2e2",
+                backgroundColor: `${
+                  (blog.id * 1) % 2 == 0 ? "#e2e2e2" : "#fff"
+                }`,
+                p: 1,
+              }}
+              container
+              component={Grid}
+              item
+              xs={12}
+              key={blog.id}
+            >
+              <Grid xs={12} md={6} lg={3} item>
+                {" "}
+                <Link
+                  sx={{
+                    textDecoration: "none",
+                  }}
+                  href={`/admin/blog/${blog.id}`}
+                >
+                  <Typography>{blog.title}</Typography>
+                </Link>
+              </Grid>
+              <Grid xs={12} md={6} lg={3} item>
+                <Box
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  variant="body2"
+                  color={"GrayText"}
+                >
+                  {parse(blog.description.slice(0, 10) + " ... ")}
+                </Box>
+              </Grid>
+              <Grid xs={12} md={6} lg={3} item>
+                {" "}
+                <ToPersianDate timestamp={blog.create_time} />
+              </Grid>
+
+              <Grid xs={12} md={6} lg={3} item>
+                {" "}
+                <DeleteBlog blog={blog} fetchBlogs={fetchBlogs} />
+              </Grid>
+            </Box>
+          );
+        })
+      ) : (
+        <Typography
+          sx={{
+            mt: 12,
+            width: "100%",
+            textAlign: "center",
+          }}
+          color="Highlight"
+          variant="h5"
+        >
+          {" "}
+          هنور بلاگی ایجاد نکرده اید
+        </Typography>
+      )}
     </Grid>
   );
 }
