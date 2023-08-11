@@ -15,7 +15,7 @@ import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOu
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "next/link";
 import styled from "@emotion/styled";
-
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 const Icon = styled(ListItemIcon)(({ theme }) => ({
   color: theme.palette.primary.lightBg,
 }));
@@ -82,6 +82,14 @@ function SmallNavbar({ open, toggleDrawer }) {
                 <LocalGroceryStoreOutlinedIcon />
               </Icon>
               <MenuItem primary="محصولات" />
+            </ListItemButton>
+          </Link>
+          <Link href="/admin/requests">
+            <ListItemButton>
+              <Icon>
+                <PendingActionsIcon />
+              </Icon>
+              <MenuItem primary="درخواست ها" />
             </ListItemButton>
           </Link>
           <Link href="/admin/products">

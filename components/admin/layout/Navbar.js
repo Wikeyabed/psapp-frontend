@@ -12,7 +12,7 @@ import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStore
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "../../../src/Link";
-
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 export default function Navbar() {
   const Icon = styled(ListItemIcon)(({ theme }) => ({
     color: theme.palette.primary.lightBg,
@@ -106,6 +106,15 @@ export default function Navbar() {
               <LocalGroceryStoreOutlinedIcon />
             </Icon>
             <MenuItem primary="محصولات" />
+          </ListItemButton>
+        </Link>
+
+        <Link href="/admin/requests">
+          <ListItemButton>
+            <Icon>
+              <PendingActionsIcon />
+            </Icon>
+            <MenuItem primary="درخواست ها" />
           </ListItemButton>
         </Link>
 

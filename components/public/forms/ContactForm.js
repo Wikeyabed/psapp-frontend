@@ -10,7 +10,12 @@ import {
   Typography,
   FormGroup,
 } from "@mui/material";
+import Link from "../../../src/Link";
 
+import {
+  startProgress,
+  endProgress,
+} from "../../../redux/reducers/loadingSlice";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import PublicLayout from "../layout/index";
@@ -42,7 +47,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-function ContactForm() {
+function RequestPartnership() {
   const dispatch = useDispatch();
 
   const [formInfo, setFormInfo] = useState({
@@ -75,9 +80,12 @@ function ContactForm() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     var urlencoded = new URLSearchParams();
-    urlencoded.append("name", formInfo.name);
-    urlencoded.append("title", formInfo.title);
-    urlencoded.append("description", formInfo.description);
+    urlencoded.append("person_name", formInfo.name);
+
+    // request types  1 = request partnership   , 2  = order product , 3 = contact
+    urlencoded.append("request_type", "3");
+    urlencoded.append("request_title", formInfo.title);
+    urlencoded.append("request_description", formInfo.description);
     urlencoded.append("phone_number", formInfo.phoneNumber);
 
     var requestOptions = {
@@ -88,12 +96,11 @@ function ContactForm() {
     };
 
     await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/contact/add`,
+      `${process.env.NEXT_PUBLIC_API_URL}/requests/add`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         dispatch(
           setNotificationOn({
             message: "درخواست شما با موفقیت ارسال شد",
@@ -191,4 +198,4 @@ function ContactForm() {
   );
 }
 
-export default ContactForm;
+export default RequestPartnership;

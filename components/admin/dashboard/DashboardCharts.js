@@ -55,7 +55,8 @@ function DashboardCharts({ users }) {
           padding: "15px",
         }}
         item
-        xs={8}
+        xs={12}
+        lg={8}
       >
         <DashboardCard>
           <UsersChart
