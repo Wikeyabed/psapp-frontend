@@ -304,11 +304,11 @@ function PhoneVerification() {
                   />
                 </Grid>
 
-                <Grid item xs={6} sx={{ mb: 4 }}>
+                <Grid item xs={12} lg={6} sx={{ mb: 1 }}>
                   <Captcha />
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={12} lg={4}>
                   <RtlTextField
                     textAlign={"center"}
                     value={captcha}

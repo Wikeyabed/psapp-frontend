@@ -180,11 +180,11 @@ function LoginForm() {
                   <Divider sx={{ my: 4, width: "95%", mx: "auto" }} />
                 </Grid>
 
-                <Grid xs={6} item>
+                <Grid xs={12} lg={6} item>
                   <Captcha />
                 </Grid>
 
-                <Grid item xs={4}>
+                <Grid item xs={12} lg={4}>
                   <RtlTextField
                     textAlign={"center"}
                     value={loginInfo.captcha}

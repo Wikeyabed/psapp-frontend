@@ -16,10 +16,12 @@ import {
   ShoppingCart,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 import { useRouter } from "next/router";
 
 export default function SimpleBottomNavigation() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const router = useRouter();
   const [value, setValue] = useState(0);
 
@@ -72,18 +74,34 @@ export default function SimpleBottomNavigation() {
             )
           }
         />
-        <BottomNavigationAction
-          component={Link}
-          href="/user"
-          label="پروفایل"
-          icon={
-            value == 2 && router.route == "/user" ? (
-              <AccountBox color="secondary" />
-            ) : (
-              <AccountBoxOutlined color="secondary" />
-            )
-          }
-        />
+
+        {isLoggedIn ? (
+          <BottomNavigationAction
+            component={Link}
+            href="/user"
+            label="پروفایل"
+            icon={
+              value == 2 && router.route == "/user" ? (
+                <AccountBox color="secondary" />
+              ) : (
+                <AccountBoxOutlined color="secondary" />
+              )
+            }
+          />
+        ) : (
+          <BottomNavigationAction
+            component={Link}
+            href="/auth/login"
+            label="ورود"
+            icon={
+              value == 2 && router.route == "/auth/login" ? (
+                <AccountBox color="secondary" />
+              ) : (
+                <AccountBoxOutlined color="secondary" />
+              )
+            }
+          />
+        )}
       </BottomNavigation>
     </Paper>
   );

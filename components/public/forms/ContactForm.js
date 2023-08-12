@@ -133,6 +133,33 @@ function RequestPartnership() {
                     >
                       تماس با ما
                     </Typography>
+                    <Typography
+                      textAlign={"right"}
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                      variant="body2"
+                    >
+                      شماره تماس : 66827884-021
+                    </Typography>
+
+                    <Typography
+                      textAlign={"right"}
+                      sx={{ mb: 5, fontWeight: "bold" }}
+                      variant="body2"
+                    >
+                      آدرس : یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان ,
+                      بن بست آلاله یک , پلاک 1
+                    </Typography>
+
+                    <Box
+                      component={"iframe"}
+                      sx={{ border: "none !important", borderRadius: 5 }}
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d405.2844324251681!2d51.30543206117888!3d35.64558437789965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8dff3bbb36e33f%3A0xb2d8cf45490c035f!2z2KfbjNio2Kfaqdiz!5e0!3m2!1sen!2s!4v1691832269041!5m2!1sen!2s"
+                      width="100%"
+                      height={"400px"}
+                      allowfullscreen=""
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
+                    ></Box>
 
                     <RtlTextField
                       value={formInfo.phoneNumber}
