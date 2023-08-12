@@ -8,7 +8,7 @@ function CheckRequest({ request }) {
 export default CheckRequest;
 
 export async function getServerSideProps({ req, res, params }) {
-  const prods = await fetch(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/requests/${params.requestId}`,
     {
       headers: {
@@ -17,7 +17,7 @@ export async function getServerSideProps({ req, res, params }) {
     }
   );
 
-  const request = await prods.json();
+  const request = await response.json();
 
   return {
     props: {

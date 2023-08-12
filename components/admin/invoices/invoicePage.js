@@ -13,36 +13,31 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import AdminLayout from "../layout";
+import ToPersianDate from "../../../src/TimestampToPersian";
+import { persianNumber } from "../../../src/PersianDigits";
 
 const theme = createTheme({
   direction: "rtl",
 });
 
-const InvoiceTable = () => {
+const InvoicePage = ({ invoice }) => {
   // Sample data
-  const [rows, setRows] = useState([
-    { id: 1, name: "محصول A", price: 40, quantity: 50 },
-    { id: 2, name: "محصول B", price: 20, quantity: 150 },
-    { id: 3, name: "محصول C", price: 30, quantity: 450 },
-  ]);
+  const [rows, setRows] = useState([]);
 
   const [status, setStatus] = useState("Pending");
-
-  const calculateTotalPrice = () => {
-    let total = 0;
-    rows.forEach((item) => {
-      total += item.price * item.quantity;
-    });
-    return total;
-  };
 
   const router = useRouter();
   const { id } = router.query;
 
-  const [createdAt, setCreatedAt] = useState(new Date());
-
   useEffect(() => {
-    setCreatedAt(new Date());
+    let prodArr = [];
+    invoice.products.map((prod) => {
+      prodArr.push(JSON.parse(prod));
+    });
+
+    setRows(prodArr);
+
+    console.log(prodArr);
   }, []);
 
   // Handle status change
@@ -57,25 +52,20 @@ const InvoiceTable = () => {
           <Typography variant="h4" component="h2" gutterBottom>
             فاکتور شماره: {id}
           </Typography>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <Typography variant="subtitle1" gutterBottom>
-              تاریخ صدور: {createdAt.toLocaleString()}
+              تاریخ صدور:
             </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              شماره تماس: 09123456789
-            </Typography>
+            <ToPersianDate timestamp={invoice.invoice_date} />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="subtitle1" gutterBottom>
-              صادر کننده: آقای یوسفی
-            </Typography>
             <Typography variant="subtitle1" gutterBottom>
               شماره فاکتور: {id}
             </Typography>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="subtitle1" gutterBottom>
-              یوسفی: آقای/خانم
+              آقا/خانم : {invoice.customer_name}
             </Typography>
             <Typography variant="subtitle1" gutterBottom>
               وضعیت: {status}
@@ -118,9 +108,9 @@ const InvoiceTable = () => {
                   />
                 </ListItem>
                 {rows.map((row) => (
-                  <ListItem key={row.id}>
+                  <ListItem key={row.invoice_id}>
                     <ListItemText
-                      primary={`${row.name}`}
+                      primary={`${row.product_name}`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
                     />
                   </ListItem>
@@ -146,7 +136,7 @@ const InvoiceTable = () => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.quantity}`}
+                      primary={`${row.product_quantity}`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
                     />
                   </ListItem>
@@ -172,7 +162,7 @@ const InvoiceTable = () => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.price}`}
+                      primary={`${row.unit_price} ریال`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
                     />
                   </ListItem>
@@ -198,7 +188,7 @@ const InvoiceTable = () => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.price * row.quantity} تومان`}
+                      primary={`${row.total_price} ریال`}
                       primaryTypographyProps={{
                         variant: "subtitle1",
                         align: "right",
@@ -216,7 +206,7 @@ const InvoiceTable = () => {
             >
               <ListItemText
                 primary={` مبلغ کل `}
-                secondary={`${calculateTotalPrice()}  تومان`}
+                secondary={`${persianNumber(invoice.finished_price)}  ریال`}
                 primaryTypographyProps={{
                   variant: "h5",
                   align: "left",
@@ -234,4 +224,4 @@ const InvoiceTable = () => {
     </AdminLayout>
   );
 };
-export default InvoiceTable;
+export default InvoicePage;

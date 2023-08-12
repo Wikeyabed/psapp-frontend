@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Grid, Box, Paper } from "@mui/material";
 import styled from "@emotion/styled";
 import { ChartLayout as UsersChart } from "../layout/Chart";
