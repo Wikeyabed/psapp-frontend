@@ -11,6 +11,7 @@ import {
 import PublicLayout from "../../components/public/layout";
 import Link from "../../src/Link";
 import ToPersianDate from "../../src/TimestampToPersian";
+import parse from "html-react-parser";
 
 export default function BlogSection({ blogPosts = [] }) {
   return (
@@ -48,7 +49,7 @@ export default function BlogSection({ blogPosts = [] }) {
                           {post.title}
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary">
-                          {post.description.slice(0, 30) + "..."}
+                          {parse(post.description.slice(0, 30) + "...")}
                         </Typography>
                       </CardContent>
                       <Box sx={{ display: "flex", alignItems: "center", p: 1 }}>

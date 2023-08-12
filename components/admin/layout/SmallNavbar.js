@@ -51,7 +51,12 @@ function SmallNavbar({ open, toggleDrawer }) {
               <DashboardOutlinedIcon />
             </Icon>
 
-            <Link href="/admin">
+            <Link
+              sx={{
+                textDecoration: "none !important",
+              }}
+              href="/admin"
+            >
               <MenuItem primary="داشبورد" />
             </Link>
           </ListItemButton>
@@ -60,23 +65,40 @@ function SmallNavbar({ open, toggleDrawer }) {
               <PeopleAltOutlinedIcon />
             </Icon>
 
-            <Link href="/admin/users">
+            <Link
+              sx={{
+                textDecoration: "none !important",
+              }}
+              href="/admin/users"
+            >
               <MenuItem primary="کاربران" />
             </Link>
           </ListItemButton>
-          <ListItemButton>
-            <Icon>
-              <SendIcon />
-            </Icon>
-            <MenuItem primary="سفارشات" />
-          </ListItemButton>
-          <ListItemButton>
+          <Link
+            sx={{
+              textDecoration: "none !important",
+            }}
+            href="/admin/invoices"
+          >
+            <ListItemButton>
+              <Icon>
+                <SendIcon />
+              </Icon>
+              <MenuItem primary="سفارشات" />
+            </ListItemButton>
+          </Link>
+          {/* <ListItemButton>
             <Icon>
               <SupportAgentOutlinedIcon />
             </Icon>
             <MenuItem primary="پشتیبانی" />
-          </ListItemButton>
-          <Link href="/admin/support">
+          </ListItemButton> */}
+          <Link
+            sx={{
+              textDecoration: "none !important",
+            }}
+            href="/admin/products"
+          >
             <ListItemButton>
               <Icon>
                 <LocalGroceryStoreOutlinedIcon />
@@ -84,7 +106,12 @@ function SmallNavbar({ open, toggleDrawer }) {
               <MenuItem primary="محصولات" />
             </ListItemButton>
           </Link>
-          <Link href="/admin/requests">
+          <Link
+            sx={{
+              textDecoration: "none !important",
+            }}
+            href="/admin/requests"
+          >
             <ListItemButton>
               <Icon>
                 <PendingActionsIcon />
@@ -92,7 +119,12 @@ function SmallNavbar({ open, toggleDrawer }) {
               <MenuItem primary="درخواست ها" />
             </ListItemButton>
           </Link>
-          <Link href="/admin/products">
+          <Link
+            sx={{
+              textDecoration: "none !important",
+            }}
+            href="/admin/blog"
+          >
             <ListItemButton>
               <Icon>
                 <HistoryEduIcon />
@@ -106,6 +138,19 @@ function SmallNavbar({ open, toggleDrawer }) {
             </Icon>
             <MenuItem primary="خروج" />
           </ListItemButton>{" "}
+          <Link
+            sx={{
+              textDecoration: "none !important",
+            }}
+            href="/shop"
+          >
+            <ListItemButton>
+              {/* <Icon>
+                <HistoryEduIcon />
+              </Icon> */}
+              <MenuItem primary="بازگشت به فروشگاه" />
+            </ListItemButton>
+          </Link>
         </List>
       </Drawer>
       {/* The toggle button for md and xs */}

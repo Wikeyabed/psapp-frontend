@@ -7,28 +7,31 @@ import { CardActionArea, Grid } from "@mui/material";
 import PublicLayout from "../../components/public/layout";
 import Dog from "../../public/images/dog.jpg";
 import BlogNav from "./breadcrumb";
+import parse from "html-react-parser";
+import ToPersianDate from "../../src/TimestampToPersian";
+
 export default function BlogSingle({ blog }) {
   return (
     <PublicLayout>
       <Grid display={"flex"} justifyContent={"center"} container>
         <Grid xs={12} md={10} lg={6}>
           {" "}
-          <BlogNav blogId={15} blogTitle={"سلام این تایل است"} />
+          <BlogNav blogId={15} blogTitle={blog.title} />
           <Card sx={{ mx: "auto", my: 4 }}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="280"
-                image={Dog.src}
-                alt="green iguana"
+                height="380"
+                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
+                alt={blog.title}
               />
               <CardContent>
                 <Typography gutterBottom variant="h4" component="h4">
                   {blog.title}
                 </Typography>
 
-                <Typography gutterBottom variant="h5" component="h5">
-                  {blog.create_time}
+                <Typography gutterBottom variant="h5" component="div">
+                  <ToPersianDate timestamp={blog.create_time} />
                 </Typography>
 
                 <Typography gutterBottom variant="h4" component="h4">
@@ -38,8 +41,9 @@ export default function BlogSingle({ blog }) {
                   textAlign={"justify"}
                   variant="body1"
                   color="text.secondary"
+                  component={"div"}
                 >
-                  {blog.description}
+                  {parse(blog.description)}
                 </Typography>
               </CardContent>
             </CardActionArea>
