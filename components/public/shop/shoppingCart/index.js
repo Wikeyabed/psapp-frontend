@@ -11,9 +11,11 @@ import {
   getProducts,
 } from "../../../../redux/reducers/productSlice";
 import Pay from "../pay";
+import Link from "../../../../src/Link";
 
 function ShoppingCart() {
   const allProducts = useSelector((state) => state.product.products);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
   const findProductFromStore = (SessionProducts, StoredProducts) => {
@@ -89,28 +91,52 @@ function ShoppingCart() {
           </Paper>
         </Grid>
         <Grid display={"flex"} justifyContent={"center"} item xs={12}>
-          <Grid xs={12}>
-            {" "}
-            <Button
-              sx={{
-                mt: 4,
-                paddingLeft: 5,
-                marginRight: "auto",
-                borderRadius: "10px",
-                backgroundColor: "primary.main",
-                border: "1px solid",
-                borderColor: "lightPrimary.main",
-                borderBottom: "4px solid",
-                borderBottomColor: "lightPrimary.main",
-              }}
-              size="large"
-              color="primary"
-              variant="contained"
-              endIcon={<PaymentIcon sx={{ mr: 1 }} />}
-              fullWidth={true}
-            >
-              پرداخت
-            </Button>
+          <Grid xs={12} md={4}>
+            {isLoggedIn ? (
+              <Button
+                sx={{
+                  mt: 4,
+                  paddingLeft: 5,
+                  marginRight: "auto",
+                  borderRadius: "10px",
+                  backgroundColor: "primary.main",
+                  border: "1px solid",
+                  borderColor: "lightPrimary.main",
+                  borderBottom: "4px solid",
+                  borderBottomColor: "lightPrimary.main",
+                }}
+                size="large"
+                color="primary"
+                variant="contained"
+                endIcon={<PaymentIcon sx={{ mr: 1 }} />}
+                fullWidth={true}
+              >
+                پرداخت
+              </Button>
+            ) : (
+              <Button
+                component={Link}
+                href="/auth/login"
+                sx={{
+                  mt: 4,
+                  paddingLeft: 5,
+                  marginRight: "auto",
+                  borderRadius: "10px",
+                  backgroundColor: "primary.main",
+                  border: "1px solid",
+                  borderColor: "lightPrimary.main",
+                  borderBottom: "4px solid",
+                  borderBottomColor: "lightPrimary.main",
+                }}
+                size="large"
+                color="primary"
+                variant="contained"
+                endIcon={<PaymentIcon sx={{ mr: 1 }} />}
+                fullWidth={true}
+              >
+                ورود و پرداخت{" "}
+              </Button>
+            )}
           </Grid>
         </Grid>
         <Pay />
