@@ -30,6 +30,7 @@
     "keen-slider": "^6.8.5",
     "lightbox.js-react": "^0.6.4",
     "moment-jalaali": "^0.9.6",
+    "monopay": "^1.2.3",
     "mui-one-time-password-input": "^1.1.1",
     "next": "latest",
     "next-pwa": "^5.6.0",
@@ -51,5 +52,10 @@
     "eslint": "latest",
     "eslint-config-next": "latest",
     "persian-date": "^1.1.0"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }

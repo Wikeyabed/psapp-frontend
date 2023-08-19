@@ -40,7 +40,7 @@ export default function CartItems() {
             >
               <CardMedia
                 component="img"
-                sx={{ width: 140 }}
+                sx={{ width: 100 }}
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
                 alt="Live from space album cover"
               />
@@ -64,7 +64,7 @@ export default function CartItems() {
                   </Typography>
 
                   <Typography
-                    variant="subtitle2"
+                    variant="caption"
                     color="text.secondary"
                     component="div"
                   >
@@ -72,27 +72,17 @@ export default function CartItems() {
                   </Typography>
 
                   <Typography
-                    variant="body2"
+                    variant="caption"
                     color="secondary"
                     component="div"
-                    sx={{
-                      position: "absolute",
-                      left: 10,
-                      bottom: 25,
-                    }}
                   >
                     مبلغ هر عدد : {persianNumber(discountedPrice)} ریال
                   </Typography>
 
                   <Typography
-                    variant="body2"
+                    variant="caption"
                     color="secondary"
                     component="div"
-                    sx={{
-                      position: "absolute",
-                      left: 10,
-                      bottom: 5,
-                    }}
                   >
                     مبلغ کل :{" "}
                     {persianNumber(discountedPrice * product.cart_quantity)}{" "}

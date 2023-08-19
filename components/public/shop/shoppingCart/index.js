@@ -89,7 +89,7 @@ function ShoppingCart() {
           </Paper>
         </Grid>
         <Grid display={"flex"} justifyContent={"center"} item xs={12}>
-          <Grid xs={3}>
+          <Grid xs={12}>
             {" "}
             <Button
               sx={{
