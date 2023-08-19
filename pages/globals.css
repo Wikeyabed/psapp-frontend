@@ -52,3 +52,7 @@ body {
 .thumbnail .keen-slider__slide.active {
   border: 2px solid black;
 }
+
+span.sd {
+  text-align: center !important;
+}

@@ -10,7 +10,6 @@ import {
   addToCart,
   getProducts,
 } from "../../../../redux/reducers/productSlice";
-import Pay from "../pay";
 import Link from "../../../../src/Link";
 
 function ShoppingCart() {
@@ -139,7 +138,6 @@ function ShoppingCart() {
             )}
           </Grid>
         </Grid>
-        <Pay />
       </Grid>
     </PublicLayout>
   );
