@@ -1,9 +1,17 @@
 import React from "react";
 import UserOrderPage from "../../components/public/user/UserOrderPage";
 import { getCookie } from "cookies-next";
+import Head from "next/head";
 
 function Order({ order }) {
-  return <UserOrderPage order={order} />;
+  return (
+    <>
+      <Head>
+        <title>ایباکس - فاکتور شماره {order.order_number} </title>
+      </Head>
+      <UserOrderPage order={order} />
+    </>
+  );
 }
 
 export default Order;

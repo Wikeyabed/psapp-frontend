@@ -9,10 +9,14 @@ import Dog from "../../public/images/dog.jpg";
 import BlogNav from "./breadcrumb";
 import parse from "html-react-parser";
 import ToPersianDate from "../../src/TimestampToPersian";
+import Head from "next/head";
 
 export default function BlogSingle({ blog }) {
   return (
     <PublicLayout>
+      <Head>
+        <title>{blog.title}</title>
+      </Head>
       <Grid display={"flex"} justifyContent={"center"} container>
         <Grid xs={12} md={10} lg={6}>
           {" "}

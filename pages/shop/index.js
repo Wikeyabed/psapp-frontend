@@ -2,6 +2,7 @@ import Shop from "../../components/public/shop";
 import { useDispatch } from "react-redux";
 import { getProducts } from "../../redux/reducers/productSlice";
 import { useEffect } from "react";
+import Head from "next/head";
 
 export default function Home({ products }) {
   const dispatch = useDispatch();
@@ -9,7 +10,14 @@ export default function Home({ products }) {
     dispatch(getProducts(products));
   });
 
-  return <Shop />;
+  return (
+    <>
+      <Head>
+        <title>ایباکس - صفحه اصلی</title>
+      </Head>
+      <Shop />
+    </>
+  );
 }
 
 export async function getServerSideProps() {

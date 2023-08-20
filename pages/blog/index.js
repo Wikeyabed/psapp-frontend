@@ -12,10 +12,14 @@ import PublicLayout from "../../components/public/layout";
 import Link from "../../src/Link";
 import ToPersianDate from "../../src/TimestampToPersian";
 import parse from "html-react-parser";
+import Head from "next/head";
 
 export default function BlogSection({ blogPosts = [] }) {
   return (
     <PublicLayout>
+      <Head>
+        <title>ایباکس - بلاگ</title>
+      </Head>
       <Container>
         <Box sx={{ my: 5, textAlign: "center" }}>
           <Typography variant="h4" component="h2" gutterBottom>
