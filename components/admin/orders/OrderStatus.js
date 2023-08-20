@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack, Chip } from "@mui/material";
-function InvoiceStatus({ status }) {
+function OrderStatus({ status }) {
   return (
     <Stack direction="row" spacing={1}>
       <Chip
@@ -35,4 +35,4 @@ function InvoiceStatus({ status }) {
   );
 }
 
-export default InvoiceStatus;
+export default OrderStatus;

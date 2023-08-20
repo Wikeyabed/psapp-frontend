@@ -1,15 +1,15 @@
-import InvoicePage from "../../../components/admin/invoices/invoicePage";
+import OrderPage from "../../../components/admin/orders/OrderPage";
 import { getCookie } from "cookies-next";
 
-function Invoice({ invoice }) {
+function Order({ order }) {
   return (
     <>
-      <InvoicePage invoice={invoice} />
+      <OrderPage order={order} />
     </>
   );
 }
 
-export default Invoice;
+export default Order;
 
 export async function getServerSideProps({ req, res, params }) {
   const response = await fetch(
@@ -21,13 +21,13 @@ export async function getServerSideProps({ req, res, params }) {
     }
   );
 
-  const invoice = await response.json();
+  const order = await response.json();
 
-  console.log(invoice);
+  console.log(order);
 
   return {
     props: {
-      invoice: invoice[0],
+      order: order[0],
     },
   };
 }

@@ -85,7 +85,7 @@ export default function Navbar() {
           </ListItemButton>
         </Link>
 
-        <Link href="/admin/invoices">
+        <Link href="/admin/orders">
           <ListItemButton>
             <Icon>
               <SendIcon />

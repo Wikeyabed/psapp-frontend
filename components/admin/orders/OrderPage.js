@@ -17,25 +17,25 @@ import AdminLayout from "../layout";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import moment from "moment-jalaali";
-import InvoiceStatus from "./InvoiceStatus";
+import OrderStatus from "./OrderStatus";
 import { getCookie } from "cookies-next";
 
 const theme = createTheme({
   direction: "rtl",
 });
 
-const InvoicePage = ({ invoice }) => {
+const OrderPage = ({ order }) => {
   // Sample data
   const [rows, setRows] = useState([]);
 
-  const [status, setStatus] = useState(invoice.status);
+  const [status, setStatus] = useState(order.status);
 
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     let prodArr = [];
-    invoice.products.map((prod) => {
+    order.products.map((prod) => {
       prodArr.push(JSON.parse(prod));
     });
 
@@ -63,7 +63,7 @@ const InvoicePage = ({ invoice }) => {
     };
 
     fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/orders/${invoice.order_id}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/orders/${order.order_id}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -76,13 +76,13 @@ const InvoicePage = ({ invoice }) => {
       <ThemeProvider theme={theme}>
         <div style={{ textAlign: "center" }}>
           <Typography variant="h4" component="h2" gutterBottom>
-            فاکتور شماره: {invoice.order_number}
+            فاکتور شماره: {order.order_number}
           </Typography>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <Typography variant="subtitle1" gutterBottom>
               تاریخ صدور:
             </Typography>
-            <ToPersianDate timestamp={invoice.order_date} />
+            <ToPersianDate timestamp={order.order_date} />
           </div>
 
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
@@ -95,21 +95,21 @@ const InvoicePage = ({ invoice }) => {
                 component={"span"}
               >
                 {" "}
-                {moment.unix(invoice.order_date).format("jYYYY/jMM/jDD")}
+                {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
               </Box>{" "}
             </Typography>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="subtitle1" gutterBottom>
-              شماره فاکتور: {invoice.order_number}
+              شماره فاکتور: {order.order_number}
             </Typography>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="subtitle1" gutterBottom>
-              آقا/خانم : {invoice.customer_name}
+              آقا/خانم : {order.customer_name}
             </Typography>
             <Typography display={"flex"} variant="subtitle1" gutterBottom>
-              وضعیت: <InvoiceStatus status={status} />
+              وضعیت: <OrderStatus status={status} />
             </Typography>
           </div>
         </div>
@@ -123,7 +123,7 @@ const InvoicePage = ({ invoice }) => {
           value={status}
           onChange={handleStatusChange}
         >
-          <MenuItem value={invoice.status}>وضعیت فعلی</MenuItem>
+          <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
           <MenuItem value={"11"}>در حال پردازش</MenuItem>
           <MenuItem value={"20"}>تکمیل شده</MenuItem>
           <MenuItem value={"404"}>کنسل شده</MenuItem>
@@ -248,7 +248,7 @@ const InvoicePage = ({ invoice }) => {
             >
               <ListItemText
                 primary={` مبلغ کل `}
-                secondary={`${persianNumber(invoice.finished_price)}  ریال`}
+                secondary={`${persianNumber(order.finished_price)}  ریال`}
                 primaryTypographyProps={{
                   variant: "h5",
                   align: "left",
@@ -266,4 +266,4 @@ const InvoicePage = ({ invoice }) => {
     </AdminLayout>
   );
 };
-export default InvoicePage;
+export default OrderPage;

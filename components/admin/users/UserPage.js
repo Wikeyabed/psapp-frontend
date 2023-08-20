@@ -14,7 +14,7 @@ import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
 
-function UserPage({ userData, userInvoices }) {
+function UserPage({ userData, userOrders }) {
   return (
     <AdminLayout>
       <Grid container spacing={4}>
@@ -85,13 +85,13 @@ function UserPage({ userData, userInvoices }) {
                 فاکتورها
               </Typography>
               <Grid container spacing={2}>
-                {userInvoices.map((invoice) => (
-                  <Grid item xs={12} sm={6} md={4} key={invoice.invoice_id}>
+                {userOrders.map((order) => (
+                  <Grid item xs={12} sm={6} md={4} key={order.order_id}>
                     <Link
                       sx={{
                         textDecoration: "none !important",
                       }}
-                      href={`/admin/invoices/${invoice.invoice_id}`}
+                      href={`/admin/orders/${order.order_id}`}
                     >
                       <Card
                         sx={{
@@ -101,7 +101,7 @@ function UserPage({ userData, userInvoices }) {
                       >
                         <CardContent>
                           <Typography variant="h5">
-                            فاکتور شماره: {invoice.invoice_id}
+                            فاکتور شماره: {order.order_id}
                           </Typography>
                           <Divider
                             color="#fff"
@@ -111,39 +111,39 @@ function UserPage({ userData, userInvoices }) {
                           />
                           <Typography display={"flex"} sx={{ mt: 2 }}>
                             تاریخ:
-                            <ToPersianDate timestamp={invoice.invoice_date} />
+                            <ToPersianDate timestamp={order.order_date} />
                           </Typography>
                           <Typography sx={{ mt: 2 }}>
-                            شماره تراکنش : {invoice.transaction_id}
+                            شماره تراکنش : {order.transaction_id}
                           </Typography>
                           <Typography sx={{ mt: 2 }}>
-                            شماره پیگیری : {invoice.track_id}
+                            شماره پیگیری : {order.track_id}
                           </Typography>
                           <Typography sx={{ mt: 2 }}>
-                            شماره سفارش : {invoice.order_id}
+                            شماره سفارش : {order.order_id}
                           </Typography>
                           <Typography sx={{ mt: 2 }}>
-                            مبلغ: {persianNumber(invoice.finished_price)} ریال
+                            مبلغ: {persianNumber(order.finished_price)} ریال
                           </Typography>
                           <Typography sx={{ mt: 2 }} component="div">
                             وضعیت فعلی :
                             <Chip
                               sx={{ mx: 2 }}
                               label={
-                                invoice.status == "1"
+                                order.status == "1"
                                   ? "در انتظار تایید"
-                                  : invoice.status == "2"
+                                  : order.status == "2"
                                   ? "در حال پردازش"
-                                  : invoice.status == "3"
+                                  : order.status == "3"
                                   ? "تکمیل شده"
                                   : "کنسل شده"
                               }
                               color={
-                                invoice.status == "1"
+                                order.status == "1"
                                   ? "warning"
-                                  : invoice.status == "2"
+                                  : order.status == "2"
                                   ? "info"
-                                  : invoice.status == "3"
+                                  : order.status == "3"
                                   ? "success"
                                   : "error"
                               }

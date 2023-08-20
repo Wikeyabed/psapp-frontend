@@ -78,7 +78,7 @@ function SmallNavbar({ open, toggleDrawer }) {
             sx={{
               textDecoration: "none !important",
             }}
-            href="/admin/invoices"
+            href="/admin/orders"
           >
             <ListItemButton>
               <Icon>

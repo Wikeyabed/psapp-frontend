@@ -13,7 +13,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
-import InvoiceStatus from "./InvoiceStatus";
+import OrderStatus from "./OrderStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
 import { persianNumber } from "../../../src/PersianDigits";
@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   minWidth: "180px",
 }));
 
-const InvoicesTable = ({ invoices }) => {
+const OrdersTable = ({ orders }) => {
   const [open, setOpen] = useState({});
 
   const [page, setPage] = useState(0);
@@ -76,32 +76,32 @@ const InvoicesTable = ({ invoices }) => {
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {invoices
+            {orders
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((invoice) => (
-                <TableRow key={invoice.invoice_id}>
+              .map((order) => (
+                <TableRow key={order.order_id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <Link href={`invoices/${invoice.order_id}`}>
-                      فاکتور شماره {invoice.order_number}
+                    <Link href={`orders/${order.order_id}`}>
+                      فاکتور شماره {order.order_number}
                     </Link>
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    {/* Generating invoice */}
+                    {/* Generating order */}
 
-                    {invoice.customer_name}
+                    {order.customer_name}
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <ToPersianDate timestamp={invoice.order_date} />
+                    <ToPersianDate timestamp={order.order_date} />
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <InvoiceStatus status={invoice.status} />
+                    <OrderStatus status={order.status} />
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    {persianNumber(invoice.finished_price)} ریال
+                    {persianNumber(order.finished_price)} ریال
                   </TableCell>
                 </TableRow>
               ))}
@@ -111,7 +111,7 @@ const InvoicesTable = ({ invoices }) => {
           component="div"
           rowsPerPageOptions={[5, 10, 25]}
           rowsPerPage={rowsPerPage}
-          count={invoices.length}
+          count={orders.length}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -123,4 +123,4 @@ const InvoicesTable = ({ invoices }) => {
   );
 };
 
-export default InvoicesTable;
+export default OrdersTable;

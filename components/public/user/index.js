@@ -12,7 +12,7 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
-import UserInvoices from "./UserInvoices";
+import UserOrders from "./UserOrders";
 import UserProfile from "./UserProfile";
 import ChangePassword from "./ChangePassword";
 
@@ -83,7 +83,7 @@ function User() {
                 <ChangePassword />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <UserInvoices />
+                <UserOrders />
               </TabPanel>
             </Box>
           </Paper>

@@ -1,17 +1,17 @@
 import AdminLayout from "../layout";
 import { Grid } from "@mui/material";
 import TopCards from "./TopCards";
-import InvoicesTable from "./InvoicesTable";
+import OrdersTable from "./OrdersTable";
 
-function InvoiceList({ invoices }) {
+function OrderList({ orders }) {
   return (
     <AdminLayout>
       <Grid xs={12} item container>
-        <TopCards invoices={invoices} />
-        <InvoicesTable invoices={invoices} />
+        <TopCards orders={orders} />
+        <OrdersTable orders={orders} />
       </Grid>
     </AdminLayout>
   );
 }
 
-export default InvoiceList;
+export default OrderList;

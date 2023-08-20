@@ -8,10 +8,10 @@ import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import ToPersianDate from "../../../src/TimestampToPersian";
-import InvoiceStatus from "../../admin/invoices/InvoiceStatus";
+import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
 
-function UserInvoices() {
+function UserOrders() {
   const [rows, setRows] = useState([]);
   const handleOrdersByUserId = () => {
     var myHeaders = new Headers();
@@ -65,7 +65,7 @@ function UserInvoices() {
                   <ToPersianDate timestamp={row.order_date} />
                 </TableCell>
                 <TableCell align="right">
-                  <InvoiceStatus status={row.status} />
+                  <OrderStatus status={row.status} />
                 </TableCell>
                 <TableCell align="right">
                   {" "}
@@ -82,4 +82,4 @@ function UserInvoices() {
   );
 }
 
-export default UserInvoices;
+export default UserOrders;

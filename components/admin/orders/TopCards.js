@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography, Divider, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import theme from "../../../src/theme";
-import { ChartLayout as InvoiceChart } from "../layout/Chart";
+import { ChartLayout as OrderChart } from "../layout/Chart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { persianNumber } from "../../../src/PersianDigits";
@@ -37,14 +37,14 @@ const DashboardCardIcon = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-function TopCards({ invoices }) {
+function TopCards({ orders }) {
   const [chartData, setChartData] = useState([]);
 
   const handleChartFormat = () => {
     let arr = [];
 
-    const times = invoices.map((invoice) => {
-      return [...invoice.order_date].join("");
+    const times = orders.map((order) => {
+      return [...order.order_date].join("");
     });
 
     const format = times
@@ -68,7 +68,7 @@ function TopCards({ invoices }) {
 
   useEffect(() => {
     handleChartFormat();
-  }, [invoices]);
+  }, [orders]);
 
   return (
     <Grid container>
@@ -83,7 +83,7 @@ function TopCards({ invoices }) {
         {/* <StyledDivider /> */}
       </Grid>
 
-      {/* finished invoices */}
+      {/* finished orders */}
       <Grid container item xs={12} lg={6}>
         <CardContainer item xs={12} md={6}>
           <TopBox elevation={4}>
@@ -95,7 +95,7 @@ function TopCards({ invoices }) {
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              {persianNumber(invoices.length)}
+              {persianNumber(orders.length)}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "lightPrimary.main" }}>
               <DescriptionIcon />
@@ -103,7 +103,7 @@ function TopCards({ invoices }) {
           </TopBox>
         </CardContainer>
 
-        {/* today invoices */}
+        {/* today orders */}
         <CardContainer item xs={12} md={6}>
           <TopBox elevation={4}>
             <Typography
@@ -115,7 +115,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "20").length
+                orders.filter((order) => order.status == "20").length
               )}
             </Typography>
 
@@ -136,7 +136,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "10").length
+                orders.filter((order) => order.status == "10").length
               )}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
@@ -145,7 +145,7 @@ function TopCards({ invoices }) {
           </TopBox>
         </CardContainer>
 
-        {/* today invoices */}
+        {/* today orders */}
         <CardContainer item xs={12} md={6}>
           <TopBox elevation={4}>
             <Typography
@@ -157,7 +157,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "11").length
+                orders.filter((order) => order.status == "11").length
               )}
             </Typography>
 
@@ -169,7 +169,7 @@ function TopCards({ invoices }) {
       </Grid>
 
       {/* Charty */}
-      {/* all invoices */}
+      {/* all orders */}
       <CardContainer sx={{ position: "relative" }} item xs={12} lg={6}>
         <Box
           sx={{
@@ -179,7 +179,7 @@ function TopCards({ invoices }) {
           }}
         >
           {" "}
-          <InvoiceChart
+          <OrderChart
             columns={10}
             name={"فاکتور"}
             typeOfChart="bar"

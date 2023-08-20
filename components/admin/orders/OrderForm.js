@@ -21,8 +21,8 @@ const containerStyles = css`
   }
 `;
 
-const InvoiceForm = ({ invoice }) => {
-  const [status, setStatus] = useState(invoice.status);
+const OrderForm = ({ order }) => {
+  const [status, setStatus] = useState(order.status);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const InvoiceForm = ({ invoice }) => {
 
   return (
     <>
-      <FormTile title={`فاکتور شماره ${invoice.id}`} />
+      <FormTile title={`فاکتور شماره ${order.id}`} />
       <div css={{ textAlign: "center" }}>
         <Select
           value={status}
@@ -91,4 +91,4 @@ const InvoiceForm = ({ invoice }) => {
   );
 };
 
-export default InvoiceForm;
+export default OrderForm;

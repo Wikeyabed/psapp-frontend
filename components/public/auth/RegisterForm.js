@@ -148,7 +148,6 @@ function RegisterForm() {
     urlencoded.append("phone_number", phone_number);
     urlencoded.append("gender", "male");
     urlencoded.append("address", address);
-    urlencoded.append("invoices_id", "{}");
     urlencoded.append("shopping_list_id", "{}");
     urlencoded.append("refer", id);
 
@@ -177,7 +176,6 @@ function RegisterForm() {
                 address: data.address,
                 email: data.email,
                 refer: data.refer,
-                invoiceIds: data.invoices_id,
                 shoppingCartIds: data.shopping_list_id,
               })
             );

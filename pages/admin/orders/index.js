@@ -1,10 +1,10 @@
-import InvoiceList from "../../../components/admin/invoices";
+import OrderList from "../../../components/admin/orders";
 import { getCookie } from "cookies-next";
-function Invoices({ invoices }) {
-  return <InvoiceList invoices={invoices} />;
+function Orders({ orders }) {
+  return <OrderList orders={orders} />;
 }
 
-export default Invoices;
+export default Orders;
 
 export async function getServerSideProps({ req, res }) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/`, {
@@ -13,13 +13,13 @@ export async function getServerSideProps({ req, res }) {
     },
   });
 
-  const invoices = await response.json();
+  const orders = await response.json();
 
-  console.log(invoices);
+  console.log(orders);
 
   return {
     props: {
-      invoices,
+      orders,
     },
   };
 }

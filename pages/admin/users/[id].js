@@ -3,10 +3,10 @@ import UserPage from "../../../components/admin/users/UserPage";
 import { useRouter } from "next/router";
 import { getCookie } from "cookies-next";
 
-function User({ userData, userInvoices }) {
+function User({ userData, userOrders }) {
   return (
     <>
-      <UserPage userData={userData} userInvoices={userInvoices} />
+      <UserPage userData={userData} userOrders={userOrders} />
     </>
   );
 }
@@ -23,7 +23,7 @@ export async function getServerSideProps({ req, res, params }) {
     }
   );
 
-  const invoices = await fetch(
+  const orders = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/orders/user/${params.id}`,
     {
       headers: {
@@ -33,12 +33,12 @@ export async function getServerSideProps({ req, res, params }) {
   );
 
   const userData = await info.json();
-  const userInvoices = await invoices.json();
+  const userOrders = await orders.json();
 
   return {
     props: {
       userData: userData[0],
-      userInvoices,
+      userOrders,
     },
   };
 }
