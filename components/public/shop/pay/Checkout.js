@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import { persianNumber } from "../../../../src/PersianDigits";
 import { getCookie } from "cookies-next";
 import shortUUID from "short-uuid";
+import moment from "moment-jalaali";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
@@ -46,7 +47,7 @@ function CheckoutToPayment() {
   const cart = useSelector((state) => state.product.shoppingCart);
 
   const router = useRouter();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment().unix());
   const [send, setSend] = useState(false);
   const [data, setData] = useState({
     description: "",
@@ -54,12 +55,13 @@ function CheckoutToPayment() {
   });
 
   function handleChangeDate(value) {
-    setDate(value);
+    setDate(value.unix);
+
+    console.log(date);
   }
 
   const handleChangeSend = (event) => {
     setSend(event.target.value);
-    console.log(typeof send);
   };
 
   const handleData = (event) => {
@@ -193,7 +195,7 @@ function CheckoutToPayment() {
                   }}
                   minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
                   maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
-                  value={date}
+                  defaultValue={Date.now()}
                   calendar={persian}
                   locale={persian_fa}
                   calendarPosition="bottom-left"

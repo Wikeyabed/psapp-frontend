@@ -18,7 +18,7 @@ function Callback() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSaveCallbackToDB = () => {
+  const handleSaveCallbackToDB = async () => {
     var myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
     myHeaders.append("Content-Type", "application/json");
@@ -30,8 +30,6 @@ function Callback() {
       status: data.status,
     });
 
-    console.log(raw);
-
     var requestOptions = {
       method: "PUT",
       headers: myHeaders,
@@ -39,17 +37,19 @@ function Callback() {
       redirect: "follow",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment`, requestOptions)
       .then((response) => {
         if (response.status == 201 || response.status == 200) {
-          setSuccess(true);
-          setLoading(false);
-        } else {
-          setLoading(false);
-          setSuccess(false);
+          const cb = response.json();
+
+          cb.then((res) => {
+            if (res[0].status == "10") {
+              setSuccess(true);
+            }
+          });
         }
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("error", error.message));
   };
 
   useEffect(() => {
@@ -59,15 +59,15 @@ function Callback() {
       order_id: searchParams.get("order_id"),
       status: searchParams.get("status"),
     });
-
-    setTimeout(() => {
-      handleSaveCallbackToDB();
-    }, 1000);
   }, [searchParams, router]);
 
-  const handleCheckParams = () => {
-    console.log(data);
-  };
+  setTimeout(() => {
+    handleSaveCallbackToDB();
+  }, 500);
+
+  setTimeout(() => {
+    setLoading(false);
+  }, 3000);
 
   return (
     <div>
