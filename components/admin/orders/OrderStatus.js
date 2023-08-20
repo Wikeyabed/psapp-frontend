@@ -12,7 +12,7 @@ function OrderStatus({ status }) {
             ? "پرداخت ناموفق بوده است"
             : status == "7"
             ? "انصراف از پرداخت"
-            : status == "10"
+            : status == "10" || status == "100"
             ? "پرداخت با موفقیت انجام شد"
             : status == "11"
             ? "در حال پردازش"
@@ -25,7 +25,7 @@ function OrderStatus({ status }) {
             ? "warning"
             : status == "20" || status == "11"
             ? "info"
-            : status == "10"
+            : status == "10" || status == "100"
             ? "success"
             : "error"
         }

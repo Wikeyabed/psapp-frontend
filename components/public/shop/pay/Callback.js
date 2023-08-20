@@ -44,12 +44,36 @@ function Callback() {
 
           cb.then((res) => {
             if (res[0].status == "10") {
+              handleVerifyAndStatus((res[0].transaction_id, res[0].order_id));
               setSuccess(true);
             }
           });
         }
       })
       .catch((error) => console.log("error", error.message));
+  };
+
+  const handleVerifyAndStatus = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    var raw = JSON.stringify({
+      id: data.id,
+      order_id: data.order_id,
+    });
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-payment/`, requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   useEffect(() => {
