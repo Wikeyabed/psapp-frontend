@@ -4,8 +4,23 @@ import Grid from "@mui/material/Grid";
 import Image from "next/image";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function FailedPayment({ tid }) {
+  const router = useRouter();
+
+  const [counter, setCounter] = useState(5);
+  useEffect(() => {
+    if (counter > 0) {
+      setTimeout(() => {
+        setCounter(counter - 1);
+      }, 1000);
+    } else {
+      router.push("/shop");
+    }
+  }, [counter]);
+
   return (
     <Box
       sx={{
@@ -46,7 +61,7 @@ export default function FailedPayment({ tid }) {
               }}
               variant="h5"
             >
-              شماره پیگیری : {tid}
+              {tid ? "شماره پیگیری  " + tid : ""}
             </Typography>
             <Typography
               sx={{
@@ -55,18 +70,18 @@ export default function FailedPayment({ tid }) {
               fontStyle={"italic"}
               variant="h6"
             >
-              پرداخت شما ناموفقیت آمیز بود
+              مشکلی پیش آمده
             </Typography>
-            <Button
-              component={Link}
-              href="/shop"
+
+            <Typography
               sx={{
-                mt: 4,
+                textAlign: "center",
               }}
-              variant="outlined"
+              color={"Highlight"}
             >
-              بازگشت به فروشگاه
-            </Button>
+              {" "}
+              {counter} : در حال بازگشت به فروشگاه{" "}
+            </Typography>
           </Grid>
         </Grid>
       </Container>

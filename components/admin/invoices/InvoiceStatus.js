@@ -7,19 +7,25 @@ function InvoiceStatus({ status }) {
         sx={{ mx: 2 }}
         label={
           status == "1"
-            ? "در انتظار تایید"
+            ? "پرداخت انجام نشده است"
             : status == "2"
+            ? "پرداخت ناموفق بوده است"
+            : status == "7"
+            ? "انصراف از پرداخت"
+            : status == "10"
+            ? "پرداخت با موفقیت انجام شد"
+            : status == "11"
             ? "در حال پردازش"
-            : status == "3"
+            : status == "20"
             ? "تکمیل شده"
             : "کنسل شده"
         }
         color={
           status == "1"
             ? "warning"
-            : status == "2"
+            : status == "20" || status == "11"
             ? "info"
-            : status == "3"
+            : status == "10"
             ? "success"
             : "error"
         }

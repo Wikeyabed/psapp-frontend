@@ -81,8 +81,8 @@ const InvoicesTable = ({ invoices }) => {
               .map((invoice) => (
                 <TableRow key={invoice.invoice_id}>
                   <TableCell style={{ textAlign: "right" }}>
-                    <Link href={`invoices/${invoice.invoice_id}`}>
-                      فاکتور شماره {invoice.invoice_id}
+                    <Link href={`invoices/${invoice.order_id}`}>
+                      فاکتور شماره {invoice.order_number}
                     </Link>
                   </TableCell>
 
@@ -93,7 +93,7 @@ const InvoicesTable = ({ invoices }) => {
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
-                    <ToPersianDate timestamp={invoice.invoice_date} />
+                    <ToPersianDate timestamp={invoice.order_date} />
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>

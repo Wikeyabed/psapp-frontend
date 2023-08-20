@@ -9,12 +9,16 @@ import {
   Typography,
   Divider,
   Grid,
+  Box,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import AdminLayout from "../layout";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
+import moment from "moment-jalaali";
+import InvoiceStatus from "./InvoiceStatus";
+import { getCookie } from "cookies-next";
 
 const theme = createTheme({
   direction: "rtl",
@@ -24,7 +28,7 @@ const InvoicePage = ({ invoice }) => {
   // Sample data
   const [rows, setRows] = useState([]);
 
-  const [status, setStatus] = useState("Pending");
+  const [status, setStatus] = useState(invoice.status);
 
   const router = useRouter();
   const { id } = router.query;
@@ -43,6 +47,28 @@ const InvoicePage = ({ invoice }) => {
   // Handle status change
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    var raw = JSON.stringify({
+      status: e.target.value,
+    });
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/orders/${invoice.order_id}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
   };
 
   return (
@@ -50,25 +76,40 @@ const InvoicePage = ({ invoice }) => {
       <ThemeProvider theme={theme}>
         <div style={{ textAlign: "center" }}>
           <Typography variant="h4" component="h2" gutterBottom>
-            فاکتور شماره: {id}
+            فاکتور شماره: {invoice.order_number}
           </Typography>
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <Typography variant="subtitle1" gutterBottom>
               تاریخ صدور:
             </Typography>
-            <ToPersianDate timestamp={invoice.invoice_date} />
+            <ToPersianDate timestamp={invoice.order_date} />
+          </div>
+
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <Typography component={"div"} variant="subtitle1" gutterBottom>
+              تاریخ دریافت:{" "}
+              <Box
+                sx={{
+                  color: "primary.main",
+                }}
+                component={"span"}
+              >
+                {" "}
+                {moment.unix(invoice.order_date).format("jYYYY/jMM/jDD")}
+              </Box>{" "}
+            </Typography>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="subtitle1" gutterBottom>
-              شماره فاکتور: {id}
+              شماره فاکتور: {invoice.order_number}
             </Typography>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography variant="subtitle1" gutterBottom>
               آقا/خانم : {invoice.customer_name}
             </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              وضعیت: {status}
+            <Typography display={"flex"} variant="subtitle1" gutterBottom>
+              وضعیت: <InvoiceStatus status={status} />
             </Typography>
           </div>
         </div>
@@ -82,9 +123,10 @@ const InvoicePage = ({ invoice }) => {
           value={status}
           onChange={handleStatusChange}
         >
-          <MenuItem value={"Pending"}>در انتظار</MenuItem>
-          <MenuItem value={"Processing"}>در حال پردازش</MenuItem>
-          <MenuItem value={"Complete"}>کامل شده</MenuItem>
+          <MenuItem value={invoice.status}>وضعیت فعلی</MenuItem>
+          <MenuItem value={"11"}>در حال پردازش</MenuItem>
+          <MenuItem value={"20"}>تکمیل شده</MenuItem>
+          <MenuItem value={"404"}>کنسل شده</MenuItem>
         </Select>
 
         <Paper elevation={2} sx={{ padding: 2 }}>
@@ -107,8 +149,8 @@ const InvoicePage = ({ invoice }) => {
                     }}
                   />
                 </ListItem>
-                {rows.map((row) => (
-                  <ListItem key={row.invoice_id}>
+                {rows.map((row, i) => (
+                  <ListItem key={i}>
                     <ListItemText
                       primary={`${row.product_name}`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
