@@ -9,6 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListIcon from "@mui/icons-material/List";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import Link from "../../../../src/Link";
 
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -18,8 +19,35 @@ export default function SmallDescription({ desc }) {
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="body1" component="div">
+        <Grid item xs={12}>
+          <Typography variant="subtitle2">
+            مجموعه ایباکس همواره میکوشد اجناس خود را با بهترین قیمت و پایین ترین
+            قیمت به فروش برساند.از این رو هزینه ارسال محصولات بر عهده مشتری می
+            باشد.
+          </Typography>
+
+          <Typography
+            color={"darkred"}
+            sx={{ mt: 4, mb: 2 }}
+            variant="body1"
+            component="div"
+          >
+            جهت اطلاع از هزینه ارسال با ما از طریق{" "}
+            <Box
+              sx={{
+                mx: 1,
+                textDecoration: "none",
+              }}
+              color={"Highlight"}
+              component={Link}
+              href="/contact"
+            >
+              فرم تماس با ما
+            </Box>
+            در ارتباط باشید
+          </Typography>
+
+          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
             مشخصات کل
           </Typography>
           <Demo>
