@@ -30,6 +30,10 @@ module.exports = {
     return config;
   },
 
+  compiler: {
+    removeConsole: true,
+  },
+
   output: "standalone",
   reactStrictMode: true,
   distDir: "builded",
