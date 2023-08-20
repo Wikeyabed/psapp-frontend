@@ -4,6 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { TablePagination } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
@@ -12,7 +13,20 @@ import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
 
 function UserOrders() {
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const [rows, setRows] = useState([]);
+
   const handleOrdersByUserId = () => {
     var myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
@@ -38,7 +52,12 @@ function UserOrders() {
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        sx={{
+          minHeight: 600,
+        }}
+        component={Paper}
+      >
         <Table
           sx={{
             minWidth: 650,
@@ -55,29 +74,42 @@ function UserOrders() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, i) => (
-              <TableRow
-                key={row.i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="right">فاکتور {row.order_number}</TableCell>
-                <TableCell align="right">
-                  <ToPersianDate timestamp={row.order_date} />
-                </TableCell>
-                <TableCell align="right">
-                  <OrderStatus status={row.status} />
-                </TableCell>
-                <TableCell align="right">
-                  {" "}
-                  {persianNumber(row.finished_price)} ریال
-                </TableCell>
-              </TableRow>
-            ))}
+            {rows
+              .sort((a, b) => a.order_number - b.order_number)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, i) => (
+                <TableRow
+                  key={row.i}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="right">فاکتور {row.order_number}</TableCell>
+                  <TableCell align="right">
+                    <ToPersianDate timestamp={row.order_date} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <OrderStatus status={row.status} />
+                  </TableCell>
+                  <TableCell align="right">
+                    {" "}
+                    {persianNumber(row.finished_price)} ریال
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
-      </TableContainer>
 
-      <button onClick={handleOrdersByUserId}>کلیک تو چک</button>
+        <TablePagination
+          component="div"
+          rowsPerPageOptions={[10, 25]}
+          rowsPerPage={rowsPerPage}
+          count={rows.length}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="تعداد ردیف ها در صفحه"
+          sx={{ display: "flex", justifyContent: "center" }}
+        />
+      </TableContainer>
     </>
   );
 }
