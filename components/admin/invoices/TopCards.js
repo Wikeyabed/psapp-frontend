@@ -115,7 +115,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "3").length
+                invoices.filter((invoice) => invoice.status == "20").length
               )}
             </Typography>
 
@@ -136,7 +136,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "1").length
+                invoices.filter((invoice) => invoice.status == "10").length
               )}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
@@ -157,7 +157,7 @@ function TopCards({ invoices }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                invoices.filter((invoice) => invoice.status == "2").length
+                invoices.filter((invoice) => invoice.status == "11").length
               )}
             </Typography>
 

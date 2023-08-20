@@ -178,7 +178,7 @@ const InvoicePage = ({ invoice }) => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.product_quantity}`}
+                      primary={`${persianNumber(row.product_quantity)}`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
                     />
                   </ListItem>
@@ -204,7 +204,7 @@ const InvoicePage = ({ invoice }) => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.unit_price} ریال`}
+                      primary={`${persianNumber(row.unit_price)} ریال`}
                       primaryTypographyProps={{ variant: "subtitle1" }}
                     />
                   </ListItem>
@@ -230,7 +230,7 @@ const InvoicePage = ({ invoice }) => {
                 {rows.map((row) => (
                   <ListItem key={row.id}>
                     <ListItemText
-                      primary={`${row.total_price} ریال`}
+                      primary={`${persianNumber(row.total_price)} ریال`}
                       primaryTypographyProps={{
                         variant: "subtitle1",
                         align: "right",

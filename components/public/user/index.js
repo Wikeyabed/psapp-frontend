@@ -12,7 +12,7 @@ import {
   Paper,
   Divider,
 } from "@mui/material";
-import UserInvoices from "./userInvoices";
+import UserInvoices from "./UserInvoices";
 import UserProfile from "./UserProfile";
 import ChangePassword from "./ChangePassword";
 
