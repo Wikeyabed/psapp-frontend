@@ -3,22 +3,23 @@ import { ORDER } from "../constants/constants";
 
 const initialState = {
   totalPrice: 0,
-  paymentLink: "",
-  orderId: "",
+  products: [],
 };
 
 export const orderSlice = createSlice({
   name: ORDER,
   initialState,
   reducers: {
-    setOrderInfo: (state, { payload }) => {
+    setOrderPrice: (state, { payload }) => {
       state.totalPrice = payload.totalPrice;
-      state.paymentLink = payload.paymentLink;
-      state.orderId = payload.orderId;
+    },
+
+    setProductsInOrder: (state, { payload }) => {
+      state.products = payload.products;
     },
   },
 });
 
-export const { setOrderInfo } = orderSlice.actions;
+export const { setOrderPrice, setProductsInOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;

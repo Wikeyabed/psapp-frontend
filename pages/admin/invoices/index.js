@@ -7,7 +7,7 @@ function Invoices({ invoices }) {
 export default Invoices;
 
 export async function getServerSideProps({ req, res }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/invoices/`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/`, {
     headers: {
       token: getCookie("x-auth-token", { req, res }),
     },

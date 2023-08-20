@@ -10,15 +10,20 @@ import {
   FormLabel,
   Divider,
   TextField,
+  Box,
 } from "@mui/material";
 import PublicLayout from "../../layout";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { persianNumber } from "../../../../src/PersianDigits";
+import { getCookie } from "cookies-next";
+import shortUUID from "short-uuid";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
@@ -35,12 +40,17 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-function CheckoutToPayment({ totalPrice, linkToPayment }) {
+function CheckoutToPayment() {
   const userData = useSelector((state) => state.auth.userInformation);
+  const payment = useSelector((state) => state.order);
+  const cart = useSelector((state) => state.product.shoppingCart);
+
+  const router = useRouter();
   const [date, setDate] = useState(new Date());
-  const [send, setSend] = useState(true);
+  const [send, setSend] = useState(false);
   const [data, setData] = useState({
     description: "",
+    loading: false,
   });
 
   function handleChangeDate(value) {
@@ -54,6 +64,45 @@ function CheckoutToPayment({ totalPrice, linkToPayment }) {
 
   const handleData = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  useEffect(() => {
+    if (cart.length === 0 || payment.totalPrice == "0") router.push("/shop");
+  }, []);
+
+  const handleNewPayment = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({
+      description: data.description,
+      products: payment.products,
+      finished_price: payment.totalPrice,
+      order_id: shortUUID.generate(),
+      customer_name: userData.firstName + " " + userData.lastName,
+      delivery_date: date,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment/new`, requestOptions)
+      .then((response) => {
+        if (response.status == 201) {
+          const data = response.json();
+          data.then((data) => {
+            setData({ ...data, loading: true });
+            console.log(data);
+            router.push(data[0].transaction_url);
+          });
+        }
+      })
+
+      .catch((error) => console.log("error", error.message));
   };
 
   return (
@@ -181,7 +230,7 @@ function CheckoutToPayment({ totalPrice, linkToPayment }) {
           )}
 
           <Grid spacing={2} container>
-            <Grid display={"flex"} xs={12} md={6} item>
+            <Grid xs={12} md={6} item>
               <RtlTextField
                 name="description"
                 value={data.description}
@@ -196,29 +245,54 @@ function CheckoutToPayment({ totalPrice, linkToPayment }) {
               />
             </Grid>
 
-            <Grid display={"flex"} xs={12} md={6} item>
-              <RtlTextField
-                disabled
-                name="address"
-                value={userData.address}
-                required
-                multiline
-                minRows={4}
-                maxRows={6}
-                fullWidth
-                onChange={handleData}
-                label="آدرس شما"
-                type="text"
-              />
+            <Grid xs={12} md={6} item>
+              <Typography
+                sx={{
+                  width: "100%",
+                }}
+                component={"div"}
+                color={"ButtonText"}
+                variant="subtitle1"
+              >
+                آدرس دریافت مرسوله :{" "}
+                <Typography
+                  sx={{
+                    color: "darkred",
+                    mt: 2,
+                  }}
+                  variant="subtitle2"
+                >
+                  {" "}
+                  {send == "true"
+                    ? userData.address
+                    : "یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست آلاله یک , پلاک 1"}
+                </Typography>
+              </Typography>
             </Grid>
 
             <Grid display={"flex"} xs={12} item>
-              <Typography textAlign={"center"} variant="h6" color={"GrayText"}>
-                مبلغ نهایی فاکتور : {totalPrice}
+              <Typography
+                component={"div"}
+                textAlign={"center"}
+                variant="h6"
+                color={"GrayText"}
+              >
+                مبلغ نهایی فاکتور :
+                <Box
+                  sx={{
+                    color: "darkred",
+                  }}
+                  component={"span"}
+                >
+                  {" "}
+                  {persianNumber(payment.totalPrice)} ریال
+                </Box>
               </Typography>
             </Grid>
 
             <Button
+              disabled={data.loading}
+              onClick={handleNewPayment}
               color="info"
               variant="contained"
               sx={{

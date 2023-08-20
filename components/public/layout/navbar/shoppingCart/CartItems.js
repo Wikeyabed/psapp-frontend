@@ -42,7 +42,7 @@ export default function CartItems() {
                 component="img"
                 sx={{ width: 100 }}
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
-                alt="Live from space album cover"
+                alt={product.product_name}
               />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>

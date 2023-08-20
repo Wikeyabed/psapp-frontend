@@ -24,7 +24,7 @@ export async function getServerSideProps({ req, res, params }) {
   );
 
   const invoices = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/invoices/user/${params.id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/orders/user/${params.id}`,
     {
       headers: {
         token: getCookie("x-auth-token", { req, res }),
@@ -34,8 +34,6 @@ export async function getServerSideProps({ req, res, params }) {
 
   const userData = await info.json();
   const userInvoices = await invoices.json();
-
-  console.log(userInvoices);
 
   return {
     props: {

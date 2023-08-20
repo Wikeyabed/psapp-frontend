@@ -44,7 +44,7 @@ function TopCards({ invoices }) {
     let arr = [];
 
     const times = invoices.map((invoice) => {
-      return [...invoice.invoice_date].join("");
+      return [...invoice.order_date].join("");
     });
 
     const format = times

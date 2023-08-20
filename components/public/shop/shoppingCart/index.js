@@ -11,10 +11,17 @@ import {
   getProducts,
 } from "../../../../redux/reducers/productSlice";
 import Link from "../../../../src/Link";
+import { useRouter } from "next/router";
+import {
+  setOrderPrice,
+  setProductsInOrder,
+} from "../../../../redux/reducers/orderSlice";
 
 function ShoppingCart() {
   const allProducts = useSelector((state) => state.product.products);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const cartItems = useSelector((state) => state.product.shoppingCart);
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const findProductFromStore = (SessionProducts, StoredProducts) => {
@@ -68,6 +75,30 @@ function ShoppingCart() {
       .catch((error) => console.log("error", error));
   };
 
+  const sendToCheckout = () => {
+    let orderProduct = [];
+    let finalPrice = 0;
+    cartItems.map((product) => {
+      finalPrice +=
+        product.price * (1 - product.discount * 0.01) * product.cart_quantity;
+      const prodObj = {
+        product_discount: product.discount + "%",
+        product_name: product.product_name,
+        product_quantity: product.cart_quantity,
+        unit_price: product.price * (1 - product.discount * 0.01),
+        total_price:
+          product.price * (1 - product.discount * 0.01) * product.cart_quantity,
+      };
+
+      orderProduct = [...orderProduct, prodObj];
+    });
+
+    dispatch(setOrderPrice({ totalPrice: finalPrice }));
+    dispatch(setProductsInOrder({ products: orderProduct }));
+
+    router.push("/shop/checkout");
+  };
+
   useEffect(() => {
     fetchProducts();
     checkCart();
@@ -93,6 +124,8 @@ function ShoppingCart() {
           <Grid xs={12} md={4}>
             {isLoggedIn ? (
               <Button
+                disabled={cartItems.length === 0}
+                onClick={sendToCheckout}
                 sx={{
                   mt: 4,
                   paddingLeft: 5,
@@ -133,7 +166,7 @@ function ShoppingCart() {
                 endIcon={<PaymentIcon sx={{ mr: 1 }} />}
                 fullWidth={true}
               >
-                ورود و پرداخت{" "}
+                ورود و پرداخت
               </Button>
             )}
           </Grid>
