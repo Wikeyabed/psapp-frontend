@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Box } from "@mui/material";
+import Link from "../../../../src/Link";
 
 function Logo({ small }) {
   return (
@@ -10,6 +11,8 @@ function Logo({ small }) {
       }}
       display={"flex"}
       justifySelf={"center"}
+      component={Link}
+      href="/shop"
     >
       <Image
         src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo.png`}

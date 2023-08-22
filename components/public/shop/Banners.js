@@ -1,6 +1,10 @@
 import { Grid, Paper } from "@mui/material";
 import styled from "@emotion/styled";
 import DogPic from "../../../public/images/dog.jpg";
+import Banner1 from "../../../public/images/banner1.jpg";
+import Banner2 from "../../../public/images/banner2.jpg";
+import Banner3 from "../../../public/images/banner3.jpg";
+
 const BannerBox = styled(Grid)({
   padding: 10,
 });
@@ -24,38 +28,38 @@ function Banners() {
     <Grid sx={{ display: { xs: "none", md: "flex" } }} container>
       <BannerBox
         sx={{
-          height: "500px",
+          height: "600px",
         }}
         item
-        lg={7}
+        lg={8}
       >
         <BannerPaper elevation={5}>
-          <BannerImage src={DogPic.src} alt="pic" />
+          <BannerImage src={Banner1.src} alt="pic" />
         </BannerPaper>
       </BannerBox>
 
-      <Grid item container lg={5}>
+      <Grid item container lg={4}>
         <BannerBox
           item
           sx={{
-            height: "250px",
+            height: "300px",
           }}
           xs={12}
         >
           <BannerPaper elevation={5}>
-            <BannerImage src={DogPic.src} alt="pic" />
+            <BannerImage src={Banner2.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
 
         <BannerBox
           item
           sx={{
-            height: "250px",
+            height: "300px",
           }}
           xs={12}
         >
           <BannerPaper elevation={5}>
-            <BannerImage src={DogPic.src} alt="pic" />
+            <BannerImage src={Banner3.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
       </Grid>
