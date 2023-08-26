@@ -17,8 +17,8 @@ const ProductPage = ({ product }) => {
           }}
           item
           xs={12}
-          md={8}
-          lg={8}
+          md={10}
+          xl={8}
         >
           <Paper
             elevation={7}

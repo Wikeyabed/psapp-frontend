@@ -16,12 +16,20 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
           {" "}
           قیمت هر بسته : {persianNumber(price * stack)} ریال
         </Typography>
+
+        <Typography color="text.secondary" variant="body2">
+          تعداد در هر بسته : {persianNumber(stack)} عدد
+        </Typography>
       </Box>
+
       <Box
         sx={{
-          pt: 3,
-          display: "flex",
-          justifyContent: discount > 0 ? "space-between" : "space-evenly",
+          mt: 8,
+          textAlign: { xs: "center !important" },
+          display: { xs: "block", lg: "flex" },
+          justifyContent: {
+            lg: discount > 0 ? "space-between" : "space-evenly",
+          },
         }}
       >
         {discount > 0 ? (
@@ -64,6 +72,8 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
             color: "text.primary",
             fontWeight: "bold !important",
             typography: { xs: "h6", md: "h5" },
+            textAlign: "center",
+            my: { xs: 2, lg: 0 },
           }}
         >
           {persianNumber(price * stack * (1 - discount * 0.01) * counter)}
@@ -78,24 +88,6 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
           variant="filled"
         />{" "}
       </Box>
-
-      <Divider
-        sx={{
-          my: 2,
-        }}
-      />
-      <Typography
-        sx={{
-          mb: 1,
-        }}
-        variant="body2"
-      >
-        موجودی فروشگاه : {persianNumber(quantity)} عدد
-      </Typography>
-
-      <Typography variant="body2">
-        تعداد در هر بسته : {persianNumber(stack)} عدد
-      </Typography>
     </>
   );
 }

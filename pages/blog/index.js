@@ -13,8 +13,22 @@ import Link from "../../src/Link";
 import ToPersianDate from "../../src/TimestampToPersian";
 import parse from "html-react-parser";
 import Head from "next/head";
+import { Pagination } from "@mui/material";
+import usePagination from "../../src/usePagination";
+import React, { useState } from "react";
 
 export default function BlogSection({ blogPosts = [] }) {
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 4;
+
+  const _DATA = usePagination(blogPosts, PER_PAGE);
+  const count = Math.ceil(blogPosts.length / PER_PAGE);
+
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+
   return (
     <PublicLayout>
       <Head>
@@ -31,12 +45,12 @@ export default function BlogSection({ blogPosts = [] }) {
         </Box>
         <Grid container spacing={4}>
           {blogPosts.length > 0
-            ? blogPosts.map((post, index) => (
+            ? _DATA.currentData().map((post, index) => (
                 <Grid item xs={12} md={6} key={index}>
                   <Card sx={{ display: "flex" }}>
                     <CardMedia
                       component="img"
-                      sx={{ width: 200 }}
+                      sx={{ width: 200, height: 200 }}
                       image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
                       alt={post.title}
                     />
@@ -79,6 +93,24 @@ export default function BlogSection({ blogPosts = [] }) {
                 </Grid>
               ))
             : "هیچ پستی وجود ندارد"}
+
+          <Grid
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+            item
+            xs={12}
+          >
+            <Pagination
+              color="standard"
+              count={count}
+              size="large"
+              page={page}
+              shape="rounded"
+              onChange={handleChange}
+            />
+          </Grid>
         </Grid>
       </Container>
     </PublicLayout>

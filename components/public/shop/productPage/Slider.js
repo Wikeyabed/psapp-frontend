@@ -76,7 +76,7 @@ export default function ProductSlicer({ images }) {
               height={0}
               sizes="100vw"
               src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${image}`}
-              alt=""
+              alt="ایباکس"
             />
           </Box>
         ))}
@@ -102,7 +102,7 @@ export default function ProductSlicer({ images }) {
               height={0}
               sizes="100vw"
               src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${image}`}
-              alt=""
+              alt="ایباکس"
             />
           </Box>
         ))}

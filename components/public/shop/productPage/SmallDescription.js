@@ -10,7 +10,7 @@ import ListIcon from "@mui/icons-material/List";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from "../../../../src/Link";
-
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
@@ -20,49 +20,60 @@ export default function SmallDescription({ desc }) {
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="subtitle2">
-            مجموعه ایباکس همواره میکوشد اجناس خود را با بهترین قیمت و پایین ترین
-            قیمت به فروش برساند.از این رو هزینه ارسال محصولات بر عهده مشتری می
-            باشد.
+          <Typography variant="body1" color={"red"} textAlign={"justify"}>
+            مجموعه ایباکس همواره میکوشد اجناس خود را با بهترین کیفیت و پایین
+            ترین قیمت به فروش برساند.از این رو هزینه ارسال محصولات بر عهده مشتری
+            می باشد.
           </Typography>
 
           <Typography
             color={"darkred"}
-            sx={{ mt: 4, mb: 2 }}
-            variant="body1"
+            sx={{ mt: 1, mb: 2, fontWeight: "bold" }}
+            variant="body2"
             component="div"
           >
-            جهت اطلاع از هزینه ارسال با ما از طریق{" "}
+            جهت اطلاع از هزینه ارسال از طریق صفحه{" "}
             <Box
               sx={{
-                mx: 1,
+                ml: 1,
                 textDecoration: "none",
+                color: "#fff",
+                padding: "1px 10px 1px 10px",
+                backgroundColor: "primary.main",
+                display: "inline-block",
+                lineHeight: "2",
+
+                borderRadius: "5px",
               }}
-              color={"Highlight"}
               component={Link}
               href="/contact"
             >
-              فرم تماس با ما
+              تماس با ما
             </Box>
-            در ارتباط باشید
+            در ارتباط باشید.
           </Typography>
 
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            مشخصات کل
+          <Typography
+            sx={{ mt: 4, mb: 2, fontWeight: "bold" }}
+            variant="h6"
+            component="div"
+          >
+            مشخصات کلی
           </Typography>
           <Demo>
             <List>
               {desc.map((item, i) => {
                 return (
                   <ListItem key={i}>
-                    <ListItemIcon
+                    <FiberManualRecordIcon
                       sx={{
                         minWidth: "30px",
-                        color: "#ccc",
+                        color: "#666",
+                        fontSize: 10,
                       }}
                     >
                       <ListIcon />
-                    </ListItemIcon>
+                    </FiberManualRecordIcon>
                     <ListItemText>
                       <Typography variant="body2">{item}</Typography>
                     </ListItemText>

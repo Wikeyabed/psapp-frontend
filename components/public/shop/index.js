@@ -12,11 +12,11 @@ function Shop() {
     <PublicLayout>
       <Grid container sx={{ height: "100%" }}>
         {/* Side menu for categories */}
-        <Grid item xs={12} md={2.25}>
+        <Grid item xs={12} md={1.5} xl={2.5}>
           {/* <CategoryBar /> */}
         </Grid>
         {/* Main article for shop */}
-        <Grid item xs={12} md={7.5}>
+        <Grid item xs={12} md={9} xl={7.5}>
           {/* Display banners */}
           <Banners />
           {/* Display features */}

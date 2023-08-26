@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import EditProductModal from "./EditProductModal";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
+import DeleteProduct from "./DeleteProduct";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -168,7 +169,7 @@ function ProductsTable() {
           item
           xs={12}
           sm={6}
-          md={3}
+          xl={4}
           key={product.product_id}
         >
           <DashboardCard>
@@ -182,17 +183,29 @@ function ProductsTable() {
               <Box sx={{ margin: "auto", textAlign: "center" }}>
                 {" "}
                 <Image
-                  style={{
-                    borderRadius: "10px",
-                  }}
-                  width={250}
-                  height={230}
+                  style={{ width: "100%", height: "300px", borderRadius: 5 }}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
                   src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
                   alt={product.product_name}
                 />
               </Box>
-
-              <EditProductModal product={product} />
+              <Box
+                sx={{
+                  py: 3,
+                  mt: 2,
+                  borderTop: "1px solid #e2e2e2",
+                }}
+                display={"flex"}
+                justifyContent={"center"}
+              >
+                <EditProductModal product={product} />
+                <DeleteProduct
+                  fetchProducts={fetchProducts}
+                  id={product.product_id}
+                />
+              </Box>
             </Box>
           </DashboardCard>
         </Grid>

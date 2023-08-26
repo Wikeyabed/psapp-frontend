@@ -1,9 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 
-import React from "react";
+import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
-
+import { Pagination } from "@mui/material";
+import usePagination from "../../../../src/usePagination";
 // get product list from database
 
 function ProductList() {
@@ -11,6 +12,9 @@ function ProductList() {
   const searchValue = useSelector((state) => state.product.search);
   const category = useSelector((state) => state.product.filter);
   const priceSort = useSelector((state) => state.product.priceSort);
+
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 6;
 
   const filteredProductList = productList
     .filter(
@@ -26,10 +30,17 @@ function ProductList() {
       }
     });
 
+  const handleChange = (e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+
+  const _DATA = usePagination(filteredProductList, PER_PAGE);
+  const count = Math.ceil(filteredProductList.length / PER_PAGE);
   return (
     <Grid container>
       {filteredProductList.length > 0 ? (
-        filteredProductList.map((product, i) => {
+        _DATA.currentData().map((product, i) => {
           return (
             <Grid
               sx={{
@@ -45,8 +56,8 @@ function ProductList() {
                 productName={product.product_name}
                 productCode={product.product_id}
                 price={product.price}
-                quantity={product.quantity}
-                imageUrl={product.images_url[product.images_url.length - 1]}
+                stack={product.stack}
+                imageUrl={product.images_url[0]}
               />
             </Grid>
           );
@@ -63,6 +74,25 @@ function ProductList() {
           موردی یافت نشد...
         </Typography>
       )}
+
+      <Grid
+        sx={{
+          my: 2,
+          display: "flex",
+          justifyContent: "center",
+        }}
+        item
+        xs={12}
+      >
+        <Pagination
+          color="standard"
+          count={count}
+          size="large"
+          page={page}
+          shape="rounded"
+          onChange={handleChange}
+        />
+      </Grid>
     </Grid>
   );
 }

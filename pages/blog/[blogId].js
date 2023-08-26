@@ -18,14 +18,14 @@ export default function BlogSingle({ blog }) {
         <title>{blog.title}</title>
       </Head>
       <Grid display={"flex"} justifyContent={"center"} container>
-        <Grid xs={12} md={10} lg={6}>
+        <Grid xs={12} md={10} lg={8} xl={6}>
           {" "}
           <BlogNav blogId={15} blogTitle={blog.title} />
           <Card sx={{ mx: "auto", my: 4 }}>
             <CardActionArea>
               <CardMedia
                 component="img"
-                height="380"
+                height="500"
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
                 alt={blog.title}
               />

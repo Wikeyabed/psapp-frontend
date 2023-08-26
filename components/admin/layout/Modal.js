@@ -32,6 +32,7 @@ export default function ModalBox({
   handleClose,
   open,
   buttonStyle,
+  buttonColor,
 }) {
   return (
     <>
@@ -49,6 +50,7 @@ export default function ModalBox({
           size="medium"
           variant={buttonVariant}
           startIcon={icon}
+          color={buttonColor}
         >
           <Typography
             variant="button"

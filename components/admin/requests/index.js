@@ -57,10 +57,14 @@ export default function RequestTabs() {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            sx={{
+              display: "flex !important",
+              justifyContent: "center",
+            }}
           >
-            <Tab label="درخواست های همکاری" {...a11yProps(0)} />
-            <Tab label="درخواست های سفارش محصول" {...a11yProps(1)} />
-            <Tab label="درخواست های تماس با ما" {...a11yProps(2)} />
+            <Tab label="همکاری" {...a11yProps(0)} />
+            <Tab label="سفارش محصول" {...a11yProps(1)} />
+            <Tab label="تماس با ما" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

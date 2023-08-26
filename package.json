@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@emotion/cache": "latest",
+    "@emotion/memoize": "^0.8.1",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
+    "@mui/lab": "^5.0.0-alpha.141",
     "@mui/material": "latest",
     "@mui/x-data-grid": "^5.17.25",
     "@next/font": "latest",

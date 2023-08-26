@@ -119,7 +119,7 @@ function RequestPartnership() {
     <PublicLayout>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container>
-          <Card item xs={11} md={3.5}>
+          <Card item xs={11} md={4.5}>
             <form onSubmit={handleSubmit}>
               <FormGroup>
                 <Grid component={Item} elevation={4} container>

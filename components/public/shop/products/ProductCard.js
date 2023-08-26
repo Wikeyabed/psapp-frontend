@@ -17,7 +17,7 @@ export default function ProductCard({
   productName,
   productCode,
   price,
-  quantity,
+  stack,
   imageUrl,
 }) {
   return (
@@ -29,7 +29,7 @@ export default function ProductCard({
           borderBottom: "1px solid #e2e2e2",
         }}
         image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
-        title="ایباکس"
+        title={productName}
       />
       <CardContent>
         <Typography
@@ -46,29 +46,22 @@ export default function ProductCard({
 
         <Typography
           variant="caption"
-          color="ButtonText"
+          color={"secondary.text"}
           textAlign={"right"}
           component="div"
-        >
-          موجود در انبار
-        </Typography>
-
-        <Typography
-          variant="caption"
-          color="ButtonText"
-          textAlign={"right"}
-          component="div"
+          fontWeight={"bold"}
         >
           کد محصول : {productCode}
         </Typography>
 
         <Typography
           variant="caption"
-          color="ButtonText"
+          color={"secondary.text"}
           textAlign={"right"}
           component="div"
+          fontWeight={"bold"}
         >
-          تعداد در هر بسته : {quantity}
+          تعداد در هر بسته : {persianNumber(stack)}
         </Typography>
 
         {/* <Quantity /> */}

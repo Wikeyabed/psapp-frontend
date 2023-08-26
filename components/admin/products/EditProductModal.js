@@ -26,16 +26,10 @@ function EditProductModal({ product }) {
         handleOpen={handleOpen}
         handleClose={handleClose}
         open={open}
-        // buttonText={"ویرایش محصول"}
+        buttonText={"ویرایش محصول"}
         buttonVariant="contained"
-        buttonStyle={{
-          padding: "20px  0",
-          position: "absolute",
-          left: "10px",
-          bottom: "5px",
-          borderRadius: "50%",
-        }}
         icon={<EditIcon />}
+        buttonColor={"info"}
       >
         <EditProductForm
           closeAfterUpdate={closeAfterUpdate}
