@@ -34,7 +34,7 @@ function Banners() {
         lg={8}
       >
         <BannerPaper elevation={5}>
-          <BannerImage src={Banner1.src} alt="pic" />
+          <BannerImage src={Banner2.src} alt="pic" />
         </BannerPaper>
       </BannerBox>
 
@@ -47,7 +47,7 @@ function Banners() {
           xs={12}
         >
           <BannerPaper elevation={5}>
-            <BannerImage src={Banner2.src} alt="pic" />
+            <BannerImage src={Banner1.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
 

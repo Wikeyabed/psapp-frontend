@@ -13,7 +13,7 @@ import {
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
-
+import OrderStatus from "../orders/OrderStatus";
 function UserPage({ userData, userOrders }) {
   return (
     <AdminLayout>
@@ -84,9 +84,9 @@ function UserPage({ userData, userOrders }) {
               >
                 فاکتورها
               </Typography>
-              <Grid container spacing={2}>
+              <Grid container spacing={4}>
                 {userOrders.map((order) => (
-                  <Grid item xs={12} sm={6} md={4} key={order.order_id}>
+                  <Grid item xs={12} sm={6} key={order.order_id}>
                     <Link
                       sx={{
                         textDecoration: "none !important",
@@ -95,13 +95,14 @@ function UserPage({ userData, userOrders }) {
                     >
                       <Card
                         sx={{
-                          backgroundColor: "lightPrimary.main",
-                          color: "primary.textWhite",
+                          backgroundColor: "lightPrimary.textWhite",
+                          color: "primary.main",
                         }}
+                        elevation={3}
                       >
                         <CardContent>
                           <Typography variant="h5">
-                            فاکتور شماره: {order.order_id}
+                            فاکتور شماره: {order.order_number}
                           </Typography>
                           <Divider
                             color="#fff"
@@ -113,42 +114,28 @@ function UserPage({ userData, userOrders }) {
                             تاریخ:
                             <ToPersianDate timestamp={order.order_date} />
                           </Typography>
-                          <Typography sx={{ mt: 2 }}>
+                          <Typography variant="subtitle2" sx={{ mt: 2 }}>
                             شماره تراکنش : {order.transaction_id}
                           </Typography>
-                          <Typography sx={{ mt: 2 }}>
+                          <Typography variant="body2" sx={{ mt: 2 }}>
                             شماره پیگیری : {order.track_id}
                           </Typography>
-                          <Typography sx={{ mt: 2 }}>
+                          <Typography variant="body2" sx={{ mt: 2 }}>
                             شماره سفارش : {order.order_id}
                           </Typography>
-                          <Typography sx={{ mt: 2 }}>
+                          <Typography variant="body2" sx={{ mt: 2 }}>
                             مبلغ: {persianNumber(order.finished_price)} ریال
                           </Typography>
-                          <Typography sx={{ mt: 2 }} component="div">
-                            وضعیت فعلی :
-                            <Chip
-                              sx={{ mx: 2 }}
-                              label={
-                                order.status == "1"
-                                  ? "در انتظار تایید"
-                                  : order.status == "2"
-                                  ? "در حال پردازش"
-                                  : order.status == "3"
-                                  ? "تکمیل شده"
-                                  : "کنسل شده"
-                              }
-                              color={
-                                order.status == "1"
-                                  ? "warning"
-                                  : order.status == "2"
-                                  ? "info"
-                                  : order.status == "3"
-                                  ? "success"
-                                  : "error"
-                              }
-                              variant="filled"
-                            ></Chip>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              mt: 2,
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                            component="div"
+                          >
+                            وضعیت فعلی : <OrderStatus status={order.status} />
                           </Typography>
                         </CardContent>
                       </Card>
