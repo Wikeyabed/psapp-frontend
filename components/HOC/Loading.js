@@ -13,7 +13,7 @@ export default function Loading() {
       url === router.asPath &&
       setTimeout(() => {
         setLoading(false);
-      }, 2500);
+      }, 500);
 
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
@@ -26,5 +26,5 @@ export default function Loading() {
     };
   });
 
-  return loading && <LoadingBar />;
+  return loading && <LoadingBar loading={loading} />;
 }

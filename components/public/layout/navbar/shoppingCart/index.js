@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
 import CartItems from "./CartItems";
@@ -102,7 +102,7 @@ function MiniShoppingCart() {
         }}
       >
         <Badge color="info" badgeContent={persianNumber(shoppingCart.length)}>
-          <AddShoppingCartIcon />
+          <ShoppingCartIcon />
         </Badge>
       </IconButton>
       <Dialog
