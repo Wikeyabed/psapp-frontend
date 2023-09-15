@@ -5,9 +5,10 @@ import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";
+import Swipe from "../../layout/swiper";
 // get product list from database
 
-function ProductList() {
+function ProductListByCategory() {
   const productList = useSelector((state) => state.product.products);
   const searchValue = useSelector((state) => state.product.search);
   const category = useSelector((state) => state.product.filter);
@@ -39,42 +40,6 @@ function ProductList() {
   const count = Math.ceil(filteredProductList.length / PER_PAGE);
   return (
     <Grid container>
-      {filteredProductList.length > 0 ? (
-        _DATA.currentData().map((product, i) => {
-          return (
-            <Grid
-              sx={{
-                p: 2,
-              }}
-              key={i}
-              item
-              xs={12}
-              md={6}
-              lg={4}
-            >
-              <ProductCard
-                productName={product.product_name}
-                productCode={product.product_id}
-                price={product.price}
-                stack={product.stack}
-                imageUrl={product.images_url[0]}
-              />
-            </Grid>
-          );
-        })
-      ) : (
-        <Typography
-          sx={{
-            textAlign: "center !important",
-            marginX: "auto",
-          }}
-          variant="h6"
-        >
-          {" "}
-          موردی یافت نشد...
-        </Typography>
-      )}
-
       <Grid
         sx={{
           my: 2,
@@ -83,18 +48,13 @@ function ProductList() {
         }}
         item
         xs={12}
+        container
       >
-        <Pagination
-          color="standard"
-          count={count}
-          size="large"
-          page={page}
-          shape="rounded"
-          onChange={handleChange}
-        />
+        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
+        <Swipe title={"goodbye"} items={[]} />
       </Grid>
     </Grid>
   );
 }
 
-export default ProductList;
+export default ProductListByCategory;

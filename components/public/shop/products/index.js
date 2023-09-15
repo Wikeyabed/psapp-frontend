@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import CategoryBar from "./CategoryBar";
 import ProductList from "./ProductList";
 import FilterBar from "./FilterBar";
+import ProductListByCategory from "./ProductListByCategory";
 function Products() {
   return (
     <Grid
@@ -12,28 +13,27 @@ function Products() {
         marginTop: "75px",
       }}
     >
-      <Paper
+      <Grid
         sx={{
           borderRadius: "10px",
           padding: "10px 20px 20px",
-          minHeight: { md: "600px" },
+          // minHeight: { md: "600px" },
         }}
         elevation={2}
-        component={Grid}
         container
       >
-        <Grid
+        {/* <Grid
           sx={{
             display: { xs: "none", md: "flex" },
           }}
           item
           xs={12}
-        >
-          <FilterBar />
-        </Grid>
-
-        <ProductList />
-      </Paper>
+        > */}
+        {/* <FilterBar /> */}
+        {/* </Grid> */}
+        <ProductListByCategory />
+        {/* <ProductList /> */}
+      </Grid>
     </Grid>
   );
 }

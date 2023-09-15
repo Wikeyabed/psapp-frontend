@@ -21,7 +21,7 @@ function LoadingBar({ children, loading }) {
           }}
         >
           <CircularProgress
-            color="primary"
+            color="secondary"
             thickness={2}
             // disableShrink
             sx={{

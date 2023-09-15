@@ -19,7 +19,7 @@ import React, { useState } from "react";
 
 export default function BlogSection({ blogPosts = [] }) {
   let [page, setPage] = useState(1);
-  const PER_PAGE = 4;
+  const PER_PAGE = 12;
 
   const _DATA = usePagination(blogPosts, PER_PAGE);
   const count = Math.ceil(blogPosts.length / PER_PAGE);
@@ -77,9 +77,9 @@ export default function BlogSection({ blogPosts = [] }) {
                           display={"flex"}
                           justifyContent={"space-between"}
                         >
-                          <Typography variant="subtitle2">
+                          {/* <Typography variant="subtitle2">
                             {post.author}
-                          </Typography>
+                          </Typography> */}
                           <Typography
                             variant="subtitle2"
                             color="text.secondary"

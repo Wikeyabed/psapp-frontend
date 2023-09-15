@@ -13,8 +13,8 @@ function ToPersianDate({ timestamp }) {
     <>
       <ButtonGroup
         size="small"
-        color="secondary"
-        sx={{ direction: "ltr !important", bgcolor: "secondary" }}
+        color="lightPrimary"
+        sx={{ direction: "ltr !important", bgcolor: "primary" }}
       >
         <Button startIcon={<CalendarMonth fontSize="small" />} variant="text">
           {date}
