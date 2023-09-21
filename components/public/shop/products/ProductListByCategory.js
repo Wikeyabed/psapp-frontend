@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";
-import Swipe from "../../layout/swiper";
+import Swipe from "../../layout/swiper/DraggableSwipe";
 // get product list from database
 
 function ProductListByCategory() {
@@ -51,7 +51,8 @@ function ProductListByCategory() {
         container
       >
         <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
-        <Swipe title={"goodbye"} items={[]} />
+        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
+        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
       </Grid>
     </Grid>
   );

@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import { FreeMode, Pagination } from "swiper/modules";
 import { Grid, Typography } from "@mui/material";
 import ShopSwiperCards from "./ShopSwiperCards";
-export default function Swipe({ title, items }) {
+export default function DraggableSwipe({ title, items, effect }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -28,8 +28,18 @@ export default function Swipe({ title, items }) {
 
       <Grid item xs={12}>
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
+          slidesPerView={1}
+          spaceBetween={10}
+          breakpoints={{
+            680: {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+          }}
           freeMode={true}
           modules={[FreeMode, Pagination]}
           className="mySwiper"

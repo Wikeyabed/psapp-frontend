@@ -10,13 +10,21 @@ import Products from "./products";
 function Shop() {
   return (
     <PublicLayout>
-      <Grid container sx={{ height: "100%" }}>
+      <Grid
+        container
+        sx={{ height: "100%", display: "flex", justifyContent: "center" }}
+      >
         {/* Side menu for categories */}
-        <Grid item xs={12} md={1.5} xl={2.5}>
-          {/* <CategoryBar /> */}
-        </Grid>
+        {/* <Grid item xs={12} md={1.5} xl={2.5}> */}
+        {/* <CategoryBar /> */}
+        {/* </Grid> */}
         {/* Main article for shop */}
-        <Grid item xs={12} md={9} xl={7.5}>
+        <Grid
+          item
+          sx={{
+            width: { xs: "100% !important ", md: "1024px !important" },
+          }}
+        >
           {/* Display banners */}
           <Banners />
           {/* Display features */}

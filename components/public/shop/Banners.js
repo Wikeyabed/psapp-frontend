@@ -28,7 +28,7 @@ function Banners() {
     <Grid sx={{ display: { xs: "none", md: "flex" } }} container>
       <BannerBox
         sx={{
-          height: "600px",
+          height: { md: "576px" },
         }}
         item
         lg={8}
