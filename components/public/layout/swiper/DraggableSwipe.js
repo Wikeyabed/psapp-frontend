@@ -6,8 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 // import required modules
-import { FreeMode, Pagination } from "swiper/modules";
+import { FreeMode, Pagination, Navigation } from "swiper/modules";
 import { Grid, Typography } from "@mui/material";
 import ShopSwiperCards from "./ShopSwiperCards";
 export default function DraggableSwipe({ title, items, effect }) {
@@ -28,20 +30,21 @@ export default function DraggableSwipe({ title, items, effect }) {
 
       <Grid item xs={12}>
         <Swiper
+          navigation={true}
+          height={"auto"}
           slidesPerView={1}
           spaceBetween={10}
+          width={1024}
           breakpoints={{
             680: {
               slidesPerView: 2,
-              spaceBetween: 20,
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 40,
             },
           }}
           freeMode={true}
-          modules={[FreeMode, Pagination]}
+          modules={[Pagination, Navigation]}
           className="mySwiper"
         >
           {items.length > 0
@@ -51,7 +54,7 @@ export default function DraggableSwipe({ title, items, effect }) {
                     style={{ backgroundColor: "transparent", padding: 5 }}
                     key={i}
                   >
-                    <ShopSwiperCards>{item}</ShopSwiperCards>
+                    <ShopSwiperCards item={item} />
                   </SwiperSlide>
                 );
               })

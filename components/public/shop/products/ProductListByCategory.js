@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 import { Pagination } from "@mui/material";
@@ -9,35 +9,27 @@ import Swipe from "../../layout/swiper/DraggableSwipe";
 // get product list from database
 
 function ProductListByCategory() {
+  let [uniqueCategories, setUniqueCategories] = useState([]);
+
   const productList = useSelector((state) => state.product.products);
-  const searchValue = useSelector((state) => state.product.search);
-  const category = useSelector((state) => state.product.filter);
-  const priceSort = useSelector((state) => state.product.priceSort);
 
-  let [page, setPage] = useState(1);
-  const PER_PAGE = 12;
-
-  const filteredProductList = productList
-    .filter(
-      (product) =>
-        (product.category == category || category == "all") &&
-        product.product_name.includes(searchValue)
-    )
-    .sort((a, b) => {
-      if (priceSort == "cheap") {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
+  const productCategories = () => {
+    let categories = [];
+    productList.map((product) => {
+      categories.push(product.category);
     });
 
-  const handleChange = (e, p) => {
-    setPage(p);
-    _DATA.jump(p);
+    setUniqueCategories([...new Set(categories)]);
   };
 
-  const _DATA = usePagination(filteredProductList, PER_PAGE);
-  const count = Math.ceil(filteredProductList.length / PER_PAGE);
+  useEffect(() => {
+    productCategories();
+    console.log("hello", uniqueCategories);
+  }, [productList]);
+
+  const setCategoryItems = (category) => {
+    return productList.filter((product) => product.category === category);
+  };
   return (
     <Grid container>
       <Grid
@@ -50,9 +42,15 @@ function ProductListByCategory() {
         xs={12}
         container
       >
-        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
-        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
-        <Swipe title={"کارتن پستی"} items={[3, 4, 5, 6, 7]} />
+        {uniqueCategories.map((category) => {
+          return (
+            <Swipe
+              key={category}
+              title={category}
+              items={setCategoryItems(category)}
+            />
+          );
+        })}
       </Grid>
     </Grid>
   );
