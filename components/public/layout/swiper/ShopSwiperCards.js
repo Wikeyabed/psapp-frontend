@@ -61,7 +61,7 @@ function ShopSwiperCards({ item }) {
           خرید
         </Button>
         <Button color="info" variant="contained" size="small">
-          توضیحات بیشتر
+          اضافه کردن
         </Button>
       </CardActions>
     </Card>

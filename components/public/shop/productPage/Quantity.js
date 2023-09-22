@@ -38,13 +38,16 @@ function Quantity({ discount, price, stack, quantity, productId }) {
           aria-label="small outlined button group"
         >
           <Button
+            variant="text"
             sx={{
-              padding: "5px 2px !important",
-              border: "1px solid  #ccc",
+              // padding: "5px 2px !important",
+              borderBottom: "2px solid !important",
+              borderTop: "2px solid !important",
+
               mr: "1px",
               borderRadius: "20%",
             }}
-            color="secondary"
+            color="success"
             onClick={handleIncrement}
           >
             <AddIcon />
@@ -52,11 +55,16 @@ function Quantity({ discount, price, stack, quantity, productId }) {
           {displayCounter && (
             <Button
               sx={{
-                padding: "5px 0px !important",
+                padding: "2px !important",
+                fontSize: 18,
+                textAlign: "center",
+                mx: "10px !important",
+                borderRadius: "20% !important",
+                border: "2px solid !important",
+                fontWeight: "bold",
               }}
-              disabled
-              color="secondary"
-              variant="outlined"
+              color="info"
+              variant="text"
             >
               {persianNumber(counter)}
             </Button>
@@ -64,12 +72,15 @@ function Quantity({ discount, price, stack, quantity, productId }) {
           {displayCounter && (
             <Button
               sx={{
-                padding: "5px 2px !important",
-                border: "1px solid  #ccc",
+                // padding: "5px 2px !important",
+                borderBottom: "2px solid !important",
+                borderTop: "2px solid !important",
+
                 borderRadius: "20%",
               }}
-              color="secondary"
+              color="warning"
               onClick={handleDecrement}
+              variant="text"
             >
               <RemoveIcon />
             </Button>
