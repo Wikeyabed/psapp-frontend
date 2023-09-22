@@ -6,6 +6,7 @@ import PublicLayout from "../layout";
 import Banners from "./Banners";
 import Features from "./Features";
 import Products from "./products";
+import ShopSlider from "./Slider";
 // Define Shop component
 function Shop() {
   return (
@@ -26,7 +27,9 @@ function Shop() {
           }}
         >
           {/* Display banners */}
-          <Banners />
+          {/* <Banners /> */}
+
+          <ShopSlider />
           {/* Display features */}
 
           <Box
