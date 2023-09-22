@@ -10,8 +10,9 @@ import "swiper/css/navigation";
 
 // import required modules
 import { FreeMode, Pagination, Navigation } from "swiper/modules";
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import ShopSwiperCards from "./ShopSwiperCards";
+import { persianNumber } from "../../../../src/PersianDigits";
 export default function DraggableSwipe({ title, items, effect }) {
   return (
     <Grid container>
@@ -20,9 +21,15 @@ export default function DraggableSwipe({ title, items, effect }) {
           sx={{
             mt: 10,
             mb: 2,
+            width: "100% !important",
+            fontWeight: "bold",
+            textDecoration: "underline",
+            textDecorationColor: "#007aff",
+            textDecorationThickness: "4px",
+            textUnderlineOffset: 12,
           }}
-          variant="h5"
-          display={"block"}
+          variant="h6"
+          component={"div"}
         >
           {title}
         </Typography>
@@ -30,11 +37,23 @@ export default function DraggableSwipe({ title, items, effect }) {
 
       <Grid item xs={12}>
         <Swiper
-          navigation={true}
+          grabCursor={true}
           height={"auto"}
           slidesPerView={1}
           spaceBetween={10}
-          width={1024}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+            renderBullet: function (index, className) {
+              return (
+                '<span class="' +
+                className +
+                '">' +
+                persianNumber(index + 1) +
+                "</span>"
+              );
+            },
+          }}
           breakpoints={{
             680: {
               slidesPerView: 2,
@@ -51,7 +70,11 @@ export default function DraggableSwipe({ title, items, effect }) {
             ? items.map((item, i) => {
                 return (
                   <SwiperSlide
-                    style={{ backgroundColor: "transparent", padding: 5 }}
+                    style={{
+                      backgroundColor: "transparent",
+                      padding: 5,
+                      paddingBottom: 70,
+                    }}
                     key={i}
                   >
                     <ShopSwiperCards item={item} />

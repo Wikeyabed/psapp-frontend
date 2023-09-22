@@ -52,6 +52,7 @@ function ShopSwiperCards({ item }) {
       <CardActions
         sx={{
           padding: 2,
+
           display: "flex",
           justifyContent: "space-between",
         }}

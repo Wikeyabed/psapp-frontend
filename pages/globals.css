@@ -79,3 +79,23 @@ span.sd {
   height: 100%;
   object-fit: cover;
 }
+
+.swiper-wrapper {
+  box-sizing: inherit !important;
+}
+
+.swiper-pagination-bullet {
+  width: 20px !important;
+  height: 20px !important;
+  text-align: center !important;
+  line-height: 22px;
+  font-size: 12px;
+  color: #fff;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #007aff;
+}
