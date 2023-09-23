@@ -7,6 +7,7 @@ import Banners from "./Banners";
 import Features from "./Features";
 import Products from "./products";
 import ShopSlider from "./Slider";
+import LatestBlog from "./LatestBlog";
 // Define Shop component
 function Shop() {
   return (
@@ -27,7 +28,6 @@ function Shop() {
           }}
         >
           {/* Display banners */}
-          {/* <Banners /> */}
 
           <ShopSlider />
           {/* Display features */}
@@ -40,8 +40,12 @@ function Shop() {
             {" "}
             <Features />
           </Box>
+          <Box>
+            <LatestBlog />
+          </Box>
 
           {/* Display products */}
+
           <Products />
         </Grid>
       </Grid>

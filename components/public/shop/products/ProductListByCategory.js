@@ -25,7 +25,6 @@ function ProductListByCategory() {
 
   useEffect(() => {
     productCategories();
-    console.log("hello", uniqueCategories);
   }, [productList]);
 
   const setCategoryItems = (category) => {

@@ -2,7 +2,7 @@ import * as React from "react";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import { NavigateBefore } from "@mui/icons-material";
-import Link from "../../src/Link";
+import Link from "../../../src/Link";
 export default function BlogNav({ blogId, blogTitle }) {
   const breadcrumbs = [
     <Link
