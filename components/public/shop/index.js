@@ -7,7 +7,7 @@ import Banners from "./Banners";
 import Features from "./Features";
 import Products from "./products";
 import ShopSlider from "./Slider";
-import LatestBlog from "./LatestBlog";
+import LatestBlog from "./miniBlog";
 // Define Shop component
 function Shop() {
   return (

@@ -1,4 +1,4 @@
-import { Grid, Box, Paper, Divider } from "@mui/material";
+import { Grid, Box, Paper, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import CategoryBar from "./CategoryBar";
 import ProductList from "./ProductList";
@@ -22,6 +22,23 @@ function Products() {
         elevation={2}
         container
       >
+        {/* <Typography
+          sx={{
+            mt: 10,
+
+            width: "100% !important",
+            fontWeight: "bold",
+            textDecoration: "underline",
+            textDecorationColor: "#007aff",
+            textDecorationThickness: "4px",
+            textUnderlineOffset: 12,
+            textAlign: "center",
+          }}
+          variant="h5"
+          component={"div"}
+        >
+          فروشگاه
+        </Typography> */}
         {/* <Grid
           sx={{
             display: { xs: "none", md: "flex" },
