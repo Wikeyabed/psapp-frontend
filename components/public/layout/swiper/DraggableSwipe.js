@@ -11,9 +11,10 @@ import "swiper/css/navigation";
 // import required modules
 import { FreeMode, Pagination, Navigation } from "swiper/modules";
 import { Box, Grid, Typography } from "@mui/material";
-import ShopSwiperCards from "./ShopSwiperCards";
+import ShopSwiperCards from "../../shop/products/ShopSwiperCards";
 import { persianNumber } from "../../../../src/PersianDigits";
-export default function DraggableSwipe({ title, items, effect }) {
+import { cloneElement } from "react";
+export default function DraggableSwipe({ title, items, effect, children }) {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -77,7 +78,8 @@ export default function DraggableSwipe({ title, items, effect }) {
                     }}
                     key={i}
                   >
-                    <ShopSwiperCards item={item} />
+                    {/* <ShopSwiperCards item={item} /> */}
+                    {cloneElement(children, { item: item })}
                   </SwiperSlide>
                 );
               })

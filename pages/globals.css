@@ -1,4 +1,14 @@
 @font-face {
+  font-family: "anjoman-bold";
+  src: url("../public/fonts/Anjoman-FaNum-Bold.woff2");
+}
+
+@font-face {
+  font-family: "anjoman";
+  src: url("../public/fonts/anjoman.woff");
+}
+
+@font-face {
   font-family: "iranyekan";
   src: url("../public/fonts/Iranyekan.ttf");
 }
@@ -15,7 +25,7 @@
 }
 
 * {
-  font-family: "iranyekan" !important;
+  font-family: "anjoman-bold" !important;
   text-align: right;
   text-decoration: none;
 }

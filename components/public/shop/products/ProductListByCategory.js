@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";
 import Swipe from "../../layout/swiper/DraggableSwipe";
+import ShopSwiperCards from "./ShopSwiperCards";
 // get product list from database
 
 function ProductListByCategory() {
@@ -48,7 +49,9 @@ function ProductListByCategory() {
               key={category}
               title={category}
               items={setCategoryItems(category)}
-            />
+            >
+              <ShopSwiperCards />
+            </Swipe>
           );
         })}
       </Grid>
