@@ -11,7 +11,6 @@ function LatestBlog() {
     const data = await response.json();
 
     setPosts(data.slice(data.length - 10, data.length - 1));
-    console.log(posts);
   };
 
   useEffect(() => {

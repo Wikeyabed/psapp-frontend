@@ -1,8 +1,5 @@
 import { Grid, Box, Paper, Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import CategoryBar from "./CategoryBar";
-import ProductList from "./ProductList";
-import FilterBar from "./FilterBar";
 import ProductListByCategory from "./ProductListByCategory";
 function Products() {
   return (
@@ -46,10 +43,8 @@ function Products() {
           item
           xs={12}
         > */}
-        {/* <FilterBar /> */}
         {/* </Grid> */}
         <ProductListByCategory />
-        {/* <ProductList /> */}
       </Grid>
     </Grid>
   );

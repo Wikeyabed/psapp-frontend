@@ -1,8 +1,10 @@
+"use client";
 import { Grid, Box, Paper, TextField, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchBar from "../../layout/navbar/SearchBar";
-
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import {
@@ -44,6 +46,8 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
 // Main component for the filter bar
 function FilterBar() {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const productList = useSelector((state) => state.product.products);
   const priceSort = useSelector((state) => state.product.priceSort);
   const categories = productList.map((product) => {
@@ -54,6 +58,7 @@ function FilterBar() {
   // filter the selected categories
   const handleChangeCategory = (e) => {
     dispatch(setFilter(e.target.value));
+    // searchParams.set("category", e.target.value);
   };
 
   const handlePriceSort = (e) => {
@@ -63,6 +68,8 @@ function FilterBar() {
   return (
     <Grid
       container
+      item
+      xs={12}
       sx={{
         paddingTop: "5px",
         marginTop: "5px",
