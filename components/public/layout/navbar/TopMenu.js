@@ -20,6 +20,7 @@ import {
 
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
+import ProductsDropDown from "./ProductsDropDown";
 
 const StyledMenu = stylize((props) => (
   <Menu
@@ -205,69 +206,8 @@ export default function TopMenu() {
         open={openProduct}
         onClose={handleCloseProduct}
       >
+        <ProductsDropDown />
         {/* need to fix menus for category change when selected and show the products */}
-        <MenuItem
-          sx={{
-            pr: 0,
-            py: 1.5,
-          }}
-          onClick={handleCloseProduct}
-          disableRipple
-          // component={Link}
-        >
-          <InboxIcon
-            sx={{
-              ml: 1,
-            }}
-          />
-          کارتن پستی
-        </MenuItem>
-        <MenuItem
-          sx={{
-            pr: 0,
-            py: 1.5,
-          }}
-          onClick={handleCloseProduct}
-          disableRipple
-        >
-          <AllInboxIcon
-            sx={{
-              ml: 1,
-            }}
-          />
-          کارتن ماسک
-        </MenuItem>
-        {/* <Divider sx={{ my: 0.5 }} /> */}
-        <MenuItem
-          sx={{
-            pr: 0,
-            py: 1.5,
-          }}
-          onClick={handleCloseProduct}
-          disableRipple
-        >
-          <InventoryIcon
-            sx={{
-              ml: 1,
-            }}
-          />
-          کارتن استوک
-        </MenuItem>
-        <MenuItem
-          sx={{
-            pr: 0,
-            py: 1.5,
-          }}
-          onClick={handleCloseProduct}
-          disableRipple
-        >
-          <LocalShippingIcon
-            sx={{
-              ml: 1,
-            }}
-          />
-          لوازم اسباب کشی
-        </MenuItem>
       </StyledMenu>
 
       {/* ******************************** */}
