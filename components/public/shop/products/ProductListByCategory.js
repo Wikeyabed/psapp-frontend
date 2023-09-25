@@ -1,7 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 
 import React, { useState, useEffect } from "react";
-import ProductCard from "./ProductCard";
 import { useSelector } from "react-redux";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";

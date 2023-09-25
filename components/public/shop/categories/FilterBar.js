@@ -3,10 +3,10 @@ import { Grid, Box, Paper, TextField, MenuItem } from "@mui/material";
 import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchBar from "../../layout/navbar/SearchBar";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   setFilter,
   setPriceSort,
@@ -47,6 +47,7 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
 function FilterBar() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const productList = useSelector((state) => state.product.products);
   const priceSort = useSelector((state) => state.product.priceSort);
@@ -55,10 +56,24 @@ function FilterBar() {
   });
   let uniqueCategories = [...new Set(categories)];
 
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  useEffect(() => {
+    dispatch(setFilter(searchParams.get("category")));
+  }, []);
+
   // filter the selected categories
   const handleChangeCategory = (e) => {
     dispatch(setFilter(e.target.value));
-    // searchParams.set("category", e.target.value);
+    router.push(pathname + "?" + createQueryString("category", e.target.value));
   };
 
   const handlePriceSort = (e) => {
@@ -95,7 +110,7 @@ function FilterBar() {
           onChange={handleChangeCategory}
           color="warning"
           size="small"
-          defaultValue={"all"}
+          defaultValue={searchParams.get("category") || "all"}
           SelectProps={{
             IconComponent: SelectIcon,
             style: {

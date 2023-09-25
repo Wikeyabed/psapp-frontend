@@ -1,6 +1,7 @@
 import { Grid, Paper, Box, Typography } from "@mui/material";
 import PublicLayout from "../../layout/index";
 import FilterBar from "./FilterBar";
+import ProductList from "./ProductList";
 
 function Categories() {
   return (
@@ -33,6 +34,7 @@ function Categories() {
             تمامی محصولات
           </Typography>
           <FilterBar />
+          <ProductList />
         </Grid>
       </Grid>
     </PublicLayout>

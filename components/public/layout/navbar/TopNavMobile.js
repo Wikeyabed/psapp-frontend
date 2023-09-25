@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "../../../../src/Link";
 import Logo from "./Logo";
-import MobileFilterBar from "../../shop/categories.js/MobileFilterBar";
+import MobileFilterBar from "../../shop/categories/MobileFilterBar";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 
