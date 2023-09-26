@@ -8,13 +8,17 @@ import Divider from "@mui/material/Divider";
 import { Tooltip } from "@mui/material";
 import { truncate } from "../../../../src/tranculate";
 import { persianNumber } from "../../../../src/PersianDigits";
+import Image from "next/image";
 function ShopSwiperCards({ productName, productCode, price, stack, imageUrl }) {
   return (
     <Card>
-      <CardMedia
-        sx={{ height: 200, width: "100%" }}
-        image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
-        title="green iguana"
+      <Image
+        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
+        width={0}
+        height={0}
+        sizes="100vw"
+        style={{ width: "100%", height: "auto" }}
+        alt={productName}
       />
       <CardContent>
         <Tooltip placement="top" title={productName}>

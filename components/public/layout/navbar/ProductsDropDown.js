@@ -1,8 +1,8 @@
 import { MenuItem } from "@mui/material";
 import { useState } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux";
-import { useCallback, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import { useCallback } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "../../../../src/Link";
 function ProductsDropDown({ handleClose }) {
