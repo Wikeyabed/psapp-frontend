@@ -206,7 +206,7 @@ export default function TopMenu() {
         open={openProduct}
         onClose={handleCloseProduct}
       >
-        <ProductsDropDown />
+        <ProductsDropDown handleClose={handleCloseProduct} />
         {/* need to fix menus for category change when selected and show the products */}
       </StyledMenu>
 

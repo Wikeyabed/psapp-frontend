@@ -5,9 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "../../../../src/Link";
-function ProductsDropDown() {
-  const [anchorProduct, setAnchorProduct] = useState(null);
-
+function ProductsDropDown({ handleClose }) {
   const searchParams = useSearchParams();
   const productList = useSelector((state) => state.product.products);
   const categories = productList.map((product) => {
@@ -24,9 +22,6 @@ function ProductsDropDown() {
     [searchParams]
   );
 
-  const handleCloseProduct = () => {
-    setAnchorProduct(null);
-  };
   return (
     <>
       {uniqueCategories.map((category) => {
@@ -39,7 +34,7 @@ function ProductsDropDown() {
               pr: 0,
               py: 1.5,
             }}
-            onClick={handleCloseProduct}
+            onClick={handleClose}
             disableRipple
             // component={Link}
           >
