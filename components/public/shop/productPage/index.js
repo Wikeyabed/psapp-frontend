@@ -66,13 +66,19 @@ const ProductPage = ({ product }) => {
 
                 <SmallDescription desc={product.product_features.split("-")} />
                 <Divider />
-                <Quantity
-                  productId={product.product_id}
-                  stack={product.stack}
-                  quantity={product.product_quantity}
-                  discount={product.discount}
-                  price={product.price}
-                />
+                <Box
+                  sx={{
+                    p: 1,
+                  }}
+                >
+                  <Quantity
+                    productId={product.product_id}
+                    stack={product.stack}
+                    quantity={product.product_quantity}
+                    discount={product.discount}
+                    price={product.price}
+                  />
+                </Box>
               </Grid>
             </Grid>
 

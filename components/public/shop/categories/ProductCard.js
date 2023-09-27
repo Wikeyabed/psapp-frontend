@@ -25,7 +25,7 @@ function ShopSwiperCards({
         position: "relative",
       }}
     >
-      <Link href={`/shop/${productCode}`}>
+      <Link href={`/products/${productCode}`}>
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
           width={0}

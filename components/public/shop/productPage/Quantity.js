@@ -35,17 +35,18 @@ function Quantity({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          mt: showDetails ? 2 : 0,
         }}
       >
         <AddToCart
           fullStack={stack * counter}
           counter={counter}
           productId={productId}
+          showDetails={showDetails}
         />
         <ButtonGroup
           sx={{
             direction: "ltr",
-
             // transform: "scale(.8)",
             borderRadius: "5px!important",
             p: 0.5,
@@ -78,13 +79,13 @@ function Quantity({
             <Button
               sx={{
                 padding: "2px !important",
-                fontSize: 12,
+                fontSize: 15,
                 textAlign: "center",
                 borderRadius: "20% !important",
                 // border: "2px solid !important",
                 fontWeight: "bold",
               }}
-              color="secondary"
+              color="info"
               variant="text"
             >
               {persianNumber(counter)}

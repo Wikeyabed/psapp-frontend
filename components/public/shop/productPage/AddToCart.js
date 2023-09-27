@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Box, Button, CircularProgress } from "@mui/material";
+import { Box, Button, CircularProgress, LinearProgress } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { addToCart } from "../../../../redux/reducers/productSlice";
 import { setNotificationOn } from "../../../../redux/reducers/notificationSlice";
 import { getCookie } from "cookies-next";
 
-function AddToCart({ counter, price, productId, fullStack }) {
+function AddToCart({ counter, price, productId, fullStack, showDetails }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -103,25 +103,38 @@ function AddToCart({ counter, price, productId, fullStack }) {
         disabled={loading}
         onClick={handleAddToCart}
         sx={{
+          p: `${loading ? 0 : "inherit"}`,
           marginRight: "auto",
           borderRadius: "5px",
           backgroundColor: "lightPrimary.main",
-
+          width: `${showDetails ? "320px" : "120px"}`,
+          height: "36.5px",
           textAlign: "center",
         }}
+        endIcon={showDetails ? <AddShoppingCart sx={{ mr: 1 }} /> : ""}
         // size="small"
+        fullWidth={true}
         color="primary"
         variant="contained"
       >
         {loading ? (
-          <CircularProgress
-            size={26.3}
+          <Box
             sx={{
-              color: "#999",
+              width: "100%",
+              borderRadius: "5px",
             }}
-          />
+          >
+            <LinearProgress
+              sx={{
+                color: "green",
+                opacity: 0.3,
+                height: "36.5px",
+                borderRadius: "5px",
+              }}
+            />
+          </Box>
         ) : (
-          "اضافه کردن"
+          `${showDetails ? "اضافه کردن به سبد خرید" : "اضافه کردن"}`
         )}
       </Button>
     </Box>

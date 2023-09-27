@@ -23,7 +23,7 @@ function ShopSwiperCards({ item }) {
   };
   return (
     <Card sx={{ width: 300, position: "relative" }}>
-      <Link href={`/shop/${item.product_id}`}>
+      <Link href={`/products/${item.product_id}`}>
         {" "}
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
@@ -75,7 +75,7 @@ function ShopSwiperCards({ item }) {
       <CardContent>
         <Tooltip placement="top" title={item.product_name}>
           <Typography
-            href={`/shop/${item.product_id}`}
+            href={`/products/${item.product_id}`}
             component={Link}
             sx={{
               textDecoration: "none",

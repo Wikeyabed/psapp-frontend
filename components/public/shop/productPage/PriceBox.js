@@ -6,7 +6,11 @@ import { persianNumber } from "../../../../src/PersianDigits";
 function PriceBox({ price, discount = 0, quantity, counter, stack }) {
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          mt: 2,
+        }}
+      >
         <Typography color="text.secondary" variant="body2">
           {" "}
           قیمت هر عدد : {persianNumber(price)} ریال
