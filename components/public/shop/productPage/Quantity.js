@@ -5,7 +5,14 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import PriceBox from "./PriceBox";
 import { persianNumber } from "../../../../src/PersianDigits";
 import AddToCart from "./AddToCart";
-function Quantity({ discount, price, stack, quantity, productId }) {
+function Quantity({
+  discount,
+  price,
+  stack,
+  quantity,
+  productId,
+  showDetails = true,
+}) {
   const [counter, setCounter] = useState(1);
 
   const handleIncrement = () => {
@@ -24,46 +31,60 @@ function Quantity({ discount, price, stack, quantity, productId }) {
     <>
       <Box
         sx={{
-          textAlign: "center",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
+        <AddToCart
+          fullStack={stack * counter}
+          counter={counter}
+          productId={productId}
+        />
         <ButtonGroup
           sx={{
             direction: "ltr",
-            my: 4,
+
             // transform: "scale(.8)",
+            borderRadius: "5px!important",
+            p: 0.5,
           }}
+          color="secondary"
           component={"div"}
-          size="small"
           aria-label="small outlined button group"
+          size="small"
         >
           <Button
             variant="text"
             sx={{
               // padding: "5px 2px !important",
-              borderBottom: "2px solid !important",
-              borderTop: "2px solid !important",
+              // borderBottom: "2px solid !important",
+              // borderTop: "2px solid !important",
+              fontSize: 10,
 
-              mr: "1px",
               borderRadius: "20%",
             }}
-            color="success"
+            color="secondary"
             onClick={handleIncrement}
           >
-            <AddIcon />
+            <AddIcon
+              sx={{
+                fontSize: 18,
+              }}
+            />
           </Button>
           {displayCounter && (
             <Button
               sx={{
                 padding: "2px !important",
-                fontSize: 18,
+                fontSize: 12,
                 textAlign: "center",
-                mx: "10px !important",
                 borderRadius: "20% !important",
-                border: "2px solid !important",
+                // border: "2px solid !important",
                 fontWeight: "bold",
               }}
-              color="info"
+              color="secondary"
               variant="text"
             >
               {persianNumber(counter)}
@@ -72,33 +93,36 @@ function Quantity({ discount, price, stack, quantity, productId }) {
           {displayCounter && (
             <Button
               sx={{
-                // padding: "5px 2px !important",
-                borderBottom: "2px solid !important",
-                borderTop: "2px solid !important",
+                fontSize: 10,
 
                 borderRadius: "20%",
               }}
-              color="warning"
+              color="secondary"
               onClick={handleDecrement}
               variant="text"
             >
-              <RemoveIcon />
+              <RemoveIcon
+                sx={{
+                  fontSize: 18,
+                }}
+              />
             </Button>
           )}
         </ButtonGroup>
       </Box>
-      <PriceBox
-        discount={discount}
-        price={price}
-        quantity={quantity}
-        counter={counter}
-        stack={stack}
-      />
-      <AddToCart
-        fullStack={stack * counter}
-        counter={counter}
-        productId={productId}
-      />
+      {showDetails ? (
+        <>
+          <PriceBox
+            discount={discount}
+            price={price}
+            quantity={quantity}
+            counter={counter}
+            stack={stack}
+          />
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }

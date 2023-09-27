@@ -68,7 +68,7 @@ export default function CartItems() {
                     color="text.secondary"
                     component="div"
                   >
-                    تعداد کل : {persianNumber(product.cart_quantity)} عدد
+                    تعداد کل : {product.cart_quantity} عدد
                   </Typography>
 
                   <Typography

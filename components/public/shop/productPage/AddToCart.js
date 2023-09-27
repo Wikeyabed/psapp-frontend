@@ -98,29 +98,20 @@ function AddToCart({ counter, price, productId, fullStack }) {
   };
 
   return (
-    <Box
-      sx={{
-        mt: { xs: 2 },
-      }}
-    >
+    <Box>
       <Button
         disabled={loading}
         onClick={handleAddToCart}
         sx={{
-          paddingLeft: 5,
           marginRight: "auto",
-          borderRadius: "10px",
-          backgroundColor: "primary.main",
-          border: "1px solid",
-          borderColor: "lightPrimary.main",
-          borderBottom: "4px solid",
-          borderBottomColor: "lightPrimary.main",
+          borderRadius: "5px",
+          backgroundColor: "lightPrimary.main",
+
+          textAlign: "center",
         }}
-        size="large"
+        // size="small"
         color="primary"
-        fullWidth
         variant="contained"
-        startIcon={loading ? "" : <AddShoppingCart sx={{ ml: 2 }} />}
       >
         {loading ? (
           <CircularProgress
@@ -130,7 +121,7 @@ function AddToCart({ counter, price, productId, fullStack }) {
             }}
           />
         ) : (
-          "اضافه کردن به سبد خرید"
+          "اضافه کردن"
         )}
       </Button>
     </Box>

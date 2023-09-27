@@ -12,7 +12,15 @@ import { persianNumber } from "../../../../src/PersianDigits";
 import Image from "next/image";
 import Link from "../../../../src/Link";
 import theme from "../../../../src/theme";
+import { useState } from "react";
+import Quantity from "../productPage/Quantity";
+import AddToCart from "../productPage/AddToCart";
 function ShopSwiperCards({ item }) {
+  const [activeQuantity, setActiveQuantity] = useState(false);
+
+  const handleActiveQuantity = () => {
+    setActiveQuantity(true);
+  };
   return (
     <Card sx={{ width: 300, position: "relative" }}>
       <Link href={`/shop/${item.product_id}`}>
@@ -108,12 +116,28 @@ function ShopSwiperCards({ item }) {
           justifyContent: "space-between",
         }}
       >
-        <Button variant="outlined" size="small">
-          خرید
-        </Button>
-        <Button color="info" variant="contained" size="small">
-          اضافه کردن
-        </Button>
+        {activeQuantity ? (
+          <>
+            <Quantity
+              productId={item.product_id}
+              stack={item.stack}
+              quantity={item.product_quantity}
+              discount={item.discount}
+              price={item.price}
+              showDetails={false}
+            />
+          </>
+        ) : (
+          <Button
+            fullWidth
+            onClick={handleActiveQuantity}
+            variant="contained"
+            color="info"
+            size="medium"
+          >
+            خرید
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
