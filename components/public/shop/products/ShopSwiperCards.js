@@ -5,25 +5,72 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { Tooltip } from "@mui/material";
+import Box from "@mui/material/Box";
+import { Badge, Tooltip } from "@mui/material";
 import { truncate } from "../../../../src/tranculate";
 import { persianNumber } from "../../../../src/PersianDigits";
 import Image from "next/image";
+import Link from "../../../../src/Link";
+import theme from "../../../../src/theme";
 function ShopSwiperCards({ item }) {
   return (
-    <Card sx={{ width: 300 }}>
-      <Image
-        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
-        width={0}
-        height={0}
-        sizes="100vw"
-        style={{ width: "100%", height: "auto" }}
-        alt={item.product_name}
-      />
+    <Card sx={{ width: 300, position: "relative" }}>
+      <Link href={`/shop/${item.product_id}`}>
+        {" "}
+        <Image
+          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
+          width={0}
+          height={0}
+          loading="eager"
+          sizes="100vw"
+          style={{ width: "100%", height: "auto" }}
+          alt={item.product_name}
+        />
+      </Link>
+      {item.discount > 0 ? (
+        <Box
+          component={"span"}
+          sx={{
+            position: "absolute",
+            top: "-62px",
+            right: "-62px",
+            backgroundColor: theme.palette.primary.success,
+            color: "#fff",
+            transform: "rotate(-45deg)",
+            borderRadius: "5px",
+            // boxShadow: "inset 0px 2px 10px 1px rgba(0,0,0,0.50)",
+            width: 120,
+            height: 120,
+            borderRadius: "50%",
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "left",
+            alignItems: "center",
+            pl: 1,
+          }}
+        >
+          <Typography
+            variant="body1"
+            sx={{
+              transform: "rotate(45deg)",
+              mr: 1,
+            }}
+            textAlign={"center"}
+          >
+            {persianNumber(item.discount)}% -
+          </Typography>
+        </Box>
+      ) : (
+        ""
+      )}
+
       <CardContent>
         <Tooltip placement="top" title={item.product_name}>
           <Typography
+            href={`/shop/${item.product_id}`}
+            component={Link}
             sx={{
+              textDecoration: "none",
               cursor: "pointer",
             }}
             gutterBottom

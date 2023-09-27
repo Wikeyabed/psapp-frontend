@@ -59,6 +59,7 @@ function ProductList() {
                 price={product.price}
                 stack={product.stack}
                 imageUrl={product.images_url[0]}
+                discount={product.discount}
               />
             </Grid>
           );

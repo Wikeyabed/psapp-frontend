@@ -6,6 +6,7 @@ import {
   deepPurple,
   brown,
   orange,
+  green,
 } from "@mui/material/colors";
 
 // Create a theme instance.
@@ -33,6 +34,7 @@ const theme = createTheme({
       brown: brown[600],
       borderRadius: "20px",
       borderColor: blue[500],
+      success: green[400],
     },
     secondary: {
       main: "#DD925C",
