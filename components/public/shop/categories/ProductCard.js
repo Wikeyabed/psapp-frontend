@@ -1,7 +1,6 @@
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -11,6 +10,8 @@ import { persianNumber } from "../../../../src/PersianDigits";
 import Image from "next/image";
 import theme from "../../../../src/theme";
 import Link from "../../../../src/Link";
+import { useState } from "react";
+import Quantity from "../productPage/Quantity";
 function ShopSwiperCards({
   productName,
   productCode,
@@ -18,7 +19,14 @@ function ShopSwiperCards({
   stack,
   imageUrl,
   discount,
+  quantity,
 }) {
+  const [activeQuantity, setActiveQuantity] = useState(false);
+
+  const handleActiveQuantity = () => {
+    setActiveQuantity(true);
+  };
+
   return (
     <Card
       sx={{
@@ -113,12 +121,28 @@ function ShopSwiperCards({
           justifyContent: "space-between",
         }}
       >
-        <Button variant="outlined" size="small">
-          خرید
-        </Button>
-        <Button color="info" variant="contained" size="small">
-          اضافه کردن
-        </Button>
+        {activeQuantity ? (
+          <>
+            <Quantity
+              productId={productCode}
+              stack={stack}
+              quantity={quantity}
+              discount={discount}
+              price={price}
+              showDetails={false}
+            />
+          </>
+        ) : (
+          <Button
+            fullWidth
+            onClick={handleActiveQuantity}
+            variant="contained"
+            color="info"
+            size="medium"
+          >
+            خرید
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
