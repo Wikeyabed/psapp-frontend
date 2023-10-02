@@ -21,7 +21,6 @@ const BannerImage = styled("img")({
   width: "100%",
   height: "100%",
   objectFit: "fill",
-  borderRadius: "10px",
 });
 
 function ShopSlider() {
@@ -29,7 +28,7 @@ function ShopSlider() {
     <Grid sx={{ display: "flex" }} container>
       <BannerBox
         sx={{
-          height: { md: "768px" },
+          height: { md: "400px" },
         }}
         item
         xs={12}
