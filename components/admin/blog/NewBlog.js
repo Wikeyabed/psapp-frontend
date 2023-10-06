@@ -96,97 +96,103 @@ function NewBlog() {
   };
 
   return (
-    <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
-      <Grid xs={12} item md={6}>
-        <RtlTextField
-          value={data.title}
-          onChange={(e) => setData({ ...data, title: e.target.value })}
-          label="موضوع"
-        />
+    <>
+      {" "}
+      <Typography sx={{ mb: 4 }} variant="h4">
+        ایجاد بلاگ جدید
+      </Typography>
+      <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
+        <Grid xs={12} item md={6}>
+          <RtlTextField
+            value={data.title}
+            onChange={(e) => setData({ ...data, title: e.target.value })}
+            label="موضوع"
+          />
 
-        <Typography
-          color={"GrayText"}
-          sx={{
-            mt: 2,
-          }}
-          variant="body2"
-        >
-          - موضوع بلاگ تکراری نباشد.
-        </Typography>
+          <Typography
+            color={"GrayText"}
+            sx={{
+              mt: 2,
+            }}
+            variant="body2"
+          >
+            - موضوع بلاگ تکراری نباشد.
+          </Typography>
 
-        <Typography
-          color={"GrayText"}
-          sx={{
-            mt: 2,
-          }}
-          variant="body2"
-        >
-          - طول موضوع بلاگ بیشتر از 50 کاراکتر نباشد
-        </Typography>
-      </Grid>
+          <Typography
+            color={"GrayText"}
+            sx={{
+              mt: 2,
+            }}
+            variant="body2"
+          >
+            - طول موضوع بلاگ بیشتر از 50 کاراکتر نباشد
+          </Typography>
+        </Grid>
 
-      <Grid xs={12} md={6} item>
-        {" "}
-        <DropZone getFiles={handleGetFiles} />
-      </Grid>
+        <Grid xs={12} md={6} item>
+          {" "}
+          <DropZone getFiles={handleGetFiles} />
+        </Grid>
 
-      <Grid xs={12} item>
-        <Editor
-          onChange={handleEditorsContent}
-          initialValue={data.description}
-          textareaName="description"
-          apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
-          onInit={(evt, editor) => (descRef.current = editor)}
-          init={{
-            height: 300,
-            menubar: false,
-            plugins: [
-              "advlist",
-              "autolink",
-              "lists",
-              "link",
-              "image",
-              "charmap",
-              "preview",
-              "anchor",
-              "searchreplace",
-              "visualblocks",
-              "code",
-              "fullscreen",
-              "insertdatetime",
-              "media",
-              "table",
-              "code",
-              "help",
-              "wordcount",
-            ],
-            toolbar:
-              "undo redo | blocks | " +
-              "bold italic forecolor | alignleft aligncenter " +
-              "alignright alignjustify | bullist numlist outdent indent | " +
-              "removeformat | help",
-            content_style:
-              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
-          }}
-        />{" "}
+        <Grid xs={12} item>
+          <Editor
+            onChange={handleEditorsContent}
+            initialValue={data.description}
+            textareaName="description"
+            apiKey="7qyd7k9r3z7f7roupl2xy42gbsmv5k1dx2sbpn9r8irpruh5"
+            onInit={(evt, editor) => (descRef.current = editor)}
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                "advlist",
+                "autolink",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "code",
+                "fullscreen",
+                "insertdatetime",
+                "media",
+                "table",
+                "code",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | blocks | " +
+                "bold italic forecolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
+            }}
+          />{" "}
+        </Grid>
+        <Grid xs={12} md={6} item>
+          <Button
+            disabled={
+              data.title == "" || data.description == "" || files.length == 0
+            }
+            sx={{
+              my: 10,
+            }}
+            fullWidth
+            variant="contained"
+            size="large"
+            onClick={handleCreateBlog}
+          >
+            ایجاد بلاگ جدید
+          </Button>
+        </Grid>
       </Grid>
-      <Grid xs={12} md={6} item>
-        <Button
-          disabled={
-            data.title == "" || data.description == "" || files.length == 0
-          }
-          sx={{
-            my: 10,
-          }}
-          fullWidth
-          variant="contained"
-          size="large"
-          onClick={handleCreateBlog}
-        >
-          ایجاد بلاگ جدید
-        </Button>
-      </Grid>
-    </Grid>
+    </>
   );
 }
 

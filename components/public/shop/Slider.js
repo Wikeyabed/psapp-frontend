@@ -13,8 +13,6 @@ const BannerBox = styled(Grid)({
 const BannerPaper = styled(Paper)({
   height: "100%",
   borderRadius: "10px",
-  // border: "1px solid #e0e0e0",
-  // borderBottom: "4px solid #e0e0e0",
 });
 
 const BannerImage = styled("img")({
@@ -28,7 +26,7 @@ function ShopSlider() {
     <Grid sx={{ display: "flex" }} container>
       <BannerBox
         sx={{
-          height: { md: "400px" },
+          height: { xs: "170px", sm: "320px", md: "400px" },
         }}
         item
         xs={12}

@@ -28,7 +28,7 @@ function BlogSingle({ blog }) {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // const [files, setFiles] = useState([]);     if wanted image change uncomment this
+  const [files, setFiles] = useState([]);
 
   const descRef = useRef(null);
 
@@ -37,9 +37,9 @@ function BlogSingle({ blog }) {
     description: blog.description,
   });
 
-  // const handleGetFiles = (getFiles) => { if wanted image change uncomment this
-  //   setFiles(getFiles);
-  // };
+  const handleGetFiles = (getFiles) => {
+    setFiles(getFiles);
+  };
 
   const handleEditorsContent = (event) => {
     if (event.target.targetElm.name == "description") {
@@ -54,15 +54,19 @@ function BlogSingle({ blog }) {
     myHeaders.append("token", getCookie("x-auth-token"));
 
     // if wanted image change  change this to formData
-    let body = new URLSearchParams();
-    body.append("title", data.title);
-    body.append("category", "");
-    body.append("description", data.description);
+    var formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("category", "");
+    formData.append("description", data.description);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images_url", files[i], files[i].name);
+    }
 
     let requestOptions = {
       method: "PUT",
       headers: myHeaders,
-      body: body,
+      body: formData,
       redirect: "follow",
     };
 
@@ -71,7 +75,7 @@ function BlogSingle({ blog }) {
         if (response.status == 200 || response.status == 201) {
           dispatch(
             setNotificationOn({
-              message: "بلاگ با موفقیت ایجاد شد",
+              message: "بلاگ با موفقیت بروز رسانی شد",
               color: "success",
             })
           );
@@ -98,11 +102,11 @@ function BlogSingle({ blog }) {
   return (
     <AdminLayout>
       {" "}
+      <Typography sx={{ mb: 4 }} variant="h4">
+        ادیت بلاگ
+      </Typography>
       <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
-        <Typography sx={{ mb: 4 }} variant="h4">
-          ادیت بلاگ
-        </Typography>
-        <Grid xs={12} item>
+        <Grid xs={12} md={6} item>
           <RtlTextField
             value={data.title}
             onChange={(e) => setData({ ...data, title: e.target.value })}
@@ -130,10 +134,10 @@ function BlogSingle({ blog }) {
           </Typography>
         </Grid>
 
-        {/* <Grid xs={12} md={6} item>
-        {" "}
-        <DropZone getFiles={handleGetFiles} /> if wanted image change uncomment this
-      </Grid> */}
+        <Grid xs={12} md={6} item>
+          {" "}
+          <DropZone getFiles={handleGetFiles} />
+        </Grid>
 
         <Grid xs={12} item>
           <Editor
