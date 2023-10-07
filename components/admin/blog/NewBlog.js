@@ -7,7 +7,8 @@ import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
-
+import ModalBox from "../layout/Modal";
+import NewBlogCategory from "./NewBlogCategory";
 const RtlTextField = styled(TextField)(({ theme }) => ({
   marginBottom: 5,
   minWidth: "100%",
@@ -33,6 +34,15 @@ function NewBlog() {
     description: "",
   });
 
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const handleGetFiles = (getFiles) => {
     setFiles(getFiles);
   };
@@ -102,6 +112,17 @@ function NewBlog() {
         ایجاد بلاگ جدید
       </Typography>
       <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
+        <Grid item xs={12}>
+          <ModalBox
+            open={open}
+            buttonVariant={"contained"}
+            handleClose={handleClose}
+            handleOpen={handleOpen}
+            buttonText={"دسته بندی ها"}
+          >
+            <NewBlogCategory />
+          </ModalBox>
+        </Grid>
         <Grid xs={12} item md={6}>
           <RtlTextField
             value={data.title}

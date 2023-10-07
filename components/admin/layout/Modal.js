@@ -78,7 +78,12 @@ export default function ModalBox({
         }}
       >
         {" "}
-        <Grid container>
+        <Grid
+          sx={{
+            marginTop: 40,
+          }}
+          container
+        >
           {" "}
           <ModalContainer item md={7}>
             <CloseIcon
