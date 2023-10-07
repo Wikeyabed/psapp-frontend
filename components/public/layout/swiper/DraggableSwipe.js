@@ -37,12 +37,12 @@ export default function DraggableSwipe({ title, items, effect, children }) {
           sx={{
             width: "100% !important",
             fontWeight: "bold",
-            textDecoration: "underline",
-            textDecorationColor: "#007aff",
+            textDecoration: "underline #primary.main",
             textDecorationThickness: "4px",
-            textUnderlineOffset: 12,
+            textUnderlineOffset: 15,
           }}
-          variant="h6"
+          color="text.primary"
+          variant="h5"
           component={Link}
           href={`/shop/categories?${createQueryString("category", title)}`}
         >
@@ -52,7 +52,7 @@ export default function DraggableSwipe({ title, items, effect, children }) {
 
       <Grid
         sx={{
-          mt: 2,
+          mt: 4,
           mb: 10,
         }}
         item

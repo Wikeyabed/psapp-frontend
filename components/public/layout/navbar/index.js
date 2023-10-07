@@ -22,11 +22,11 @@ export default function Navbar() {
       <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>
         <AppBar
           sx={{
-            backgroundColor: "primary",
+            backgroundColor: "#3e2723",
             paddingY: 1,
             marginBottom: 4,
           }}
-          position="static"
+          position="fixed"
         >
           <Toolbar>
             {/*  Title and logo */}

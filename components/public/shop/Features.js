@@ -36,7 +36,7 @@ function Features() {
     >
       <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography color={"lightPrimary.main"} variant="h6">
+          <Typography color={"primary.main"} variant="body1">
             تحویل اکسپرس
           </Typography>
           <DeliveryDiningIcon
@@ -46,13 +46,13 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="secondary"
+            color="lightPrimary"
           />
         </FeatureContainer>
       </Grid>
       <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography color={"lightPrimary.main"} variant="h6">
+          <Typography color={"primary.main"} variant="body1">
             {" "}
             ضمانت اصل بودن کالا
           </Typography>
@@ -64,13 +64,13 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="secondary"
+            color="lightPrimary"
           />
         </FeatureContainer>
       </Grid>
       <Grid item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography color={"lightPrimary.main"} variant="h6">
+          <Typography color={"primary.main"} variant="body1">
             {" "}
             پشتیبانی 24 ساعته
           </Typography>
@@ -82,13 +82,13 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="secondary"
+            color="lightPrimary"
           />
         </FeatureContainer>
       </Grid>
       <Grid item xs={12} md={6} lg={3}>
         <FeatureContainer elevation={1}>
-          <Typography color={"lightPrimary.main"} variant="h6">
+          <Typography color={"primary.main"} variant="body1">
             {" "}
             امکان پرداخت در محل
           </Typography>
@@ -100,7 +100,7 @@ function Features() {
               left: 15,
               bottom: 5,
             }}
-            color="secondary"
+            color="lightPrimary"
           />
         </FeatureContainer>
       </Grid>

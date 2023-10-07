@@ -137,7 +137,7 @@ function ShopSwiperCards({
             fullWidth
             onClick={handleActiveQuantity}
             variant="contained"
-            color="info"
+            color="primary"
             size="medium"
           >
             خرید

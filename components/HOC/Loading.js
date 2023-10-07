@@ -1,19 +1,24 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import LoadingBar from "./LoadingBar";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingOff, setLoadingOn } from "../../redux/reducers/loadingSlice";
 
 export default function Loading() {
   const router = useRouter();
-
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.loading.loading);
 
   useEffect(() => {
-    const handleStart = (url) => url !== router.asPath && setLoading(true);
-    const handleComplete = (url) =>
-      url === router.asPath &&
-      setTimeout(() => {
-        setLoading(false);
-      }, 100);
+    const handleStart = (url) => {
+      dispatch(setLoadingOn());
+      console.log("started");
+    };
+
+    const handleComplete = (url) => {
+      console.log("ended");
+      dispatch(setLoadingOff());
+    };
 
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
@@ -24,7 +29,7 @@ export default function Loading() {
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  });
+  }, [router]);
 
   return loading && <LoadingBar loading={loading} />;
 }

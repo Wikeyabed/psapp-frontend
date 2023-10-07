@@ -107,5 +107,9 @@ span.sd {
 
 .swiper-pagination-bullet-active {
   color: #fff;
-  background: #007aff;
+  background: #ec9d50 !important;
+}
+
+.swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+  background: #ec9d50 !important;
 }

@@ -31,14 +31,14 @@ export default function FullScreenSlider({ slides }) {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <img
-              style={{
-                width: "100%",
-                aspectRatio: "4/3",
-                height: "100%",
-                objectFit: "fill",
-                borderRadius: "10px",
-              }}
+            <Image
+              width={0}
+              height={0}
+              loading="eager"
+              sizes="100vw"
+              style={{ width: "100%", height: "auto" }}
+              // alt={item.product_name}
+
               src={slide.src}
               alt={"ایباکس"}
             />

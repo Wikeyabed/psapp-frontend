@@ -19,7 +19,9 @@ function MiniBlogCard({ item }) {
           height: 250,
           borderBottomLeftRadius: "0 !important",
           borderBottomRightRadius: "0 !important",
+          borderRadius: "10px",
         }}
+        elevation={2}
       >
         <Typography variant="h6">{truncate(item.title, 35)}</Typography>
         <Typography
@@ -46,7 +48,7 @@ function MiniBlogCard({ item }) {
           borderTopLeftRadius: "0 !important",
           borderTopRightRadius: "0 !important",
         }}
-        color="info"
+        color="primary"
         variant="contained"
         fullWidth
       >

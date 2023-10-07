@@ -33,9 +33,9 @@ export default function BlogSinglePage({ blog }) {
                   <ToPersianDate timestamp={blog.create_time} />
                 </Typography>
 
-                <Typography gutterBottom variant="h4" component="h4">
+                {/* <Typography gutterBottom variant="h4" component="h4">
                   نویسنده : ادمین
-                </Typography>
+                </Typography> */}
                 <Typography
                   textAlign={"justify"}
                   variant="body1"

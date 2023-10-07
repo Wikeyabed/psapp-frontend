@@ -81,7 +81,6 @@ function ShopSwiperCards({ item }) {
               textDecoration: "none",
               cursor: "pointer",
             }}
-            gutterBottom
             variant="body1"
             fontWeight={"bold"}
           >
@@ -89,7 +88,13 @@ function ShopSwiperCards({ item }) {
           </Typography>
         </Tooltip>
 
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          sx={{
+            mt: 1,
+          }}
+          variant="body2"
+          color="text.secondary"
+        >
           کد محصول: {item.product_id}
         </Typography>
         <Typography variant="body2" color="text.secondary">
@@ -102,7 +107,7 @@ function ShopSwiperCards({ item }) {
             my: 1,
           }}
           variant="h6"
-          color="primary.blue"
+          color="lightPrimary.main"
         >
           {persianNumber(item.price)} ریال
         </Typography>
@@ -130,9 +135,12 @@ function ShopSwiperCards({ item }) {
         ) : (
           <Button
             fullWidth
+            sx={{
+              color: "#fff",
+            }}
             onClick={handleActiveQuantity}
             variant="contained"
-            color="info"
+            color="primary"
             size="medium"
           >
             خرید

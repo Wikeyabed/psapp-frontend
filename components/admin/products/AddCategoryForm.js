@@ -148,55 +148,48 @@ function AddCategoryForm() {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid component={FormControl} container spacing={2}>
-          <Grid xs={12} item>
-            <Typography
-              variant="h6"
-              sx={{
-                p: 1,
-                textAlign: "center",
-              }}
-            >
-              دسته بندی جدید
-            </Typography>
-            <StyledDivider />
-            <Grid container component={Item}>
-              <Grid
+          <Grid container display={"flex"} justifyContent={"center"} xs={12}>
+            <Grid xs={12} lg={6} item>
+              <Typography
+                variant="h6"
                 sx={{
-                  margin: "auto",
+                  p: 1,
+                  textAlign: "center",
                 }}
-                xs={10}
-                lg={6}
-                item
               >
-                <RtlTextField
-                  name="category_name"
-                  onChange={(e) => {
-                    setData({ ...data, [e.target.name]: e.target.value });
+                دسته بندی جدید
+              </Typography>
+              <StyledDivider />
+              <Grid container component={Item}>
+                <Grid
+                  sx={{
+                    margin: "auto",
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment
-                        sx={{
-                          position: "absolute",
-                          left: 0,
-                        }}
-                      >
-                        <Button
-                          disabled={data.category_name.length <= 0}
-                          onClick={handleNewCategory}
-                          color="success"
-                          size="medium"
-                          variant="contained"
-                        >
-                          اضافه کردن دسته بندی جدید
-                        </Button>
-                      </InputAdornment>
-                    ),
-                  }}
-                  size="small"
-                  fullWidth
-                  label="نام دسته بندی"
-                />
+                  xs={12}
+                  item
+                >
+                  <RtlTextField
+                    name="category_name"
+                    onChange={(e) => {
+                      setData({ ...data, [e.target.name]: e.target.value });
+                    }}
+                    size="small"
+                    fullWidth
+                    label="نام دسته بندی"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    disabled={data.category_name.length <= 0}
+                    onClick={handleNewCategory}
+                    color="success"
+                    size="medium"
+                    variant="contained"
+                    fullWidth
+                  >
+                    اضافه کردن دسته بندی جدید
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
