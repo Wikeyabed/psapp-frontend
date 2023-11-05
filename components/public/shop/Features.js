@@ -5,6 +5,8 @@ import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import UpdateIcon from "@mui/icons-material/Update";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import Link from "../../../src/Link";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
@@ -34,10 +36,21 @@ function Features() {
         marginTop: "25px",
       }}
     >
-      <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
+      <Grid
+        component={Link}
+        href={"/blog/3"}
+        paddingBottom={1}
+        item
+        xs={12}
+        md={6}
+        lg={3}
+        sx={{
+          textDecoration: "none !important",
+        }}
+      >
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="body1">
-            تحویل اکسپرس
+            ارسال همه روزه با تهران و شهرستان
           </Typography>
           <DeliveryDiningIcon
             sx={{
@@ -50,11 +63,22 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid paddingBottom={1} item xs={12} md={6} lg={3}>
+      <Grid
+        component={Link}
+        href={"/blog/16"}
+        paddingBottom={1}
+        item
+        xs={12}
+        md={6}
+        lg={3}
+        sx={{
+          textDecoration: "none !important",
+        }}
+      >
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="body1">
             {" "}
-            ضمانت اصل بودن کالا
+            امکان عودت کالا تا 2 روز
           </Typography>
 
           <AssignmentIcon
@@ -68,11 +92,22 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid
+        component={Link}
+        href={"/blog/3"}
+        paddingBottom={1}
+        item
+        xs={12}
+        md={6}
+        lg={3}
+        sx={{
+          textDecoration: "none !important",
+        }}
+      >
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="body1">
             {" "}
-            پشتیبانی 24 ساعته
+            امکان خرید حضوری
           </Typography>
 
           <UpdateIcon
@@ -86,14 +121,25 @@ function Features() {
           />
         </FeatureContainer>
       </Grid>
-      <Grid item xs={12} md={6} lg={3}>
+      <Grid
+        component={Link}
+        href={"/blog/17"}
+        paddingBottom={1}
+        item
+        xs={12}
+        md={6}
+        lg={3}
+        sx={{
+          textDecoration: "none !important",
+        }}
+      >
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="body1">
             {" "}
-            امکان پرداخت در محل
+            درباره مجموعه اییاکس
           </Typography>
 
-          <AddCardIcon
+          <ApartmentIcon
             sx={{
               fontSize: "70px !important",
               position: "absolute",
