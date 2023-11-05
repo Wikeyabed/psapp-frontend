@@ -96,7 +96,7 @@ export default function ProductSlicer({ images }) {
               style={{
                 width: "100%",
                 height: "200px",
-                objectFit: "cover",
+                objectFit: "contain",
               }}
               width={0}
               height={0}

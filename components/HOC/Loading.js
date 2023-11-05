@@ -12,12 +12,10 @@ export default function Loading() {
   useEffect(() => {
     const handleStart = (url) => {
       dispatch(setLoadingOn());
-      console.log("started");
     };
 
     const handleComplete = (url) => {
-      console.log("ended");
-      dispatch(setLoadingOff());
+      setTimeout(() => dispatch(setLoadingOff()), 200);
     };
 
     router.events.on("routeChangeStart", handleStart);

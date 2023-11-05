@@ -10,16 +10,15 @@ const BannerBox = styled(Grid)({
   padding: 10,
 });
 
-const BannerPaper = styled(Paper)({
-  height: "100%",
-  borderRadius: "10px",
-});
-
-const BannerImage = styled("img")({
-  width: "100%",
-  height: "100%",
-  objectFit: "fill",
-});
+const slides = [
+  { img: Banner1, href: "/contact", text: "ثبت درخواست" },
+  {
+    img: Banner2,
+    href: "/shop/categories?category=کارتن+پستی",
+    text: "خرید",
+  },
+  { img: Banner3, href: "/order-form", text: "فرم سفارش" },
+];
 
 function ShopSlider() {
   return (
@@ -31,7 +30,7 @@ function ShopSlider() {
         item
         xs={12}
       >
-        <FullScreenSlider slides={[Banner1, Banner2, Banner3]} />
+        <FullScreenSlider slides={slides} />
       </BannerBox>
     </Grid>
   );

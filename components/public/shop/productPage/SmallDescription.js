@@ -20,30 +20,24 @@ export default function SmallDescription({ desc }) {
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="body1" color={"red"} textAlign={"justify"}>
+          <Typography variant="body2" color={"red"} textAlign={"justify"}>
             مجموعه ایباکس همواره میکوشد اجناس خود را با بهترین کیفیت و پایین
             ترین قیمت به فروش برساند.از این رو هزینه ارسال محصولات بر عهده مشتری
             می باشد.
           </Typography>
 
           <Typography
-            color={"darkred"}
+            color={"red"}
             sx={{ mt: 1, mb: 2, fontWeight: "bold" }}
-            variant="body2"
+            variant="body1"
             component="div"
           >
             جهت اطلاع از هزینه ارسال از طریق صفحه{" "}
             <Box
               sx={{
-                ml: 1,
-                textDecoration: "none",
-                color: "#fff",
-                padding: "1px 10px 1px 10px",
-                backgroundColor: "primary.main",
-                display: "inline-block",
-                lineHeight: "2",
-
-                borderRadius: "5px",
+                mx: 1,
+                fontWeight: "bold",
+                color: "#444",
               }}
               component={Link}
               href="/contact"
