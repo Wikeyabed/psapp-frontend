@@ -3,9 +3,11 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import { Facebook, Instagram, Twitter } from "@mui/icons-material";
+import { Instagram, Telegram } from "@mui/icons-material";
 import { Box, Divider } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import Ita from "../../../../public/images/ita.svg";
+import Image from "next/image";
 export default function Footer() {
   return (
     <Box
@@ -56,18 +58,30 @@ export default function Footer() {
             <Typography variant="h6" color="text.primary" gutterBottom>
               ما را دنبال کنید
             </Typography>
-            <Link href="https://www.facebook.com/" color="inherit">
-              <Facebook />
+            <Link
+              href="https://t.me/ebox_shop/"
+              target="_blank"
+              color="inherit"
+            >
+              <Telegram />
             </Link>
             <Link
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/ebox.ir"
               color="inherit"
               sx={{ pl: 1, pr: 1 }}
             >
               <Instagram />
             </Link>
-            <Link href="https://www.twitter.com/" color="inherit">
-              <Twitter />
+            <Link href="https://eitaa.com/eboxir/" color="inherit">
+              <Image
+                style={{
+                  marginBottom: 2,
+                }}
+                width={20}
+                height={20}
+                src={Ita}
+                alt="ita"
+              />
             </Link>
           </Grid>
         </Grid>
@@ -79,17 +93,16 @@ export default function Footer() {
             </Link>
             {"  "}
           </Typography>
-          <Divider sx={{ my: 1 }} />
+          <Divider sx={{ my: 3 }} />
           <Typography variant="body2" color="text.secondary" align="center">
-            Designed & Developed With{" "}
-            <FavoriteIcon fontSize="10px" color="error" /> by
+            Designed & Developed By
             <Link
               target="_blank"
-              color="#0000ff"
+              color="#992200"
               href="https://instagram.com/a.m.mohamadiiii"
             >
               {" "}
-              ME{" "}
+              Me{" "}
             </Link>
             {"  "}
           </Typography>

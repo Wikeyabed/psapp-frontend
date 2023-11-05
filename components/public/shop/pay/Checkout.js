@@ -52,6 +52,8 @@ function CheckoutToPayment() {
   const [data, setData] = useState({
     description: "",
     loading: false,
+    setNewAddress: false,
+    newAddress: "",
   });
 
   function handleChangeDate(value) {
@@ -62,6 +64,10 @@ function CheckoutToPayment() {
 
   const handleChangeSend = (event) => {
     setSend(event.target.value);
+  };
+
+  const handleChangeNewAddress = (event) => {
+    setData({ ...data, setNewAddress: event.target.value });
   };
 
   const handleData = (event) => {
@@ -83,6 +89,8 @@ function CheckoutToPayment() {
       order_id: shortUUID.generate(),
       customer_name: userData.firstName + " " + userData.lastName,
       delivery_date: date,
+      address:
+        data.setNewAddress == "true" ? data.newAddress : userData.address,
     });
 
     var requestOptions = {
@@ -238,8 +246,8 @@ function CheckoutToPayment() {
                 value={data.description}
                 required
                 multiline
-                minRows={4}
-                maxRows={6}
+                minRows={7}
+                maxRows={7}
                 fullWidth
                 onChange={handleData}
                 label="توضیحات سفارش"
@@ -257,19 +265,77 @@ function CheckoutToPayment() {
                 variant="subtitle1"
               >
                 آدرس دریافت مرسوله :{" "}
+              </Typography>
+              {send == "true" ? (
+                <FormControl
+                  sx={{
+                    mt: 1,
+                  }}
+                >
+                  <RadioGroup
+                    aria-labelledby="controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={data.setNewAddress}
+                    onChange={handleChangeNewAddress}
+                    row
+                  >
+                    <FormControlLabel
+                      sx={{
+                        m: 0,
+                      }}
+                      value={false}
+                      control={<Radio />}
+                      label="آدرس فعلی"
+                    />
+                    <FormControlLabel
+                      sx={{
+                        m: 0,
+                      }}
+                      value={true}
+                      control={<Radio />}
+                      label="آدرس جدید"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              ) : (
                 <Typography
+                  variant="subtitle2"
                   sx={{
                     color: "darkred",
                     mt: 2,
                   }}
-                  variant="subtitle2"
                 >
-                  {" "}
-                  {send == "true"
-                    ? userData.address
-                    : "یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست آلاله یک , پلاک 1"}
+                  یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
+                  آلاله یک , پلاک 1
                 </Typography>
-              </Typography>
+              )}
+
+              {data.setNewAddress == "true" && send == "true" ? (
+                <RtlTextField
+                  sx={{
+                    my: 2,
+                  }}
+                  // variant="filled"
+                  name="newAddress"
+                  multiline
+                  minRows={3}
+                  maxRows={3}
+                  value={data.newAddress}
+                  onChange={handleData}
+                  label="آدرس جدید را وارد کنید"
+                  type="text"
+                />
+              ) : (
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: "darkred",
+                    mt: 2,
+                  }}
+                >
+                  {send == "true" ? userData.address : ""}
+                </Typography>
+              )}
             </Grid>
 
             <Grid display={"flex"} xs={12} item>

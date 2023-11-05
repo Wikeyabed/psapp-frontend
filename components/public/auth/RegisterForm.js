@@ -250,7 +250,7 @@ function RegisterForm() {
                       ),
                     }}
                     helperText={
-                      !isValid.password && RegisterInfo.email.length > 0
+                      !isValid.password
                         ? "رمز عبور باید حداقل 6 کاراکتر و شامل حروف و اعداد باشد"
                         : ""
                     }
