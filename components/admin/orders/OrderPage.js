@@ -11,7 +11,6 @@ import {
   Grid,
   Box,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import AdminLayout from "../layout";
 import ToPersianDate from "../../../src/TimestampToPersian";
@@ -20,18 +19,14 @@ import moment from "moment-jalaali";
 import OrderStatus from "./OrderStatus";
 import { getCookie } from "cookies-next";
 
-const theme = createTheme({
-  direction: "rtl",
-});
-
 const OrderPage = ({ order }) => {
   // Sample data
   const [rows, setRows] = useState([]);
 
   const [status, setStatus] = useState(order.status);
 
-  const router = useRouter();
-  const { id } = router.query;
+  // const router = useRouter();
+  // const { id } = router.query;
 
   useEffect(() => {
     let prodArr = [];
@@ -73,196 +68,189 @@ const OrderPage = ({ order }) => {
 
   return (
     <AdminLayout>
-      <ThemeProvider theme={theme}>
-        <div style={{ textAlign: "center" }}>
-          <Typography variant="h4" component="h2" gutterBottom>
-            فاکتور شماره: {order.order_number}
+      <div style={{ textAlign: "center" }}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          فاکتور شماره: {order.order_number}
+        </Typography>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <Typography variant="subtitle1" gutterBottom>
+            تاریخ صدور:
           </Typography>
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <Typography variant="subtitle1" gutterBottom>
-              تاریخ صدور:
-            </Typography>
-            <ToPersianDate timestamp={order.order_date} />
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "flex-start" }}>
-            <Typography component={"div"} variant="subtitle1" gutterBottom>
-              تاریخ دریافت:{" "}
-              <Box
-                sx={{
-                  color: "primary.main",
-                }}
-                component={"span"}
-              >
-                {" "}
-                {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
-              </Box>{" "}
-            </Typography>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="subtitle1" gutterBottom>
-              شماره فاکتور: {order.order_number}
-            </Typography>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="subtitle1" gutterBottom>
-              آقا/خانم : {order.customer_name}
-            </Typography>
-            <Typography display={"flex"} variant="subtitle1" gutterBottom>
-              وضعیت: <OrderStatus status={status} />
-            </Typography>
-          </div>
+          <ToPersianDate timestamp={order.order_date} />
         </div>
-        <Divider sx={{ marginY: 2 }} />
 
-        <Select
-          size="small"
-          sx={{
-            marginBottom: 1,
-          }}
-          value={status}
-          onChange={handleStatusChange}
-        >
-          <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
-          <MenuItem value={"11"}>در حال پردازش</MenuItem>
-          <MenuItem value={"20"}>تکمیل شده</MenuItem>
-          <MenuItem value={"404"}>کنسل شده</MenuItem>
-        </Select>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <Typography component={"div"} variant="subtitle1" gutterBottom>
+            تاریخ دریافت:{" "}
+            <Box component={"span"}>
+              {" "}
+              {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
+            </Box>{" "}
+          </Typography>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="subtitle1" gutterBottom>
+            شماره فاکتور: {order.order_number}
+          </Typography>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="subtitle1" gutterBottom>
+            آقا/خانم : {order.customer_name}
+          </Typography>
+          <Typography display={"flex"} variant="subtitle1" gutterBottom>
+            وضعیت: <OrderStatus status={status} />
+          </Typography>
+        </div>
+      </div>
+      <Divider sx={{ marginY: 2 }} />
 
-        <Paper elevation={2} sx={{ padding: 2 }}>
-          <List sx={{ padding: 0 }}>
-            <Grid container spacing={0}>
-              <Grid item xs={4}>
-                <ListItem
-                  disablePadding
-                  sx={{
-                    borderBottom: "1px solid #e2e2e2",
-                    paddingRight: 2,
-                    paddingBottom: 2,
+      <Select
+        size="small"
+        sx={{
+          marginBottom: 1,
+        }}
+        value={status}
+        onChange={handleStatusChange}
+      >
+        <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
+        <MenuItem value={"11"}>در حال پردازش</MenuItem>
+        <MenuItem value={"20"}>تکمیل شده</MenuItem>
+        <MenuItem value={"404"}>کنسل شده</MenuItem>
+      </Select>
+
+      <Paper elevation={2} sx={{ padding: 2 }}>
+        <List sx={{ padding: 0 }}>
+          <Grid container spacing={0}>
+            <Grid item xs={4}>
+              <ListItem
+                disablePadding
+                sx={{
+                  borderBottom: "1px solid #e2e2e2",
+                  paddingRight: 2,
+                  paddingBottom: 2,
+                }}
+              >
+                <ListItemText
+                  primary="نام محصول"
+                  primaryTypographyProps={{
+                    variant: "subtitle1",
+                    align: "right",
                   }}
-                >
+                />
+              </ListItem>
+              {rows.map((row, i) => (
+                <ListItem key={row.product_name}>
                   <ListItemText
-                    primary="نام محصول"
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      align: "right",
-                    }}
+                    primary={`${row.product_name}`}
+                    primaryTypographyProps={{ variant: "subtitle1" }}
                   />
                 </ListItem>
-                {rows.map((row, i) => (
-                  <ListItem key={i}>
-                    <ListItemText
-                      primary={`${row.product_name}`}
-                      primaryTypographyProps={{ variant: "subtitle1" }}
-                    />
-                  </ListItem>
-                ))}
-              </Grid>
-              <Grid item xs={2}>
-                <ListItem
-                  disablePadding
-                  sx={{
-                    borderBottom: "1px solid #e2e2e2",
-                    paddingRight: 2,
-                    paddingBottom: 2,
-                  }}
-                >
-                  <ListItemText
-                    primary={"تعداد"}
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      align: "right",
-                    }}
-                  />
-                </ListItem>
-                {rows.map((row) => (
-                  <ListItem key={row.id}>
-                    <ListItemText
-                      primary={`${persianNumber(row.product_quantity)}`}
-                      primaryTypographyProps={{ variant: "subtitle1" }}
-                    />
-                  </ListItem>
-                ))}
-              </Grid>
-              <Grid item xs={3}>
-                <ListItem
-                  disablePadding
-                  sx={{
-                    borderBottom: "1px solid #e2e2e2",
-                    paddingRight: 2,
-                    paddingBottom: 2,
-                  }}
-                >
-                  <ListItemText
-                    primary={"قیمت هر عدد"}
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      align: "right",
-                    }}
-                  />
-                </ListItem>
-                {rows.map((row) => (
-                  <ListItem key={row.id}>
-                    <ListItemText
-                      primary={`${persianNumber(row.unit_price)} ریال`}
-                      primaryTypographyProps={{ variant: "subtitle1" }}
-                    />
-                  </ListItem>
-                ))}
-              </Grid>
-              <Grid item xs={3}>
-                <ListItem
-                  disablePadding
-                  sx={{
-                    borderBottom: "1px solid #e2e2e2",
-                    paddingRight: 2,
-                    paddingBottom: 2,
-                  }}
-                >
-                  <ListItemText
-                    primary={"قیمت کل "}
-                    primaryTypographyProps={{
-                      variant: "subtitle1",
-                      align: "right",
-                    }}
-                  />
-                </ListItem>
-                {rows.map((row) => (
-                  <ListItem key={row.id}>
-                    <ListItemText
-                      primary={`${persianNumber(row.total_price)} ریال`}
-                      primaryTypographyProps={{
-                        variant: "subtitle1",
-                        align: "right",
-                      }}
-                    />
-                  </ListItem>
-                ))}
-              </Grid>
+              ))}
             </Grid>
-            <ListItem
-              // disablePadding
-              sx={{
-                borderTop: "1px solid #e2e2e2",
+            <Grid item xs={2}>
+              <ListItem
+                disablePadding
+                sx={{
+                  borderBottom: "1px solid #e2e2e2",
+                  paddingRight: 2,
+                  paddingBottom: 2,
+                }}
+              >
+                <ListItemText
+                  primary={"تعداد"}
+                  primaryTypographyProps={{
+                    variant: "subtitle1",
+                    align: "right",
+                  }}
+                />
+              </ListItem>
+              {rows.map((row) => (
+                <ListItem key={row.id + 1000}>
+                  <ListItemText
+                    primary={`${persianNumber(row.product_quantity)}`}
+                    primaryTypographyProps={{ variant: "subtitle1" }}
+                  />
+                </ListItem>
+              ))}
+            </Grid>
+            <Grid item xs={3}>
+              <ListItem
+                disablePadding
+                sx={{
+                  borderBottom: "1px solid #e2e2e2",
+                  paddingRight: 2,
+                  paddingBottom: 2,
+                }}
+              >
+                <ListItemText
+                  primary={"قیمت هر عدد"}
+                  primaryTypographyProps={{
+                    variant: "subtitle1",
+                    align: "right",
+                  }}
+                />
+              </ListItem>
+              {rows.map((row) => (
+                <ListItem key={row.id + 2000}>
+                  <ListItemText
+                    primary={`${persianNumber(row.unit_price)} ریال`}
+                    primaryTypographyProps={{ variant: "subtitle1" }}
+                  />
+                </ListItem>
+              ))}
+            </Grid>
+            <Grid item xs={3}>
+              <ListItem
+                disablePadding
+                sx={{
+                  borderBottom: "1px solid #e2e2e2",
+                  paddingRight: 2,
+                  paddingBottom: 2,
+                }}
+              >
+                <ListItemText
+                  primary={"قیمت کل "}
+                  primaryTypographyProps={{
+                    variant: "subtitle1",
+                    align: "right",
+                  }}
+                />
+              </ListItem>
+              {rows.map((row) => (
+                <ListItem key={row.id + 3000}>
+                  <ListItemText
+                    primary={`${persianNumber(row.total_price)} ریال`}
+                    primaryTypographyProps={{
+                      variant: "subtitle1",
+                      align: "right",
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </Grid>
+          </Grid>
+          <ListItem
+            // disablePadding
+            sx={{
+              borderTop: "1px solid #e2e2e2",
+            }}
+          >
+            <ListItemText
+              primary={` مبلغ کل `}
+              secondary={`${persianNumber(order.finished_price)}  ریال`}
+              primaryTypographyProps={{
+                variant: "h5",
+                align: "left",
               }}
-            >
-              <ListItemText
-                primary={` مبلغ کل `}
-                secondary={`${persianNumber(order.finished_price)}  ریال`}
-                primaryTypographyProps={{
-                  variant: "h5",
-                  align: "left",
-                }}
-                secondaryTypographyProps={{
-                  variant: "subtitle2",
-                  align: "left",
-                  marginTop: 1,
-                }}
-              />
-            </ListItem>
-          </List>
-        </Paper>
-      </ThemeProvider>
+              secondaryTypographyProps={{
+                variant: "subtitle2",
+                align: "left",
+                marginTop: 1,
+              }}
+            />
+          </ListItem>
+        </List>
+      </Paper>
     </AdminLayout>
   );
 };

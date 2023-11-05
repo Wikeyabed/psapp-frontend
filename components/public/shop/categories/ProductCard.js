@@ -107,7 +107,7 @@ function ShopSwiperCards({
             my: 1,
           }}
           variant="h6"
-          color="primary.blue"
+          color="lightPrimary.main"
         >
           {persianNumber(price)} ریال
         </Typography>
