@@ -133,12 +133,49 @@ function RequestPartnership() {
                     >
                       تماس با ما
                     </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body1"
+                    >
+                      مشتریان عزیز ایباکس می توانند در صورت هرگونه سوال یا ابها
+                      م درباره{" "}
+                      <Typography
+                        component={"span"}
+                        sx={{
+                          color: "red",
+                        }}
+                      >
+                        روند ثبت سفارش ,نحوه ارسال و یا هزینه ارسال{" "}
+                      </Typography>{" "}
+                      از طریق تماس , فرم تماس با ما (در پایین همین صفحه) ,
+                      تلگرام , ایتا با ما در ارتباط باشند.
+                    </Typography>
+
                     <Typography
                       textAlign={"right"}
                       sx={{ mb: 1, fontWeight: "bold" }}
                       variant="body2"
                     >
                       شماره تماس : 66827884-021
+                    </Typography>
+
+                    <Typography
+                      textAlign={"right"}
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                      variant="body2"
+                    >
+                      شماره تلفن همراه : 8634399-0912
+                    </Typography>
+
+                    <Typography
+                      textAlign={"right"}
+                      sx={{ mb: 1, fontWeight: "bold" }}
+                      variant="body2"
+                    >
+                      شماره تمامی پیام رسان ها :6441868-0912
                     </Typography>
 
                     <Typography
