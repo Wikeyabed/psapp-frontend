@@ -81,19 +81,28 @@ function ShopSwiperCards({
         ""
       )}
       <CardContent>
-        <Tooltip placement="top" title={productName}>
-          <Typography
-            sx={{
-              cursor: "pointer",
-            }}
-            gutterBottom
-            variant="body1"
-            fontWeight={"bold"}
-          >
-            {truncate(productName, 28)}
-          </Typography>
-        </Tooltip>
-
+        <Link
+          style={{
+            textDecoration: "none",
+          }}
+          href={`/products/${productCode}`}
+        >
+          <Tooltip placement="top" title={productName}>
+            <Typography
+              sx={{
+                cursor: "pointer",
+                minHeight: 55,
+                textAlign: "center",
+                fontSize: "18px",
+              }}
+              gutterBottom
+              variant="h6"
+              fontWeight={"bold"}
+            >
+              {productName}
+            </Typography>
+          </Tooltip>
+        </Link>
         <Typography variant="body2" color="text.secondary">
           کد محصول: {productCode}
         </Typography>

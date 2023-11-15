@@ -53,7 +53,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="body1">
+          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
             ارسال همه روزه به تهران و شهرستان
           </Typography>
           <LocalShippingIcon
@@ -80,7 +80,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="body1">
+          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
             {" "}
             امکان عودت کالا تا 2 روز
           </Typography>
@@ -109,7 +109,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="body1">
+          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
             {" "}
             امکان خرید حضوری
           </Typography>
@@ -138,9 +138,9 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="body1">
+          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
             {" "}
-            درباره مجموعه اییاکس
+            درباره مجموعه ایباکس
           </Typography>
 
           <FilePresentIcon
