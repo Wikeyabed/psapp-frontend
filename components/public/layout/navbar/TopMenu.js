@@ -9,6 +9,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch } from "react-redux";
+import { setFilter } from "../../../../redux/reducers/productSlice";
 
 import {
   Inventory as InventoryIcon,
@@ -206,7 +207,7 @@ export default function TopMenu() {
         open={openProduct}
         onClose={handleCloseProduct}
       >
-        <ProductsDropDown handleClose={handleCloseProduct} />
+        <ProductsDropDown handleNavigate={handleCloseProduct} />
         {/* need to fix menus for category change when selected and show the products */}
       </StyledMenu>
 

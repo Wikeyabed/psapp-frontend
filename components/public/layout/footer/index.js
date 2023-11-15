@@ -38,24 +38,15 @@ export default function Footer() {
               کردیم، و در راستای اهداف مجموعه حرکت کردیم تا شاید بتوانیم باری از
               روی دوش هموطنان عزیز برداریم.
             </Typography>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
-              تماس با ما
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              شماره تماس : 66827884-021
-            </Typography>
-            {/* <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
-            </Typography> */}
-            <Typography variant="body2" color="text.secondary">
-              آدرس : یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
-              آلاله یک , پلاک 1
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            {/* <Grid item xs={12} sm={4}> */}
+            <Typography
+              sx={{
+                mt: 2,
+              }}
+              variant="h6"
+              color="text.primary"
+              gutterBottom
+            >
               ما را دنبال کنید
             </Typography>
             <Link
@@ -66,7 +57,7 @@ export default function Footer() {
               <Telegram />
             </Link>
             <Link
-              href="https://www.instagram.com/ebox.ir"
+              href="https://www.instagram.com/eebox.ir"
               color="inherit"
               sx={{ pl: 1, pr: 1 }}
             >
@@ -83,6 +74,38 @@ export default function Footer() {
                 alt="ita"
               />
             </Link>
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              تماس با ما
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              شماره تماس : 66827884-021
+            </Typography>
+            {/* <Typography variant="body2" color="text.secondary">
+              Email: info@example.com
+            </Typography> */}
+            <Typography variant="body2" color="text.secondary">
+              آدرس : یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
+              آلاله یک , پلاک 1
+            </Typography>
+
+            <Box
+              component={"iframe"}
+              sx={{ border: "1px solid #e2e2e2", borderRadius: 2, mt: 2 }}
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d405.2844324251681!2d51.30543206117888!3d35.64558437789965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8dff3bbb36e33f%3A0xb2d8cf45490c035f!2z2KfbjNio2Kfaqdiz!5e0!3m2!1sen!2s!4v1691832269041!5m2!1sen!2s"
+              width="100%"
+              height={"150px"}
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></Box>
+          </Grid>
+          <Grid item>
+            <Typography variant="h6" color="text.primary" gutterBottom>
+              نماد اکترونیکی
+            </Typography>
           </Grid>
         </Grid>
         <Box mt={5}>

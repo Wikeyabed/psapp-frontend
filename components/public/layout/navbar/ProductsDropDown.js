@@ -1,12 +1,18 @@
-import { MenuItem } from "@mui/material";
-import { useState } from "react";
+import { Box, MenuItem, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useCallback } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { useRouter } from "next/router";
 import Link from "../../../../src/Link";
-function ProductsDropDown({ handleClose }) {
+import { useDispatch } from "react-redux";
+import { setFilter } from "../../../../redux/reducers/productSlice";
+
+function ProductsDropDown({ handleNavigate }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.products);
   const categories = productList.map((product) => {
     return product.category;
@@ -22,6 +28,11 @@ function ProductsDropDown({ handleClose }) {
     [searchParams]
   );
 
+  const handleChangeCategory = (category) => {
+    dispatch(setFilter(category));
+    console.log(category);
+  };
+
   return (
     <>
       {uniqueCategories.map((category) => {
@@ -34,12 +45,16 @@ function ProductsDropDown({ handleClose }) {
               pr: 0,
               py: 1.5,
             }}
-            onClick={handleClose}
+            onClick={() => {
+              handleNavigate();
+              handleChangeCategory(category);
+            }}
             disableRipple
-            // component={Link}
           >
-            <ChevronLeftIcon sx={{ ml: 1 }} />
-            {category}
+            <ChevronLeftIcon fontSize="small" sx={{ ml: 0.5 }} />
+            <Typography fontWeight={"bold"} variant="body2">
+              {category}
+            </Typography>
           </MenuItem>
         );
       })}

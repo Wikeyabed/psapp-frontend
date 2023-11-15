@@ -209,7 +209,7 @@ function RegisterForm() {
                     ثـبـت نــام
                   </Typography>
 
-                  <RtlTextField
+                  {/* <RtlTextField
                     value={RegisterInfo.email}
                     // required
                     name="email"
@@ -223,7 +223,7 @@ function RegisterForm() {
                         ? "لطفا ایمیل معتبر وارد کنید"
                         : ""
                     }
-                  />
+                  /> */}
                   <RtlTextField
                     value={RegisterInfo.password}
                     required
