@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 // import required modules
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import { Box, Grid, Typography } from "@mui/material";
 import { persianNumber } from "../../../../src/PersianDigits";
 import { cloneElement } from "react";
@@ -63,6 +63,10 @@ export default function DraggableSwipe({ title, items, effect, children }) {
           height={"auto"}
           slidesPerView={1}
           spaceBetween={10}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: true,
+          }}
           pagination={{
             clickable: true,
             dynamicBullets: true,
@@ -85,7 +89,7 @@ export default function DraggableSwipe({ title, items, effect, children }) {
             },
           }}
           freeMode={true}
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Autoplay]}
           className="mySwiper"
         >
           {items.length > 0

@@ -64,7 +64,7 @@ function LatestBlog() {
           }}
           color="warning"
           size="large"
-          variant="outlined"
+          variant="contained"
         >
           تمامی وبلاگ ها
         </Button>

@@ -1,5 +1,12 @@
 import React from "react";
-import { Button, Paper, Grid, Typography } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Grid,
+  Typography,
+  Card,
+  CardMedia,
+} from "@mui/material";
 import { truncate } from "../../../../src/tranculate";
 import parse from "html-react-parser";
 import Link from "../../../../src/Link";
@@ -13,23 +20,44 @@ function MiniBlogCard({ item }) {
       item
       xs={12}
     >
-      <Paper
+      <Card
         sx={{
-          p: 2,
-          height: 250,
+          p: 1,
+
           borderBottomLeftRadius: "0 !important",
           borderBottomRightRadius: "0 !important",
           borderRadius: "10px",
         }}
         elevation={2}
       >
-        <Typography variant="h6">{truncate(item.title, 35)}</Typography>
+        <CardMedia
+          component="img"
+          alt="green iguana"
+          sx={{
+            height: "160px !important",
+            objectFit: "cover",
+          }}
+          image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
+        />
         <Typography
+          sx={{
+            minHeight: 70,
+            mt: 4,
+            fontSize: "14px",
+            textAlign: "center",
+          }}
+          variant="h6"
+        >
+          {item.title}
+          {/* {truncate(item.title, 35)} */}
+        </Typography>
+        {/* <Typography
           sx={{
             mt: 2,
             fontSize: "9px !important",
             textAlign: "right !important",
             direction: "ltr !important",
+            minHeight: "20px !important",
           }}
           color="text.secondary"
         >
@@ -39,8 +67,8 @@ function MiniBlogCard({ item }) {
               300
             )
           )}
-        </Typography>
-      </Paper>
+        </Typography> */}
+      </Card>
       <Button
         component={Link}
         href={`blog/${item.id}`}

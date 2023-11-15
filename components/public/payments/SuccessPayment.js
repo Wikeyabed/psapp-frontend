@@ -15,7 +15,7 @@ export default function SuccessfulPayment({ tid }) {
         setCounter(counter - 1);
       }, 1000);
     } else {
-      // router.push("/shop");
+      router.push("/shop");
     }
   }, [counter]);
   return (

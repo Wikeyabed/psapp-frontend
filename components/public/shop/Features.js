@@ -2,6 +2,10 @@ import React from "react";
 import { Paper, Grid, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import HailIcon from "@mui/icons-material/Hail";
+import FilePresentIcon from "@mui/icons-material/FilePresent";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import UpdateIcon from "@mui/icons-material/Update";
 import AddCardIcon from "@mui/icons-material/AddCard";
@@ -50,9 +54,9 @@ function Features() {
       >
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="body1">
-            ارسال همه روزه با تهران و شهرستان
+            ارسال همه روزه به تهران و شهرستان
           </Typography>
-          <DeliveryDiningIcon
+          <LocalShippingIcon
             sx={{
               fontSize: "75px !important",
               position: "absolute",
@@ -81,7 +85,7 @@ function Features() {
             امکان عودت کالا تا 2 روز
           </Typography>
 
-          <AssignmentIcon
+          <HourglassTopIcon
             sx={{
               fontSize: "65px !important",
               position: "absolute",
@@ -110,7 +114,7 @@ function Features() {
             امکان خرید حضوری
           </Typography>
 
-          <UpdateIcon
+          <HailIcon
             sx={{
               fontSize: "70px !important",
               position: "absolute",
@@ -139,7 +143,7 @@ function Features() {
             درباره مجموعه اییاکس
           </Typography>
 
-          <ApartmentIcon
+          <FilePresentIcon
             sx={{
               fontSize: "70px !important",
               position: "absolute",
