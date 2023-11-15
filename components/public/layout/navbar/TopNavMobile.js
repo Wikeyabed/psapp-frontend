@@ -88,7 +88,12 @@ function TopNavMobile(props) {
   return (
     <Box sx={{ display: "flex", direction: "ltr !important" }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar
+        sx={{
+          backgroundColor: "#3e2723",
+        }}
+        component="nav"
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -114,7 +119,7 @@ function TopNavMobile(props) {
             <Logo small={true} />
           </Box>
         </Toolbar>
-        {router.pathname === "/shop" ? <MobileFilterBar /> : ""}
+        {/* {router.pathname === "/shop" ? <MobileFilterBar /> : ""} */}
       </AppBar>
 
       <Box component="nav">

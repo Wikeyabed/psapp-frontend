@@ -15,6 +15,8 @@ import {
   ShoppingBasketOutlined,
   ShoppingCart,
   ShoppingCartOutlined,
+  Widgets,
+  WidgetsOutlined,
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 
@@ -30,8 +32,10 @@ export default function SimpleBottomNavigation() {
       setValue(0);
     } else if (router.route == "/shop/cart") {
       setValue(1);
-    } else {
+    } else if (router.route == "/user") {
       setValue(2);
+    } else {
+      setValue(3);
     }
   }, [router]);
   return (
@@ -59,6 +63,19 @@ export default function SimpleBottomNavigation() {
               <ShoppingBasket color="secondary" />
             ) : (
               <ShoppingBasketOutlined color="secondary" />
+            )
+          }
+        />
+
+        <BottomNavigationAction
+          component={Link}
+          href="/shop/categories?category=all"
+          label="محصولات"
+          icon={
+            value == 3 && router.route == "/shop/categories" ? (
+              <Widgets color="secondary" />
+            ) : (
+              <WidgetsOutlined color="secondary" />
             )
           }
         />
