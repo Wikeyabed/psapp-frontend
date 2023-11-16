@@ -159,7 +159,7 @@ function RequestPartnership() {
                       sx={{ mb: 1, fontWeight: "bold" }}
                       variant="body2"
                     >
-                      شماره تماس : 66827884-021
+                      شماره تماس : 55538370-۰۲۱{" "}
                     </Typography>
 
                     <Typography
@@ -167,15 +167,7 @@ function RequestPartnership() {
                       sx={{ mb: 1, fontWeight: "bold" }}
                       variant="body2"
                     >
-                      شماره تلفن همراه : 8634399-0912
-                    </Typography>
-
-                    <Typography
-                      textAlign={"right"}
-                      sx={{ mb: 1, fontWeight: "bold" }}
-                      variant="body2"
-                    >
-                      شماره تمامی پیام رسان ها :6441868-0912
+                      پیام رسان ها : ۰۹۱۲۸۶۳۴۳۹۹(تمامی پیام رسان ها){" "}
                     </Typography>
 
                     <Typography
