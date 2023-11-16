@@ -60,6 +60,7 @@ function ProductList() {
                 imageUrl={product.images_url[0]}
                 discount={product.discount}
                 quantity={product.quantity}
+                stock={product.product_quantity}
               />
             </Grid>
           );

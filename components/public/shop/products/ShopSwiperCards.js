@@ -142,6 +142,7 @@ function ShopSwiperCards({ item }) {
           </>
         ) : (
           <Button
+            disabled={item.product_quantity < 1}
             fullWidth
             sx={{
               color: "#fff",
@@ -151,7 +152,7 @@ function ShopSwiperCards({ item }) {
             color="primary"
             size="medium"
           >
-            خرید
+            {item.product_quantity > 0 ? "خرید" : "ناموجود"}
           </Button>
         )}
       </CardActions>

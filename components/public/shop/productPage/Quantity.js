@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, ButtonGroup, TextField } from "@mui/material";
+import { Box, Button, ButtonGroup, Grid, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import PriceBox from "./PriceBox";
@@ -38,12 +38,15 @@ function Quantity({
           mt: showDetails ? 2 : 0,
         }}
       >
+        {/* <Grid xs={12} md={6}> */}
         <AddToCart
           fullStack={stack * counter}
           counter={counter}
           productId={productId}
           showDetails={showDetails}
         />
+        {/* </Grid> */}
+        {/* <Grid xs={12} md={6}> */}{" "}
         <ButtonGroup
           sx={{
             direction: "ltr",
@@ -110,6 +113,7 @@ function Quantity({
             </Button>
           )}
         </ButtonGroup>
+        {/* </Grid> */}
       </Box>
       {showDetails ? (
         <>

@@ -103,11 +103,15 @@ function AddToCart({ counter, price, productId, fullStack, showDetails }) {
         disabled={loading}
         onClick={handleAddToCart}
         sx={{
-          p: `${loading ? 0 : "inherit"}`,
+          p: `${loading ? 0 : "5px"}`,
+          fontSize: { xs: "11px", md: "inherit" },
           marginRight: "auto",
           borderRadius: "5px",
           backgroundColor: "lightPrimary.main",
-          width: `${showDetails ? "320px" : "120px"}`,
+          width: {
+            xs: `${showDetails ? "auto" : "120px"}`,
+            md: `${showDetails ? "320px" : "120px"}`,
+          },
           height: "36.5px",
           textAlign: "center",
         }}
@@ -134,7 +138,7 @@ function AddToCart({ counter, price, productId, fullStack, showDetails }) {
             />
           </Box>
         ) : (
-          `${showDetails ? "اضافه کردن به سبد خرید" : "اضافه کردن"}`
+          `${showDetails ? "اضافه کردن به سبد " : "اضافه کردن"}`
         )}
       </Button>
     </Box>

@@ -20,6 +20,7 @@ function ShopSwiperCards({
   imageUrl,
   discount,
   quantity,
+  stock,
 }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
 
@@ -143,13 +144,14 @@ function ShopSwiperCards({
           </>
         ) : (
           <Button
+            disabled={stock < 0 || stock == 0}
             fullWidth
             onClick={handleActiveQuantity}
             variant="contained"
             color="primary"
             size="medium"
           >
-            خرید
+            {stock * 1 > 0 ? "خرید" : "ناموجود"}
           </Button>
         )}
       </CardActions>
