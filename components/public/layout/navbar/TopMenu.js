@@ -193,6 +193,19 @@ export default function TopMenu() {
             <StyledText>وبلاگ</StyledText>
           </Button>
         </StyledLi>
+
+        <StyledLi>
+          {" "}
+          <Button
+            component={Link}
+            href="/roles"
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText>قوانین و مقررات</StyledText>
+          </Button>
+        </StyledLi>
       </StyledUl>
 
       {/* ************************************************** */}
@@ -256,6 +269,7 @@ export default function TopMenu() {
           />
           درخواست همکاری
         </MenuItem>
+
         {/* <Divider sx={{ my: 0.5 }} /> */}
       </StyledMenu>
     </>
