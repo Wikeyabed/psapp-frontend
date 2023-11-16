@@ -124,7 +124,107 @@ function RequestPartnership() {
                       sx={{ mb: 5 }}
                       variant="h5"
                     >
-                      فرم سفارش محصول
+                      سفارش تولید
+                    </Typography>
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body2"
+                    >
+                      شما کاربران عزیز میتوانید از طریق فرم زیر درخواست تولید
+                      کارتن , چسب و یا چاپ بر روی نایلون حباب دار مورد نظر خود
+                      را ثبت کنید. سفارش شما توسط تیم پشتیبانی ایباکس بررسی شده
+                      و در اسرع وقت با شما تماس گرفته می شود.
+                    </Typography>
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3, color: "primary.main" }}
+                      variant="body1"
+                    >
+                      {" "}
+                      لطفا توجه داشته باشید، تولید تمامی محصولات مخصوص کارخانه
+                      جات ، تولیدی ها و .... بوده و سفارشات تولید کم پذیرفته
+                      نمیشود.
+                    </Typography>
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body1"
+                    >
+                      {" "}
+                      برای ثبت صحیح سفارش تولید کارتن اطلاعاتی نظیر:
+                    </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body2"
+                    >
+                      ابعاد کارتن: طول عرض ارتفاع
+                      <br />
+                      تعداد لایه: 3 لایه 5 لایه
+                      <br />
+                      وضعیت چاپ: چاپدار و بدون چاپ
+                      <br />
+                      <br />
+                    </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body1"
+                    >
+                      {" "}
+                      برای ثبت صحیح سفارش چاپ روی چسب پهن اطلاعاتی نظیر:{" "}
+                    </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body2"
+                    >
+                      تعداد رنگ چاپ: مثال: 3 رنگ <br />
+                      تعداد:مثال: 180 حلقه
+                      <br />
+                      رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
+                      <br />
+                    </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body1"
+                    >
+                      {" "}
+                      برای ثبت صحیح سفارش چاپ روی نیالون حبابدار اطلاعاتی نظیر:{" "}
+                    </Typography>
+
+                    <Typography
+                      component={"div"}
+                      textAlign={"right"}
+                      sx={{ mb: 3 }}
+                      variant="body2"
+                    >
+                      تعداد رنگ چاپ: مثال: 3 رنگ <br />
+                      مقدار :مثال: 500 کیلوگرم <br />
+                      رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
+                      <br />
+                      را در بخش{" "}
+                      <span
+                        style={{
+                          color: "red",
+                        }}
+                      >
+                        توضیحات
+                      </span>{" "}
+                      وارد نمایید.
                     </Typography>
 
                     <RtlTextField
@@ -152,7 +252,6 @@ function RequestPartnership() {
                       label="موضوع"
                       type="text"
                     />
-
                     <RtlTextField
                       value={formInfo.description}
                       required
