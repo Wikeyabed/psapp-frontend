@@ -25,6 +25,7 @@ const navItems = [
   { title: "فرم سفارش محصول", link: "/order-form" },
   { title: "فرم درخواست همکاری", link: "/partnership" },
   { title: "تماس با ما", link: "/contact" },
+  { title: "قوانین و مقررات", link: "/roles" },
 ];
 
 function TopNavMobile(props) {
