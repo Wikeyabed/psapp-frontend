@@ -11,7 +11,7 @@ function PublicLayout({ children }) {
         sx={{
           p: 1,
           mb: 10,
-          mt: 20,
+          mt: { xs: 1, md: 20 },
         }}
       >
         {children}

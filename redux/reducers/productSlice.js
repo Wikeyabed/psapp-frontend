@@ -20,6 +20,9 @@ export const productSlice = createSlice({
     searchValue: (state, action) => {
       state.search = action.payload;
     },
+    clearSearch: (state) => {
+      state.search = "";
+    },
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
@@ -42,6 +45,7 @@ export const productSlice = createSlice({
 export const {
   addToCart,
   searchValue,
+  clearSearch,
   setPriceSort,
   removeFromCart,
   setFilter,

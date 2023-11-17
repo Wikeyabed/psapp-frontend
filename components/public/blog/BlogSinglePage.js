@@ -19,8 +19,11 @@ export default function BlogSinglePage({ blog }) {
           <Card sx={{ mx: "auto", my: 4 }}>
             <CardActionArea>
               <CardMedia
+                sx={{
+                  objectFit: "contain",
+                }}
                 component="img"
-                height="500"
+                height="auto"
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
                 alt={blog.title}
               />

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import LoadingBar from "./LoadingBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingOff, setLoadingOn } from "../../redux/reducers/loadingSlice";
+import { clearSearch } from "../../redux/reducers/productSlice";
 
 export default function Loading() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function Loading() {
   useEffect(() => {
     const handleStart = (url) => {
       dispatch(setLoadingOn());
+      dispatch(clearSearch());
     };
 
     const handleComplete = (url) => {

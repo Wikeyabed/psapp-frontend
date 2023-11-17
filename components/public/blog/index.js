@@ -15,13 +15,21 @@ import parse from "html-react-parser";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../src/usePagination";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import SearchBar from "../layout/navbar/SearchBar";
 
 export default function AllBlogs({ blogPosts = [] }) {
+  const searchValue = useSelector((state) => state.product.search);
+
   let [page, setPage] = useState(1);
   const PER_PAGE = 12;
 
-  const _DATA = usePagination(blogPosts, PER_PAGE);
-  const count = Math.ceil(blogPosts.length / PER_PAGE);
+  const filteredBlogList = blogPosts.filter((blog) =>
+    blog.title.includes(searchValue)
+  );
+
+  const _DATA = usePagination(filteredBlogList, PER_PAGE);
+  const count = Math.ceil(filteredBlogList.length / PER_PAGE);
 
   const handleChange = (e, p) => {
     setPage(p);
@@ -31,7 +39,7 @@ export default function AllBlogs({ blogPosts = [] }) {
   return (
     <PublicLayout>
       <Container>
-        <Box sx={{ my: 5, textAlign: "center" }}>
+        <Box flexGrow={1}>
           <Typography variant="h4" component="h2" gutterBottom>
             وبلاگ
           </Typography>
@@ -39,14 +47,23 @@ export default function AllBlogs({ blogPosts = [] }) {
             آخرین مطالب آموزشی ایباکس
           </Typography>
         </Box>
-        <Grid container spacing={4}>
-          {blogPosts.length > 0
+        <Box
+          sx={{
+            my: 5,
+            maxWidth: "340px",
+            mx: "auto",
+          }}
+        >
+          <SearchBar />
+        </Box>
+        <Grid container spacing={6}>
+          {filteredBlogList.length > 0
             ? _DATA.currentData().map((post, index) => (
-                <Grid item xs={12} md={6} key={index}>
-                  <Card sx={{ display: "flex" }}>
+                <Grid item xs={12} md={6} lg={4} key={index}>
+                  <Card>
                     <CardMedia
                       component="img"
-                      sx={{ width: 200, height: 200 }}
+                      sx={{ width: "100%", height: 200 }}
                       image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
                       alt={post.title}
                     />
@@ -62,9 +79,9 @@ export default function AllBlogs({ blogPosts = [] }) {
                         >
                           {post.title}
                         </Typography>
-                        <Typography variant="subtitle1" color="text.secondary">
+                        {/* <Typography variant="subtitle1" color="text.secondary">
                           {parse(post.description.slice(0, 30) + "...")}
-                        </Typography>
+                        </Typography> */}
                       </CardContent>
                       <Box sx={{ display: "flex", alignItems: "center", p: 1 }}>
                         {/* <Avatar alt={post.author} src={post.avatarUrl} /> */}
@@ -85,6 +102,14 @@ export default function AllBlogs({ blogPosts = [] }) {
                         </Box>
                       </Box>
                     </Box>
+                    <Button
+                      component={Link}
+                      href={`/blog/${post.id}`}
+                      fullWidth
+                      variant="contained"
+                    >
+                      ادامه خواندن
+                    </Button>
                   </Card>
                 </Grid>
               ))
