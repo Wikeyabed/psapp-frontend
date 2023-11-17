@@ -6,6 +6,9 @@ import Banner2 from "../../../public/images/banner2.jpg";
 import Banner3 from "../../../public/images/banner3.jpg";
 import FullScreenSlider from "../layout/swiper/FullScreenSwiper";
 
+import Banner1Mobile from "../../../public/images/banner1-mobile.jpg";
+import Banner2Mobile from "../../../public/images/banner2-mobile.jpg";
+import Banner3Mobile from "../../../public/images/banner3-mobile.jpg";
 const BannerBox = styled(Grid)({
   padding: 10,
 });
@@ -20,17 +23,39 @@ const slides = [
   { img: Banner3, href: "/order-form", text: "فرم سفارش" },
 ];
 
+const mobileSlides = [
+  { img: Banner1Mobile, href: "/contact", text: "ثبت درخواست" },
+  {
+    img: Banner2Mobile,
+    href: "/shop/categories?category=کارتن+پستی",
+    text: "خرید",
+  },
+  { img: Banner3Mobile, href: "/order-form", text: "فرم سفارش" },
+];
+
 function ShopSlider() {
   return (
     <Grid sx={{ display: "flex" }} container>
       <BannerBox
         sx={{
-          height: { xs: "170px", sm: "320px", md: "400px" },
+          height: "auto",
+          display: { xs: "none", md: "block" },
         }}
         item
         xs={12}
       >
         <FullScreenSlider slides={slides} />
+      </BannerBox>
+
+      <BannerBox
+        sx={{
+          height: "auto",
+          display: { md: "none" },
+        }}
+        item
+        xs={12}
+      >
+        <FullScreenSlider slides={mobileSlides} />
       </BannerBox>
     </Grid>
   );

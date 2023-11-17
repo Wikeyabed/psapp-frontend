@@ -17,6 +17,7 @@ import Logo from "./Logo";
 import MobileFilterBar from "../../shop/categories/MobileFilterBar";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
+import SocialMediaBar from "../socialMedia";
 
 const drawerWidth = 240;
 
@@ -116,6 +117,9 @@ function TopNavMobile(props) {
               color="secondary"
             />
           </IconButton>
+          <Box>
+            <SocialMediaBar />
+          </Box>
           <Box>
             <Logo small={true} />
           </Box>

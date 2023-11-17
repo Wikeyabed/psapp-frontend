@@ -34,7 +34,8 @@ function Features() {
     // Use the Grid component to create a responsive grid layout
     <Grid
       container
-      columnSpacing={{ lg: 6 }}
+      columnSpacing={{ xs: 2, lg: 6 }}
+      spacing={2}
       sx={{
         padding: "10px",
         marginTop: "25px",
@@ -45,8 +46,7 @@ function Features() {
         href={"/blog/3"}
         paddingBottom={1}
         item
-        xs={12}
-        md={6}
+        xs={6}
         lg={3}
         sx={{
           textDecoration: "none !important",
@@ -72,8 +72,7 @@ function Features() {
         href={"/blog/16"}
         paddingBottom={1}
         item
-        xs={12}
-        md={6}
+        xs={6}
         lg={3}
         sx={{
           textDecoration: "none !important",
@@ -101,8 +100,7 @@ function Features() {
         href={"/blog/3"}
         paddingBottom={1}
         item
-        xs={12}
-        md={6}
+        xs={6}
         lg={3}
         sx={{
           textDecoration: "none !important",
@@ -130,8 +128,7 @@ function Features() {
         href={"/blog/17"}
         paddingBottom={1}
         item
-        xs={12}
-        md={6}
+        xs={6}
         lg={3}
         sx={{
           textDecoration: "none !important",

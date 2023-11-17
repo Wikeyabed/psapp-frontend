@@ -2,12 +2,17 @@ import React from "react";
 import Navbar from "./navbar";
 import { Grid, Box } from "@mui/material";
 import Footer from "./footer";
+import SocialMediaBar from "./socialMedia";
 
 function PublicLayout({ children }) {
   return (
-    <Box>
+    <Box
+      sx={{
+        position: "relative",
+      }}
+    >
       <Navbar />
-      <Box
+      <Grid
         sx={{
           p: 1,
           mb: 10,
@@ -15,7 +20,8 @@ function PublicLayout({ children }) {
         }}
       >
         {children}
-      </Box>
+      </Grid>
+
       <Footer />
     </Box>
   );

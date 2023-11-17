@@ -17,6 +17,15 @@ const BannerPaper = styled(Paper)({
 });
 
 const BannerImage = styled("img")({
+  display: { xs: "none !important", md: "block" },
+  width: "100%",
+  height: "100%",
+  objectFit: "fill",
+  borderRadius: "10px",
+});
+
+const BannerImageMobile = styled("img")({
+  display: { md: "none" },
   width: "100%",
   height: "100%",
   objectFit: "fill",
@@ -27,39 +36,30 @@ function Banners() {
   return (
     <Grid sx={{ display: { xs: "none", md: "flex" } }} container>
       <BannerBox
-        sx={{
-          height: { md: "auto" },
-        }}
+        // sx={{
+        //   height: { md: "auto" },
+        // }}
         item
         lg={8}
       >
         <BannerPaper elevation={5}>
           <BannerImage src={Banner2.src} alt="pic" />
+          <BannerImageMobile src={Banner2Mobile.src} alt="pic" />
         </BannerPaper>
       </BannerBox>
 
       <Grid item container lg={4}>
-        <BannerBox
-          item
-          sx={{
-            height: "300px",
-          }}
-          xs={12}
-        >
+        <BannerBox item xs={12}>
           <BannerPaper elevation={5}>
             <BannerImage src={Banner1.src} alt="pic" />
+            <BannerImageMobile src={Banner1Mobile.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
 
-        <BannerBox
-          item
-          sx={{
-            height: "300px",
-          }}
-          xs={12}
-        >
+        <BannerBox item xs={12}>
           <BannerPaper elevation={5}>
             <BannerImage src={Banner3.src} alt="pic" />
+            <BannerImageMobile src={Banner3Mobile.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
       </Grid>

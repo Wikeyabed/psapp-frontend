@@ -6,6 +6,7 @@ import BottomNav from "./BottomNav";
 import MiniShoppingCart from "./shoppingCart/index";
 import TopNavMobile from "./TopNavMobile";
 import Logo from "./Logo";
+import SocialMediaBar from "../socialMedia";
 
 export default function Navbar() {
   // mobile menu item
@@ -41,7 +42,9 @@ export default function Navbar() {
             >
               ایباکس
             </Typography> */}
-            <Logo />
+            <Box flexGrow={1}>
+              <Logo />
+            </Box>
 
             {/* <Box
               sx={{
@@ -59,7 +62,7 @@ export default function Navbar() {
 
             <Box
               sx={{
-                flexGrow: 4,
+                flexGrow: 1,
                 display: "flex",
                 color: "#000",
                 justifyContent: "center",
@@ -69,9 +72,18 @@ export default function Navbar() {
               <TopMenu />
             </Box>
 
-            <Box sx={{ display: "flex" }}>{/* <SearchBar /> */}</Box>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", md: "flex" },
+                color: "#000",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              <SocialMediaBar />
+            </Box>
 
-            {/* navbar  icons  */}
             <MiniShoppingCart />
             <Divider
               orientation="vertical"
