@@ -110,7 +110,8 @@ export default function TopMenu() {
         <StyledLi>
           {" "}
           <Button
-            href="/shop"
+            // href="/shop"
+            href="/"
             component={Link}
             variant="text"
             color="secondary"

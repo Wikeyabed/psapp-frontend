@@ -12,7 +12,8 @@ function Logo({ small }) {
       display={"flex"}
       justifySelf={"center"}
       component={Link}
-      href="/shop"
+      // href="/shop"
+      href="/"
     >
       <Image
         src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo.png`}

@@ -40,8 +40,8 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/shop",
+        source: "/shop",
+        destination: "/",
         permanent: true,
       },
     ];

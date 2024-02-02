@@ -6,6 +6,7 @@ export default function ProductSingle({ product }) {
   return (
     <PublicLayout>
       <Head>
+        {/* Torob Headers start */}
         <meta name="product_id" content={product.product_id} />
         <meta name="product_name" content={product.product_name} />
         <meta
@@ -18,6 +19,8 @@ export default function ProductSingle({ product }) {
           content={product.product_quantity > 0 ? "instock" : "outofstock"}
         />
         <meta property="og:image" content={product.images_url[0]} />
+
+        {/* Torob Headers end */}
 
         <title>ایباکس - {product.product_name}</title>
       </Head>
