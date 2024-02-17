@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Grid } from "@mui/material";
+import { Box, CardActionArea, Divider, Grid } from "@mui/material";
 import PublicLayout from "../layout/index";
 import BlogNav from "./Breadcrumb";
 import parse from "html-react-parser";
@@ -20,29 +20,44 @@ export default function BlogSinglePage({ blog }) {
             <CardActionArea>
               <CardMedia
                 sx={{
+                  aspectRatio: "16/9",
                   objectFit: "contain",
+                  maxHeight: 350,
+                  minWidth: "100%",
+                  mb: 10,
                 }}
                 component="img"
-                height="auto"
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
                 alt={blog.title}
               />
               <CardContent>
-                <Typography gutterBottom variant="h4" component="h4">
+                <Typography gutterBottom variant="h6" component="div">
                   {blog.title}
                 </Typography>
 
-                <Typography gutterBottom variant="h5" component="div">
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    justifyItems: "center",
+                  }}
+                  gutterBottom
+                >
+                  <Typography lineHeight={3} variant="caption">
+                    تاریخ انتشار :
+                  </Typography>{" "}
                   <ToPersianDate timestamp={blog.create_time} />
-                </Typography>
+                </Box>
 
                 {/* <Typography gutterBottom variant="h4" component="h4">
                   نویسنده : ادمین
                 </Typography> */}
+                <Divider />
                 <Typography
                   textAlign={"justify"}
                   variant="body1"
-                  color="text.secondary"
+                  color="text.primary"
                   component={"div"}
                 >
                   {parse(blog.description)}

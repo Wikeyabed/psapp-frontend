@@ -1,6 +1,6 @@
 import moment from "moment-jalaali";
 import { AccessTime, CalendarMonth } from "@mui/icons-material";
-import { Button, ButtonGroup } from "@mui/material";
+import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import * as React from "react";
 
 function ToPersianDate({ timestamp }) {
@@ -10,21 +10,30 @@ function ToPersianDate({ timestamp }) {
   let time = m.format("HH:mm");
 
   return (
-    <>
+    <div>
       <ButtonGroup
         size="small"
         color="primary"
-        sx={{ direction: "ltr !important" }}
+        sx={{
+          direction: "ltr !important",
+          p: 1,
+        }}
       >
-        <Button startIcon={<CalendarMonth fontSize="small" />} variant="text">
+        <Typography
+          sx={{
+            mr: 1,
+          }}
+          variant="caption"
+          color={"primary"}
+        >
           {date}
-        </Button>
+        </Typography>
 
-        <Button startIcon={<AccessTime fontSize="small" />} variant="text">
+        <Typography variant="caption" color={"secondary"}>
           {time}
-        </Button>
+        </Typography>
       </ButtonGroup>
-    </>
+    </div>
   );
 }
 
