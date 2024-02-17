@@ -10,7 +10,6 @@ function Callback() {
   const [success, setSuccess] = useState(false);
 
   const [data, setData] = useState({
-    id: "",
     track_id: "",
     order_id: "",
     status: "",
@@ -24,7 +23,6 @@ function Callback() {
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      id: data.id,
       track_id: data.track_id,
       order_id: data.order_id,
       status: data.status,
@@ -78,9 +76,8 @@ function Callback() {
 
   useEffect(() => {
     setData({
-      id: searchParams.get("id"),
-      track_id: searchParams.get("track_id"),
-      order_id: searchParams.get("order_id"),
+      track_id: searchParams.get("trackId"),
+      order_id: searchParams.get("orderId"),
       status: searchParams.get("status"),
     });
   }, [searchParams, router]);

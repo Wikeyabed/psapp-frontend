@@ -78,7 +78,7 @@ function CheckoutToPayment() {
     if (cart.length === 0 || payment.totalPrice == "0") router.push("/shop");
   }, []);
 
-  const handleNewPayment = () => {
+  const handleNewPayment = async () => {
     var myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
     myHeaders.append("Content-Type", "application/json");
@@ -100,14 +100,19 @@ function CheckoutToPayment() {
       redirect: "follow",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment/new`, requestOptions)
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/payment/new`,
+      requestOptions
+    )
       .then((response) => {
         if (response.status == 201) {
           const data = response.json();
+
           data.then((data) => {
+            // console.log(" data !!!!!!!!!!!!", data[0].track_id);
             setData({ ...data, loading: true });
-            console.log(data);
-            router.push(data[0].transaction_url);
+
+            router.push(`https://gateway.zibal.ir/start/${data[0].track_id}`);
           });
         }
       })
@@ -359,7 +364,7 @@ function CheckoutToPayment() {
             </Grid>
 
             <Button
-              disabled={data.loading}
+              // disabled={data.loading}
               onClick={handleNewPayment}
               color="info"
               variant="contained"

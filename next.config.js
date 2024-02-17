@@ -21,9 +21,9 @@
 // });
 
 module.exports = {
-  compiler: {
-    removeConsole: true,
-  },
+  // compiler: {
+  //   removeConsole: true,
+  // },
 
   output: "standalone",
   reactStrictMode: true,

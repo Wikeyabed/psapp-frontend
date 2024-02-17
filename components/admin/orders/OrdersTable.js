@@ -101,6 +101,7 @@ const OrdersTable = ({ orders }) => {
                   </TableCell>
 
                   <TableCell style={{ textAlign: "right" }}>
+                    {/* {order.finished_price} */}
                     {persianNumber(order.finished_price)} ریال
                   </TableCell>
                 </TableRow>
