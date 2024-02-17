@@ -68,13 +68,19 @@ export default function AllBlogs({ blogPosts = [] }) {
                       alt={post.title}
                     />
                     <Box sx={{ display: "flex", flexDirection: "column" }}>
-                      <CardContent>
+                      <CardContent
+                        sx={{
+                          height: "70px !important",
+                        }}
+                      >
                         <Typography
                           component={Link}
                           href={`/blog/${post.id}`}
                           variant="h5"
                           sx={{
                             textDecoration: "none",
+
+                            fontSize: 18,
                           }}
                         >
                           {post.title}

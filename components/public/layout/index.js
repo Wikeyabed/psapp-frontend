@@ -14,6 +14,7 @@ function PublicLayout({ children }) {
       <Navbar />
       <Grid
         sx={{
+          overflow: "hidden",
           p: 1,
           mb: 10,
           mt: { xs: 1, md: 20 },
