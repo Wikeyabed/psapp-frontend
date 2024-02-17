@@ -106,6 +106,24 @@ export default function Footer() {
             <Typography variant="h6" color="text.primary" gutterBottom>
               نماد اکترونیکی
             </Typography>
+
+            <a
+              referrerpolicy="origin"
+              target="_blank"
+              href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+            >
+              <img
+                referrerpolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+                alt="ebox-ایباکس"
+                style={{
+                  cursor: "pointer",
+                  width: "auto",
+                  height: "atuo",
+                }}
+                Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+              />
+            </a>
           </Grid>
         </Grid>
         <Box mt={5}>
