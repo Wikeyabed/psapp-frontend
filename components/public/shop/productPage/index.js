@@ -56,7 +56,7 @@ const ProductPage = ({ product }) => {
                 <Typography
                   variant="h4"
                   sx={{
-                    fontSize: "35px",
+                    fontSize: { xs: "25px", lg: "35px" },
                     paddingBottom: 5,
                     fontWeight: "bold",
                   }}
