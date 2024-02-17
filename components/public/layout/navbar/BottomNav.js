@@ -6,6 +6,7 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   CssBaseline,
+  Badge,
 } from "@mui/material";
 import Link from "../../../../src/Link";
 import {
@@ -19,11 +20,13 @@ import {
   WidgetsOutlined,
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-
+import { persianNumber } from "../../../../src/PersianDigits";
 import { useRouter } from "next/router";
 
 export default function SimpleBottomNavigation() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const shoppingCart = useSelector((state) => state.product.shoppingCart);
+
   const router = useRouter();
   const [value, setValue] = useState(0);
 
@@ -46,14 +49,22 @@ export default function SimpleBottomNavigation() {
         left: 0,
         right: 0,
         zIndex: 1000,
-
+        pt: 0.8,
         width: "100%",
+        background: "#fff",
+        // borderTop: "4px solid #000",
       }}
-      elevation={8}
+      elevation={5}
     >
       <CssBaseline />
 
-      <BottomNavigation showLabels value={value}>
+      <BottomNavigation
+        sx={{
+          background: "transparent",
+        }}
+        showLabels
+        value={value}
+      >
         <BottomNavigationAction
           component={Link}
           href="/shop"
@@ -85,9 +96,21 @@ export default function SimpleBottomNavigation() {
           label="سبد خرید"
           icon={
             value == 1 && router.route == "/shop/cart" ? (
-              <ShoppingCart color="secondary" />
+              <Badge
+                color="primary"
+                max={999}
+                badgeContent={persianNumber(shoppingCart.length)}
+              >
+                <ShoppingCart color="secondary" />
+              </Badge>
             ) : (
-              <ShoppingCartOutlined color="secondary" />
+              <Badge
+                color="primary"
+                max={999}
+                badgeContent={persianNumber(shoppingCart.length)}
+              >
+                <ShoppingCartOutlined color="secondary" />
+              </Badge>
             )
           }
         />

@@ -104,6 +104,14 @@ span.sd {
   opacity: 1;
   background: rgba(0, 0, 0, 0.2);
 }
+.swiper-pagination-bullet::-moz-selection {
+  /* Code for Firefox */
+  background: transparent;
+}
+
+.swiper-pagination-bullet::selection {
+  background: transparent;
+}
 
 .swiper-pagination-bullet-active {
   color: #fff;

@@ -22,7 +22,7 @@ function ShopSwiperCards({ item }) {
     setActiveQuantity(true);
   };
   return (
-    <Card sx={{ width: 300, position: "relative" }}>
+    <Card sx={{ width: 300, position: "relative", mx: "auto" }}>
       <Link href={`/products/${item.product_id}`}>
         {" "}
         <Image
