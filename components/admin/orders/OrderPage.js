@@ -113,9 +113,9 @@ const OrderPage = ({ order }) => {
         onChange={handleStatusChange}
       >
         <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
-        <MenuItem value={"11"}>در حال پردازش</MenuItem>
-        <MenuItem value={"20"}>تکمیل شده</MenuItem>
-        <MenuItem value={"404"}>کنسل شده</MenuItem>
+        <MenuItem value={"100"}>در حال پردازش</MenuItem>
+        <MenuItem value={"200"}>تکمیل شده</MenuItem>
+        <MenuItem value={"99"}>کنسل شده</MenuItem>
       </Select>
 
       <Paper elevation={2} sx={{ padding: 2 }}>

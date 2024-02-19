@@ -115,7 +115,7 @@ function TopCards({ orders }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "20").length
+                orders.filter((order) => order.status == "200").length
               )}
             </Typography>
 
@@ -136,7 +136,7 @@ function TopCards({ orders }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "10").length
+                orders.filter((order) => order.status == "1").length
               )}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
@@ -157,7 +157,7 @@ function TopCards({ orders }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "11").length
+                orders.filter((order) => order.status == "100").length
               )}
             </Typography>
 

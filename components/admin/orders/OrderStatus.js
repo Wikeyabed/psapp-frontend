@@ -7,7 +7,11 @@ function OrderStatus({ status }) {
         sx={{ mx: 2 }}
         label={
           status == "1"
-            ? "پرداخت و تایید شده"
+            ? "پرداخت شده و در انتظار تایید"
+            : status == "100"
+            ? "در حال پردازش"
+            : status == "200"
+            ? "تکمیل شده"
             : status == "2"
             ? "پرداخت شده - تایید نشده"
             : status == "3"
@@ -21,8 +25,10 @@ function OrderStatus({ status }) {
             : "کنسل شده"
         }
         color={
-          status == "1"
+          status == "200"
             ? "success"
+            : status == "1" || status == "100"
+            ? "info"
             : status == "2" || status == "3"
             ? "warning"
             : "error"
