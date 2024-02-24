@@ -66,6 +66,7 @@ export default function DraggableSwipe({ title, items, effect, children }) {
           autoplay={{
             delay: 5000,
             disableOnInteraction: true,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,

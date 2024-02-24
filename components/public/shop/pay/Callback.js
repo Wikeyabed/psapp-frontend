@@ -1,8 +1,10 @@
+"use client";
 import { getCookie } from "cookies-next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
+import { usePathname } from "next/navigation";
 import SuccessfulPayment from "../../payments/SuccessPayment";
 import FailedPayment from "../../payments/FailedPayment";
 function Callback() {
@@ -11,13 +13,22 @@ function Callback() {
 
   const [data, setData] = useState({
     track_id: "",
-    order_id: "",
     status: "",
   });
+
   const router = useRouter();
-  const searchParams = useSearchParams();
+
+  const encoded = router.asPath;
+  const decoded = decodeURIComponent(encoded).replace(/&amp;/g, "&");
+  const params = new URLSearchParams(decoded.toString());
+
+  // const url = router.asPath;
+  // const params = new URLSearchParams(url);
+  // // const path = usePathname();
+  // const searchParams = useSearchParams();
 
   const handleSaveCallbackToDB = async () => {
+    console.log("in callback", data);
     var myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
     myHeaders.append("Content-Type", "application/json");
@@ -41,7 +52,7 @@ function Callback() {
           const cb = response.json();
 
           cb.then((res) => {
-            if (res[0].status == "10") {
+            if (res[0].status == "2") {
               handleVerifyAndStatus((res[0].transaction_id, res[0].order_id));
               setSuccess(true);
             }
@@ -75,12 +86,14 @@ function Callback() {
   };
 
   useEffect(() => {
-    setData({
-      track_id: searchParams.get("trackId"),
-      order_id: searchParams.get("orderId"),
-      status: searchParams.get("status"),
-    });
-  }, [searchParams, router]);
+    setData(
+      {
+        track_id: params.get("trackId"),
+        status: params.get("status"),
+      },
+      console.log(data)
+    );
+  }, []);
 
   setTimeout(() => {
     handleSaveCallbackToDB();
@@ -91,15 +104,17 @@ function Callback() {
   }, 3000);
 
   return (
-    <div>
-      {loading ? (
-        "در حال پردازش ..."
-      ) : success ? (
-        <SuccessfulPayment tid={data.track_id} />
-      ) : (
-        <FailedPayment tid={data.track_id} />
-      )}
-    </div>
+    <Suspense>
+      <div>
+        {loading ? (
+          "در حال پردازش ..."
+        ) : success ? (
+          <SuccessfulPayment tid={data.track_id} />
+        ) : (
+          <FailedPayment tid={data.track_id} />
+        )}
+      </div>
+    </Suspense>
   );
 }
 

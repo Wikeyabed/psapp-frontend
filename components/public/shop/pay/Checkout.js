@@ -366,6 +366,7 @@ function CheckoutToPayment() {
             <Button
               // disabled={data.loading}
               onClick={handleNewPayment}
+              disabled
               color="info"
               variant="contained"
               sx={{
@@ -374,12 +375,12 @@ function CheckoutToPayment() {
               }}
             >
               پرداخت با درگاه امن &nbsp;
-              <Image
+              {/* <Image
                 alt="idpay"
                 width={"100"}
                 height={"50"}
                 src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/idpay.svg`}
-              />
+              /> */}
             </Button>
           </Grid>
         </Grid>
