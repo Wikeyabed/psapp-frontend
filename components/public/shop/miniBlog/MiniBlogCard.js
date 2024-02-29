@@ -32,7 +32,7 @@ function MiniBlogCard({ item }) {
       >
         <CardMedia
           component="img"
-          alt="green iguana"
+          alt={item.title}
           sx={{
             height: "160px !important",
             objectFit: "cover",
