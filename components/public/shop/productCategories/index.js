@@ -20,7 +20,8 @@ function ProductCategories({ categories }) {
         </Typography>
 
         <Grid sx={{ p: 2 }} container item spacing={4}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
+          {categories.map((category, i) => {
+            console.log(category.category_image);
             return (
               <Grid key={i} item xs={6} sm={4} md={3}>
                 <Paper
@@ -40,8 +41,8 @@ function ProductCategories({ categories }) {
                   elevation={5}
                 >
                   <Image
-                    src={`https://picsum.photos/id/${i * 5}/256/210`}
-                    alt={"hello"}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${category.category_image}`}
+                    alt={category.category_name}
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -69,7 +70,7 @@ function ProductCategories({ categories }) {
                       textDecoration: "none !important",
                     }}
                     component={Link}
-                    href={"/"}
+                    href={`/shop//categories?category=${category.category_name}`}
                   >
                     <Typography
                       variant="h5"
@@ -86,7 +87,7 @@ function ProductCategories({ categories }) {
                         zIndex: 2,
                       }}
                     >
-                      ملزومات بسته بندی
+                      {category.category_name}
                     </Typography>
                   </Box>
                 </Paper>
@@ -131,7 +132,7 @@ function ProductCategories({ categories }) {
                   textDecoration: "none !important",
                 }}
                 component={Link}
-                href={"/"}
+                href={"/shop/categories?category=all"}
               >
                 <Typography
                   className="more-text"
