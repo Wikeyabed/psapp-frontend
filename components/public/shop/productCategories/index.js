@@ -2,8 +2,8 @@ import React from "react";
 import PublicLayout from "../../layout";
 import { Box, Grid, Button, Paper, Container, Typography } from "@mui/material";
 import Image from "next/image";
-import Dog from "../../../../public/images/dog.jpg";
-
+import Link from "../../../../src/Link";
+import MoreIcon from "@mui/icons-material/More";
 function ProductCategories({ categories }) {
   return (
     <PublicLayout>
@@ -20,7 +20,7 @@ function ProductCategories({ categories }) {
         </Typography>
 
         <Grid sx={{ p: 2 }} container item spacing={4}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => {
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
             return (
               <Grid key={i} item xs={6} sm={4} md={3}>
                 <Paper
@@ -28,7 +28,7 @@ function ProductCategories({ categories }) {
                     height: { xs: 120, sm: 170, md: 200 },
                     position: "relative",
                     transition: { md: "ease-in .2s all" },
-                    borderRadius: 8,
+                    borderRadius: 12,
                     "&:hover": {
                       transform: {
                         md: "scale(1.1)",
@@ -37,7 +37,7 @@ function ProductCategories({ categories }) {
                       zIndex: 100,
                     },
                   }}
-                  elevation={7}
+                  elevation={5}
                 >
                   <Image
                     src={`https://picsum.photos/id/${i * 5}/256/210`}
@@ -49,9 +49,9 @@ function ProductCategories({ categories }) {
                       objectFit: "cover",
                       width: "100%",
                       height: "100%",
-                      borderRadius: 32,
+                      borderRadius: 48,
                       zIndex: -2,
-                      opacity: 0.5,
+                      opacity: 0.4,
                     }}
                   />
                   <Box
@@ -63,29 +63,107 @@ function ProductCategories({ categories }) {
                       left: 0,
                       height: "100%",
                       zIndex: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textDecoration: "none !important",
                     }}
+                    component={Link}
+                    href={"/shop"}
                   >
                     <Typography
                       variant="h5"
                       sx={{
-                        position: "absolute",
-                        top: "40%",
                         textAlign: "center",
-                        width: "100%",
+
                         p: 1,
+                        color: "#111",
                         borderBottom: "5px solid #DE935C",
-                        borderRadius: "50%",
-                        fontSize: { xs: 15, md: 20 },
+                        lineHeight: 2.5,
+                        borderRadius: "25%",
+                        fontWeight: "bold",
+                        fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
                         zIndex: 2,
                       }}
                     >
-                      کارتن پستی
+                      ملزومات بسته بندی
                     </Typography>
                   </Box>
                 </Paper>
               </Grid>
             );
           })}
+
+          <Grid item xs={6} sm={4} md={3}>
+            <Paper
+              elevation={5}
+              className="parent-box"
+              sx={{
+                border: "1px solid #e2e2e2",
+                height: { xs: 120, sm: 170, md: 200 },
+                position: "relative",
+                transition: { md: "ease-in .2s all" },
+                borderRadius: 12,
+                "&:hover": {
+                  "& .more-icon": {
+                    opacity: 1,
+                  },
+                  "& .more-text": {
+                    mr: -1,
+                    ml: 3,
+                  },
+                  zIndex: 100,
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  cursor: "pointer",
+                  top: 0,
+                  width: "100%",
+                  left: 0,
+                  height: "100%",
+                  zIndex: 2,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none !important",
+                }}
+                component={Link}
+                href={"/shop"}
+              >
+                <Typography
+                  className="more-text"
+                  variant="h5"
+                  sx={{
+                    textAlign: "center",
+                    transition: "ease .5s all",
+                    mr: 4,
+                    ml: 0,
+                    p: 1,
+                    color: "#111",
+                    lineHeight: 2.5,
+                    borderRadius: "25%",
+                    fontWeight: "bold",
+                    fontSize: { xs: 10, sm: 14, md: 20 },
+                    zIndex: 2,
+                  }}
+                >
+                  تمامی محصولات
+                </Typography>
+                <MoreIcon
+                  className="more-icon"
+                  sx={{
+                    color: "#DE935C",
+                    transition: "linear .5s all",
+                    fontSize: 45,
+                    opacity: 0,
+                  }}
+                />
+              </Box>
+            </Paper>
+          </Grid>
         </Grid>
       </Container>
     </PublicLayout>
