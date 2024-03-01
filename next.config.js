@@ -37,13 +37,13 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
 
-  async redirects() {
-    return [
-      {
-        source: "/shop",
-        destination: "/",
-        permanent: true,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/shop",
+  //       destination: "/",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
 };

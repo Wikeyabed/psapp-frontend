@@ -13,7 +13,7 @@ export default function Home({ products }) {
   return (
     <>
       <Head>
-        <title>ایباکس - خرید کارتن پستی </title>
+        <title>ایباکس - صفحه نخست </title>
       </Head>
       <Shop />
     </>

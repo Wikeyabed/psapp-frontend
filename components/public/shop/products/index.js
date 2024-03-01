@@ -1,25 +1,27 @@
 import { Grid, Box, Paper, Typography } from "@mui/material";
 import styled from "@emotion/styled";
 import ProductListByCategory from "./ProductListByCategory";
+import Footer from "../../layout/footer";
 function Products() {
   return (
-    <Grid
-      id="product_list"
-      sx={{
-        padding: "10px",
-        marginTop: "75px",
-      }}
-    >
+    <>
       <Grid
+        id="product_list"
         sx={{
-          borderRadius: "10px",
-          padding: "10px 20px 20px",
-          // minHeight: { md: "600px" },
+          padding: "10px",
+          marginTop: "75px",
         }}
-        elevation={2}
-        container
       >
-        {/* <Typography
+        <Grid
+          sx={{
+            borderRadius: "10px",
+            padding: "10px 20px 20px",
+            // minHeight: { md: "600px" },
+          }}
+          elevation={2}
+          container
+        >
+          {/* <Typography
           sx={{
             mt: 10,
 
@@ -36,17 +38,19 @@ function Products() {
         >
           فروشگاه
         </Typography> */}
-        {/* <Grid
+          {/* <Grid
           sx={{
             display: { xs: "none", md: "flex" },
           }}
           item
           xs={12}
         > */}
-        {/* </Grid> */}
-        <ProductListByCategory />
+          {/* </Grid> */}
+          <ProductListByCategory />
+        </Grid>
       </Grid>
-    </Grid>
+      <Footer />
+    </>
   );
 }
 

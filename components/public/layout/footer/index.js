@@ -13,10 +13,8 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: (theme) =>
-          theme.palette.mode === "light"
-            ? theme.palette.grey[200]
-            : theme.palette.grey[800],
+        backgroundColor: "#efefef",
+        borderRadius: 4,
         p: 4,
         pb: { xs: 10, md: 4 },
       }}
@@ -27,11 +25,7 @@ export default function Footer() {
             <Typography variant="h6" color="text.primary" gutterBottom>
               درباره ما
             </Typography>
-            <Typography
-              textAlign={"justify"}
-              variant="caption"
-              color="text.secondary"
-            >
+            <Typography variant="caption" color="text.secondary">
               از سال ۱۳۹۸ در خدمت شما هستیم. از همان روز اول متوجه شدیم که هرچه
               خریداران، محصولات بسته بندی را گرانتر خریداری کنند، مجبور به
               افزایش قیمت محصولات خود میشوند.از همین رو اهدافی را برای خود ترسیم
@@ -83,6 +77,12 @@ export default function Footer() {
             <Typography variant="body2" color="text.secondary">
               شماره تماس : 66827884-021
             </Typography>
+
+            <Divider
+              sx={{
+                my: 1,
+              }}
+            />
             {/* <Typography variant="body2" color="text.secondary">
               Email: info@example.com
             </Typography> */}
@@ -134,8 +134,27 @@ export default function Footer() {
             </Link>
             {"  "}
           </Typography>
-          <Divider sx={{ my: 3 }} />
-          <Typography variant="body2" color="text.secondary" align="center">
+          <Divider
+            sx={{
+              my: 1,
+              width: { md: "50%" },
+              mx: "auto",
+            }}
+          />
+          <Typography
+            sx={{
+              fontFamily: "sans-serif !important",
+            }}
+            variant="body2"
+            color="text.secondary"
+            align="center"
+          >
+            {"All Right Reserved And Belongs to Eebox © 2023"}
+
+            {"  "}
+          </Typography>
+          {/* <Divider sx={{ my: 3 }} /> */}
+          {/* <Typography variant="body2" color="text.secondary" align="center">
             Designed & Developed By
             <Link
               target="_blank"
@@ -146,7 +165,7 @@ export default function Footer() {
               Me{" "}
             </Link>
             {"  "}
-          </Typography>
+          </Typography> */}
         </Box>
       </Container>
     </Box>
