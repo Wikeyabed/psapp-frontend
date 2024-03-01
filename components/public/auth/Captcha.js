@@ -16,7 +16,7 @@ export default function Captcha() {
 
   function makeId(length) {
     let result = "";
-    const characters = "0123456789";
+    const characters = "123456789123456789123456789123456789";
     // abcdefghijklmnopqrstuvwxyz;
     // ABCDEFGHIJKLMNOPQRSTUVWXYZ;
     const charactersLength = characters.length;
@@ -37,8 +37,8 @@ export default function Captcha() {
     const canvas = document.getElementById("captcha");
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height / 1.3);
-    ctx.font = "85px cv";
+    ctx.fillRect(0, 0, canvas.width, canvas.height / 1.2);
+    ctx.font = "80px sans-serif";
     ctx.fillStyle = cssColor;
     ctx.textAlign = "center";
 
@@ -61,17 +61,7 @@ export default function Captcha() {
   }, [data, setData, reset]);
   console.log(data);
   return (
-    <Box justifyContent={"flex-start"} display={"flex"}>
-      <Tooltip title="تغییر متن">
-        <IconButton
-          onClick={handleReset}
-          // onClick={generateImage}
-          color="info"
-          aria-label="add to shopping cart"
-        >
-          <ReplayIcon />
-        </IconButton>
-      </Tooltip>
+    <Box justifyContent={"center"} display={"flex"}>
       <Box sx={{ pt: 0.5 }}>
         <Typography
           ref={previewRef}
@@ -82,6 +72,17 @@ export default function Captcha() {
           {/* {text} */}
         </Typography>
       </Box>
+
+      <Tooltip title="تغییر متن">
+        <IconButton
+          onClick={handleReset}
+          // onClick={generateImage}
+          color="info"
+          aria-label="add to shopping cart"
+        >
+          <ReplayIcon />
+        </IconButton>
+      </Tooltip>
       <Box
         id="captcha"
         sx={{

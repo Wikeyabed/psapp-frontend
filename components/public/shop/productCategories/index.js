@@ -29,7 +29,7 @@ function ProductCategories({ categories }) {
                     height: { xs: 120, sm: 170, md: 200 },
                     position: "relative",
                     transition: { md: "ease-in .2s all" },
-                    borderRadius: 12,
+                    borderRadius: 4,
                     "&:hover": {
                       transform: {
                         md: "scale(1.1)",
@@ -50,7 +50,7 @@ function ProductCategories({ categories }) {
                       objectFit: "cover",
                       width: "100%",
                       height: "100%",
-                      borderRadius: 48,
+                      borderRadius: 16,
                       zIndex: -2,
                       opacity: 0.4,
                     }}
@@ -104,7 +104,7 @@ function ProductCategories({ categories }) {
                 height: { xs: 120, sm: 170, md: 200 },
                 position: "relative",
                 transition: { md: "ease-in .2s all" },
-                borderRadius: 12,
+                borderRadius: 4,
                 "&:hover": {
                   "& .more-icon": {
                     opacity: 1,

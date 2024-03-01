@@ -10,6 +10,7 @@ import {
   Typography,
   FormGroup,
   Divider,
+  Container,
 } from "@mui/material";
 import Link from "../../../src/Link";
 import { setCookie } from "cookies-next";
@@ -18,16 +19,12 @@ import { userLogin } from "../../../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
-const Item = styled(Paper)(({ theme }) => ({
+import Image from "next/image";
+const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
-  marginTop: 150,
-  marginBottom: 150,
+
   padding: 20,
   borderRadius: "10px",
-}));
-
-const Card = styled(Grid)(({ theme }) => ({
-  margin: "auto",
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -147,12 +144,39 @@ function LoginForm() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Card item xs={10} md={3}>
+      <Container>
+        <Grid container>
           <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Grid component={Item} elevation={4} container>
+            <FormGroup container>
+              <Grid
+                xs={12}
+                md={8}
+                lg={6}
+                sx={{
+                  mx: "auto",
+                }}
+                component={Item}
+                container
+              >
                 <Grid sx={{ mb: 1 }} item xs={12}>
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
+                      width={50}
+                      height={0}
+                      sizes="100vh"
+                      alt="ایباکس"
+                      style={{
+                        width: "200px",
+                        height: "auto",
+                      }}
+                    />
+                  </Box>
+
                   <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
                     ورود بـه حساب کـاربـری
                   </Typography>
@@ -164,26 +188,32 @@ function LoginForm() {
                     onChange={handlePhoneNumber}
                     label="شماره تماس"
                   />
-                  <RtlTextField
+                  {/* <RtlTextField
                     value={loginInfo.password}
                     required
                     fullWidth
                     onChange={handlePassword}
                     label="رمز عبور"
                     type="password"
-                  />
+                  /> */}
                 </Grid>
 
                 <Grid xs={12} item>
                   {" "}
-                  <Divider sx={{ my: 4, width: "95%", mx: "auto" }} />
                 </Grid>
 
-                <Grid xs={12} lg={6} item>
-                  <Captcha />
+                <Grid xs={12} item>
+                  <Box
+                    sx={{
+                      mx: "auto",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Captcha />
+                  </Box>
                 </Grid>
 
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={12}>
                   <RtlTextField
                     textAlign={"center"}
                     value={loginInfo.captcha}
@@ -246,8 +276,8 @@ function LoginForm() {
               </Grid>
             </FormGroup>
           </form>
-        </Card>
-      </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 }
