@@ -142,7 +142,7 @@ function SmallNavbar({ open, toggleDrawer }) {
             sx={{
               textDecoration: "none !important",
             }}
-            href="/shop"
+            href="/"
           >
             <ListItemButton>
               {/* <Icon>

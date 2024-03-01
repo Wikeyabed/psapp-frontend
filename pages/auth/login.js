@@ -12,7 +12,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/shop");
+      router.push("/");
     }
   }, [isLoggedIn, router]);
 

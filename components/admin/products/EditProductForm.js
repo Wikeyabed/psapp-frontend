@@ -9,6 +9,8 @@ import {
   Typography,
   Divider,
   MenuItem,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import DropZone from "./DropZone";
 import AddIcon from "@mui/icons-material/Add";
@@ -52,11 +54,18 @@ const EditForm = ({ product, closeAfterUpdate }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState(product.category);
   const [categoryList, setCategoryList] = useState([]);
+  const [activeStatus, setActiveStatus] = useState(product.is_active);
   const descRef = useRef(null);
 
   useEffect(() => {
     fetchCategories();
   }, [category]);
+
+  const changeActiveStatus = () => {
+    console.log("before", activeStatus);
+    setActiveStatus(!activeStatus);
+    console.log("after", activeStatus);
+  };
 
   const fetchCategories = () => {
     let myHeaders = new Headers();
@@ -114,6 +123,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
     formData.append("stack", data.stack);
     formData.append("discount", data.discount);
     formData.append("product_features", data.features);
+    formData.append("is_active", activeStatus);
 
     for (let i = 0; i < files.length; i++) {
       formData.append("images_url", files[i], files[i].name);
@@ -128,6 +138,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
       redirect: "follow",
     };
 
+    console.log(formData);
     await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/products/${product.product_id}`,
       requestOptions
@@ -242,6 +253,30 @@ const EditForm = ({ product, closeAfterUpdate }) => {
                 })
               : ""}
           </RtlTextField>
+        </Grid>
+
+        <Divider
+          sx={{
+            my: 4,
+            backgroundColor: "red",
+          }}
+        />
+
+        <Grid item xs={12}>
+          {" "}
+          <FormControlLabel
+            label={<Typography variant="body2">فعال سازی محصول</Typography>}
+            sx={{
+              lineHeight: 1,
+            }}
+            control={
+              <Checkbox
+                onClick={changeActiveStatus}
+                defaultChecked={product.is_active}
+                size="medium"
+              />
+            }
+          />
         </Grid>
 
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>

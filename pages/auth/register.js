@@ -11,7 +11,7 @@ function Register() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.push("/shop");
+      router.push("/");
     }
   }, [isLoggedIn, router]);
 

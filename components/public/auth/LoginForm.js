@@ -214,7 +214,7 @@ function LoginForm() {
                 </Grid>
 
                 <Grid
-                  href="/shop"
+                  href="/"
                   sx={{
                     fontSize: 12,
                     textAlign: "center",

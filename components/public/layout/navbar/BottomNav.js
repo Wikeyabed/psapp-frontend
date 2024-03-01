@@ -67,7 +67,7 @@ export default function SimpleBottomNavigation() {
       >
         <BottomNavigationAction
           component={Link}
-          href="/shop"
+          href="/"
           label="فروشگاه"
           icon={
             value == 0 && router.route == "/shop" ? (

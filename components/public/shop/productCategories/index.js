@@ -69,7 +69,7 @@ function ProductCategories({ categories }) {
                       textDecoration: "none !important",
                     }}
                     component={Link}
-                    href={"/shop"}
+                    href={"/"}
                   >
                     <Typography
                       variant="h5"
@@ -131,7 +131,7 @@ function ProductCategories({ categories }) {
                   textDecoration: "none !important",
                 }}
                 component={Link}
-                href={"/shop"}
+                href={"/"}
               >
                 <Typography
                   className="more-text"

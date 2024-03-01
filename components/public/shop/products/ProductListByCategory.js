@@ -27,7 +27,9 @@ function ProductListByCategory() {
   }, [productList]);
 
   const setCategoryItems = (category) => {
-    return productList.filter((product) => product.category === category);
+    return productList.filter(
+      (product) => product.category === category && product.is_active
+    );
   };
   return (
     <Grid container>

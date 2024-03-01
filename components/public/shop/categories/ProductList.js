@@ -18,7 +18,8 @@ function ProductList() {
   const filteredProductList = productList
     .filter(
       (product) =>
-        (product.category == category || category == "all") &&
+        ((product.is_active && product.category == category) ||
+          (product.is_active && category == "all")) &&
         product.product_name.includes(searchValue)
     )
     .sort((a, b) => {
