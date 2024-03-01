@@ -70,7 +70,7 @@ function ProductCategories({ categories }) {
                       textDecoration: "none !important",
                     }}
                     component={Link}
-                    href={`/shop//categories?category=${category.category_name}`}
+                    href={`/shop/categories?category=${category.category_name}`}
                   >
                     <Typography
                       variant="h5"

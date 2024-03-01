@@ -19,6 +19,7 @@ import {
   setNotificationOff,
   setNotificationOn,
 } from "../../../redux/reducers/notificationSlice";
+import DropZone from "./DropZone";
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
   width: "20%",
@@ -60,10 +61,13 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 function AddCategoryForm() {
   const dispatch = useDispatch();
+  const [files, setFiles] = useState([]);
+
   const [categories, setCategories] = useState([]);
   const [data, setData] = useState({
     category_name: "",
     parent_category_id: null,
+    sort_order: 0,
   });
 
   useEffect(() => {
@@ -91,16 +95,20 @@ function AddCategoryForm() {
   const handleNewCategory = () => {
     let myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    let urlencoded = new URLSearchParams();
-    urlencoded.append("category_name", data.category_name);
-    urlencoded.append("parent_category_id", data.parent_category_id);
+    var formData = new FormData();
+    formData.append("category_name", data.category_name);
+    formData.append("parent_category_id", data.parent_category_id);
+    formData.append("sort_order", data.sort_order);
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images_url", files[i], files[i].name);
+    }
 
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
-      body: urlencoded,
+      body: formData,
       redirect: "follow",
     };
 
@@ -144,6 +152,10 @@ function AddCategoryForm() {
       .catch((error) => console.log("error", error));
   };
 
+  const handleGetFiles = (getFiles) => {
+    setFiles(getFiles);
+    console.log("filessss", files);
+  };
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -178,8 +190,30 @@ function AddCategoryForm() {
                     label="نام دسته بندی"
                   />
                 </Grid>
+
+                <Grid
+                  sx={{
+                    margin: "auto",
+                  }}
+                  xs={12}
+                  item
+                >
+                  <RtlTextField
+                    name="sort_order"
+                    onChange={(e) => {
+                      setData({ ...data, [e.target.name]: e.target.value });
+                    }}
+                    size="small"
+                    fullWidth
+                    label="ترتیب دسته بندی"
+                  />
+                </Grid>
                 <Grid item xs={12}>
+                  <DropZone getFiles={handleGetFiles} />
                   <Button
+                    sx={{
+                      my: 2,
+                    }}
                     disabled={data.category_name.length <= 0}
                     onClick={handleNewCategory}
                     color="success"
