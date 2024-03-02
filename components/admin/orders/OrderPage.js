@@ -156,6 +156,7 @@ const OrderPage = ({ order }) => {
                   primaryTypographyProps={{
                     variant: "subtitle1",
                     align: "right",
+                    fontSize: { xs: 10, md: 13 },
                   }}
                 />
               </ListItem>
@@ -163,7 +164,10 @@ const OrderPage = ({ order }) => {
                 <ListItem key={row.product_name}>
                   <ListItemText
                     primary={`${row.product_name}`}
-                    primaryTypographyProps={{ variant: "subtitle1" }}
+                    primaryTypographyProps={{
+                      variant: "subtitle1",
+                      fontSize: { xs: 10, md: 13 },
+                    }}
                   />
                 </ListItem>
               ))}
@@ -182,6 +186,7 @@ const OrderPage = ({ order }) => {
                   primaryTypographyProps={{
                     variant: "subtitle1",
                     align: "right",
+                    fontSize: { xs: 10, md: 13 },
                   }}
                 />
               </ListItem>
@@ -189,7 +194,10 @@ const OrderPage = ({ order }) => {
                 <ListItem key={row.id + 1000}>
                   <ListItemText
                     primary={`${persianNumber(row.product_quantity)}`}
-                    primaryTypographyProps={{ variant: "subtitle1" }}
+                    primaryTypographyProps={{
+                      variant: "subtitle1",
+                      fontSize: { xs: 10, md: 13 },
+                    }}
                   />
                 </ListItem>
               ))}
@@ -208,6 +216,7 @@ const OrderPage = ({ order }) => {
                   primaryTypographyProps={{
                     variant: "subtitle1",
                     align: "right",
+                    fontSize: { xs: 10, md: 13 },
                   }}
                 />
               </ListItem>
@@ -215,7 +224,10 @@ const OrderPage = ({ order }) => {
                 <ListItem key={row.id + 2000}>
                   <ListItemText
                     primary={`${persianNumber(row.unit_price)} ریال`}
-                    primaryTypographyProps={{ variant: "subtitle1" }}
+                    primaryTypographyProps={{
+                      variant: "subtitle1",
+                      fontSize: { xs: 10, md: 13 },
+                    }}
                   />
                 </ListItem>
               ))}
@@ -234,6 +246,7 @@ const OrderPage = ({ order }) => {
                   primaryTypographyProps={{
                     variant: "subtitle1",
                     align: "right",
+                    fontSize: { xs: 10, md: 13 },
                   }}
                 />
               </ListItem>
@@ -244,6 +257,7 @@ const OrderPage = ({ order }) => {
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       align: "right",
+                      fontSize: { xs: 10, md: 13 },
                     }}
                   />
                 </ListItem>

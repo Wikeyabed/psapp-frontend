@@ -117,7 +117,14 @@ function TopNavMobile(props) {
               color="secondary"
             />
           </IconButton>
-          <Box>
+          <Box
+            sx={{
+              position: "absolute",
+              left: 0,
+              top: 50,
+              transform: "scale(.7)",
+            }}
+          >
             <SocialMediaBar />
           </Box>
           <Box>

@@ -76,14 +76,11 @@ export default function Navbar() {
               sx={{
                 position: "fixed",
                 left: 25,
-                // right: 0,
-                mx: "auto",
-                width: "120px",
-                top: 90,
-                backgroundColor: "primary.main",
-                boxShadow: "inset 0px 0px 20px 1px #211",
+                top: 100,
+                left: 0,
                 paddingRight: "15px",
                 py: "10px",
+                ml: 1,
                 borderBottomRightRadius: "20px",
                 borderBottomLeftRadius: "20px",
               }}
