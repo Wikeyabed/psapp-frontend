@@ -101,8 +101,15 @@ function MiniShoppingCart() {
           color: "#fff",
         }}
       >
-        <Badge color="info" badgeContent={persianNumber(shoppingCart.length)}>
-          <ShoppingCartIcon />
+        <Badge
+          color={"secondary"}
+          badgeContent={persianNumber(shoppingCart.length)}
+        >
+          <ShoppingCartIcon
+            sx={{
+              color: "#fff",
+            }}
+          />
         </Badge>
       </IconButton>
       <Dialog
@@ -128,11 +135,7 @@ function MiniShoppingCart() {
         >
           سبد خرید
         </DialogTitle>
-        <DialogContent
-          sx={{
-            padding: 5,
-          }}
-        >
+        <DialogContent>
           <CartItems />
         </DialogContent>
         <DialogActions

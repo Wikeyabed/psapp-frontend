@@ -102,7 +102,11 @@ function ToolbarMenu() {
               aria-haspopup="true"
               color="info"
             >
-              <AccountCircleIcon />
+              <AccountCircleIcon
+                sx={{
+                  color: "secondary.main",
+                }}
+              />
             </IconButton>
             <Typography
               sx={{

@@ -2,8 +2,8 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import { Grid, Typography, Divider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import { SwipeableDrawer } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -22,6 +22,7 @@ import SocialMediaBar from "../socialMedia";
 const drawerWidth = 240;
 
 const navItems = [
+  { title: "محصولات", link: "/product-categories" },
   { title: "بلاگ", link: "/blog" },
   { title: "فرم سفارش محصول", link: "/order-form" },
   { title: "فرم درخواست همکاری", link: "/partnership" },
@@ -81,6 +82,39 @@ function TopNavMobile(props) {
           ""
         )}
       </List>
+
+      <Divider
+        sx={{
+          my: 1,
+        }}
+      />
+      <Grid
+        sx={{
+          p: 1,
+        }}
+      >
+        <Typography variant="body2" color="text.primary" gutterBottom>
+          نماد اکترونیکی
+        </Typography>
+
+        <a
+          referrerpolicy="origin"
+          target="_blank"
+          href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+        >
+          <img
+            referrerpolicy="origin"
+            src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+            alt="ebox-ایباکس"
+            style={{
+              cursor: "pointer",
+              width: "auto",
+              height: "atuo",
+            }}
+            Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+          />
+        </a>
+      </Grid>
     </Box>
   );
 

@@ -65,7 +65,6 @@ export default function Navbar() {
                 flexGrow: 1,
                 display: "flex",
                 color: "#000",
-                justifyContent: "center",
               }}
             >
               {" "}

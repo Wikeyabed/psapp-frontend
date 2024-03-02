@@ -110,8 +110,8 @@ function ShoppingCart() {
         <Grid item xs={12} md={8} lg={6}>
           <Paper
             sx={{
-              padding: 5,
-              borderRadius: "20px",
+              padding: 1,
+              borderRadius: "5px",
             }}
           >
             <Typography mb={4} textAlign={"center"} variant="h5">

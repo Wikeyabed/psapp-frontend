@@ -46,7 +46,7 @@ export default function CartItems() {
               />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Typography component="div" variant="h6">
+                  <Typography component="div" variant="body2">
                     {product.product_name}
 
                     <Badge

@@ -120,7 +120,21 @@ export default function TopMenu() {
             <StyledText> فروشگاه</StyledText>
           </Button>
         </StyledLi>
+
         <StyledLi>
+          {" "}
+          <Button
+            // href="/shop"
+            href="/product-categories"
+            component={Link}
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText> محصولات</StyledText>
+          </Button>
+        </StyledLi>
+        {/* <StyledLi>
           {" "}
           <Button
             id="products-btn"
@@ -143,7 +157,7 @@ export default function TopMenu() {
           >
             <StyledText> محصولات</StyledText>
           </Button>
-        </StyledLi>
+        </StyledLi> */}
         <StyledLi>
           {" "}
           <Button
