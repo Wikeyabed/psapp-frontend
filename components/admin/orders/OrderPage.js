@@ -18,8 +18,10 @@ import { persianNumber } from "../../../src/PersianDigits";
 import moment from "moment-jalaali";
 import OrderStatus from "./OrderStatus";
 import { getCookie } from "cookies-next";
+import { useSelector } from "react-redux";
 
 const OrderPage = ({ order }) => {
+  const user = useSelector((state) => state.auth.userInformation);
   // Sample data
   const [rows, setRows] = useState([]);
 
@@ -42,12 +44,16 @@ const OrderPage = ({ order }) => {
   // Handle status change
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("token", getCookie("x-auth-token"));
 
     var raw = JSON.stringify({
       status: e.target.value,
+      phoneNumber: "09387001053" * 1,
+      order_id: order.order_number,
+      userName: order.customer_name,
     });
 
     var requestOptions = {
@@ -72,6 +78,23 @@ const OrderPage = ({ order }) => {
         <Typography variant="h4" component="h2" gutterBottom>
           فاکتور شماره: {order.order_number}
         </Typography>
+
+        <Divider
+          sx={{
+            my: 2,
+          }}
+        />
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h6" gutterBottom>
+            آقا/خانم : {order.customer_name}
+          </Typography>
+
+          <Typography display={"flex"} variant="subtitle1" gutterBottom>
+            وضعیت: <OrderStatus status={status} />
+          </Typography>
+        </div>
+
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <Typography variant="subtitle1" gutterBottom>
             تاریخ صدور:
@@ -80,29 +103,27 @@ const OrderPage = ({ order }) => {
         </div>
 
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
-          <Typography component={"div"} variant="subtitle1" gutterBottom>
-            تاریخ دریافت:{" "}
-            <Box component={"span"}>
-              {" "}
-              {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
-            </Box>{" "}
+          <Typography variant="subtitle1" gutterBottom>
+            تاریخ تحویل:
           </Typography>
+          <ToPersianDate timestamp={order.delivery_date} />
         </div>
+
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="subtitle1" gutterBottom>
             شماره فاکتور: {order.order_number}
           </Typography>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="subtitle1" gutterBottom>
-            آقا/خانم : {order.customer_name}
-          </Typography>
-          <Typography display={"flex"} variant="subtitle1" gutterBottom>
-            وضعیت: <OrderStatus status={status} />
-          </Typography>
-        </div>
+
+        <Typography variant="subtitle1" gutterBottom>
+          آدرس تحویل: {order.delivery_address}
+        </Typography>
       </div>
       <Divider sx={{ marginY: 2 }} />
+
+      <Typography display={"flex"} variant="subtitle1" gutterBottom>
+        تغییر وضعیت فاکتور
+      </Typography>
 
       <Select
         size="small"
@@ -115,7 +136,7 @@ const OrderPage = ({ order }) => {
         <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
         <MenuItem value={"100"}>در حال پردازش</MenuItem>
         <MenuItem value={"200"}>تکمیل شده</MenuItem>
-        <MenuItem value={"99"}>کنسل شده</MenuItem>
+        <MenuItem value={"-2"}>کنسل شده</MenuItem>
       </Select>
 
       <Paper elevation={2} sx={{ padding: 2 }}>

@@ -6,14 +6,12 @@ function OrderStatus({ status }) {
       <Chip
         sx={{ mx: 2 }}
         label={
-          status == "1"
-            ? "پرداخت شده و در انتظار تایید"
+          status == "1" || status == "2"
+            ? "پرداخت شده"
             : status == "100"
             ? "در حال پردازش"
             : status == "200"
             ? "تکمیل شده"
-            : status == "2"
-            ? "پرداخت شده - تایید نشده"
             : status == "3"
             ? "انصراف از پرداخت"
             : status == "4"
@@ -25,7 +23,7 @@ function OrderStatus({ status }) {
             : "کنسل شده"
         }
         color={
-          status == "200"
+          status == "200" || status == "2"
             ? "success"
             : status == "1" || status == "100"
             ? "info"

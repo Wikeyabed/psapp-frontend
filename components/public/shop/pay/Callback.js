@@ -35,8 +35,7 @@ function Callback() {
 
     var raw = JSON.stringify({
       track_id: data.track_id,
-      order_id: data.order_id,
-      status: data.status,
+      orderStatus: data.status,
     });
 
     var requestOptions = {
@@ -48,13 +47,17 @@ function Callback() {
 
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/payment`, requestOptions)
       .then((response) => {
+        console.log(response.status);
         if (response.status == 201 || response.status == 200) {
           const cb = response.json();
 
           cb.then((res) => {
             if (res[0].status == "2") {
+              console.log("its 2222");
               handleVerifyAndStatus((res[0].transaction_id, res[0].order_id));
               setSuccess(true);
+            } else {
+              console.log("its not");
             }
           });
         }

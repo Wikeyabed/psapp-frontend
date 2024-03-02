@@ -188,14 +188,14 @@ function LoginForm() {
                     onChange={handlePhoneNumber}
                     label="شماره تماس"
                   />
-                  {/* <RtlTextField
+                  <RtlTextField
                     value={loginInfo.password}
                     required
                     fullWidth
                     onChange={handlePassword}
                     label="رمز عبور"
                     type="password"
-                  /> */}
+                  />
                 </Grid>
 
                 <Grid xs={12} item>

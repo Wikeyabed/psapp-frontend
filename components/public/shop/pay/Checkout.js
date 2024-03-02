@@ -91,6 +91,7 @@ function CheckoutToPayment() {
       delivery_date: date,
       address:
         data.setNewAddress == "true" ? data.newAddress : userData.address,
+      customer_phone: userData.phoneNumber,
     });
 
     var requestOptions = {
@@ -366,7 +367,6 @@ function CheckoutToPayment() {
             <Button
               // disabled={data.loading}
               onClick={handleNewPayment}
-              disabled
               color="info"
               variant="contained"
               sx={{

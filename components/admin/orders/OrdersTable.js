@@ -77,7 +77,11 @@ const OrdersTable = ({ orders }) => {
           </TableHead>
           <TableBody>
             {orders
+
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .sort((a, b) => {
+                return b.order_number - a.order_number;
+              })
               .map((order) => (
                 <TableRow key={order.order_id}>
                   <TableCell style={{ textAlign: "right" }}>
