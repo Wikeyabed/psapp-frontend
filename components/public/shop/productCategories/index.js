@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "../../../../src/Link";
 import MoreIcon from "@mui/icons-material/More";
 function ProductCategories({ categories }) {
+  console.log(categories);
   return (
     <PublicLayout>
       <Container>
@@ -16,84 +17,86 @@ function ProductCategories({ categories }) {
           variant="h2"
           textAlign={"center"}
         >
-          تمامی محصولات
+          لیست محصولات
         </Typography>
 
         <Grid sx={{ p: 2 }} container item spacing={4}>
-          {categories.map((category, i) => {
-            console.log(category.category_image);
-            return (
-              <Grid key={i} item xs={6} sm={4} md={3}>
-                <Paper
-                  sx={{
-                    height: { xs: 120, sm: 170, md: 200 },
-                    position: "relative",
-                    transition: { md: "ease-in .2s all" },
-                    borderRadius: 4,
-                    "&:hover": {
-                      transform: {
-                        md: "scale(1.1)",
-                      },
-
-                      zIndex: 100,
-                    },
-                  }}
-                  elevation={5}
-                >
-                  <Image
-                    src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${category.category_image}`}
-                    alt={category.category_name}
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{
-                      objectFit: "cover",
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: 16,
-                      zIndex: -2,
-                      opacity: 0.4,
-                    }}
-                  />
-                  <Box
+          {categories
+            .sort((a, b) => a.sort_order - b.sort_order)
+            .map((category, i) => {
+              console.log(category.category_image);
+              return (
+                <Grid key={i} item xs={6} sm={4} md={3}>
+                  <Paper
                     sx={{
-                      position: "absolute",
-                      cursor: "pointer",
-                      top: 0,
-                      width: "100%",
-                      left: 0,
-                      height: "100%",
-                      zIndex: 2,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textDecoration: "none !important",
-                    }}
-                    component={Link}
-                    href={`/shop/categories?category=${category.category_name}`}
-                  >
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        textAlign: "center",
+                      height: { xs: 120, sm: 170, md: 200 },
+                      position: "relative",
+                      transition: { md: "ease-in .2s all" },
+                      borderRadius: 4,
+                      "&:hover": {
+                        transform: {
+                          md: "scale(1.1)",
+                        },
 
-                        p: 1,
-                        color: "#111",
-                        borderBottom: "5px solid #DE935C",
-                        lineHeight: 2.5,
-                        borderRadius: "25%",
-                        fontWeight: "bold",
-                        fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
-                        zIndex: 2,
+                        zIndex: 100,
+                      },
+                    }}
+                    elevation={5}
+                  >
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${category.category_image}`}
+                      alt={category.category_name}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: 16,
+                        zIndex: -2,
+                        opacity: 0.4,
                       }}
+                    />
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        cursor: "pointer",
+                        top: 0,
+                        width: "100%",
+                        left: 0,
+                        height: "100%",
+                        zIndex: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textDecoration: "none !important",
+                      }}
+                      component={Link}
+                      href={`/shop/categories?category=${category.category_name}`}
                     >
-                      {category.category_name}
-                    </Typography>
-                  </Box>
-                </Paper>
-              </Grid>
-            );
-          })}
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          textAlign: "center",
+
+                          p: 1,
+                          color: "#111",
+                          borderBottom: "5px solid #DE935C",
+                          lineHeight: 2.5,
+                          borderRadius: "25%",
+                          fontWeight: "bold",
+                          fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
+                          zIndex: 2,
+                        }}
+                      >
+                        {category.category_name}
+                      </Typography>
+                    </Box>
+                  </Paper>
+                </Grid>
+              );
+            })}
 
           <Grid item xs={6} sm={4} md={3}>
             <Paper
@@ -136,7 +139,7 @@ function ProductCategories({ categories }) {
               >
                 <Typography
                   className="more-text"
-                  variant="h5"
+                  variant="body2"
                   sx={{
                     textAlign: "center",
                     transition: "ease .5s all",
@@ -147,11 +150,11 @@ function ProductCategories({ categories }) {
                     lineHeight: 2.5,
                     borderRadius: "25%",
                     fontWeight: "bold",
-                    fontSize: { xs: 10, sm: 14, md: 20 },
+                    fontSize: { xs: 10, sm: 14 },
                     zIndex: 2,
                   }}
                 >
-                  تمامی محصولات
+                  نمایش تمامی محصولات{" "}
                 </Typography>
                 <MoreIcon
                   className="more-icon"

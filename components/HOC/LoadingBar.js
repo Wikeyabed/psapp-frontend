@@ -47,7 +47,7 @@ function LoadingBar({ children, loading }) {
               marginLeft: "auto",
               marginRight: "auto",
             }}
-            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo.png`}
+            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
             width={100}
             height={60}
             alt="ایباکس"

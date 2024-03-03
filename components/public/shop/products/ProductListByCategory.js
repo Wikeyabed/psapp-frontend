@@ -13,18 +13,26 @@ function ProductListByCategory() {
 
   const productList = useSelector((state) => state.product.products);
 
-  const productCategories = () => {
-    let categories = [];
-    productList.map((product) => {
-      categories.push(product.category);
-    });
+  const getAllCategories = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`);
+    const categories = await res.json();
 
-    setUniqueCategories([...new Set(categories)]);
+    setUniqueCategories(categories);
+
+    console.log("first", uniqueCategories);
   };
+  // const productCategories = () => {
+  //   let categories = [];
+  //   productList.map((product) => {
+  //     categories.push(product.category);
+  //   });
+
+  //   setUniqueCategories([...new Set(categories)]);
+  // };
 
   useEffect(() => {
-    productCategories();
-  }, [productList]);
+    getAllCategories();
+  }, []);
 
   const setCategoryItems = (category) => {
     return productList.filter(
@@ -43,17 +51,19 @@ function ProductListByCategory() {
         xs={12}
         container
       >
-        {uniqueCategories.map((category) => {
-          return (
-            <Swipe
-              key={category}
-              title={category}
-              items={setCategoryItems(category)}
-            >
-              <ShopSwiperCards />
-            </Swipe>
-          );
-        })}
+        {uniqueCategories
+          .sort((a, b) => a.sort_order - b.sort_order)
+          .map((category) => {
+            return (
+              <Swipe
+                key={category.category_id}
+                title={category.category_name}
+                items={setCategoryItems(category.category_name)}
+              >
+                <ShopSwiperCards />
+              </Swipe>
+            );
+          })}
       </Grid>
     </Grid>
   );
