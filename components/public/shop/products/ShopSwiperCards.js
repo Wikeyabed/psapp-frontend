@@ -113,11 +113,28 @@ function ShopSwiperCards({ item }) {
           sx={{
             textAlign: "center",
             my: 1,
+            height: 30,
           }}
-          variant="h6"
+          variant="body1"
           color="lightPrimary.main"
         >
-          {persianNumber(item.price)} ریال
+          {item.discount > 0 ? (
+            <>
+              <span
+                style={{
+                  textDecoration: "line-through",
+                  textDecorationColor: "red",
+                  color: "#444",
+                }}
+              >
+                {persianNumber(item.price)} ریال
+              </span>
+              <br />
+            </>
+          ) : (
+            ""
+          )}
+          {persianNumber(item.price * (1 - item.discount * 0.01))} ریال
         </Typography>
       </CardContent>
       <Divider />

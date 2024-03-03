@@ -34,18 +34,36 @@ function UserOrderPage({ order }) {
           md={8}
           lg={6}
         >
-          <Typography variant="h6" textAlign={"center"}>
+          <Typography variant="h4" textAlign={"center"}>
             شماره فاکتور : {order.order_number}
           </Typography>
 
           <Typography
             sx={{
-              my: 4,
+              my: 2,
             }}
             color={"Highlight"}
             variant="subtitle1"
           >
             تاریخ صدور: {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
+          </Typography>
+
+          <Typography color={"Highlight"} variant="subtitle1">
+            تاریخ دریافت:{" "}
+            {moment.unix(order.delivery_date).format("jYYYY/jMM/jDD")}
+          </Typography>
+
+          <Typography color={"#000"} variant="subtitle1">
+            نحوه دریافت :{" "}
+            {order.delivery_type == "in-person"
+              ? "حضوری از انبار ما"
+              : order.delivery_type == "snap"
+              ? "از طریق اسنپ (مخصوص تهران)"
+              : order.delivery_type == "shipping"
+              ? "از طریق باربری (مخصوص شهرستان)"
+              : order.delivery_type == "posting"
+              ? "ارسال از طریق پست یا تیپاکس"
+              : ""}
           </Typography>
 
           <Typography

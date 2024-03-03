@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
+import Link from "../../../src/Link";
 
 function UserOrders() {
   const [page, setPage] = useState(0);
@@ -75,14 +76,20 @@ function UserOrders() {
           </TableHead>
           <TableBody>
             {rows
-              .sort((a, b) => a.order_number - b.order_number)
+              .sort((a, b) => b.order_number - a.order_number)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, i) => (
                 <TableRow
                   key={row.i}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="right">فاکتور {row.order_number}</TableCell>
+                  <TableCell
+                    component={Link}
+                    href={`/user/orders/${row.order_id}`}
+                    align="right"
+                  >
+                    فاکتور {row.order_number}
+                  </TableCell>
                   <TableCell align="right">
                     <ToPersianDate timestamp={row.order_date} />
                   </TableCell>

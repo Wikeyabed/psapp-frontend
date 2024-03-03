@@ -48,7 +48,7 @@ function CheckoutToPayment() {
 
   const router = useRouter();
   const [date, setDate] = useState(moment().unix());
-  const [send, setSend] = useState(false);
+  const [send, setSend] = useState("in-person");
   const [data, setData] = useState({
     description: "",
     loading: false,
@@ -92,6 +92,7 @@ function CheckoutToPayment() {
       address:
         data.setNewAddress == "true" ? data.newAddress : userData.address,
       customer_phone: userData.phoneNumber,
+      delivery_type: send,
     });
 
     var requestOptions = {
@@ -166,14 +167,26 @@ function CheckoutToPayment() {
                 onChange={handleChangeSend}
               >
                 <FormControlLabel
-                  value={false}
+                  value={"in-person"}
                   control={<Radio />}
-                  label="حضوری"
+                  label="تحویل حضوری مرسوله از انبار ما"
                 />
                 <FormControlLabel
-                  value={true}
+                  value={"snap"}
                   control={<Radio />}
-                  label="ارسال با پیک"
+                  label="ارسال با اسنپ (مخصوص تهران)"
+                />
+
+                <FormControlLabel
+                  value={"shipping"}
+                  control={<Radio />}
+                  label="ارسال از طریق باربری(مخصوص شهرستان)"
+                />
+
+                <FormControlLabel
+                  value={"posting"}
+                  control={<Radio />}
+                  label="ارسال از طریق پست یا تیپاکس"
                 />
               </RadioGroup>
             </FormControl>
@@ -184,7 +197,8 @@ function CheckoutToPayment() {
               }}
             />
           </Grid>
-          {send == "true" ? (
+
+          {send == "snap" ? (
             <Grid container>
               <Grid
                 xs={12}
@@ -218,31 +232,126 @@ function CheckoutToPayment() {
 
                 <Typography
                   component={"div"}
-                  variant="caption"
-                  color={"Highlight"}
+                  variant="body1"
+                  color={"primary"}
                   sx={{
                     my: 4,
                   }}
                 >
-                  توجه : تحویل بار غیر حضوری بین ساعات 9 صبح تا 18 عصر انجام می
-                  پذیرد
+                  توجه :هزینه ارسال بر عهده مشتری میباشد. تحویل بار غیر حضوری
+                  بین ساعات 9 صبح تا 18 عصر انجام می پذیرد
+                </Typography>
+              </Grid>
+
+              <Grid xs={12} md={6} item></Grid>
+            </Grid>
+          ) : send == "in-person" ? (
+            <Typography
+              component={"div"}
+              variant="body1"
+              color={"primary"}
+              sx={{
+                my: 4,
+              }}
+            >
+              توجه : تحویل مرسوله حضوری همه روزه بین ساعات 11 صبح تا 18 عصر
+              انجام می پذیرد
+            </Typography>
+          ) : send == "shipping" ? (
+            <Grid container>
+              <Grid
+                xs={12}
+                md={6}
+                sx={{
+                  direction: "rtl !important",
+                }}
+                item
+              >
+                <Typography
+                  sx={{
+                    mb: 4,
+                  }}
+                >
+                  انتخاب تاریخ دریافت
+                </Typography>
+                <DatePicker
+                  style={{
+                    textAlign: "center !important",
+                    padding: "20px 10px",
+                    minWidth: 250,
+                  }}
+                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
+                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
+                  defaultValue={Date.now()}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-left"
+                  onChange={handleChangeDate}
+                />
+
+                <Typography
+                  component={"div"}
+                  variant="body1"
+                  color={"primary"}
+                  sx={{
+                    my: 4,
+                  }}
+                >
+                  توجه : هزینه ارسال تا باربری پس کرایه شده و توسط مشتری پرداخت
+                  میگردد.
+                </Typography>
+              </Grid>
+
+              <Grid xs={12} md={6} item></Grid>
+            </Grid>
+          ) : send == "posting" ? (
+            <Grid container>
+              <Grid
+                xs={12}
+                md={6}
+                sx={{
+                  direction: "rtl !important",
+                }}
+                item
+              >
+                <Typography
+                  sx={{
+                    mb: 4,
+                  }}
+                >
+                  انتخاب تاریخ دریافت
+                </Typography>
+                <DatePicker
+                  style={{
+                    textAlign: "center !important",
+                    padding: "20px 10px",
+                    minWidth: 250,
+                  }}
+                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
+                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
+                  defaultValue={Date.now()}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-left"
+                  onChange={handleChangeDate}
+                />
+
+                <Typography
+                  component={"div"}
+                  variant="body1"
+                  color={"primary"}
+                  sx={{
+                    my: 4,
+                  }}
+                >
+                  .توجه : هزینه پست با مشتری می باشد
                 </Typography>
               </Grid>
 
               <Grid xs={12} md={6} item></Grid>
             </Grid>
           ) : (
-            <Typography
-              component={"div"}
-              variant="caption"
-              color={"Highlight"}
-              sx={{
-                my: 4,
-              }}
-            >
-              توجه : تحویل بار حضوری همه روزه بین ساعات 11 صبح تا 18 عصر انجام
-              می پذیرد
-            </Typography>
+            ""
           )}
 
           <Grid spacing={2} container>
@@ -272,7 +381,7 @@ function CheckoutToPayment() {
               >
                 آدرس دریافت مرسوله :{" "}
               </Typography>
-              {send == "true" ? (
+              {send != "in-person" ? (
                 <FormControl
                   sx={{
                     mt: 1,
@@ -316,7 +425,7 @@ function CheckoutToPayment() {
                 </Typography>
               )}
 
-              {data.setNewAddress == "true" && send == "true" ? (
+              {data.setNewAddress != "in-person" && send != "in-person" ? (
                 <RtlTextField
                   sx={{
                     my: 2,
@@ -367,20 +476,21 @@ function CheckoutToPayment() {
             <Button
               // disabled={data.loading}
               onClick={handleNewPayment}
-              color="info"
+              color="secondary"
               variant="contained"
               sx={{
                 mx: "auto",
                 my: 4,
+                px: 4,
               }}
             >
               پرداخت با درگاه امن &nbsp;
-              {/* <Image
-                alt="idpay"
+              <Image
+                alt="zibal"
                 width={"100"}
                 height={"50"}
-                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/idpay.svg`}
-              /> */}
+                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/zibal.svg`}
+              />
             </Button>
           </Grid>
         </Grid>

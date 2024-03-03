@@ -109,11 +109,23 @@ const OrderPage = ({ order }) => {
           <ToPersianDate timestamp={order.delivery_date} />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="subtitle1" gutterBottom>
-            شماره فاکتور: {order.order_number}
-          </Typography>
-        </div>
+        <Typography
+          sx={{
+            my: 1,
+          }}
+          variant="body1"
+        >
+          نحوه دریافت :{" "}
+          {order.delivery_type == "in-person"
+            ? "حضوری از انبار ما"
+            : order.delivery_type == "snap"
+            ? "از طریق اسنپ (مخصوص تهران)"
+            : order.delivery_type == "shipping"
+            ? "از طریق باربری (مخصوص شهرستان)"
+            : order.delivery_type == "posting"
+            ? "ارسال از طریق پست یا تیپاکس"
+            : ""}
+        </Typography>
 
         <Typography variant="subtitle1" gutterBottom>
           آدرس تحویل: {order.delivery_address}

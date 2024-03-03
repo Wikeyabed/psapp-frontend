@@ -1,5 +1,5 @@
 import React from "react";
-import UserOrderPage from "../../components/public/user/UserOrderPage";
+import UserOrderPage from "../../../components/public/user/UserOrderPage";
 import { getCookie } from "cookies-next";
 import Head from "next/head";
 
@@ -26,6 +26,8 @@ export const getServerSideProps = async ({ req, res, params }) => {
     }
   );
   const order = await response.json();
+
+  console.log(order);
 
   return { props: { order: order[0] } };
 };

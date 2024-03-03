@@ -83,8 +83,26 @@ function TopCards({ orders }) {
         {/* <StyledDivider /> */}
       </Grid>
 
+      <CardContainer sx={{ position: "relative" }} item xs={12}>
+        <Box
+          sx={{
+            width: "100%",
+            top: -20,
+            position: "relative",
+          }}
+        >
+          {" "}
+          <OrderChart
+            columns={10}
+            name={"فاکتور"}
+            typeOfChart="bar"
+            title="تعداد تمامی فاکتور ها"
+            chartData={chartData}
+          />
+        </Box>
+      </CardContainer>
       {/* finished orders */}
-      <Grid container item xs={12} lg={6}>
+      <Grid container item xs={12}>
         <CardContainer item xs={12} md={6}>
           <TopBox elevation={4}>
             <Typography
@@ -131,12 +149,12 @@ function TopCards({ orders }) {
               variant="h6"
               sx={{ textAlign: "center", paddingTop: 3 }}
             >
-              فاکتور های در انتظار تایید
+              فاکتور های درحال انجام
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "1").length
+                orders.filter((order) => order.status == "2").length
               )}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
@@ -152,12 +170,17 @@ function TopCards({ orders }) {
               variant="h6"
               sx={{ textAlign: "center", paddingTop: 3 }}
             >
-              فاکتور های در حال پردازش
+              فاکتور های کنسل شده
             </Typography>
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "100").length
+                orders.filter(
+                  (order) =>
+                    order.status != "100" &&
+                    order.status != "2" &&
+                    order.status != "200"
+                ).length
               )}
             </Typography>
 
@@ -170,24 +193,6 @@ function TopCards({ orders }) {
 
       {/* Charty */}
       {/* all orders */}
-      <CardContainer sx={{ position: "relative" }} item xs={12} lg={6}>
-        <Box
-          sx={{
-            width: "100%",
-            top: -20,
-            position: "relative",
-          }}
-        >
-          {" "}
-          <OrderChart
-            columns={10}
-            name={"فاکتور"}
-            typeOfChart="bar"
-            title="تعداد تمامی فاکتور ها"
-            chartData={chartData}
-          />
-        </Box>
-      </CardContainer>
     </Grid>
   );
 }

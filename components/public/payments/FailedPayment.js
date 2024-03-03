@@ -15,9 +15,9 @@ export default function FailedPayment({ tid }) {
     if (counter > 0) {
       setTimeout(() => {
         setCounter(counter - 1);
-      }, 1000);
+      }, 5000);
     } else {
-      // router.push("/shop");
+      router.push("/shop");
     }
   }, [counter]);
 
