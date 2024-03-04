@@ -75,7 +75,7 @@ export default function Footer() {
               تماس با ما
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              شماره تماس : 66827884-021
+              شماره تماس : 55538370-021
             </Typography>
 
             <Divider

@@ -425,7 +425,7 @@ function CheckoutToPayment() {
                 </Typography>
               )}
 
-              {data.setNewAddress != "in-person" && send != "in-person" ? (
+              {data.setNewAddress == true && send == true ? (
                 <RtlTextField
                   sx={{
                     my: 2,

@@ -13,7 +13,7 @@ export default function SuccessfulPayment({ tid }) {
     if (counter > 0) {
       setTimeout(() => {
         setCounter(counter - 1);
-      }, 5000);
+      }, 1000);
     } else {
       router.push("/shop");
     }
