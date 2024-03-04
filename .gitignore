@@ -16,7 +16,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Next.js
-/.next
+
 
 /build-app
 /builded

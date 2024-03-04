@@ -24,12 +24,9 @@ module.exports = {
   // compiler: {
   //   removeConsole: true,
   // },
-
-  output: "standalone",
   reactStrictMode: true,
-  distDir: "builded",
   images: {
-    domains: ["picsum.photos", "localhost", "eebox.ir", "api.eebox.ir"],
+    domains: ["picsum.photos", "localhost", "eebox.ir", "api.eebox.ir" , "eeboxapi.liara.run","eeboxfront.liara.run"],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
