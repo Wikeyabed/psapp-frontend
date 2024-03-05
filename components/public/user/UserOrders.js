@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { TablePagination } from "@mui/material";
+import { Divider, TablePagination, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
@@ -53,11 +53,14 @@ function UserOrders() {
 
   return (
     <>
+      <Typography variant="h5" sx={{ textAlign: "center", mt: 4, mb: 2 }}>
+        فاکتورها
+      </Typography>
+      <Divider />
       <TableContainer
         sx={{
           minHeight: 600,
         }}
-        component={Paper}
       >
         <Table
           sx={{

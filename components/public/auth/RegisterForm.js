@@ -359,10 +359,16 @@ function RegisterForm() {
                 <Grid
                   href="/"
                   sx={{
-                    fontSize: 12,
+                    cursor: "pointer",
+                    fontSize: 14,
                     textAlign: "center",
                     mt: 4,
                     textDecoration: "none",
+                    color: "#ec9d50",
+                    border: "2px solid #ec9d50",
+                    borderRadius: "5px",
+                    px: 1,
+                    py: 2,
                   }}
                   component={Link}
                   item
@@ -378,7 +384,11 @@ function RegisterForm() {
                     textAlign: "center",
                     mt: 4,
                     textDecoration: "none",
-                    color: "darkgray",
+                    color: "primary",
+                    border: "2px solid #75502f",
+                    borderRadius: "5px",
+                    px: 1,
+                    py: 2,
                   }}
                   component={Link}
                   item

@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { getCookie } from "cookies-next";
+import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+
 // @refresh reset
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -24,7 +27,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 
 export default function UserProfile() {
   const user = useSelector((state) => state.auth.userInformation);
-
+  const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const [info, setInfo] = useState({
     address: user.address,
@@ -32,15 +35,19 @@ export default function UserProfile() {
 
   const handleSetInfo = (event) => {
     setInfo({ ...info, [event.target.name]: event.target.value });
+
+    console.log(info);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     var myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
+    console.log(user.address);
     var urlencoded = new URLSearchParams();
-    urlencoded.append("address", user.address);
+    urlencoded.append("address", info.address);
 
     var requestOptions = {
       method: "PUT",
@@ -50,8 +57,15 @@ export default function UserProfile() {
     };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/update-info/`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => response.json())
+      .then((result) =>
+        dispatch(
+          setNotificationOn({
+            message: "اطلاعات شما با موفقیت تغییر پیدا کرد",
+            color: "success",
+          })
+        )
+      )
       .catch((error) => console.log("error", error));
   };
   return (

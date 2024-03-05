@@ -27,7 +27,7 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </div>
   );
 }
@@ -56,7 +56,7 @@ function User() {
       <Grid container sx={{ height: "100%" }}>
         <Grid item xs={12} md={3}></Grid>
         <Grid item xs={12} md={6}>
-          <Paper
+          <Grid
             sx={{
               borderRadius: "10px !important",
               minHeight: "800px",
@@ -64,12 +64,20 @@ function User() {
             elevation={2}
           >
             <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Box
+                sx={{
+                  border: 1,
+                  borderColor: "primary.main",
+                  borderRadius: "10px",
+                  px: 2,
+                }}
+              >
                 <Tabs
                   orientation="horizontal"
                   value={value}
                   onChange={handleChange}
-                  aria-label="basic tabs example"
+                  aria-label="eebox"
+                  variant="fullWidth"
                 >
                   <Tab label="اطلاعات کاربر" {...a11yProps(0)} />
                   <Tab label="تغییر رمز عبور" {...a11yProps(1)} />
@@ -86,7 +94,7 @@ function User() {
                 <UserOrders />
               </TabPanel>
             </Box>
-          </Paper>
+          </Grid>
         </Grid>
         <Grid item xs={12} md={2.25}></Grid>
       </Grid>

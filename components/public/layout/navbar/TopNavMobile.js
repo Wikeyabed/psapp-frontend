@@ -18,6 +18,8 @@ import MobileFilterBar from "../../shop/categories/MobileFilterBar";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import SocialMediaBar from "../socialMedia";
+import { userLogout } from "../../../../redux/reducers/authSlice";
+import { deleteCookie } from "cookies-next";
 
 const drawerWidth = 240;
 
@@ -34,12 +36,21 @@ function TopNavMobile(props) {
   const isAdminLoggedIn = useSelector(
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
   );
+
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const handleUserLogout = async () => {
+    deleteCookie("x-auth-token");
+    dispatch(userLogout());
+    router.push("/auth/login");
   };
 
   const drawer = (
@@ -67,6 +78,17 @@ function TopNavMobile(props) {
             </ListItemButton>
           </ListItem>
         ))}
+
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={handleUserLogout}
+            component={Link}
+            href="/auth/login"
+            sx={{ textAlign: "center", color: "red" }}
+          >
+            <ListItemText primary={"خروج ار حساب"} />
+          </ListItemButton>
+        </ListItem>
 
         {isAdminLoggedIn ? (
           <ListItem disablePadding>

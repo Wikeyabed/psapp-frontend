@@ -35,19 +35,23 @@ export default function Notification() {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+        anchorOrigin={{ horizontal: "center", vertical: "top" }}
         open={notification.showNotification}
+        sx={{
+          mt: "80px",
+        }}
       >
         <Alert
           severity={notification.color}
           sx={{
             width: "100%",
-            padding: "15px 10px ",
+            padding: "10px 5px ",
           }}
         >
           <Typography
             sx={{
-              pr: "10px",
+              px: "5px",
+              fontSize: "12px",
             }}
             variant="subtitle2"
           >
