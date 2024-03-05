@@ -150,7 +150,7 @@ export default function UserProfile() {
             sx={{ mt: 4 }}
             variant="contained"
           >
-            اعمال تفییرات
+            اعمال تغییرات
           </Button>
         </Grid>
       </Grid>

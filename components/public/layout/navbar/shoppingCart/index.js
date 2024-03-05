@@ -37,17 +37,19 @@ function MiniShoppingCart() {
   };
 
   const findProductFromStore = (SessionProducts, StoredProducts) => {
+    console.log("session", SessionProducts);
     return StoredProducts.filter((storeProduct) => {
       return SessionProducts.some(
         (sessionProduct) =>
           sessionProduct.product_id === storeProduct.product_id
       );
     }).map((product, i) => {
-      if (SessionProducts[i].product_id == product.product_id) {
+      if (SessionProducts[i].product_id === product.product_id) {
+        console.log(product.product_id);
       }
       return {
-        ...product,
         ...{ cart_quantity: SessionProducts[i].quantity },
+        ...product,
       };
     });
   };
@@ -122,7 +124,7 @@ function MiniShoppingCart() {
         PaperProps={{
           style: {
             borderRadius: "10px",
-            padding: "10px",
+            p: "0 !important",
           },
         }}
       >
@@ -135,7 +137,11 @@ function MiniShoppingCart() {
         >
           سبد خرید
         </DialogTitle>
-        <DialogContent>
+        <DialogContent
+          sx={{
+            padding: "0 !important",
+          }}
+        >
           <CartItems />
         </DialogContent>
         <DialogActions

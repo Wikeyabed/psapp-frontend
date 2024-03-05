@@ -85,6 +85,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
 
   const [data, setData] = useState({
     name: product.product_name,
+    product_id: product.product_id,
     description: product.product_description,
     features: product.product_features,
     price: product.price,
@@ -116,6 +117,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
     console.log("submitted");
     var formData = new FormData();
     formData.append("product_name", data.name);
+    formData.append("product_id", data.product_id);
     formData.append("product_description", data.description);
     formData.append("category", category);
     formData.append("price", data.price);
@@ -198,8 +200,8 @@ const EditForm = ({ product, closeAfterUpdate }) => {
 
         <Grid sx={{ px: 1 }} item xs={12} md={4}>
           <RtlTextField
+            name="product_id"
             onChange={handleSetValues}
-            disabled
             size="small"
             defaultValue={product.product_id}
             fullWidth

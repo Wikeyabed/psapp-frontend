@@ -68,6 +68,7 @@ function CheckoutToPayment() {
 
   const handleChangeNewAddress = (event) => {
     setData({ ...data, setNewAddress: event.target.value });
+    console.log(data);
   };
 
   const handleData = (event) => {
@@ -155,10 +156,11 @@ function CheckoutToPayment() {
               <FormLabel
                 sx={{
                   mb: 1,
+                  color: "#444",
                 }}
                 id="controlled-radio-buttons-group"
               >
-                انتخاب نحوه دریافت
+                انتخاب نحوه دریافت :
               </FormLabel>
               <RadioGroup
                 aria-labelledby="controlled-radio-buttons-group"
@@ -194,6 +196,7 @@ function CheckoutToPayment() {
             <Divider
               sx={{
                 my: 4,
+                borderWidth: "3px",
               }}
             />
           </Grid>
@@ -229,7 +232,10 @@ function CheckoutToPayment() {
                   calendarPosition="bottom-left"
                   onChange={handleChangeDate}
                 />
+              </Grid>
 
+              <Grid xs={12} md={6} item>
+                {" "}
                 <Typography
                   component={"div"}
                   variant="body1"
@@ -239,11 +245,9 @@ function CheckoutToPayment() {
                   }}
                 >
                   توجه :هزینه ارسال بر عهده مشتری میباشد. تحویل بار غیر حضوری
-                  بین ساعات 9 صبح تا 18 عصر انجام می پذیرد
+                  بین ساعات 9 صبح تا 18 عصر انجام می پذیرد.
                 </Typography>
               </Grid>
-
-              <Grid xs={12} md={6} item></Grid>
             </Grid>
           ) : send == "in-person" ? (
             <Typography
@@ -425,12 +429,11 @@ function CheckoutToPayment() {
                 </Typography>
               )}
 
-              {data.setNewAddress == true && send == true ? (
+              {data.setNewAddress == "true" ? (
                 <RtlTextField
                   sx={{
                     my: 2,
                   }}
-                  // variant="filled"
                   name="newAddress"
                   multiline
                   minRows={3}
@@ -448,6 +451,7 @@ function CheckoutToPayment() {
                     mt: 2,
                   }}
                 >
+                  {userData.address}
                   {send == "true" ? userData.address : ""}
                 </Typography>
               )}
@@ -474,7 +478,7 @@ function CheckoutToPayment() {
             </Grid>
 
             <Button
-              // disabled={data.loading}
+              disabled={data.loading}
               onClick={handleNewPayment}
               color="secondary"
               variant="contained"

@@ -303,7 +303,6 @@ function PhoneVerification() {
 
                   <Grid
                     onClick={handleEditNumber}
-                    disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
                     component={Button}
                     variant="text"
                     sx={{
@@ -332,6 +331,13 @@ function PhoneVerification() {
                     شماره موبایل خود را وارد کنید
                   </Typography>
                   <RtlTextField
+                    TextFieldsProps={{
+                      type: "number",
+                      inputProps: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                    }}
                     type="number"
                     fullWidth
                     onChange={handleSetPhoneNumber}
@@ -368,7 +374,7 @@ function PhoneVerification() {
                       !isValid
                     }
                     onClick={handleSendSms}
-                    size="large"
+                    size="medium"
                     sx={{ p: 2 }}
                     fullWidth
                     variant="contained"
@@ -386,7 +392,7 @@ function PhoneVerification() {
               sx={{
                 fontSize: 14,
                 textAlign: "center",
-                mt: 4,
+                mt: 1,
                 textDecoration: "none",
                 color: "primary",
                 border: "2px solid #75502f",

@@ -2,7 +2,10 @@
 
 # dependencies
 /node_modules
-
+/public
+public
+.Next
+/next
 # misc
 .DS_Store
 .env.development.local
@@ -19,3 +22,4 @@ yarn-error.log*
 
 /build-app
 /builded
+

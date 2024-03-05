@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import { Grid } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { persianNumber } from "../../../../../src/PersianDigits";
@@ -30,7 +31,6 @@ export default function CartItems() {
         return (
           <Box key={i}>
             <Card
-              elevation={0}
               sx={{
                 display: "flex",
                 position: "relative",
@@ -40,13 +40,25 @@ export default function CartItems() {
             >
               <CardMedia
                 component="img"
-                sx={{ width: 100 }}
+                sx={{
+                  width: 80,
+
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                }}
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
                 alt={product.product_name}
               />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Typography component="div" variant="body2">
+                <CardContent>
+                  <Typography
+                    sx={{
+                      mb: 1,
+                    }}
+                    component="div"
+                    variant="body2"
+                  >
                     {product.product_name}
 
                     <Badge
@@ -56,18 +68,14 @@ export default function CartItems() {
                         marginRight: "30px",
                       }}
                       badgeContent={`${persianNumber(
-                        product.cart_quantity / product.stack
+                        (product.cart_quantity * 1) / (product.stack * 1)
                       )} ${"بسته"} `}
                       color="info"
                     />
                     <DeleteFromCart productId={product.product_id} />
                   </Typography>
 
-                  <Typography
-                    variant="caption"
-                    color="text.secondary"
-                    component="div"
-                  >
+                  <Typography variant="caption" color="#000" component="div">
                     تعداد کل : {product.cart_quantity} عدد
                   </Typography>
 
@@ -76,7 +84,15 @@ export default function CartItems() {
                     color="secondary"
                     component="div"
                   >
-                    مبلغ هر عدد : {persianNumber(discountedPrice)} ریال
+                    <span
+                      style={{
+                        color: "#222",
+                      }}
+                    >
+                      {" "}
+                      مبلغ هر عدد :{" "}
+                    </span>
+                    {persianNumber(discountedPrice)} ریال
                   </Typography>
 
                   <Typography
@@ -84,8 +100,17 @@ export default function CartItems() {
                     color="secondary"
                     component="div"
                   >
-                    مبلغ کل :{" "}
-                    {persianNumber(discountedPrice * product.cart_quantity)}{" "}
+                    <span
+                      style={{
+                        color: "#222",
+                      }}
+                    >
+                      {" "}
+                      مبلغ کل :{" "}
+                    </span>
+                    {persianNumber(
+                      discountedPrice * product.cart_quantity
+                    )}{" "}
                     ریال
                   </Typography>
                 </CardContent>

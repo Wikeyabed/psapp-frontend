@@ -157,7 +157,7 @@ function LoginForm() {
                 component={Item}
                 container
               >
-                <Grid sx={{ mb: 1 }} item xs={12}>
+                <Grid item xs={12}>
                   <Box
                     sx={{
                       textAlign: "center",
@@ -181,6 +181,13 @@ function LoginForm() {
                   </Typography>
 
                   <RtlTextField
+                    TextFieldsProps={{
+                      type: "number",
+                      inputProps: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                    }}
                     value={loginInfo.phoneNumber}
                     required
                     fullWidth
@@ -220,6 +227,13 @@ function LoginForm() {
                     required
                     label="متن تصویر"
                     color="info"
+                    TextFieldsProps={{
+                      type: "number",
+                      inputProps: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                    }}
                     inputProps={{
                       maxLength: 4,
                     }}
@@ -230,7 +244,7 @@ function LoginForm() {
                   />
                 </Grid>
 
-                <Grid sx={{ mt: 4 }} xs={12} item>
+                <Grid sx={{ mt: 2 }} xs={12} item>
                   <Button
                     disabled={!isValid}
                     sx={{ p: 1 }}
@@ -242,25 +256,61 @@ function LoginForm() {
                   </Button>
                 </Grid>
 
-                <Grid
-                  href="/"
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 4,
-                    textDecoration: "none",
-                    color: "#ec9d50",
-                    border: "2px solid #ec9d50",
-                    borderRadius: "5px",
-                    px: 1,
-                    py: 2,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  بازگشت به فروشگاه
+                <Grid container>
+                  <Grid
+                    sx={{
+                      pl: 1,
+                      textDecoration: "none",
+                    }}
+                    href="/"
+                    component={Link}
+                    item
+                    xs={6}
+                  >
+                    <Box
+                      sx={{
+                        cursor: "pointer",
+                        fontSize: 14,
+                        textAlign: "center",
+                        mt: 2,
+
+                        color: "#ec9d50",
+                        border: "2px solid #ec9d50",
+                        borderRadius: "5px",
+                        px: 1,
+                        py: 2,
+                      }}
+                    >
+                      بازگشت به فروشگاه
+                    </Box>
+                  </Grid>
+
+                  <Grid
+                    sx={{
+                      pr: 1,
+                      textDecoration: "none",
+                    }}
+                    href="/auth/reset"
+                    component={Link}
+                    item
+                    xs={6}
+                  >
+                    <Box
+                      sx={{
+                        cursor: "pointer",
+                        fontSize: 14,
+                        textAlign: "center",
+                        mt: 2,
+                        color: "#ec9d50",
+                        border: "2px solid #ec9d50",
+                        borderRadius: "5px",
+                        px: 1,
+                        py: 2,
+                      }}
+                    >
+                      رمز عبور جدید
+                    </Box>
+                  </Grid>
                 </Grid>
 
                 <Grid
@@ -268,13 +318,14 @@ function LoginForm() {
                   sx={{
                     fontSize: 14,
                     textAlign: "center",
-                    mt: 4,
+                    mt: 2,
                     textDecoration: "none",
                     color: "primary",
                     border: "2px solid #75502f",
                     borderRadius: "5px",
                     px: 1,
                     py: 2,
+                    mb: 2,
                   }}
                   component={Link}
                   item

@@ -216,7 +216,7 @@ function RegisterForm() {
                 }}
                 container
               >
-                <Grid sx={{ mb: 6 }} item xs={12}>
+                <Grid sx={{ mb: 2 }} item xs={12}>
                   <Box
                     sx={{
                       textAlign: "center",
@@ -362,7 +362,7 @@ function RegisterForm() {
                     cursor: "pointer",
                     fontSize: 14,
                     textAlign: "center",
-                    mt: 4,
+                    mt: 2,
                     textDecoration: "none",
                     color: "#ec9d50",
                     border: "2px solid #ec9d50",
@@ -382,7 +382,7 @@ function RegisterForm() {
                   sx={{
                     fontSize: 14,
                     textAlign: "center",
-                    mt: 4,
+                    mt: 2,
                     textDecoration: "none",
                     color: "primary",
                     border: "2px solid #75502f",

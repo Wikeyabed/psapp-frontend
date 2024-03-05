@@ -42,14 +42,14 @@ function LoadingBar({ children, loading }) {
               position: "absolute",
               left: 0,
               right: 0,
-              top: "42%",
+              top: "39%",
               marginTop: "45px",
               marginLeft: "auto",
               marginRight: "auto",
             }}
-            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
-            width={100}
-            height={60}
+            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo2.png`}
+            width={90}
+            height={100}
             alt="ایباکس"
           />
         </Box>

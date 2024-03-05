@@ -25,6 +25,7 @@ function ShoppingCart() {
   const dispatch = useDispatch();
 
   const findProductFromStore = (SessionProducts, StoredProducts) => {
+    console.log("session", SessionProducts);
     return StoredProducts.filter((storeProduct) => {
       return SessionProducts.some(
         (sessionProduct) =>
@@ -108,9 +109,8 @@ function ShoppingCart() {
     <PublicLayout>
       <Grid container display={"flex"} justifyContent={"center"}>
         <Grid item xs={12} md={8} lg={6}>
-          <Paper
+          <Grid
             sx={{
-              padding: 1,
               borderRadius: "5px",
             }}
           >
@@ -118,7 +118,7 @@ function ShoppingCart() {
               سبد خرید
             </Typography>
             <CartItems />
-          </Paper>
+          </Grid>
         </Grid>
         <Grid display={"flex"} justifyContent={"center"} item xs={12}>
           <Grid xs={12} md={4}>
