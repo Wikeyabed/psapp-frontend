@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { getCookie } from "cookies-next";
+import { fixPersianNumber } from "../../../src/toEnglishNumber";
 // @refresh reset
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -34,12 +35,15 @@ export default function ChangePassword() {
   });
 
   const handleSetInfo = (event) => {
-    setInfo({ ...info, [event.target.name]: event.target.value });
+    setInfo({
+      ...info,
+      [event.target.name]: fixPersianNumber(event.target.value),
+    });
 
     if (event.target.name === "newPassword") {
       setInfo({
         ...info,
-        [event.target.name]: event.target.value,
+        [event.target.name]: fixPersianNumber(event.target.value),
       });
 
       let regex = new RegExp("(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$");
@@ -60,18 +64,9 @@ export default function ChangePassword() {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     myHeaders.append("token", getCookie("x-auth-token"));
     let urlencoded = new URLSearchParams();
-    urlencoded.append(
-      "old_password",
-      info.oldPassword.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-    );
-    urlencoded.append(
-      "new_password",
-      info.newPassword.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-    );
-    urlencoded.append(
-      "new_password_r",
-      info.newPasswordR.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
-    );
+    urlencoded.append("old_password", info.oldPassword);
+    urlencoded.append("new_password", info.newPassword);
+    urlencoded.append("new_password_r", info.newPasswordR);
 
     let requestOptions = {
       method: "PUT",
@@ -189,7 +184,7 @@ export default function ChangePassword() {
             sx={{ mt: 4 }}
             variant="contained"
           >
-            اعمال تفییرات
+            اعمال تغییرات
           </Button>
         </Grid>
       </Grid>

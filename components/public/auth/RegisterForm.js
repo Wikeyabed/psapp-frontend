@@ -26,6 +26,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { setCookie } from "cookies-next";
+import { fixPersianNumber } from "../../../src/toEnglishNumber";
 
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
@@ -79,7 +80,7 @@ function RegisterForm() {
     if (event.target.name === "password") {
       setRegisterInfo({
         ...RegisterInfo,
-        [event.target.name]: event.target.value,
+        [event.target.name]: fixPersianNumber(event.target.value),
       });
 
       let regex = new RegExp("(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$");

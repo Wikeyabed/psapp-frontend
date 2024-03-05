@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 import Image from "next/image";
+import { fixPersianNumber } from "../../../src/toEnglishNumber";
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
 
@@ -71,7 +72,10 @@ function LoginForm() {
   };
 
   const handlePassword = (event) => {
-    setLoginInfo({ ...loginInfo, password: event.target.value });
+    setLoginInfo({
+      ...loginInfo,
+      password: fixPersianNumber(event.target.value),
+    });
   };
 
   const handleSubmit = async (event) => {

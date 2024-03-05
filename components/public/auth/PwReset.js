@@ -205,9 +205,16 @@ function PasswordReset() {
                     inputProps={{
                       maxLength: 4,
                     }}
+                    TextFieldsProps={{
+                      type: "number",
+                      inputProps: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                    }}
+                    type="number"
                     // fullWidth
                     onChange={handleCaptcha}
-                    type="text"
                     variant="outlined"
                   />
                 </Grid>

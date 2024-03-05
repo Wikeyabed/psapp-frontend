@@ -31,7 +31,7 @@ export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (router.route == "/shop") {
+    if (router.route == "/" || router.route == "/shop") {
       setValue(0);
     } else if (router.route == "/shop/cart") {
       setValue(1);
@@ -70,7 +70,7 @@ export default function SimpleBottomNavigation() {
           href="/"
           label="فروشگاه"
           icon={
-            value == 0 && router.route == "/shop" ? (
+            value == 0 && router.route == "/" ? (
               <ShoppingBasket color="secondary" />
             ) : (
               <ShoppingBasketOutlined color="secondary" />
@@ -80,10 +80,10 @@ export default function SimpleBottomNavigation() {
 
         <BottomNavigationAction
           component={Link}
-          href="/shop/categories?category=all"
+          href="/product-categories"
           label="محصولات"
           icon={
-            value == 3 && router.route == "/shop/categories" ? (
+            value == 3 && router.route == "/product-categories" ? (
               <Widgets color="secondary" />
             ) : (
               <WidgetsOutlined color="secondary" />
