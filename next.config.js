@@ -26,7 +26,7 @@ module.exports = {
   // },
   reactStrictMode: true,
   images: {
-    domains: ["picsum.photos", "localhost", "eebox.ir", "api.eebox.ir" , "eeboxapi.liara.run","eeboxfront.liara.run"],
+    domains: ["back-ebox.liara.run","front-ebox.liara.run","picsum.photos", "localhost", "eebox.ir", "api.eebox.ir" , "eeboxapi.liara.run","eeboxfront.liara.run"],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
