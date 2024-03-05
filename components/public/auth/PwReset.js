@@ -14,8 +14,7 @@ import {
 } from "@mui/material";
 import Link from "../../../src/Link";
 import { setCookie } from "cookies-next";
-import { userLogin } from "../../../redux/reducers/authSlice";
-
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
@@ -41,13 +40,13 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-function LoginForm() {
+function PasswordReset() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const tempCaptcha = useSelector((state) => state.auth.tempCaptchaText);
 
   const [loginInfo, setLoginInfo] = useState({
     phoneNumber: "",
-    password: "",
     captcha: null,
   });
 
@@ -70,10 +69,6 @@ function LoginForm() {
     console.log(tempCaptcha);
   };
 
-  const handlePassword = (event) => {
-    setLoginInfo({ ...loginInfo, password: event.target.value });
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -82,56 +77,43 @@ function LoginForm() {
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
       let urlencoded = new URLSearchParams();
       urlencoded.append("phone_number", loginInfo.phoneNumber);
-      urlencoded.append("password", loginInfo.password);
       let requestOptions = {
-        method: "POST",
+        method: "PUT",
         headers: myHeaders,
         body: urlencoded,
       };
       await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/pw-reset`,
         requestOptions
-      ).then((res) => {
+      ).then((res, error) => {
         if (res.status == 200) {
           res.json().then((data) => {
             console.log(data);
-
             // set token to local storage
-
-            setCookie("x-auth-token", data.token);
-
-            dispatch(
-              userLogin({
-                firstName: data.user.first_name,
-                lastName: data.user.last_name,
-                phoneNumber: data.user.phone_number,
-                address: data.user.address,
-                email: data.user.email,
-                refer: data.user.refer,
-                r: data.user.role,
-                shoppingCartIds: data.user.shopping_list_id,
-              })
-            );
             dispatch(
               setNotificationOn({
-                message: "شما با موفقیت وارد سیستم شدید",
+                message: "رمز عبور جدید برای شما ارسال شد",
                 color: "info",
               })
             );
+            setTimeout(() => {
+              router.push("/auth/login");
+            }, 2000);
           });
         } else {
+          console.log(error);
           dispatch(
             setNotificationOn({
-              message: "نام کاربری یا رمزعبور اشتباه است",
+              message: "اطلاعات وارد شده صحیح نمی باشد",
               color: "error",
             })
           );
 
-          setLoginInfo({ ...loginInfo, password: "" });
+          setLoginInfo({ ...loginInfo, phoneNumber: "" });
         }
       });
     } else {
-      setLoginInfo({ ...loginInfo, password: "" });
+      setLoginInfo({ ...loginInfo, phoneNumber: "" });
       dispatch(
         setNotificationOn({
           message: "متن امنیتی وارد شده اشتباه است",
@@ -144,9 +126,9 @@ function LoginForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
-        <Grid container>
+        <Grid>
           <form onSubmit={handleSubmit}>
-            <FormGroup container>
+            <FormGroup>
               <Grid
                 xs={12}
                 md={8}
@@ -157,7 +139,7 @@ function LoginForm() {
                 component={Item}
                 container
               >
-                <Grid item xs={12}>
+                <Grid sx={{ mb: 1 }} item xs={12}>
                   <Box
                     sx={{
                       textAlign: "center",
@@ -177,7 +159,7 @@ function LoginForm() {
                   </Box>
 
                   <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
-                    ورود بـه حساب کـاربـری
+                    بازیابی رمز عبور
                   </Typography>
 
                   <RtlTextField
@@ -194,14 +176,6 @@ function LoginForm() {
                     fullWidth
                     onChange={handlePhoneNumber}
                     label="شماره تماس"
-                  />
-                  <RtlTextField
-                    value={loginInfo.password}
-                    required
-                    fullWidth
-                    onChange={handlePassword}
-                    label="رمز عبور"
-                    type="password"
                   />
                 </Grid>
 
@@ -228,19 +202,12 @@ function LoginForm() {
                     required
                     label="متن تصویر"
                     color="info"
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
                     inputProps={{
                       maxLength: 4,
                     }}
                     // fullWidth
                     onChange={handleCaptcha}
+                    type="text"
                     variant="outlined"
                   />
                 </Grid>
@@ -253,65 +220,29 @@ function LoginForm() {
                     type="submit"
                     variant="contained"
                   >
-                    ورود
+                    دریافت رمز عبور جدید
                   </Button>
                 </Grid>
 
-                <Grid container>
-                  <Grid
-                    sx={{
-                      pl: 1,
-                      textDecoration: "none",
-                    }}
-                    href="/"
-                    component={Link}
-                    item
-                    xs={6}
-                  >
-                    <Box
-                      sx={{
-                        cursor: "pointer",
-                        fontSize: 14,
-                        textAlign: "center",
-                        mt: 2,
-
-                        color: "#ec9d50",
-                        border: "2px solid #ec9d50",
-                        borderRadius: "5px",
-                        px: 1,
-                        py: 2,
-                      }}
-                    >
-                      بازگشت به فروشگاه
-                    </Box>
-                  </Grid>
-
-                  <Grid
-                    sx={{
-                      pr: 1,
-                      textDecoration: "none",
-                    }}
-                    href="/auth/reset"
-                    component={Link}
-                    item
-                    xs={6}
-                  >
-                    <Box
-                      sx={{
-                        cursor: "pointer",
-                        fontSize: 14,
-                        textAlign: "center",
-                        mt: 2,
-                        color: "#ec9d50",
-                        border: "2px solid #ec9d50",
-                        borderRadius: "5px",
-                        px: 1,
-                        py: 2,
-                      }}
-                    >
-                      رمز عبور جدید
-                    </Box>
-                  </Grid>
+                <Grid
+                  href="/"
+                  sx={{
+                    cursor: "pointer",
+                    fontSize: 14,
+                    textAlign: "center",
+                    mt: 2,
+                    textDecoration: "none",
+                    color: "#ec9d50",
+                    border: "2px solid #ec9d50",
+                    borderRadius: "5px",
+                    px: 1,
+                    py: 2,
+                  }}
+                  component={Link}
+                  item
+                  xs={12}
+                >
+                  بازگشت به فروشگاه
                 </Grid>
 
                 <Grid
@@ -326,7 +257,6 @@ function LoginForm() {
                     borderRadius: "5px",
                     px: 1,
                     py: 2,
-                    mb: 2,
                   }}
                   component={Link}
                   item
@@ -343,4 +273,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default PasswordReset;

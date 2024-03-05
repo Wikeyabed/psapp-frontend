@@ -21,12 +21,18 @@
 // });
 
 module.exports = {
-  // compiler: {
-  //   removeConsole: true,
-  // },
+  compiler: {
+    removeConsole: true,
+  },
   reactStrictMode: true,
   images: {
-    domains: ["back-ebox.liara.run","front-ebox.liara.run","picsum.photos", "localhost", "eebox.ir", "api.eebox.ir" , "eeboxapi.liara.run","eeboxfront.liara.run"],
+    domains: [
+      "back-ebox.liara.run",
+      "front-ebox.liara.run",
+      "picsum.photos",
+      "eebox.ir",
+      "api.eebox.ir",
+    ],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

@@ -2,8 +2,6 @@
 
 # dependencies
 /node_modules
-/public
-public
 .Next
 /next
 # misc

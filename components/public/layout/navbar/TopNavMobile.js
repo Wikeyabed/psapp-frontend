@@ -37,6 +37,8 @@ function TopNavMobile(props) {
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
   );
 
+  const isUserLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -78,17 +80,20 @@ function TopNavMobile(props) {
             </ListItemButton>
           </ListItem>
         ))}
-
-        <ListItem disablePadding>
-          <ListItemButton
-            onClick={handleUserLogout}
-            component={Link}
-            href="/auth/login"
-            sx={{ textAlign: "center", color: "red" }}
-          >
-            <ListItemText primary={"خروج ار حساب"} />
-          </ListItemButton>
-        </ListItem>
+        {isUserLoggedIn ? (
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={handleUserLogout}
+              component={Link}
+              href="/auth/login"
+              sx={{ textAlign: "center", color: "red" }}
+            >
+              <ListItemText primary={"خروج از حساب کاربری"} />
+            </ListItemButton>
+          </ListItem>
+        ) : (
+          ""
+        )}
 
         {isAdminLoggedIn ? (
           <ListItem disablePadding>

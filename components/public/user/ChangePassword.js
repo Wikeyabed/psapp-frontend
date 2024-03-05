@@ -60,9 +60,18 @@ export default function ChangePassword() {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     myHeaders.append("token", getCookie("x-auth-token"));
     let urlencoded = new URLSearchParams();
-    urlencoded.append("old_password", info.oldPassword);
-    urlencoded.append("new_password", info.newPassword);
-    urlencoded.append("new_password_r", info.newPasswordR);
+    urlencoded.append(
+      "old_password",
+      info.oldPassword.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    );
+    urlencoded.append(
+      "new_password",
+      info.newPassword.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    );
+    urlencoded.append(
+      "new_password_r",
+      info.newPasswordR.replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d))
+    );
 
     let requestOptions = {
       method: "PUT",
