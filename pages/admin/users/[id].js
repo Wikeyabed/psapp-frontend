@@ -19,16 +19,19 @@ export async function getServerSideProps({ req, res, params }) {
     `${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`,
     {
       headers: {
-        token: getCookie("x-auth-token", { req, res }),
+        token: getCookie("x-auth-token", { req, res, params }),
       },
     }
   );
 
-  const orders = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-orders`, {
-    headers: {
-      token: getCookie("x-auth-token", { req, res }),
-    },
-  });
+  const orders = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user-orders/${params.id}`,
+    {
+      headers: {
+        token: getCookie("x-auth-token", { req, res }),
+      },
+    }
+  );
 
   const userData = await info.json();
   const userOrders = await orders.json();

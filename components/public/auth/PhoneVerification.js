@@ -11,7 +11,9 @@ import {
   Checkbox,
   FormControl,
   useMediaQuery,
+  Container,
 } from "@mui/material";
+import Image from "next/image";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "../../../src/Link";
@@ -24,9 +26,9 @@ import {
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
-  marginTop: 150,
+
   padding: 20,
   borderRadius: "10px",
 }));
@@ -202,8 +204,8 @@ function PhoneVerification() {
     }
   };
   const setTimer = () => {
-    setMinutes(0);
-    setSeconds(10);
+    setMinutes(1);
+    setSeconds(0);
   };
 
   const handleCountDown = () => {
@@ -224,8 +226,29 @@ function PhoneVerification() {
   const sec = seconds < 10 ? `0${seconds}` : seconds;
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid component={FormControl} container spacing={2}>
-        <Card item xs={10} md={3}>
+      <Container component={FormControl} container spacing={2}>
+        <Card container xs={12} md={8} lg={6}>
+          <Box
+            component="div"
+            sx={{
+              width: "100%",
+              textAlign: "center",
+            }}
+          >
+            <Image
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
+              width={50}
+              height={0}
+              sizes="100vh"
+              alt="ایباکس"
+              style={{
+                width: "200px",
+                height: "auto",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            />
+          </Box>
           <Grid component={Item} elevation={4} container>
             {initiated ? (
               <>
@@ -238,9 +261,17 @@ function PhoneVerification() {
                       direction: "ltr !important",
                       textAlign: "left !important",
                     }}
-                    length={6}
+                    length={5}
+                    datatype="number"
                     value={otp}
                     onChange={handleChange}
+                    TextFieldsProps={{
+                      type: "number",
+                      inputProps: {
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                      },
+                    }}
                   />
                 </Grid>
 
@@ -250,7 +281,7 @@ function PhoneVerification() {
                     <Button
                       onClick={handleVerifyCode}
                       size="large"
-                      sx={{ p: 2 }}
+                      sx={{ px: 1, py: 2 }}
                       fullWidth
                       variant="contained"
                     >
@@ -262,11 +293,11 @@ function PhoneVerification() {
                       disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
                       onClick={handleCountDown}
                       size="large"
-                      sx={{ p: 2 }}
+                      sx={{ px: 1, py: 2 }}
                       fullWidth
                       variant="outlined"
                     >
-                      {isSmsReceived ? `${sec} : ${min}` : " دریافت  دوباره کد"}
+                      {isSmsReceived ? `${sec} : ${min}` : " دریافت دوباره کد"}
                     </Button>
                   </Grid>
 
@@ -281,7 +312,11 @@ function PhoneVerification() {
                       textAlign: "center",
                       mt: 4,
                       textDecoration: "none",
-                      color: "red",
+                      color: "#ec9d50",
+                      border: "2px solid #ec9d50",
+                      borderRadius: "5px",
+                      px: 1,
+                      py: 2,
                     }}
                     item
                     xs={12}
@@ -293,7 +328,7 @@ function PhoneVerification() {
             ) : (
               <>
                 <Grid sx={{ mb: 3 }} item xs={12}>
-                  <Typography sx={{ mb: 5 }} variant="h6">
+                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
                     شماره موبایل خود را وارد کنید
                   </Typography>
                   <RtlTextField
@@ -353,7 +388,11 @@ function PhoneVerification() {
                 textAlign: "center",
                 mt: 4,
                 textDecoration: "none",
-                color: "darkgray",
+                color: "primary",
+                border: "2px solid #75502f",
+                borderRadius: "5px",
+                px: 1,
+                py: 2,
               }}
               component={Link}
               item
@@ -363,7 +402,7 @@ function PhoneVerification() {
             </Grid>
           </Grid>
         </Card>
-      </Grid>
+      </Container>
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 import PublicLayout from "../layout";
-import { Grid, Paper, Typography } from "@mui/material";
+import { Box, Divider, Grid, Paper, Typography } from "@mui/material";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import moment from "moment-jalaali";
 import Table from "@mui/material/Table";
@@ -26,34 +26,51 @@ function UserOrderPage({ order }) {
       <Grid container display={"flex"} justifyContent={"center"}>
         <Grid
           sx={{
-            p: 4,
+            py: 4,
           }}
-          component={Paper}
           item
           xs={12}
           md={8}
           lg={6}
         >
-          <Typography variant="h4" textAlign={"center"}>
-            شماره فاکتور : {order.order_number}
-          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h5" color={"primary"} textAlign={"center"}>
+              ایباکس
+            </Typography>
+            <Typography variant="body2" color={"secondary"} textAlign={"right"}>
+              تاریخ ثبت فاکتور:
+              <span
+                style={{
+                  color: "#333",
+                }}
+              >
+                {" "}
+                {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
+              </span>
+              <br />
+              تاریخ دریافت مرسوله:{" "}
+              <span
+                style={{
+                  color: "#333",
+                }}
+              >
+                {" "}
+                {moment.unix(order.delivery_date).format("jYYYY/jMM/jDD")}
+              </span>
+            </Typography>
+          </Box>
 
-          <Typography
+          <Divider
             sx={{
               my: 2,
             }}
-            color={"Highlight"}
-            variant="subtitle1"
-          >
-            تاریخ صدور: {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
-          </Typography>
-
-          <Typography color={"Highlight"} variant="subtitle1">
-            تاریخ دریافت:{" "}
-            {moment.unix(order.delivery_date).format("jYYYY/jMM/jDD")}
-          </Typography>
-
-          <Typography color={"#000"} variant="subtitle1">
+          />
+          <Typography color={"#000"} variant="body2">
             نحوه دریافت :{" "}
             {order.delivery_type == "in-person"
               ? "حضوری از انبار ما"
@@ -66,18 +83,45 @@ function UserOrderPage({ order }) {
               : ""}
           </Typography>
 
+          <Box
+            sx={{
+              my: 3,
+              display: { xs: "block", md: "flex" },
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant={"body2"}>
+              شماره فاکتور : {order.order_number}
+            </Typography>
+
+            <Typography
+              sx={{
+                display: "flex",
+                mt: { xs: 3, md: 0 },
+                fontSize: "15px",
+              }}
+              component={"div"}
+              variant="subtitle1"
+            >
+              وضعیت فاکتور : <OrderStatus status={order.status} />
+            </Typography>
+          </Box>
+
           <Typography
             sx={{
-              my: 4,
-              display: "flex",
+              my: 2,
             }}
-            component={"div"}
-            variant="subtitle1"
+            variant={"body2"}
           >
-            وضعیت فاکتور : <OrderStatus status={order.status} />
+            شماره پیگیری: {order.track_id}
           </Typography>
 
-          <TableContainer component={Paper}>
+          <TableContainer
+            sx={{
+              border: "1px solid #555",
+              borderRadius: "10px",
+            }}
+          >
             <Table
               sx={{
                 minWidth: 650,
@@ -87,11 +131,47 @@ function UserOrderPage({ order }) {
             >
               <TableHead>
                 <TableRow>
-                  <TableCell align="right"> نام محصول</TableCell>
-                  <TableCell align="right">تعداد</TableCell>
-                  <TableCell align="right">قیمت هر عدد</TableCell>
-                  <TableCell align="right">قیمت کل</TableCell>
-                  <TableCell align="right">درصد تخفیف</TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "10px",
+                    }}
+                    align="center"
+                  >
+                    {" "}
+                    نام محصول
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "10px",
+                    }}
+                    align="center"
+                  >
+                    تعداد
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "10px",
+                    }}
+                    align="center"
+                  >
+                    قیمت هر عدد
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "10px",
+                    }}
+                    align="center"
+                  >
+                    قیمت کل
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontSize: "10px",
+                    }}
+                    align="center"
+                  >
+                    درصد تخفیف
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -102,21 +182,53 @@ function UserOrderPage({ order }) {
                       key={i}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="right">{row.product_name}</TableCell>
-                      <TableCell align="right">
+                      <TableCell
+                        sx={{
+                          fontSize: "11px",
+                          width: "20% !important",
+                        }}
+                        align="center"
+                      >
+                        {row.product_name}
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          fontSize: "11px",
+                          width: "20% !important",
+                        }}
+                        align="center"
+                      >
                         {persianNumber(row.product_quantity)}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell
+                        sx={{
+                          fontSize: "11px",
+                          width: "20% !important",
+                        }}
+                        align="center"
+                      >
                         {" "}
                         {persianNumber(row.unit_price)} ریال
                       </TableCell>
 
-                      <TableCell align="right">
+                      <TableCell
+                        sx={{
+                          fontSize: "11px",
+                          width: "20% !important",
+                        }}
+                        align="center"
+                      >
                         {" "}
                         {persianNumber(row.total_price)} ریال
                       </TableCell>
 
-                      <TableCell align="right">
+                      <TableCell
+                        sx={{
+                          fontSize: "11px",
+                          width: "20% !important",
+                        }}
+                        align="center"
+                      >
                         {" "}
                         {row.product_discount}{" "}
                       </TableCell>
@@ -124,16 +236,20 @@ function UserOrderPage({ order }) {
                   ))}
               </TableBody>
             </Table>
+            <Divider />
+            <Typography
+              variant="body2"
+              sx={{
+                p: "15px",
+                color: "darkred",
+                textAlign: "left",
+              }}
+            >
+              <span style={{ color: "#000" }}>قیمت کل فاکتور :</span>
+              &nbsp;
+              {persianNumber(order.finished_price)} ریال
+            </Typography>
           </TableContainer>
-          <Typography
-            sx={{
-              my: 4,
-              color: "darkred",
-              textAlign: "center",
-            }}
-          >
-            قیمت کل فاکتور : {persianNumber(order.finished_price)} ریال
-          </Typography>
         </Grid>
       </Grid>
     </PublicLayout>

@@ -23,7 +23,6 @@ import Image from "next/image";
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
 
-  padding: 20,
   borderRadius: "10px",
 }));
 

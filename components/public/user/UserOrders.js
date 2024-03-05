@@ -38,7 +38,7 @@ function UserOrders() {
       redirect: "follow",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-orders/`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/client-orders/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setRows(result);

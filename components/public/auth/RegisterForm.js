@@ -6,6 +6,7 @@ import {
   Box,
   Grid,
   Paper,
+  Container,
   TextField,
   Button,
   Typography,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import Link from "../../../src/Link";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-
+import Image from "next/image";
 import { userLogin } from "../../../redux/reducers/authSlice";
 import {
   startProgress,
@@ -26,11 +27,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { setCookie } from "cookies-next";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
-  marginTop: 150,
-  marginBottom: 150,
-  padding: 20,
   borderRadius: "10px",
 }));
 
@@ -135,7 +133,13 @@ function RegisterForm() {
 
   const handleSubmit = async (event) => {
     console.log(id);
-    const { email, password, firstName, lastName, address } = RegisterInfo;
+    const {
+      //  email,
+      password,
+      firstName,
+      lastName,
+      address,
+    } = RegisterInfo;
     event.preventDefault();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -143,7 +147,7 @@ function RegisterForm() {
     let urlencoded = new URLSearchParams();
     urlencoded.append("first_name", firstName);
     urlencoded.append("last_name", lastName);
-    urlencoded.append("email", email);
+    // urlencoded.append("email", email);
     urlencoded.append("password", password);
     urlencoded.append("phone_number", phone_number);
     urlencoded.append("gender", "male");
@@ -174,7 +178,6 @@ function RegisterForm() {
                 lastName: data.last_name,
                 phoneNumber: data.phone_number,
                 address: data.address,
-                email: data.email,
                 refer: data.refer,
                 shoppingCartIds: data.shopping_list_id,
               })
@@ -198,13 +201,39 @@ function RegisterForm() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      reffer = {id}
-      <Grid container spacing={2}>
-        <Card item xs={10} md={3}>
+      <Container>
+        <Grid>
           <form onSubmit={handleSubmit}>
-            <FormGroup>
-              <Grid component={Item} elevation={4} container>
+            <FormGroup container>
+              <Grid
+                xs={12}
+                md={8}
+                lg={6}
+                sx={{
+                  mx: "auto",
+                  textAlign: "center",
+                  padding: "10px",
+                }}
+                container
+              >
                 <Grid sx={{ mb: 6 }} item xs={12}>
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
+                      width={50}
+                      height={0}
+                      sizes="100vh"
+                      alt="ایباکس"
+                      style={{
+                        width: "200px",
+                        height: "auto",
+                      }}
+                    />
+                  </Box>
                   <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
                     ثـبـت نــام
                   </Typography>
@@ -360,8 +389,8 @@ function RegisterForm() {
               </Grid>
             </FormGroup>
           </form>
-        </Card>
-      </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 }

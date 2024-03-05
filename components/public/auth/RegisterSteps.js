@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 function RegisterSteps() {
   const isVerified = useSelector((state) => state.auth.isSmsVerified);
-  return <>{isVerified ? <RegisterForm /> : <PhoneVerification />}</>;
+  return <>{!isVerified ? <RegisterForm /> : <PhoneVerification />}</>;
 }
 
 export default RegisterSteps;
