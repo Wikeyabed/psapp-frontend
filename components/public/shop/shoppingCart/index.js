@@ -57,13 +57,18 @@ function ShoppingCart() {
 
     return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
       (product, i) => {
-        return {
+        console.log("product 23123", product.product_name);
+
+        const cartProducts = {
           ...product,
           ...{
             cart_quantity: session[i].quantity,
             product_name: product.product_name,
           },
         };
+
+        console.log("innn", cartProducts);
+        return cartProducts;
       }
     );
   };
@@ -97,9 +102,7 @@ function ShoppingCart() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(
-          addToCart(findFromReduxStore(allProducts, result, "product_uuid"))
-        );
+        dispatch(addToCart(findFromReduxStore(allProducts, result)));
       })
       .catch((error) => console.log("error", error));
   };
@@ -112,6 +115,7 @@ function ShoppingCart() {
         product.price * (1 - product.discount * 0.01) * product.cart_quantity;
       const prodObj = {
         product_discount: product.discount + "%",
+        product_name: product.product_name,
         product_id: product.product_id,
         product_uuid: product.product_uuid,
         product_quantity: product.cart_quantity,

@@ -17,7 +17,7 @@ export default function FailedPayment({ tid }) {
         setCounter(counter - 1);
       }, 1000);
     } else {
-      router.push("/shop");
+      router.push("/");
     }
   }, [counter]);
 
