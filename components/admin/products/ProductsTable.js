@@ -203,7 +203,7 @@ function ProductsTable() {
                   <br />
                   در صد تخفیف : {product.discount}
                   <br />
-                  در صد تخفیف : {product.product_quantity}
+                  موجودی: {product.product_quantity}
                 </Typography>
               </Box>
               <Box

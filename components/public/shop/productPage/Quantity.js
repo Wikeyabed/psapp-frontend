@@ -46,6 +46,7 @@ function Quantity({
           productId={productId}
           showDetails={showDetails}
           product_uuid={product_uuid}
+          instock={quantity}
         />
         {/* </Grid> */}
         {/* <Grid xs={12} md={6}> */}{" "}

@@ -16,6 +16,7 @@ function AddToCart({
   fullStack,
   showDetails,
   product_uuid,
+  instock,
 }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
@@ -112,7 +113,7 @@ function AddToCart({
   return (
     <Box>
       <Button
-        disabled={loading}
+        disabled={loading || instock < 1}
         onClick={handleAddToCart}
         sx={{
           p: `${loading ? 0 : "5px"}`,

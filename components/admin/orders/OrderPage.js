@@ -52,7 +52,7 @@ const OrderPage = ({ order }) => {
     var raw = JSON.stringify({
       status: e.target.value,
       phoneNumber: order.customer_phone,
-      order_id: order.order_number,
+      order_number: order.order_number,
       userName: order.customer_name,
     });
 
