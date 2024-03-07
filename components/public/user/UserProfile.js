@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { getCookie } from "cookies-next";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import { updateAddress } from "../../../redux/reducers/authSlice";
 
 // @refresh reset
 
@@ -58,14 +59,15 @@ export default function UserProfile() {
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/update-info/`, requestOptions)
       .then((response) => response.json())
-      .then((result) =>
+      .then((result) => {
+        dispatch(updateAddress(info.address));
         dispatch(
           setNotificationOn({
             message: "اطلاعات شما با موفقیت تغییر پیدا کرد",
             color: "success",
           })
-        )
-      )
+        );
+      })
       .catch((error) => console.log("error", error));
   };
   return (
@@ -99,7 +101,9 @@ export default function UserProfile() {
 
         <Grid item xs={12} md={6}>
           <RtlTextField
+            focused
             size="medium"
+            InputLabelProps={{ shrink: true }}
             value={user.firstName}
             placeholder="نام"
             label="نام"
@@ -108,7 +112,9 @@ export default function UserProfile() {
         </Grid>
         <Grid item xs={12} md={6}>
           <RtlTextField
+            focused
             disabled
+            InputLabelProps={{ shrink: true }}
             value={user.lastName}
             size="medium"
             placeholder="نام خانوادگی"
@@ -118,6 +124,8 @@ export default function UserProfile() {
 
         <Grid item xs={12}>
           <RtlTextField
+            focused={user.phoneNumber}
+            InputLabelProps={{ shrink: true }}
             label="شماره تماس"
             disabled
             value={user.phoneNumber}
@@ -129,10 +137,12 @@ export default function UserProfile() {
         <Grid item xs={12}>
           <RtlTextField
             onChange={handleSetInfo}
-            defaultValue={info.address}
+            defaultValue={user.address}
+            value={info.address}
             multiline
             maxRows={4}
             minRows={4}
+            InputLabelProps={{ shrink: true }}
             name="address"
             label="آدرس"
             type="textarea"

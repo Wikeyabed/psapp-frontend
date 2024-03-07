@@ -29,6 +29,10 @@ export const authSlice = createSlice({
       state.userInformation = action.payload;
     },
 
+    updateAddress: (state, action) => {
+      state.userInformation.address = action.payload;
+    },
+
     userLogout: () => initialState,
 
     checkToken: (state) => {
@@ -63,6 +67,7 @@ export const {
   checkToken,
   userLogout,
   receiveSms,
+  updateAddress,
   verifySms,
   setTempNumber,
   requestSmsAgain,

@@ -181,7 +181,7 @@ function TopNavMobile(props) {
           <Box
             sx={{
               position: "absolute",
-              left: 0,
+              left: "38%",
               top: 50,
               transform: "scale(.7)",
             }}

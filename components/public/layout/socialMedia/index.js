@@ -19,7 +19,16 @@ function SocialMediaBar() {
     },
   };
   return (
-    <Box>
+    <Box
+      sx={{
+        width: 156,
+        display: "flex",
+
+        left: "44%",
+        position: "absolute",
+        justifyContent: "space-evenly",
+      }}
+    >
       {" "}
       <Link
         sx={styles}

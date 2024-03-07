@@ -67,7 +67,7 @@ function TopBoxes() {
           <TextInfo variant="h5"> ریال ‍۱۲,۰۰۰,۰۰۰</TextInfo>
         </DashboardCard>
       </CardContainer>
-      <CardContainer item md={6} xl={3}>
+      <CardContainer item xs={12} md={6} xl={3}>
         <DashboardCard>
           <DashboardCardIcon
             sx={{
@@ -95,7 +95,7 @@ function TopBoxes() {
           <TextInfo variant="h5"> ۱۲۵</TextInfo>
         </DashboardCard>
       </CardContainer>
-      <CardContainer item md={6} xl={3}>
+      <CardContainer item xs={12} md={6} xl={3}>
         <DashboardCard>
           <DashboardCardIcon
             sx={{

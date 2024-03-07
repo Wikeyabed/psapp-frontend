@@ -73,12 +73,13 @@ export default function Navbar() {
 
             <Box
               sx={{
-                position: "fixed",
+                position: "absolute",
                 left: 25,
-                top: 100,
+                top: 60,
                 left: 0,
                 paddingRight: "15px",
                 py: "10px",
+                width: "100% !important",
                 ml: 1,
                 borderBottomRightRadius: "20px",
                 borderBottomLeftRadius: "20px",

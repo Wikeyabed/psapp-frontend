@@ -81,7 +81,7 @@ function Features() {
         <FeatureContainer elevation={1}>
           <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
             {" "}
-            امکان عودت کالا تا 2 روز
+            امکان عودت کالا تا 48 ساعت
           </Typography>
 
           <HourglassTopIcon

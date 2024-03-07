@@ -193,6 +193,21 @@ function ProductsTable() {
               </Box>
               <Box
                 sx={{
+                  width: "100%",
+                }}
+              >
+                <Typography variant={"subtitle1"}>
+                  کد محصول : {product.product_id}
+                  <br />
+                  قیمت: {product.price * (1 - product.discount * 0.01)}
+                  <br />
+                  در صد تخفیف : {product.discount}
+                  <br />
+                  در صد تخفیف : {product.product_quantity}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
                   py: 3,
                   mt: 2,
                   borderTop: "1px solid #e2e2e2",

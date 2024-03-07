@@ -55,7 +55,7 @@ function ProductCategories({ categories }) {
                         height: "100%",
                         borderRadius: 16,
                         zIndex: -2,
-                        opacity: 0.4,
+                        opacity: 0.8,
                       }}
                     />
                     <Box
@@ -76,17 +76,20 @@ function ProductCategories({ categories }) {
                       href={`/shop/categories?category=${category.category_name}`}
                     >
                       <Typography
-                        variant="h5"
+                        variant="body1"
                         sx={{
                           textAlign: "center",
-
-                          p: 1,
+                          position: "absolute",
+                          bottom: "0",
+                          border: "1px solid #fff",
+                          borderBottomLeftRadius: 16,
+                          borderBottomRightRadius: 16,
+                          px: 1,
+                          width: "100%",
+                          backgroundColor: "#fff",
                           color: "#111",
-                          borderBottom: "5px solid #DE935C",
-                          lineHeight: 2.5,
-                          borderRadius: "25%",
                           fontWeight: "bold",
-                          fontSize: { xs: 12, sm: 16, md: 20, lg: 24 },
+                          fontSize: { xs: 12, sm: 16 },
                           zIndex: 2,
                         }}
                       >
