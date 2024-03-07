@@ -52,8 +52,7 @@ function Callback() {
           const cb = response.json();
 
           cb.then((res) => {
-            if (res[0].status == "2") {
-              console.log("its 2222");
+            if (res[0].status == "2" || res[0].status == "1") {
               handleVerifyAndStatus((res[0].transaction_id, res[0].order_id));
               setSuccess(true);
             } else {

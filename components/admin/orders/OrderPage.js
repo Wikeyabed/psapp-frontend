@@ -53,6 +53,7 @@ const OrderPage = ({ order }) => {
       status: e.target.value,
       phoneNumber: order.customer_phone,
       order_number: order.order_number,
+      order_id: order.order_id,
       userName: order.customer_name,
     });
 

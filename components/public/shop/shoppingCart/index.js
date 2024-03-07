@@ -59,7 +59,10 @@ function ShoppingCart() {
       (product, i) => {
         return {
           ...product,
-          ...{ cart_quantity: session[i].quantity },
+          ...{
+            cart_quantity: session[i].quantity,
+            product_name: product.product_name,
+          },
         };
       }
     );
