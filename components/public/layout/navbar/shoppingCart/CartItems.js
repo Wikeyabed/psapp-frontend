@@ -72,7 +72,7 @@ export default function CartItems() {
                       )} ${"بسته"} `}
                       color="info"
                     />
-                    <DeleteFromCart productId={product.product_id} />
+                    <DeleteFromCart product_uuid={product.product_uuid} />
                   </Typography>
 
                   <Typography variant="caption" color="#000" component="div">
