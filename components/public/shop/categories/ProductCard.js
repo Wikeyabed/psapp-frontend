@@ -21,6 +21,7 @@ function ShopSwiperCards({
   discount,
   quantity,
   stock,
+  product_uuid,
 }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
 
@@ -157,6 +158,7 @@ function ShopSwiperCards({
               discount={discount}
               price={price}
               showDetails={false}
+              product_uuid={product_uuid}
             />
           </>
         ) : (

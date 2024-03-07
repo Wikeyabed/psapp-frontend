@@ -7,8 +7,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/reducers/productSlice";
 import { setNotificationOn } from "../../../../redux/reducers/notificationSlice";
 import { getCookie } from "cookies-next";
+import { intersectionBy } from "lodash";
 
-function AddToCart({ counter, price, productId, fullStack, showDetails }) {
+function AddToCart({
+  counter,
+  price,
+  productId,
+  fullStack,
+  showDetails,
+  product_uuid,
+}) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -31,28 +39,29 @@ function AddToCart({ counter, price, productId, fullStack, showDetails }) {
     }, 2000);
   };
 
-  const findProductFromStore = (SessionProducts, StoredProducts) => {
-    return StoredProducts.filter((storeProduct) => {
-      return SessionProducts.some(
-        (sessionProduct) =>
-          sessionProduct.product_id === storeProduct.product_id
-      );
-    }).map((product, i) => {
-      if (SessionProducts[i].product_id == product.product_id) {
-      }
-      return {
-        ...product,
-        ...{ cart_quantity: SessionProducts[i].quantity },
-      };
-    });
-  };
+  // const findProductFromStore = (SessionProducts, StoredProducts) => {
+  //   return StoredProducts.filter((storeProduct) => {
+  //     return SessionProducts.some((sessionProduct) => {
+  //       sessionProduct.product_uuid === storeProduct.product_uuid;
+  //     });
+  //   }).map((product, i) => {
+  //     if (SessionProducts[i].product_uuid === product.product_uuid) {
+  //       return {
+  //         ...product,
+  //         ...{ cart_quantity: SessionProducts[i].quantity },
+  //       };
+  //     }
+  //   });
+  // };
 
   const handleAddToCart = async () => {
+    console.log("adding to cart", product_uuid, fullStack);
     handleAlertOpen();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     let urlencoded = new URLSearchParams();
+    urlencoded.append(`product_uuid`, `${product_uuid}`);
     urlencoded.append(`product_id`, `${productId}`);
     urlencoded.append(`quantity`, `${fullStack}`);
     let requestOptions = {
@@ -63,12 +72,15 @@ function AddToCart({ counter, price, productId, fullStack, showDetails }) {
       credentials: "include",
     };
 
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(addToCart(findProductFromStore(result, allProducts)));
+        console.log(intersectionBy(allProducts, result, "product_uuid"));
+        dispatch(
+          addToCart(intersectionBy(allProducts, result, "product_uuid"))
+        );
         handleUserCart(
-          JSON.stringify(findProductFromStore(result, allProducts))
+          JSON.stringify(intersectionBy(allProducts, result, "product_uuid"))
         );
       })
       .catch((error) => console.log("error", error));

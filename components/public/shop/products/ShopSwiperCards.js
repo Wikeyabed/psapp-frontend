@@ -155,6 +155,7 @@ function ShopSwiperCards({ item }) {
               discount={item.discount}
               price={item.price}
               showDetails={false}
+              product_uuid={item.product_uuid}
             />
           </>
         ) : (

@@ -51,7 +51,7 @@ const OrderPage = ({ order }) => {
 
     var raw = JSON.stringify({
       status: e.target.value,
-      phoneNumber: "09387001053" * 1,
+      phoneNumber: order.customer_phone,
       order_id: order.order_number,
       userName: order.customer_name,
     });

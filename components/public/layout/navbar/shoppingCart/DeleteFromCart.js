@@ -4,16 +4,16 @@ import { IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../../../../redux/reducers/productSlice";
 
-function DeleteFromCart({ productId }) {
+function DeleteFromCart({ product_uuid }) {
   const dispatch = useDispatch();
 
   const handleDeleteFromCart = () => {
-    console.log(productId);
+    console.log(product_uuid);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     var urlencoded = new URLSearchParams();
-    urlencoded.append("product_id", productId);
+    urlencoded.append("product_uuid", product_uuid);
 
     var requestOptions = {
       method: "POST",
@@ -23,9 +23,9 @@ function DeleteFromCart({ productId }) {
       credentials: "include",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/remove`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/remove/`, requestOptions)
       .then((response) => response.json())
-      .then((result) => dispatch(removeFromCart(productId)))
+      .then((result) => dispatch(removeFromCart(product_uuid)))
       .catch((error) => console.log("error", error));
   };
 

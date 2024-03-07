@@ -17,6 +17,8 @@ import {
   getProducts,
 } from "../../../../../redux/reducers/productSlice";
 import { persianNumber } from "../../../../../src/PersianDigits";
+import differenceBy from "lodash/differenceBy";
+import { intersectionBy, invokeMap, find } from "lodash";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -36,24 +38,45 @@ function MiniShoppingCart() {
     setOpen(false);
   };
 
-  const findProductFromStore = (SessionProducts, StoredProducts) => {
-    console.log("session", SessionProducts);
-    return StoredProducts.filter((storeProduct) => {
-      return SessionProducts.some(
-        (sessionProduct) =>
-          sessionProduct.product_id === storeProduct.product_id
-      );
-    }).map((product, i) => {
-      if (SessionProducts[i].product_id === product.product_id) {
-        console.log(product.product_id);
-      }
-      return {
-        ...{ cart_quantity: SessionProducts[i].quantity },
-        ...product,
-      };
-    });
-  };
+  const findFromReduxStore = (store, session) => {
+    let newStore = [...store];
 
+    const sortedStore = newStore.sort((a, b) => {
+      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      if (lowerID < higherID) {
+        return -1;
+      }
+      if (lowerID > higherID) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    const sortedSession = session.sort((a, b) => {
+      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      if (lowerID < higherID) {
+        return -1;
+      }
+      if (lowerID > higherID) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
+      (product, i) => {
+        return {
+          ...product,
+          ...{ cart_quantity: session[i].quantity },
+        };
+      }
+    );
+  };
   const fetchProducts = () => {
     if (!allProducts.length > 0) {
       var myHeaders = new Headers();
@@ -84,7 +107,9 @@ function MiniShoppingCart() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(addToCart(findProductFromStore(result, allProducts)));
+        dispatch(
+          addToCart(findFromReduxStore(allProducts, result, "product_uuid"))
+        );
       })
       .catch((error) => console.log("error", error));
   };

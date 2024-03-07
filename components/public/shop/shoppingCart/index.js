@@ -16,6 +16,7 @@ import {
   setOrderPrice,
   setProductsInOrder,
 } from "../../../../redux/reducers/orderSlice";
+import { intersectionBy } from "lodash";
 
 function ShoppingCart() {
   const allProducts = useSelector((state) => state.product.products);
@@ -24,23 +25,45 @@ function ShoppingCart() {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const findProductFromStore = (SessionProducts, StoredProducts) => {
-    console.log("session", SessionProducts);
-    return StoredProducts.filter((storeProduct) => {
-      return SessionProducts.some(
-        (sessionProduct) =>
-          sessionProduct.product_id === storeProduct.product_id
-      );
-    }).map((product, i) => {
-      if (SessionProducts[i].product_id == product.product_id) {
-      }
-      return {
-        ...product,
-        ...{ cart_quantity: SessionProducts[i].quantity },
-      };
-    });
-  };
+  const findFromReduxStore = (store, session) => {
+    let newStore = [...store];
 
+    const sortedStore = newStore.sort((a, b) => {
+      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      if (lowerID < higherID) {
+        return -1;
+      }
+      if (lowerID > higherID) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    const sortedSession = session.sort((a, b) => {
+      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      if (lowerID < higherID) {
+        return -1;
+      }
+      if (lowerID > higherID) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
+      (product, i) => {
+        return {
+          ...product,
+          ...{ cart_quantity: session[i].quantity },
+        };
+      }
+    );
+  };
   const fetchProducts = () => {
     if (!allProducts.length > 0) {
       var myHeaders = new Headers();
@@ -71,7 +94,9 @@ function ShoppingCart() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(addToCart(findProductFromStore(result, allProducts)));
+        dispatch(
+          addToCart(findFromReduxStore(allProducts, result, "product_uuid"))
+        );
       })
       .catch((error) => console.log("error", error));
   };
@@ -84,7 +109,8 @@ function ShoppingCart() {
         product.price * (1 - product.discount * 0.01) * product.cart_quantity;
       const prodObj = {
         product_discount: product.discount + "%",
-        product_name: product.product_name,
+        product_id: product.product_id,
+        product_uuid: product.product_uuid,
         product_quantity: product.cart_quantity,
         unit_price: product.price * (1 - product.discount * 0.01),
         total_price:

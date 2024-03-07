@@ -56,6 +56,7 @@ function ProductList() {
               <ProductCard
                 productName={product.product_name}
                 productCode={product.product_id}
+                product_uuid={product.product_uuid}
                 price={product.price}
                 stack={product.stack}
                 imageUrl={product.images_url[0]}

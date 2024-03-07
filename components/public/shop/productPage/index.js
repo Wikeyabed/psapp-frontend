@@ -83,6 +83,7 @@ const ProductPage = ({ product }) => {
                       quantity={product.product_quantity}
                       discount={product.discount}
                       price={product.price}
+                      product_uuid={product.product_uuid}
                     />
                   </Box>
                 </Grid>
