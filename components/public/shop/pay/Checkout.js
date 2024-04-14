@@ -114,8 +114,9 @@ function CheckoutToPayment() {
           data.then((data) => {
             // console.log(" data !!!!!!!!!!!!", data[0].track_id);
             setData({ ...data, loading: true });
-
-            router.push(`https://gateway.zibal.ir/start/${data[0].track_id}`);
+            setTimeout(() => {
+              router.push(`https://gateway.zibal.ir/start/${data[0].track_id}`);
+            }, 1);
           });
         }
       })
