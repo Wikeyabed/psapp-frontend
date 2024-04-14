@@ -25,6 +25,8 @@ import { persianNumber } from "../../../../src/PersianDigits";
 import { getCookie } from "cookies-next";
 import shortUUID from "short-uuid";
 import moment from "moment-jalaali";
+import Link from "../../../../src/Link";
+import { LoadingButton } from "@mui/lab";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
@@ -52,8 +54,10 @@ function CheckoutToPayment() {
   const [data, setData] = useState({
     description: "",
     loading: false,
+    finalize: false,
     setNewAddress: false,
     newAddress: "",
+    paymentUrl: "https://www.eebox.ir",
   });
 
   function handleChangeDate(value) {
@@ -112,11 +116,18 @@ function CheckoutToPayment() {
           const data = response.json();
 
           data.then((data) => {
-            // console.log(" data !!!!!!!!!!!!", data[0].track_id);
-            setData({ ...data, loading: true });
+            setData({
+              ...data,
+              loading: true,
+            });
             setTimeout(() => {
-              router.push(`https://gateway.zibal.ir/start/${data[0].track_id}`);
-            }, 1);
+              setData({
+                ...data,
+                loading: false,
+                finalize: true,
+                paymentUrl: `https://gateway.zibal.ir/start/${data[0].track_id}`,
+              });
+            }, 3000); // console.log(" data !!!!!!!!!!!!", data[0].track_id);
           });
         }
       })
@@ -217,7 +228,7 @@ function CheckoutToPayment() {
                     mb: 4,
                   }}
                 >
-                  انتخاب تاریخ دریافت
+                  انتخاب تاریخ ارسال
                 </Typography>
                 <DatePicker
                   style={{
@@ -477,26 +488,42 @@ function CheckoutToPayment() {
                 </Box>
               </Typography>
             </Grid>
-
-            <Button
-              disabled={data.loading}
-              onClick={handleNewPayment}
-              color="secondary"
-              variant="contained"
-              sx={{
-                mx: "auto",
-                my: 4,
-                px: 4,
-              }}
-            >
-              پرداخت با درگاه امن &nbsp;
-              <Image
-                alt="zibal"
-                width={"100"}
-                height={"50"}
-                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/zibal.svg`}
-              />
-            </Button>
+            {!data.finalize ? (
+              <LoadingButton
+                onClick={handleNewPayment}
+                loading={data.loading}
+                color="info"
+                disabled={data.loading}
+                variant="contained"
+                sx={{
+                  mx: "auto",
+                  my: 4,
+                  px: 4,
+                }}
+              >
+                تایید نهایی فاکتور
+              </LoadingButton>
+            ) : (
+              <Button
+                component={Link}
+                href={data.paymentUrl}
+                color="secondary"
+                variant="contained"
+                sx={{
+                  mx: "auto",
+                  my: 4,
+                  px: 4,
+                }}
+              >
+                پرداخت با درگاه امن &nbsp;
+                <Image
+                  alt="zibal"
+                  width={"100"}
+                  height={"50"}
+                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/zibal.svg`}
+                />
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Grid>
