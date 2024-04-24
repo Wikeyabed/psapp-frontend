@@ -134,7 +134,9 @@ function ShopSwiperCards({ item }) {
           ) : (
             ""
           )}
-          {persianNumber(item.price * item.stack * (1 - item.discount * 0.01))}{" "}
+          {persianNumber(
+            Math.round(item.price * item.stack * (1 - item.discount * 0.01))
+          )}{" "}
           ریال
         </Typography>
       </CardContent>

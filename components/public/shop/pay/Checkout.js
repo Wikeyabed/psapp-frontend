@@ -505,7 +505,7 @@ function CheckoutToPayment() {
               </LoadingButton>
             ) : (
               <Button
-                component={Link}
+                component={"a"}
                 href={data.paymentUrl}
                 color="secondary"
                 variant="contained"

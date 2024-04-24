@@ -170,27 +170,21 @@ function RegisterForm() {
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           res.json().then((data) => {
-            console.log(data);
+            // console.log(data);
 
-            setCookie("x-auth-token", data.token);
             dispatch(
-              userLogin({
-                firstName: data.first_name,
-                lastName: data.last_name,
-                phoneNumber: data.phone_number,
-                address: data.address,
-                refer: data.refer,
-                shoppingCartIds: data.shopping_list_id,
+              setNotificationOn({
+                message: "ثبت نام با موفقیت انجام شد.",
+                color: "info",
               })
             );
+            router.push("/auth/login");
           });
-
-          dispatch(endProgress());
         } else {
           res.json().then((res) =>
             dispatch(
               setNotificationOn({
-                message: "ایمبل شما قبلا استفاده شده است.",
+                message: "اطلاعات وارد شده در سیستم تکراری  میباشد.",
                 color: "error",
               })
             )
