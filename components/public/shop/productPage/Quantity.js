@@ -94,7 +94,7 @@ function Quantity({
               color="info"
               variant="text"
             >
-              {persianNumber(counter)}
+              {persianNumber(counter * stack)}
             </Button>
           )}
           {displayCounter && (

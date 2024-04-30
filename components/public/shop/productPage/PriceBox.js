@@ -65,7 +65,7 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
             }}
             variant="h6"
           >
-            {persianNumber(price * counter)}
+            {persianNumber(price)}
             &nbsp;ریال
           </Typography>
         ) : (
@@ -80,7 +80,7 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
             my: { xs: 2, lg: 0 },
           }}
         >
-          {persianNumber(price * (1 - discount * 0.01) * counter)}
+          {persianNumber(price * (1 - discount * 0.01))}
           &nbsp;ریال
         </Typography>
         <Chip
