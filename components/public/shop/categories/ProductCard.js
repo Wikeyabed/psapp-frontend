@@ -130,15 +130,14 @@ function ShopSwiperCards({
                   color: "#444",
                 }}
               >
-                {persianNumber(Math.round(price * stack))} ریال
+                {persianNumber(Math.round(price))} ریال
               </span>
               <br />
             </>
           ) : (
             ""
           )}
-          {persianNumber(Math.round(price * stack * (1 - discount * 0.01)))}{" "}
-          ریال
+          {persianNumber(Math.round(price * (1 - discount * 0.01)))} ریال
         </Typography>
       </CardContent>
       <Divider />

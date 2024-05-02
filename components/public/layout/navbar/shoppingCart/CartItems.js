@@ -61,7 +61,7 @@ export default function CartItems() {
                   >
                     {product.product_name}
 
-                    <Badge
+                    {/* <Badge
                       sx={{
                         color: "#fff",
                         paddingX: "40px",
@@ -71,7 +71,7 @@ export default function CartItems() {
                         (product.cart_quantity * 1) / (product.stack * 1)
                       )} ${"بسته"} `}
                       color="info"
-                    />
+                    /> */}
                     <DeleteFromCart product_uuid={product.product_uuid} />
                   </Typography>
 
