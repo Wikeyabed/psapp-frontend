@@ -14,8 +14,7 @@ function MiniBlogCard({ item }) {
   return (
     <Grid
       sx={{
-        padding: 2,
-        mt: 5,
+        padding: 1,
       }}
       item
       xs={12}
@@ -42,7 +41,7 @@ function MiniBlogCard({ item }) {
         <Typography
           sx={{
             minHeight: 70,
-            mt: 4,
+
             fontSize: "14px",
             textAlign: "center",
           }}

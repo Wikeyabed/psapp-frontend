@@ -11,6 +11,7 @@ import {
   TableRow,
   Paper,
   Select,
+  Button,
   MenuItem,
   TablePagination,
 } from "@mui/material";
@@ -50,22 +51,25 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 }));
 
 const OrdersTable = ({ orders }) => {
-  const [open, setOpen] = useState({});
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All");
-
+  const [loadMore, setLoadMore] = useState(15);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  const handleLoadMore = () => {
+    if (loadMore < orders.length) {
+      setLoadMore(loadMore + 25);
+    }
+  };
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
   };
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 25));
     setPage(0);
   };
 
@@ -149,7 +153,7 @@ const OrdersTable = ({ orders }) => {
             <MenuItem value="All">تمامی فاکتور ها</MenuItem>
             <MenuItem value="finished">فاکتور های تکمیل شده</MenuItem>
             <MenuItem value="in-progress">فاکتور های در حال انجام</MenuItem>
-            <MenuItem value="last">ده فاکتور آخر</MenuItem>
+            {/* <MenuItem value="last">ده فاکتور آخر</MenuItem> */}
           </Select>
         </Grid>
       </Grid>
@@ -181,11 +185,10 @@ const OrdersTable = ({ orders }) => {
               {filteredOrders
                 .reverse()
 
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .sort((a, b) => {
-                  return b.order_date - a.order_date;
+                  return b.order_number - a.order_number;
                 })
-
+                .slice(0, loadMore)
                 .map((order) => (
                   <TableRow key={order.order_id}>
                     <TableCell style={{ textAlign: "right" }}>
@@ -217,18 +220,27 @@ const OrdersTable = ({ orders }) => {
                 ))}
             </TableBody>
           </Table>
-          <TablePagination
-            component="div"
-            rowsPerPageOptions={[5, 10, 25]}
-            rowsPerPage={rowsPerPage}
-            count={orders.length}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="تعداد ردیف ها در صفحه"
-            sx={{ display: "flex", justifyContent: "center" }}
-          />
         </TableContainer>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            sx={{
+              mt: 5,
+              px: 15,
+              py: 2,
+              fontSize: 16,
+            }}
+            disabled={loadMore > orders.length}
+            variant="contained"
+            onClick={handleLoadMore}
+          >
+            نمایش بیشتر
+          </Button>
+        </Box>
       </Box>
     </Grid>
   );

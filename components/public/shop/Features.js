@@ -6,11 +6,12 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import HailIcon from "@mui/icons-material/Hail";
 import FilePresentIcon from "@mui/icons-material/FilePresent";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import UpdateIcon from "@mui/icons-material/Update";
-import AddCardIcon from "@mui/icons-material/AddCard";
+import SendBanner from "../../../public/images/send.jpg";
+import InPersonBanner from "../../../public/images/in-person.jpg";
+import ReturnBanner from "../../../public/images/return.jpg";
+import AboutUsBanner from "../../../public/images/about-us.jpg";
+
 import Link from "../../../src/Link";
-import ApartmentIcon from "@mui/icons-material/Apartment";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
@@ -19,14 +20,20 @@ const FeatureContainer = styled(Paper)({
   border: "1px solid #e0e0e0",
   borderBottom: "5px solid #e0e0e0",
   textAlign: "center",
-  paddingTop: "25px",
   transition: ".2s ease all",
-  padding: "15px 25px",
   position: "relative",
   // Add a hover effect to the Paper component
   "&:hover": {
     transform: "scale(1.03)",
   },
+});
+
+const BannerImage = styled("img")({
+  display: { xs: "none !important", md: "block" },
+  width: "100%",
+  height: "100%",
+  // objectFit: "fill",
+  borderRadius: "9px",
 });
 
 function Features() {
@@ -47,24 +54,13 @@ function Features() {
         paddingBottom={1}
         item
         xs={6}
-        lg={3}
+        sm={3}
         sx={{
           textDecoration: "none !important",
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
-            ارسال همه روزه به تهران و شهرستان
-          </Typography>
-          <LocalShippingIcon
-            sx={{
-              fontSize: "75px !important",
-              position: "absolute",
-              left: 15,
-              bottom: 5,
-            }}
-            color="lightPrimary"
-          />
+          <BannerImage src={SendBanner.src} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -73,26 +69,13 @@ function Features() {
         paddingBottom={1}
         item
         xs={6}
-        lg={3}
+        sm={3}
         sx={{
           textDecoration: "none !important",
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
-            {" "}
-            امکان عودت کالا تا 48 ساعت
-          </Typography>
-
-          <HourglassTopIcon
-            sx={{
-              fontSize: "65px !important",
-              position: "absolute",
-              left: 15,
-              bottom: 5,
-            }}
-            color="lightPrimary"
-          />
+          <BannerImage src={ReturnBanner.src} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -101,26 +84,13 @@ function Features() {
         paddingBottom={1}
         item
         xs={6}
-        lg={3}
+        sm={3}
         sx={{
           textDecoration: "none !important",
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
-            {" "}
-            امکان خرید حضوری
-          </Typography>
-
-          <HailIcon
-            sx={{
-              fontSize: "70px !important",
-              position: "absolute",
-              left: 15,
-              bottom: 5,
-            }}
-            color="lightPrimary"
-          />
+          <BannerImage src={InPersonBanner.src} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -129,26 +99,13 @@ function Features() {
         paddingBottom={1}
         item
         xs={6}
-        lg={3}
+        sm={3}
         sx={{
           textDecoration: "none !important",
         }}
       >
         <FeatureContainer elevation={1}>
-          <Typography color={"primary.main"} variant="h1" fontSize={"17px"}>
-            {" "}
-            درباره مجموعه ایباکس
-          </Typography>
-
-          <FilePresentIcon
-            sx={{
-              fontSize: "70px !important",
-              position: "absolute",
-              left: 15,
-              bottom: 5,
-            }}
-            color="lightPrimary"
-          />
+          <BannerImage src={AboutUsBanner.src} />
         </FeatureContainer>
       </Grid>
     </Grid>

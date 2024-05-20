@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
+import Shop1 from "../../../../public/images/Store1.svg";
+import Shop2 from "../../../../public/images/Store2.svg";
+import Cart1 from "../../../../public/images/Cart1.svg";
+import Cart2 from "../../../../public/images/Cart2.svg";
+import Products1 from "../../../../public/images/Products1.svg";
+import Products2 from "../../../../public/images/Products2.svg";
+import Account from "../../../../public/images/Account.svg";
 
+import Image from "next/image";
 import {
   Paper,
   Box,
@@ -71,9 +79,9 @@ export default function SimpleBottomNavigation() {
           label="فروشگاه"
           icon={
             value == 0 && router.route == "/" ? (
-              <ShoppingBasket color="secondary" />
+              <Image src={Shop1} alt="فروشگاه" width={27} height={27} />
             ) : (
-              <ShoppingBasketOutlined color="secondary" />
+              <Image src={Shop2} alt="فروشگاه" width={27} height={27} />
             )
           }
         />
@@ -84,9 +92,9 @@ export default function SimpleBottomNavigation() {
           label="محصولات"
           icon={
             value == 3 && router.route == "/product-categories" ? (
-              <Widgets color="secondary" />
+              <Image src={Products1} alt="فروشگاه" width={27} height={27} />
             ) : (
-              <WidgetsOutlined color="secondary" />
+              <Image src={Products2} alt="فروشگاه" width={27} height={27} />
             )
           }
         />
@@ -101,7 +109,7 @@ export default function SimpleBottomNavigation() {
                 max={999}
                 badgeContent={persianNumber(shoppingCart.length)}
               >
-                <ShoppingCart color="secondary" />
+                <Image src={Cart1} alt="فروشگاه" width={27} height={27} />
               </Badge>
             ) : (
               <Badge
@@ -109,7 +117,7 @@ export default function SimpleBottomNavigation() {
                 max={999}
                 badgeContent={persianNumber(shoppingCart.length)}
               >
-                <ShoppingCartOutlined color="secondary" />
+                <Image src={Cart2} alt="فروشگاه" width={27} height={27} />
               </Badge>
             )
           }
@@ -122,9 +130,9 @@ export default function SimpleBottomNavigation() {
             label="پروفایل"
             icon={
               value == 2 && router.route == "/user" ? (
-                <AccountBox color="secondary" />
+                <Image src={Account} alt="فروشگاه" width={27} height={27} />
               ) : (
-                <AccountBoxOutlined color="secondary" />
+                <Image src={Account} alt="فروشگاه" width={27} height={27} />
               )
             }
           />
@@ -135,9 +143,9 @@ export default function SimpleBottomNavigation() {
             label="ورود"
             icon={
               value == 2 && router.route == "/auth/login" ? (
-                <AccountBox color="secondary" />
+                <Image src={Account} alt="فروشگاه" width={27} height={27} />
               ) : (
-                <AccountBoxOutlined color="secondary" />
+                <Image src={Account} alt="فروشگاه" width={27} height={27} />
               )
             }
           />

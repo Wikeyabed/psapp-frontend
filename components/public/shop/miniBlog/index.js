@@ -20,8 +20,6 @@ function LatestBlog() {
   return (
     <Grid
       sx={{
-        mt: 2,
-
         py: 2,
       }}
       container
@@ -29,8 +27,8 @@ function LatestBlog() {
       <Grid xs={12}>
         <Typography
           sx={{
-            mt: 5,
-            mb: 2,
+            mt: 2,
+
             width: "100% !important",
             fontWeight: "bold",
             textDecoration: "underline #primary.main !important",
@@ -47,14 +45,7 @@ function LatestBlog() {
       <Swiper items={posts}>
         <MiniBlogCard />
       </Swiper>
-      <Grid
-        sx={{
-          mt: 4,
-        }}
-        display={"flex"}
-        justifyContent={"center"}
-        xs={12}
-      >
+      <Grid display={"flex"} justifyContent={"center"} xs={12}>
         <Button
           component={Link}
           href="/blog"

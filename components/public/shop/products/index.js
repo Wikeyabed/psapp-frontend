@@ -9,7 +9,7 @@ function Products() {
         id="product_list"
         sx={{
           padding: "10px",
-          marginTop: "75px",
+          marginTop: "25px",
         }}
       >
         <Grid
