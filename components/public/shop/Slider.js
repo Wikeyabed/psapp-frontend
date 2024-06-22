@@ -4,16 +4,22 @@ import DogPic from "../../../public/images/dog.jpg";
 import Banner1 from "../../../public/images/banner1.jpg";
 import Banner2 from "../../../public/images/banner2.jpg";
 import Banner3 from "../../../public/images/banner3.jpg";
+import Banner4 from "../../../public/images/banner4.jpg";
+
 import FullScreenSlider from "../layout/swiper/FullScreenSwiper";
 
 import Banner1Mobile from "../../../public/images/banner1-mobile.jpg";
 import Banner2Mobile from "../../../public/images/banner2-mobile.jpg";
 import Banner3Mobile from "../../../public/images/banner3-mobile.jpg";
+import Banner4Mobile from "../../../public/images/banner4-mobile.jpg";
+
 const BannerBox = styled(Grid)({
   padding: 10,
 });
 
 const slides = [
+  { img: Banner4, href: "/shop", text: "خرید" },
+
   { img: Banner1, href: "/contact", text: "ثبت درخواست" },
   {
     img: Banner2,
@@ -24,7 +30,7 @@ const slides = [
 ];
 
 const mobileSlides = [
-  { img: Banner1Mobile, href: "/contact", text: "ثبت درخواست" },
+  { img: Banner4Mobile, href: "/shop", text: "خرید" },
   {
     img: Banner2Mobile,
     href: "/shop/categories?category=کارتن+پستی",

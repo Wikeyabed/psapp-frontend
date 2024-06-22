@@ -90,6 +90,9 @@ const OrderPage = ({ order }) => {
           <Typography variant="h6" gutterBottom>
             آقا/خانم : {order.customer_name}
           </Typography>
+          <Typography variant="h6" gutterBottom>
+            شماره تماس: {order.customer_phone}
+          </Typography>
 
           <Typography display={"flex"} variant="subtitle1" gutterBottom>
             وضعیت: <OrderStatus status={status} />
@@ -299,6 +302,16 @@ const OrderPage = ({ order }) => {
           </ListItem>
         </List>
       </Paper>
+      <Typography
+        sx={{
+          mt: 2,
+          pr: 1,
+        }}
+        variant="subtitle1"
+        gutterBottom
+      >
+        توضیحات فاکتور: {order.order_description}
+      </Typography>
     </AdminLayout>
   );
 };
