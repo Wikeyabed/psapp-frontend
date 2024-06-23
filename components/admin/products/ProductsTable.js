@@ -168,22 +168,24 @@ function ProductsTable() {
           }}
           item
           xs={12}
-          sm={6}
-          xl={4}
           key={product.product_id}
         >
           <DashboardCard>
-            <Box sx={{ position: "relative" }}>
-              <Typography
-                variant="h6"
-                sx={{ fontWeight: "bold", textAlign: "center", py: 1 }}
+            <Box
+              sx={{ position: "relative", pr: { xs: "120px", md: "170px" } }}
+            >
+              <Box
+                sx={{
+                  textAlign: "center",
+                  width: { md: "120px" },
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                }}
               >
-                {product.product_name}
-              </Typography>
-              <Box sx={{ margin: "auto", textAlign: "center" }}>
                 {" "}
                 <Image
-                  style={{ width: "100%", height: "300px", borderRadius: 5 }}
+                  style={{ width: "120px", height: "100%", borderRadius: 5 }}
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -191,26 +193,27 @@ function ProductsTable() {
                   alt={product.product_name}
                 />
               </Box>
-              <Box
-                sx={{
-                  width: "100%",
-                }}
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: "bold", py: 1 }}
               >
-                <Typography variant={"subtitle1"}>
-                  کد محصول : {product.product_id}
-                  <br />
-                  قیمت: {product.price * (1 - product.discount * 0.01)}
-                  <br />
-                  در صد تخفیف : {product.discount}
-                  <br />
-                  موجودی: {product.product_quantity}
-                </Typography>
-              </Box>
+                {product.product_name}
+              </Typography>
+              <Typography variant={"caption"} color="#666">
+                کد محصول : {product.product_id}
+                <br />
+                قیمت: {product.price * (1 - product.discount * 0.01)}
+                <br />
+                در صد تخفیف : {product.discount}
+                <br />
+                موجودی: {product.product_quantity}
+              </Typography>
+
               <Box
                 sx={{
-                  py: 3,
-                  mt: 2,
-                  borderTop: "1px solid #e2e2e2",
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
                 }}
                 display={"flex"}
                 justifyContent={"center"}

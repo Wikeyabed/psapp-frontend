@@ -26,8 +26,6 @@ function EditProductModal({ product }) {
         handleOpen={handleOpen}
         handleClose={handleClose}
         open={open}
-        buttonText={"ویرایش محصول"}
-        buttonVariant="contained"
         icon={<EditIcon />}
         buttonColor={"info"}
       >

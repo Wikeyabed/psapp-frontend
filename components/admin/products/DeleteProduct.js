@@ -46,23 +46,15 @@ function DeleteProduct({ id, fetchProducts }) {
 
   return (
     <>
-      <Button
+      <DeleteIcon
         onClick={handleClickOpen}
         sx={{
-          mr: 1,
+          ml: 1,
+          mt: "4px",
+          color: "red",
+          cursor: "pointer",
         }}
-        color={"error"}
-        startIcon={
-          <DeleteIcon
-            sx={{
-              ml: 1,
-            }}
-          />
-        }
-        variant="outlined"
-      >
-        حذف محصول
-      </Button>
+      />
 
       <Dialog
         open={open}
