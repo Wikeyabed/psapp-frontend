@@ -7,8 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
+  Button,
   Paper,
-  TablePagination,
+  Box,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
@@ -19,6 +21,19 @@ const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
   backgroundColor: theme.palette.lightPrimary.main,
   borderRadius: "10px",
   color: theme.palette.primary.lightBg,
+}));
+
+const RtlTextField = styled(TextField)(({ theme }) => ({
+  minWidth: "100%",
+  direction: "rtl",
+  textAlign: "center !important",
+  "& label": {
+    transformOrigin: "right !important",
+    textAlign: "right !important",
+    left: "inherit !important",
+    right: "2rem !important",
+    overflow: "unset",
+  },
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -33,18 +48,26 @@ const UsersTable = ({ users }) => {
   const [open, setOpen] = useState({});
   const handleOpen = (id) => setOpen({ ...open, [id]: true });
   const handleClose = (id) => setOpen({ ...open, [id]: false });
+  const [searchValue, setSearchValue] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const [loadMore, setLoadMore] = useState(15);
+  const handleSearch = (event) => {
+    setSearchValue(event.target.value);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+  const handleLoadMore = () => {
+    if (loadMore < users.length) {
+      setLoadMore(loadMore + 25);
+    }
   };
+
+  const filteredUsers = users
+    ? users.filter((user) => {
+        return user.first_name.includes(searchValue);
+      })
+    : [];
 
   return (
     <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
@@ -54,6 +77,23 @@ const UsersTable = ({ users }) => {
       >
         کاربران
       </Typography>
+      <Grid
+        item
+        xs={12}
+        md={3}
+        sx={{
+          padding: "10px",
+        }}
+      >
+        <RtlTextField
+          id="search-products"
+          variant="outlined"
+          onChange={handleSearch}
+          placeholder="جستجو کنید"
+          sx={{ width: "100%", margin: "auto" }}
+          size="small"
+        />
+      </Grid>
       <TableContainer
         component={Paper}
         sx={{
@@ -65,17 +105,17 @@ const UsersTable = ({ users }) => {
             <StyledTableHeaderRow>
               <StyledTableCell>نام یوزر</StyledTableCell>
               <StyledTableCell>سمت</StyledTableCell>
-              <StyledTableCell>تعداد فاکتور ها</StyledTableCell>
+              {/* <StyledTableCell>تعداد فاکتور ها</StyledTableCell> */}
               <StyledTableCell>تاریخ ثبت نام</StyledTableCell>
 
               <StyledTableCell>معرف</StyledTableCell>
             </StyledTableHeaderRow>
           </TableHead>
           <TableBody>
-            {users.length > 0
-              ? users
-                  .sort((a, b) => a.role - b.role)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {filteredUsers.length > 0
+              ? filteredUsers
+                  .sort((a, b) => b.register_date - a.register_date)
+                  .slice(0, loadMore)
                   .map((user) => (
                     <TableRow key={user.id}>
                       <TableCell style={{ textAlign: "right" }}>
@@ -97,33 +137,42 @@ const UsersTable = ({ users }) => {
                           : "فروشنده"}
                       </TableCell>
 
-                      <TableCell style={{ textAlign: "right" }}>
+                      {/* <TableCell style={{ textAlign: "right" }}>
                         {user.totalAmount}
-                      </TableCell>
+                      </TableCell> */}
 
                       <TableCell style={{ textAlign: "right" }}>
                         <ToPersianDate timestamp={user.register_date} />
                       </TableCell>
 
                       <TableCell style={{ textAlign: "right" }}>
-                        {user.refer != null ? user.refer : "ایباکس"}
+                        {"ایباکس"}
                       </TableCell>
                     </TableRow>
                   ))
               : ""}
           </TableBody>
         </Table>
-        <TablePagination
-          component="div"
-          rowsPerPageOptions={[5, 10, 25]}
-          rowsPerPage={rowsPerPage}
-          count={50}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="تعداد ردیف ها در صفحه"
-          sx={{ display: "flex", justifyContent: "center" }}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            sx={{
+              mt: 5,
+              px: 15,
+              py: 2,
+              fontSize: 16,
+            }}
+            disabled={loadMore > users.length}
+            variant="contained"
+            onClick={handleLoadMore}
+          >
+            نمایش بیشتر
+          </Button>
+        </Box>
       </TableContainer>
     </Grid>
   );
