@@ -101,6 +101,15 @@ const OrdersTable = ({ orders }) => {
         } else if (category == "last") {
           return (
             (order.customer_name.includes(searchValue) &&
+              order.status != "100" &&
+              order.status != "200") ||
+            (order.order_number.toString().includes(searchValue) &&
+              order.status != "100" &&
+              order.status != "200")
+          );
+        } else {
+          return (
+            (order.customer_name.includes(searchValue) &&
               i >= orders.length - 10) ||
             (order.order_number.toString().includes(searchValue) &&
               i >= orders.length - 10)
@@ -153,7 +162,7 @@ const OrdersTable = ({ orders }) => {
             <MenuItem value="All">تمامی فاکتور ها</MenuItem>
             <MenuItem value="finished">فاکتور های تکمیل شده</MenuItem>
             <MenuItem value="in-progress">فاکتور های در حال انجام</MenuItem>
-            {/* <MenuItem value="last">ده فاکتور آخر</MenuItem> */}
+            <MenuItem value="last">فاکتور های کنسل شده</MenuItem>
           </Select>
         </Grid>
       </Grid>

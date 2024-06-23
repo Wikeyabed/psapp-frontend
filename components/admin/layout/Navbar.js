@@ -38,7 +38,7 @@ export default function Navbar() {
           position: "fixed",
           top: 0,
           right: 0,
-          width: "calc(100% / 7.6)", // change fixed value to dynamic value
+          width: { md: "calc(100% / 6)", xl: "calc(100% / 7.6)" }, // change fixed value to dynamic value
           height: "100vh",
         }}
       >

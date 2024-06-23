@@ -21,7 +21,7 @@ function AdminLayout({ children }) {
           <Grid container>
             <Grid
               item
-              lg={1.5}
+              lg={2}
               xs={12}
               sx={{
                 position: "relative",
@@ -31,7 +31,7 @@ function AdminLayout({ children }) {
                 <Navbar />
               </Box>
             </Grid>
-            <Grid item xs={12} lg={10.5}>
+            <Grid item xs={12} lg={10}>
               <Grid sx={{ mb: 5 }} item xs={12}>
                 <NavigationBar />
               </Grid>

@@ -78,14 +78,9 @@ export default function ModalBox({
         }}
       >
         {" "}
-        <Grid
-          sx={{
-            marginTop: 40,
-          }}
-          container
-        >
+        <Grid container>
           {" "}
-          <ModalContainer item md={7}>
+          <ModalContainer item xs={12}>
             <CloseIcon
               onClick={handleClose}
               aria-label="close"

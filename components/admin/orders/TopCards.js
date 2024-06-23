@@ -78,7 +78,7 @@ function TopCards({ orders }) {
           variant="h4"
           sx={{ marginBottom: "10px", textAlign: "center" }}
         >
-          آمار
+          ... خدایا شکرت ...
         </Typography>
         {/* <StyledDivider /> */}
       </Grid>
@@ -92,13 +92,13 @@ function TopCards({ orders }) {
           }}
         >
           {" "}
-          <OrderChart
-            columns={10}
+          {/* <OrderChart
+            columns={15}
             name={"فاکتور"}
             typeOfChart="bar"
             title="تعداد تمامی فاکتور ها"
-            chartData={chartData}
-          />
+            chartData={chartData.slice(chartData.length - 15, chartData.length)}
+          /> */}
         </Box>
       </CardContainer>
       {/* finished orders */}
@@ -154,7 +154,7 @@ function TopCards({ orders }) {
 
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
-                orders.filter((order) => order.status == "2").length
+                orders.filter((order) => order.status == "100").length
               )}
             </Typography>
             <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
@@ -176,10 +176,7 @@ function TopCards({ orders }) {
             <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
               {persianNumber(
                 orders.filter(
-                  (order) =>
-                    order.status != "100" &&
-                    order.status != "2" &&
-                    order.status != "200"
+                  (order) => order.status != "100" && order.status != "200"
                 ).length
               )}
             </Typography>

@@ -41,7 +41,7 @@ function PartnershipList() {
         item
       >
         {" "}
-        <Typography variant="h6" color={"ActiveCaption"}>
+        <Typography variant="h6" color={"000"}>
           موضوع
         </Typography>
       </Grid>
@@ -53,7 +53,7 @@ function PartnershipList() {
         lg={4}
         item
       >
-        <Typography variant="h6" color={"ActiveCaption"}>
+        <Typography variant="h6" color={"#000"}>
           توضیحات
         </Typography>
       </Grid>
@@ -65,7 +65,7 @@ function PartnershipList() {
         lg={4}
         item
       >
-        <Typography variant="h6" color={"ActiveCaption"}>
+        <Typography variant="h6" color={"#000"}>
           تاریخ ایجاد
         </Typography>
       </Grid>
@@ -77,7 +77,7 @@ function PartnershipList() {
         lg={4}
         item
       >
-        <Typography variant="h6" color={"ActiveCaption"}>
+        <Typography variant="h6" color={"#000"}>
           عملیات
         </Typography>
       </Grid> */}
@@ -107,7 +107,7 @@ function PartnershipList() {
                 sx={{
                   borderBottom: "1px solid #e2e2e2",
                   backgroundColor: `${
-                    (request.id * 1) % 2 == 0 ? "#e2e2e2" : "#fff"
+                    (request.id * 1) % 2 == 0 ? "#fff" : "#fff"
                   }`,
                   p: 1,
                 }}

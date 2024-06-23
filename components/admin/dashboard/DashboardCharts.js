@@ -57,32 +57,14 @@ function DashboardCharts({ users }) {
         }}
         item
         xs={12}
-        lg={8}
       >
         <DashboardCard>
           <UsersChart
             chartData={chartData}
-            columns={10}
+            columns={15}
             title="کاربران"
             typeOfChart="line"
           />
-        </DashboardCard>
-      </Grid>
-      <Grid
-        sx={{
-          padding: "15px",
-        }}
-        item
-        xs={12}
-        lg={4}
-      >
-        <DashboardCard
-          sx={{
-            height: "100%",
-          }}
-        >
-          آمار ها
-          {/* <UsersChart chartData={chartData} title="فروش" typeOfChart="line" /> */}
         </DashboardCard>
       </Grid>
     </>

@@ -254,7 +254,16 @@ function AddCategoryForm() {
                             position: "relative",
                           }}
                         >
-                          {item.category_name}
+                          {item.category_name} <br />
+                          <br />
+                          ترتیب دسته بندی :{" "}
+                          <span
+                            style={{
+                              color: "orange",
+                            }}
+                          >
+                            {item.sort_order}
+                          </span>
                           <Box
                             sx={{
                               position: "absolute",
