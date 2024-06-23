@@ -58,14 +58,14 @@ function DashboardCharts({ users }) {
         item
         xs={12}
       >
-        <DashboardCard>
+        {/* <DashboardCard>
           <UsersChart
             chartData={chartData}
             columns={15}
             title="کاربران"
             typeOfChart="line"
           />
-        </DashboardCard>
+        </DashboardCard> */}
       </Grid>
     </>
   );

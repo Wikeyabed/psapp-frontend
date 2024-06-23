@@ -90,10 +90,15 @@ const OrderPage = ({ order }) => {
           <Typography variant="h6" gutterBottom>
             آقا/خانم : {order.customer_name}
           </Typography>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography variant="h6" gutterBottom>
             شماره تماس: {order.customer_phone}
           </Typography>
+        </div>
 
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography display={"flex"} variant="subtitle1" gutterBottom>
             وضعیت: <OrderStatus status={status} />
           </Typography>
@@ -183,6 +188,7 @@ const OrderPage = ({ order }) => {
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
+                      minHeight: 50,
                     }}
                   />
                 </ListItem>
@@ -213,6 +219,7 @@ const OrderPage = ({ order }) => {
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
+                      minHeight: 50,
                     }}
                   />
                 </ListItem>
@@ -243,6 +250,7 @@ const OrderPage = ({ order }) => {
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
+                      minHeight: 50,
                     }}
                   />
                 </ListItem>
@@ -274,6 +282,7 @@ const OrderPage = ({ order }) => {
                       variant: "subtitle1",
                       align: "right",
                       fontSize: { xs: 10, md: 13 },
+                      minHeight: 50,
                     }}
                   />
                 </ListItem>
