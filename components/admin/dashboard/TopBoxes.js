@@ -49,7 +49,7 @@ const CardContainer = styled(Grid)(({ theme }) => ({
   padding: 15,
 }));
 
-function TopBoxes() {
+function TopBoxes({ users, orders, products }) {
   return (
     <>
       {" "}
