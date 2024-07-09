@@ -30,7 +30,7 @@ module.exports = {
       "back-ebox.liara.run",
       "front-ebox.liara.run",
       "picsum.photos",
-      // "localhost",
+      "localhost",
       "eebox.ir",
       "api.eebox.ir",
     ],

@@ -7,6 +7,7 @@ import MiniShoppingCart from "./shoppingCart/index";
 import TopNavMobile from "./TopNavMobile";
 import Logo from "./Logo";
 import SocialMediaBar from "../socialMedia";
+import MoharamPng from "../../../../public/images/moharam2.png";
 
 export default function Navbar() {
   // mobile menu item
@@ -102,6 +103,15 @@ export default function Navbar() {
             <ToolbarIcons />
           </Toolbar>
         </AppBar>
+        <Box
+          sx={{
+            position: "fixed",
+            left: 5,
+            top: "92px",
+          }}
+        >
+          <img src={MoharamPng.src} width="130px" />
+        </Box>
       </Box>
     </>
   );

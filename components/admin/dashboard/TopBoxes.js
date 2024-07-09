@@ -122,7 +122,7 @@ function TopBoxes({ users, orders, products }) {
         });
       });
     } else {
-      value = filteredArray.length + 1;
+      value = filteredArray.length;
 
       setFilteredData({
         ...filteredData,

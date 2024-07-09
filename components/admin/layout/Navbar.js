@@ -10,14 +10,17 @@ import { ListItemIcon, ListItemText, Divider, Typography } from "@mui/material";
 import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import CommentIcon from "@mui/icons-material/Comment";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "../../../src/Link";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 export default function Navbar() {
   const Icon = styled(ListItemIcon)(({ theme }) => ({
     color: theme.palette.primary.lightBg,
-    padding: 3,
-    paddingRight: 15,
+    // padding: 2,
+    // paddingRight: 10,
+    minWidth: 20,
   }));
 
   const MenuItem = styled(ListItemText)(({ theme }) => ({
@@ -25,7 +28,7 @@ export default function Navbar() {
     marginBottom: 1,
     padding: 1,
     "& span, & svg": {
-      fontSize: "1rem",
+      fontSize: ".7rem",
     },
   }));
   return (
@@ -67,7 +70,7 @@ export default function Navbar() {
             {/* icon  wrapper */}
             <Icon>
               {/* icon itself */}
-              <DashboardOutlinedIcon />
+              <DashboardOutlinedIcon fontSize="12px" />
             </Icon>
 
             {/* menu text */}
@@ -78,7 +81,7 @@ export default function Navbar() {
         <Link href="/admin/users">
           <ListItemButton>
             <Icon>
-              <PeopleAltOutlinedIcon />
+              <PeopleAltOutlinedIcon fontSize="12px" />
             </Icon>
 
             <MenuItem primary="کاربران" />
@@ -88,14 +91,14 @@ export default function Navbar() {
         <Link href="/admin/orders">
           <ListItemButton>
             <Icon>
-              <SendIcon />
+              <SendIcon fontSize="12px" />
             </Icon>
             <MenuItem primary="سفارشات" />
           </ListItemButton>
         </Link>
         <ListItemButton>
           <Icon>
-            <SupportAgentOutlinedIcon />
+            <SupportAgentOutlinedIcon fontSize="12px" />
           </Icon>
           <MenuItem primary="پشتیبانی" />
         </ListItemButton>
@@ -103,7 +106,7 @@ export default function Navbar() {
         <Link href="/admin/products">
           <ListItemButton>
             <Icon>
-              <LocalGroceryStoreOutlinedIcon />
+              <LocalGroceryStoreOutlinedIcon fontSize="12px" />
             </Icon>
             <MenuItem primary="محصولات" />
           </ListItemButton>
@@ -112,7 +115,7 @@ export default function Navbar() {
         <Link href="/admin/requests">
           <ListItemButton>
             <Icon>
-              <PendingActionsIcon />
+              <PendingActionsIcon fontSize="12px" />
             </Icon>
             <MenuItem primary="درخواست ها" />
           </ListItemButton>
@@ -121,16 +124,34 @@ export default function Navbar() {
         <Link href="/admin/blog">
           <ListItemButton>
             <Icon>
-              <HistoryEduIcon />
+              <HistoryEduIcon fontSize="12px" />
             </Icon>
             <MenuItem primary="بلاگ" />
+          </ListItemButton>
+        </Link>
+
+        <Link href="/admin/blog">
+          <ListItemButton>
+            <Icon>
+              <CommentIcon fontSize="12px" />
+            </Icon>
+            <MenuItem primary="نظرات" />
+          </ListItemButton>
+        </Link>
+
+        <Link href="/admin/blog">
+          <ListItemButton>
+            <Icon>
+              <NotificationsActiveIcon fontSize="12px" />
+            </Icon>
+            <MenuItem primary="اعلانات" />
           </ListItemButton>
         </Link>
 
         {/*  */}
         <ListItemButton>
           <Icon>
-            <PowerSettingsNewOutlinedIcon />
+            <PowerSettingsNewOutlinedIcon fontSize="12px" />
           </Icon>
           <MenuItem primary="خروج" />
         </ListItemButton>
