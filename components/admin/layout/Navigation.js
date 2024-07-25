@@ -79,7 +79,7 @@ export default function NavigationBar() {
         minHeight: 48,
         py: 1,
         // px: { xs: 2, md: 5 },
-        bgcolor: "primary.main", // changed background color
+        // bgcolor: "primary.main", // changed background color
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -114,7 +114,7 @@ export default function NavigationBar() {
           anchorOrigin={{ vertical: "top", horizontal: "right" }}
         >
           <IconButton
-            sx={{ color: "primary.lightBg" }}
+            sx={{ color: "primary" }}
             onClick={handleNotificationsOpen}
           >
             <NotificationsIcon />
@@ -145,7 +145,7 @@ export default function NavigationBar() {
           size="large"
           edge="end"
           aria-label="profile"
-          sx={{ mr: 1, color: "primary.lightBg" }}
+          sx={{ mr: 1, color: "primary" }}
           onClick={handleMenuOpen}
         >
           <AccountCircleIcon />
@@ -155,8 +155,8 @@ export default function NavigationBar() {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
-          <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+          <MenuItem onClick={handleMenuClose}>بازگشت به سایت</MenuItem>
+          <MenuItem onClick={handleMenuClose}>خروج</MenuItem>
         </Menu>
       </div>
     </Box>

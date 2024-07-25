@@ -32,11 +32,11 @@ function AdminLayout({ children }) {
               </Box>
             </Grid>
             <Grid item xs={12} lg={10}>
-              <Grid sx={{ mb: 5 }} item xs={12}>
+              <Grid sx={{ mb: 5, p: 1 }} item xs={12}>
                 <NavigationBar />
               </Grid>
 
-              <Grid item lg={9} sx={{ mx: "auto", p: 3 }}>
+              <Grid item lg={10} sx={{ mx: "auto", p: 3 }}>
                 {children}
               </Grid>
             </Grid>

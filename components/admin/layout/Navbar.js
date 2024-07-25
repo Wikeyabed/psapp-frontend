@@ -130,7 +130,7 @@ export default function Navbar() {
           </ListItemButton>
         </Link>
 
-        <Link href="/admin/blog">
+        <Link href="/admin/comments">
           <ListItemButton>
             <Icon>
               <CommentIcon fontSize="12px" />
