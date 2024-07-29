@@ -63,6 +63,13 @@ function Banners() {
             <BannerImageMobile src={Banner3Mobile.src} alt="pic" />
           </BannerPaper>
         </BannerBox>
+
+        <BannerBox item xs={12}>
+          <BannerPaper elevation={5}>
+            <BannerImage src={Banner4.src} alt="pic" />
+            <BannerImageMobile src={Banner3Mobile.src} alt="pic" />
+          </BannerPaper>
+        </BannerBox>
       </Grid>
     </Grid>
   );

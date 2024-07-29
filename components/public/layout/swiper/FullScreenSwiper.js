@@ -50,27 +50,31 @@ export default function FullScreenSlider({ slides }) {
               src={slide.img.src}
               alt={"ایباکس"}
             />
-            <Button
-              component={Link}
-              href={slide.href}
-              color="lightPrimary"
-              variant="contained"
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                zIndex: "400",
-                padding: "10px 50px",
-                color: "#fff",
-                borderTop: "1px solid #fff",
-                borderRight: "1px solid #fff",
-                borderTopRightRadius: "10px",
-                borderTopLeftRadius: "0px !important",
-                borderBottomRightRadius: "0px !important",
-              }}
-            >
-              {slide.text}
-            </Button>
+            {slide.text ? (
+              <Button
+                component={Link}
+                href={slide.href}
+                color="lightPrimary"
+                variant="contained"
+                sx={{
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  zIndex: "400",
+                  padding: "10px 50px",
+                  color: "#fff",
+                  borderTop: "1px solid #fff",
+                  borderRight: "1px solid #fff",
+                  borderTopRightRadius: "10px",
+                  borderTopLeftRadius: "0px !important",
+                  borderBottomRightRadius: "0px !important",
+                }}
+              >
+                {slide.text}
+              </Button>
+            ) : (
+              ""
+            )}
           </SwiperSlide>
         ))}
       </Paper>
