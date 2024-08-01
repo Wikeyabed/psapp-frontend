@@ -4,71 +4,244 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotificationOff } from "../../../redux/reducers/notificationSlice";
-import { Typography, Grid, Box } from "@mui/material";
+import { Typography, Grid, Box, Paper, Button } from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ReplyAllIcon from "@mui/icons-material/ReplyAll";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import NewUserComment from "./NewUserComment";
+import ReplyToComment from "./ReplyToComment";
+import moment from "moment-jalaali";
+export default function Comments({ postId, postType }) {
+  const userData = useSelector((state) => state.auth.userInformation);
+  const [commentsList, setCommentsList] = useState(null);
 
-export default function Comments() {
-  //   const notification = useSelector((state) => state.notification);
-  //   const dispatch = useDispatch();
+  useEffect(() => {
+    getPostComments();
+  }, []);
 
-  useEffect(() => {});
+  moment.loadPersian({ usePersianDigits: true });
+
+  const getPostComments = async () => {
+    let myHeaders = new Headers();
+
+    let requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/post-comment/${postId}`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        setCommentsList(result);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   return (
-    <>
+    <Grid container>
+      {commentsList != null
+        ? commentsList.map((comment) => {
+            return comment.is_reply == "false" &&
+              comment.is_active == "true" ? (
+              <Paper
+                item
+                key={comment.id}
+                elevation={1}
+                component={Grid}
+                sx={{
+                  backgroundColor: "#fefefe",
+                  position: "relative",
+                  p: 5,
+                  minHeight: 200,
+
+                  mb: 1,
+                  pb: 10,
+                }}
+                xs={12}
+                md={10}
+              >
+                {/* options */}
+                <Box
+                  id="comment-options"
+                  sx={{
+                    position: "absolute",
+                    left: 20,
+                    top: 15,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: 10,
+                      color: "primary.main",
+                    }}
+                  >
+                    {moment
+                      .unix(comment.comment_date)
+                      .format("jYYYY/jMM/jDD HH:mm")}
+                  </Typography>
+                </Box>
+
+                {/* writing reply */}
+                <Box
+                  id="comment-reply-box"
+                  sx={{
+                    position: "absolute",
+                    left: 20,
+                    bottom: 15,
+                  }}
+                >
+                  <ReplyToComment
+                    postId={postId}
+                    userName={`${userData.firstName} ${userData.lastName}`}
+                    parentId={comment.id}
+                    postType={postType}
+                  />
+
+                  {/* <Button
+                    sx={{ borderRadius: 20 }}
+                    size="small"
+                    color="info"
+                    variant="outlined"
+                  >
+                    <BorderColorIcon
+                      sx={{
+                        ml: 0.5,
+                      }}
+                      fontSize="small"
+                    />
+                    ویرایش{" "}
+                  </Button> */}
+                </Box>
+
+                <Typography
+                  sx={{
+                    mb: 3,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  component={"div"}
+                  variant="body1"
+                >
+                  <AccountCircleIcon
+                    sx={{
+                      ml: 1,
+                    }}
+                    color="secondary"
+                    fontSize="large"
+                  />
+                  {comment.username} گفته:
+                </Typography>
+                <Typography
+                  sx={{
+                    mb: 3,
+                    mr: 2,
+                    color: "#666",
+                    textAlign: "justify !important",
+                  }}
+                  variant="caption"
+                >
+                  {comment.content}
+                </Typography>
+
+                {/* answer */}
+                {commentsList.map((reply) => {
+                  return reply.is_reply == "true" &&
+                    reply.parent_comment_id == comment.id &&
+                    reply.is_active == "true" ? (
+                    <Paper
+                      key={reply.id}
+                      elevation={1}
+                      sx={{
+                        width: "100%",
+                        position: "relative",
+                        minHeight: 150,
+                        backgroundColor: "#fefefe",
+                        // borderRadius: 5,
+                        // border: "1px solid #efefef",
+                        p: 5,
+                        mb: 1,
+                        mt: 2,
+                        pb: 2,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          mb: 3,
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                        component={"div"}
+                        variant="body1"
+                      >
+                        <AccountCircleIcon
+                          sx={{
+                            ml: 1,
+                          }}
+                          color="secondary"
+                          fontSize="large"
+                        />
+                        {reply.username} گفته:
+                      </Typography>
+                      <Box
+                        id="comment-options"
+                        sx={{
+                          position: "absolute",
+                          left: 20,
+                          top: 15,
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: 10,
+                            color: "primary.main",
+                          }}
+                        >
+                          {moment
+                            .unix(reply.comment_date)
+                            .format("jYYYY/jMM/jDD HH:mm")}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={{
+                          mb: 3,
+                          mr: 2,
+                          color: "#666",
+                          textAlign: "justify !important",
+                        }}
+                        variant="caption"
+                      >
+                        {reply.content}
+                      </Typography>{" "}
+                    </Paper>
+                  ) : (
+                    ""
+                  );
+                })}
+              </Paper>
+            ) : (
+              ""
+            );
+          })
+        : ""}
+
       <Grid
-        item
+        xs={12}
+        md={2}
         sx={{
-          backgroundColor: "#f9f9f9",
-          p: 2,
-          height: 200,
-          borderRadius: 2,
-          mb: 1,
+          pr: { xs: 0, md: 3 },
         }}
-        xs={8}
-      >
-        Comments
-      </Grid>
-      <Grid
         item
-        sx={{
-          backgroundColor: "#f9f9f9",
-          p: 2,
-          MinHeight: 200,
-          borderRadius: 2,
-          mb: 1,
-        }}
-        xs={8}
       >
-        عبدالله گفته :
-        <br />
-        <br />
-        این یک کامنت تست است
-        <Box
-          sx={{
-            width: "100%",
-            height: 150,
-            backgroundColor: "#fff",
-            borderRadius: 2,
-            p: 2,
-            mb: 1,
-            mt: 2,
-          }}
-        >
-          fff
-        </Box>
-        <Box
-          sx={{
-            width: "100%",
-            height: 150,
-            backgroundColor: "#fff",
-            borderRadius: 2,
-            p: 2,
-            mb: 1,
-            mt: 2,
-          }}
-        >
-          fff
-        </Box>
+        <NewUserComment
+          userName={`${userData.firstName} ${userData.lastName}`}
+          postId={postId}
+          postType={postType}
+        />
       </Grid>
-    </>
+    </Grid>
   );
 }

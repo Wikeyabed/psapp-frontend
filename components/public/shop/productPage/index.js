@@ -25,14 +25,12 @@ const ProductPage = ({ product }) => {
             xl={8}
           >
             <Paper
-              elevation={7}
+              elevation={3}
               sx={{
                 padding: { xs: 0, md: 4 },
 
                 marginY: { sm: 5, md: 10 },
                 mb: { xs: 10, md: "auto" },
-
-                borderRadius: "20px",
               }}
             >
               <Grid container>
@@ -90,7 +88,10 @@ const ProductPage = ({ product }) => {
               </Grid>
 
               <Grid item xs={12}>
-                <BottomTabs description={product.product_description} />
+                <BottomTabs
+                  postId={product.product_id}
+                  description={product.product_description}
+                />
               </Grid>
             </Paper>
           </Grid>

@@ -7,6 +7,7 @@ import ConfirmComment from "./ConfirmComment";
 import DeleteComment from "./DeleteComment";
 import { useState, useEffect } from "react";
 import { getCookie } from "cookies-next";
+import Link from "../../../src/Link";
 
 function CommentList() {
   const [comments, setComments] = useState([]);
@@ -45,11 +46,11 @@ function CommentList() {
             >
               نظرات
             </Typography>
-            {/* <ProductsTable products={products} /> */}
             <Grid container>
               {comments.map((comment) => {
                 return (
                   <Grid
+                    key={comment.id}
                     item
                     sx={{
                       p: 1,
@@ -73,7 +74,8 @@ function CommentList() {
                         }}
                         variant="body2"
                       >
-                        نوع کامنت: {comment.is_reply ? "پاسخ" : "کامنت جدید"}
+                        نوع کامنت:{" "}
+                        {comment.is_reply == "true" ? "پاسخ" : "کامنت جدید"}
                       </Typography>
                       <Typography
                         sx={{
@@ -155,6 +157,27 @@ function CommentList() {
                             {comment.content}
                           </Typography>
                         </Box>
+                        {comment.post_type == "product" ? (
+                          <Link
+                            style={{
+                              MarginTop: 2,
+                            }}
+                            target="_blank"
+                            href={`/products/${comment.post_id}`}
+                          >
+                            لینک صفحه
+                          </Link>
+                        ) : (
+                          <Link
+                            style={{
+                              MarginTop: 2,
+                            }}
+                            target="_blank"
+                            href={`/blog/${comment.post_id}`}
+                          >
+                            لینک صفحه
+                          </Link>
+                        )}
                       </Box>
 
                       <Box
