@@ -11,6 +11,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import NewUserComment from "./NewUserComment";
 import ReplyToComment from "./ReplyToComment";
 import moment from "moment-jalaali";
+import CommentList from "../../admin/comments";
 export default function Comments({ postId, postType }) {
   const userData = useSelector((state) => state.auth.userInformation);
   const [commentsList, setCommentsList] = useState(null);
@@ -43,65 +44,76 @@ export default function Comments({ postId, postType }) {
 
   return (
     <Grid container>
-      {commentsList != null
-        ? commentsList.map((comment) => {
-            return comment.is_reply == "false" &&
-              comment.is_active == "true" ? (
-              <Paper
-                item
-                key={comment.id}
-                elevation={1}
-                component={Grid}
-                sx={{
-                  backgroundColor: "#fefefe",
-                  position: "relative",
-                  p: 5,
-                  minHeight: 200,
+      <Grid item xs={12} md={9} lg={10}>
+        {commentsList == "" ? (
+          <Typography
+            sx={{
+              my: 2,
+            }}
+          >
+            هنوز دیدگاهی ثبت نشده است .
+          </Typography>
+        ) : (
+          ""
+        )}
 
-                  mb: 1,
-                  pb: 10,
-                }}
-                xs={12}
-                md={10}
-              >
-                {/* options */}
-                <Box
-                  id="comment-options"
+        {commentsList != null
+          ? commentsList.map((comment) => {
+              return comment.is_reply == "false" &&
+                comment.is_active == "true" ? (
+                <Paper
+                  item
+                  key={comment.id}
+                  elevation={1}
+                  component={Grid}
                   sx={{
-                    position: "absolute",
-                    left: 20,
-                    top: 15,
+                    backgroundColor: "#fefefe",
+                    position: "relative",
+                    p: 5,
+                    minHeight: 200,
+
+                    mb: 1,
+                    pb: 10,
                   }}
                 >
-                  <Typography
+                  {/* options */}
+                  <Box
+                    id="comment-options"
                     sx={{
-                      fontSize: 10,
-                      color: "primary.main",
+                      position: "absolute",
+                      left: 20,
+                      top: 15,
                     }}
                   >
-                    {moment
-                      .unix(comment.comment_date)
-                      .format("jYYYY/jMM/jDD HH:mm")}
-                  </Typography>
-                </Box>
+                    <Typography
+                      sx={{
+                        fontSize: 10,
+                        color: "primary.main",
+                      }}
+                    >
+                      {moment
+                        .unix(comment.comment_date)
+                        .format("jYYYY/jMM/jDD HH:mm")}
+                    </Typography>
+                  </Box>
 
-                {/* writing reply */}
-                <Box
-                  id="comment-reply-box"
-                  sx={{
-                    position: "absolute",
-                    left: 20,
-                    bottom: 15,
-                  }}
-                >
-                  <ReplyToComment
-                    postId={postId}
-                    userName={`${userData.firstName} ${userData.lastName}`}
-                    parentId={comment.id}
-                    postType={postType}
-                  />
+                  {/* writing reply */}
+                  <Box
+                    id="comment-reply-box"
+                    sx={{
+                      position: "absolute",
+                      left: 20,
+                      bottom: 15,
+                    }}
+                  >
+                    <ReplyToComment
+                      postId={postId}
+                      userName={`${userData.firstName} ${userData.lastName}`}
+                      parentId={comment.id}
+                      postType={postType}
+                    />
 
-                  {/* <Button
+                    {/* <Button
                     sx={{ borderRadius: 20 }}
                     size="small"
                     color="info"
@@ -115,122 +127,123 @@ export default function Comments({ postId, postType }) {
                     />
                     ویرایش{" "}
                   </Button> */}
-                </Box>
+                  </Box>
 
-                <Typography
-                  sx={{
-                    mb: 3,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  component={"div"}
-                  variant="body1"
-                >
-                  <AccountCircleIcon
+                  <Typography
                     sx={{
-                      ml: 1,
+                      mb: 3,
+                      display: "flex",
+                      alignItems: "center",
                     }}
-                    color="secondary"
-                    fontSize="large"
-                  />
-                  {comment.username} گفته:
-                </Typography>
-                <Typography
-                  sx={{
-                    mb: 3,
-                    mr: 2,
-                    color: "#666",
-                    textAlign: "justify !important",
-                  }}
-                  variant="caption"
-                >
-                  {comment.content}
-                </Typography>
-
-                {/* answer */}
-                {commentsList.map((reply) => {
-                  return reply.is_reply == "true" &&
-                    reply.parent_comment_id == comment.id &&
-                    reply.is_active == "true" ? (
-                    <Paper
-                      key={reply.id}
-                      elevation={1}
+                    component={"div"}
+                    variant="body1"
+                  >
+                    <AccountCircleIcon
                       sx={{
-                        width: "100%",
-                        position: "relative",
-                        minHeight: 150,
-                        backgroundColor: "#fefefe",
-                        // borderRadius: 5,
-                        // border: "1px solid #efefef",
-                        p: 5,
-                        mb: 1,
-                        mt: 2,
-                        pb: 2,
+                        ml: 1,
                       }}
-                    >
-                      <Typography
+                      color="secondary"
+                      fontSize="large"
+                    />
+                    {comment.username} گفته:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      mb: 3,
+                      mr: 2,
+                      color: "#666",
+                      textAlign: "justify !important",
+                    }}
+                    variant="caption"
+                  >
+                    {comment.content}
+                  </Typography>
+
+                  {/* answer */}
+                  {commentsList.map((reply) => {
+                    return reply.is_reply == "true" &&
+                      reply.parent_comment_id == comment.id &&
+                      reply.is_active == "true" ? (
+                      <Paper
+                        key={reply.id}
+                        elevation={1}
                         sx={{
-                          mb: 3,
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                        component={"div"}
-                        variant="body1"
-                      >
-                        <AccountCircleIcon
-                          sx={{
-                            ml: 1,
-                          }}
-                          color="secondary"
-                          fontSize="large"
-                        />
-                        {reply.username} گفته:
-                      </Typography>
-                      <Box
-                        id="comment-options"
-                        sx={{
-                          position: "absolute",
-                          left: 20,
-                          top: 15,
+                          width: "100%",
+                          position: "relative",
+                          minHeight: 150,
+                          backgroundColor: "#fefefe",
+                          // borderRadius: 5,
+                          // border: "1px solid #efefef",
+                          p: 5,
+                          mb: 1,
+                          mt: 2,
+                          pb: 2,
                         }}
                       >
                         <Typography
                           sx={{
-                            fontSize: 10,
-                            color: "primary.main",
+                            mb: 3,
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                          component={"div"}
+                          variant="body1"
+                        >
+                          <AccountCircleIcon
+                            sx={{
+                              ml: 1,
+                            }}
+                            color="secondary"
+                            fontSize="large"
+                          />
+                          {reply.username} گفته:
+                        </Typography>
+                        <Box
+                          id="comment-options"
+                          sx={{
+                            position: "absolute",
+                            left: 20,
+                            top: 15,
                           }}
                         >
-                          {moment
-                            .unix(reply.comment_date)
-                            .format("jYYYY/jMM/jDD HH:mm")}
-                        </Typography>
-                      </Box>
-                      <Typography
-                        sx={{
-                          mb: 3,
-                          mr: 2,
-                          color: "#666",
-                          textAlign: "justify !important",
-                        }}
-                        variant="caption"
-                      >
-                        {reply.content}
-                      </Typography>{" "}
-                    </Paper>
-                  ) : (
-                    ""
-                  );
-                })}
-              </Paper>
-            ) : (
-              ""
-            );
-          })
-        : ""}
-
+                          <Typography
+                            sx={{
+                              fontSize: 10,
+                              color: "primary.main",
+                            }}
+                          >
+                            {moment
+                              .unix(reply.comment_date)
+                              .format("jYYYY/jMM/jDD HH:mm")}
+                          </Typography>
+                        </Box>
+                        <Typography
+                          sx={{
+                            mb: 3,
+                            mr: 2,
+                            color: "#666",
+                            textAlign: "justify !important",
+                          }}
+                          variant="caption"
+                        >
+                          {reply.content}
+                        </Typography>{" "}
+                      </Paper>
+                    ) : (
+                      ""
+                    );
+                  })}
+                </Paper>
+              ) : (
+                ""
+              );
+            })
+          : ""}
+      </Grid>
       <Grid
         xs={12}
-        md={2}
+        md={3}
+        lg={2}
         sx={{
           pr: { xs: 0, md: 3 },
         }}

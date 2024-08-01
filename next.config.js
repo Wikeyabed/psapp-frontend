@@ -22,7 +22,7 @@
 
 module.exports = {
   compiler: {
-    // removeConsole: true,
+    removeConsole: true,
   },
   reactStrictMode: true,
   images: {

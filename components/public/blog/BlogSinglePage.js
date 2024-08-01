@@ -3,26 +3,33 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, CardActionArea, Divider, Grid } from "@mui/material";
+import { Box, CardActionArea, Divider, Grid, Paper } from "@mui/material";
 import PublicLayout from "../layout/index";
 import BlogNav from "./Breadcrumb";
 import parse from "html-react-parser";
 import ToPersianDate from "../../../src/TimestampToPersian";
+import Comments from "../comments";
 
 export default function BlogSinglePage({ blog }) {
   return (
     <PublicLayout>
       <Grid display={"flex"} justifyContent={"center"} container>
-        <Grid xs={12} md={10} lg={8} xl={6}>
+        <Grid xs={12} md={10} lg={8}>
           {" "}
           <BlogNav blogId={15} blogTitle={blog.title} />
-          <Card sx={{ mx: "auto", my: 4 }}>
-            <CardActionArea>
+          <Box sx={{ mx: "auto", my: 4 }}>
+            <Box
+              sx={{
+                border: "1px solid #e2e2e2",
+                borderRadius: "5px",
+                p: 2,
+              }}
+            >
               <CardMedia
                 sx={{
                   aspectRatio: "16/9",
                   objectFit: "contain",
-                  maxHeight: 350,
+                  maxHeight: 400,
                   minWidth: "100%",
                   mb: 10,
                 }}
@@ -31,10 +38,9 @@ export default function BlogSinglePage({ blog }) {
                 alt={blog.title}
               />
               <CardContent>
-                <Typography gutterBottom variant="h6" component="div">
+                <Typography gutterBottom variant="h5" component="div">
                   {blog.title}
                 </Typography>
-
                 <Box
                   sx={{
                     display: "flex",
@@ -49,22 +55,36 @@ export default function BlogSinglePage({ blog }) {
                   </Typography>{" "}
                   <ToPersianDate timestamp={blog.create_time} />
                 </Box>
-
                 {/* <Typography gutterBottom variant="h4" component="h4">
                   نویسنده : ادمین
                 </Typography> */}
                 <Divider />
                 <Typography
                   textAlign={"justify"}
-                  variant="body1"
+                  variant="body2"
                   color="text.primary"
                   component={"div"}
                 >
                   {parse(blog.description)}
                 </Typography>
+
+                <Divider
+                  sx={{
+                    my: 5,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    my: 2,
+                  }}
+                  variant="h6"
+                >
+                  دیدگاه ها
+                </Typography>
+                <Comments postId={blog.id} postType={"blog"} />
               </CardContent>
-            </CardActionArea>
-          </Card>
+            </Box>
+          </Box>
         </Grid>
       </Grid>
     </PublicLayout>

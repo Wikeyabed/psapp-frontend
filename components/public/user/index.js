@@ -15,6 +15,7 @@ import {
 import UserOrders from "./UserOrders";
 import UserProfile from "./UserProfile";
 import ChangePassword from "./ChangePassword";
+import UserComments from "./UserComments";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,6 +83,7 @@ function User() {
                   <Tab label="اطلاعات کاربر" {...a11yProps(0)} />
                   <Tab label="تغییر رمز عبور" {...a11yProps(1)} />
                   <Tab label="مشاهده فاکتور ها" {...a11yProps(2)} />
+                  <Tab label="دیدگاه ها" {...a11yProps(3)} />
                 </Tabs>
               </Box>
               <TabPanel value={value} index={0}>
@@ -92,6 +94,9 @@ function User() {
               </TabPanel>
               <TabPanel value={value} index={2}>
                 <UserOrders />
+              </TabPanel>
+              <TabPanel value={value} index={3}>
+                <UserComments />
               </TabPanel>
             </Box>
           </Grid>

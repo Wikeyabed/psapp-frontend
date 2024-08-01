@@ -103,7 +103,7 @@ function ConfirmComment({ id, isActive, fetchComments }) {
           }}
         >
           <DialogContentText id="alert-dialog-description">
-            {isActive
+            {isActive == "true"
               ? "آیا از غیر فعال سازی کامنت اطمینان دارید"
               : "آیا از تایید کامنت اطمینان دارید ؟"}
           </DialogContentText>
@@ -125,7 +125,7 @@ function ConfirmComment({ id, isActive, fetchComments }) {
             onClick={isActive == "true" ? handleDisable : handleConfirm}
             autoFocus
           >
-            {isActive ? "بله غیر فعال شود" : "بله فعال شود"}
+            {isActive == "true" ? "بله غیر فعال شود" : "بله فعال شود"}
           </Button>
         </DialogActions>
       </Dialog>
