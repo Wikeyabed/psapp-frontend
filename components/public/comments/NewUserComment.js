@@ -102,7 +102,7 @@ function NewUserComment({ postId, postType, userName }) {
         </DialogTitle>
         <DialogContent
           sx={{
-            minWidth: "400px !important",
+            minWidth: { xs: "320px !important", md: "400px !important" },
           }}
         >
           <DialogContentText id="alert-dialog-description">

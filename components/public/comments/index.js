@@ -69,7 +69,8 @@ export default function Comments({ postId, postType }) {
                   sx={{
                     backgroundColor: "#fefefe",
                     position: "relative",
-                    p: 5,
+                    pt: 5,
+                    px: 2,
                     minHeight: 200,
 
                     mb: 1,
@@ -174,7 +175,8 @@ export default function Comments({ postId, postType }) {
                           backgroundColor: "#fefefe",
                           // borderRadius: 5,
                           // border: "1px solid #efefef",
-                          p: 5,
+                          pt: 5,
+                          pr: 1,
                           mb: 1,
                           mt: 2,
                           pb: 2,

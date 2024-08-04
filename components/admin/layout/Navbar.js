@@ -11,6 +11,7 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import PowerSettingsNewOutlinedIcon from "@mui/icons-material/PowerSettingsNewOutlined";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
 import CommentIcon from "@mui/icons-material/Comment";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import Link from "../../../src/Link";
@@ -145,6 +146,16 @@ export default function Navbar() {
               <NotificationsActiveIcon fontSize="12px" />
             </Icon>
             <MenuItem primary="اعلانات" />
+          </ListItemButton>
+        </Link>
+
+        <Link href="/">
+          <ListItemButton>
+            <Icon>
+              <KeyboardReturnIcon fontSize="12px" />
+            </Icon>
+
+            <MenuItem primary="بازگشت به فروشگاه" />
           </ListItemButton>
         </Link>
 
