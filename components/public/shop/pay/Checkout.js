@@ -115,6 +115,7 @@ function CheckoutToPayment() {
         if (response.status == 201) {
           const data = response.json();
 
+          console.log("payment data :", data);
           data.then((data) => {
             setData({
               ...data,
