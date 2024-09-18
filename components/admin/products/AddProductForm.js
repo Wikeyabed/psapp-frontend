@@ -18,6 +18,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import AddProductVariant from "./AddProductVariant";
 
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
@@ -198,7 +199,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
 
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
+        {/* <Grid sx={{ px: 1 }} item xs={6} md={4}>
           <RtlTextField
             onChange={handleSetValues}
             name="quantity"
@@ -217,7 +218,7 @@ const EditForm = ({ closeAfterUpdate }) => {
             fullWidth
             label="تعداد در هر بسته"
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
@@ -244,7 +245,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           </RtlTextField>
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
+        <Grid sx={{ mt: 4, px: 1 }} item xs={12} md={6}>
           <RtlTextField
             onChange={handleSetValues}
             name="features"
@@ -260,7 +261,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
+        <Grid sx={{ mt: 4, px: 1 }} item xs={12} md={6}>
           <Editor
             onChange={handleEditorsContent}
             textareaName="description"
@@ -300,44 +301,6 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Typography
-          variant="h6"
-          sx={{
-            p: 1,
-            textAlign: "center",
-          }}
-        >
-          قیمت و تخفیفات{" "}
-        </Typography>
-
-        <StyledDivider />
-        <Grid component={Item} container>
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="price"
-              size="small"
-              fullWidth
-              label=" قیمت محصول به ریال"
-            />
-          </Grid>
-
-          {/* <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField size="small" fullWidth label="قیمت عمده" />
-          </Grid> */}
-
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="discount"
-              size="small"
-              fullWidth
-              label="درصد تخفیف"
-            />
-          </Grid>
-        </Grid>
-      </Grid>
 
       <Grid item xs={12}>
         <Typography
@@ -357,41 +320,67 @@ const EditForm = ({ closeAfterUpdate }) => {
           </Grid>
 
           <Grid sx={{ px: 1 }} item xs={12} md={12}></Grid>
-
-          {/* <StyledDivider /> */}
-
-          <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={12} md={4} item>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                borderRadius: "8px",
-                overflow: "hidden",
-              }}
-            >
-              <Button
-                onClick={handleCreateProduct}
-                sx={{
-                  p: "12px 24px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  color: "#fff",
-                  backgroundColor: "primary.main",
-                  borderRadius: "8px",
-                  transition: ".2s ease-in-out",
-                  "& .MuiButton-startIcon": {
-                    marginLeft: "12px",
-                    fontSize: "148px",
-                  },
-                }}
-                startIcon={<AddIcon />}
-                variant="contained"
-              >
-                اعمال تغییرات
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
+      </Grid>
+
+      <Grid sx={{ px: 1, mx: "auto", mb: 12 }} xs={12} item>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        >
+          <Button
+            onClick={handleCreateProduct}
+            sx={{
+              p: "12px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "#fff",
+              backgroundColor: "primary.main",
+              borderRadius: "8px",
+              transition: ".2s ease-in-out",
+              "& .MuiButton-startIcon": {
+                marginLeft: "12px",
+                fontSize: "148px",
+              },
+            }}
+            endIcon={
+              <AddIcon
+                sx={{
+                  marginRight: 1,
+                }}
+              />
+            }
+            variant="contained"
+          >
+            ایجاد محصول اولیه
+          </Button>
+        </Box>
+        <StyledDivider
+          sx={{
+            mt: 12,
+            width: "100%",
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Typography
+          variant="h6"
+          sx={{
+            p: 1,
+            textAlign: "center",
+          }}
+        >
+          اضافه کردن تنوع{" "}
+        </Typography>
+
+        <StyledDivider />
+
+        <AddProductVariant />
       </Grid>
     </>
   );

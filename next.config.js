@@ -21,6 +21,7 @@
 // });
 
 module.exports = {
+  transpilePackages: ["mui-color-input"],
   compiler: {
     removeConsole: true,
   },
