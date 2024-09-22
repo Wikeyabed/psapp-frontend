@@ -11,6 +11,8 @@ import {
   MenuItem,
   Select,
   InputLabel,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import DropZone from "./DropZone";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,11 +22,21 @@ import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 
 import { MuiColorInput } from "mui-color-input";
+import ProductVariantList from "./ProductVariantList";
 
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
   marginTop: 10,
   padding: 20,
+}));
+
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  width: "100%",
+  margin: "auto",
+  borderColor: theme.palette.primary.main,
+  borderWidth: 1,
+  borderRadius: "50%",
+  opacity: "0.5",
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -47,6 +59,11 @@ function AddProductVariant({ product }) {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
+  const changeActiveStatus = () => {
+    setData({ ...data, isActive: !data.isActive });
+    console.log(data.isActive);
+  };
+
   const setColorValue = (color) => {
     setData({
       color: color,
@@ -60,6 +77,7 @@ function AddProductVariant({ product }) {
     quantity: "",
     stack: "",
     discount: "",
+    isActive: true,
   });
 
   return (
@@ -86,7 +104,6 @@ function AddProductVariant({ product }) {
         </Grid>
 
         <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <Button></Button>
           <RtlTextField
             onChange={handleSetValues}
             name="discount"
@@ -96,31 +113,114 @@ function AddProductVariant({ product }) {
           />
         </Grid>
 
-        <Grid
-          sx={{ px: 1, fontFamily: "sans-serif !important" }}
-          item
-          xs={12}
-          md={4}
-        >
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
+          <RtlTextField
+            onChange={handleSetValues}
+            name="quantity"
+            size="small"
+            fullWidth
+            label="مقدار موجودی"
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
+          <RtlTextField
+            onChange={handleSetValues}
+            name="stack"
+            size="small"
+            fullWidth
+            label="تعداد در بسته"
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1, fontFamily: "sans-serif !important" }} item xs={12}>
           <Box
             sx={{
-              mb: 2,
+              mt: 3,
+              mb: 1,
             }}
           >
-            رنگ انتخابی{" "}
+            رنگ انتخابی
           </Box>
           <MuiColorInput
             size="small"
             variant="outlined"
             sx={{
               width: "140px",
-              fontFamily: "sans-serif !important",
+              direction: "rtl !important",
             }}
             value={data.color}
             format="hex"
             onChange={setColorValue}
           />
         </Grid>
+
+        <Grid
+          sx={{
+            mt: 4,
+          }}
+          item
+          xs={12}
+        >
+          {" "}
+          <FormControlLabel
+            label={<Typography variant="body2">فعال سازی محصول</Typography>}
+            sx={{
+              lineHeight: 1,
+            }}
+            control={
+              <Checkbox
+                name="isActive"
+                onClick={changeActiveStatus}
+                defaultChecked={data.isActive}
+                size="medium"
+                sx={{
+                  mr: "-16px !important",
+                }}
+              />
+            }
+          />
+        </Grid>
+
+        <Grid sx={{ px: 1, mx: "auto", mb: 12 }} xs={12} item>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              borderRadius: "8px",
+              overflow: "hidden",
+            }}
+          >
+            <Button
+              // onClick={handleCreateProduct}
+              sx={{
+                p: "12px 24px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "#fff",
+                backgroundColor: "primary.main",
+                borderRadius: "8px",
+                transition: ".2s ease-in-out",
+                "& .MuiButton-startIcon": {
+                  marginLeft: "12px",
+                  fontSize: "148px",
+                },
+              }}
+              endIcon={
+                <AddIcon
+                  sx={{
+                    marginRight: 1,
+                  }}
+                />
+              }
+              variant="contained"
+            >
+              اضافه کردن تنوع
+            </Button>
+          </Box>
+          <StyledDivider sx={{ mt: 4 }} />
+        </Grid>
+        <ProductVariantList />
       </Grid>
     </div>
   );

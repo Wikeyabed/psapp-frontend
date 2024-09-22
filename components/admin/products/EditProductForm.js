@@ -264,23 +264,6 @@ const EditForm = ({ product, closeAfterUpdate }) => {
           }}
         />
 
-        <Grid item xs={12}>
-          {" "}
-          <FormControlLabel
-            label={<Typography variant="body2">فعال سازی محصول</Typography>}
-            sx={{
-              lineHeight: 1,
-            }}
-            control={
-              <Checkbox
-                onClick={changeActiveStatus}
-                defaultChecked={product.is_active}
-                size="medium"
-              />
-            }
-          />
-        </Grid>
-
         <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
           <RtlTextField
             onChange={handleSetValues}
