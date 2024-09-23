@@ -4,6 +4,7 @@ import { PRODUCT } from "../constants/constants";
 const initialState = {
   products: [],
   shoppingCart: [],
+  productVariants: [],
   search: "",
   filter: "all",
   priceSort: "cheap",
@@ -15,6 +16,10 @@ export const productSlice = createSlice({
   reducers: {
     getProducts: (state, action) => {
       state.products = action.payload;
+    },
+
+    getProductVariants: (state, action) => {
+      state.productVariants = action.payload;
     },
 
     searchValue: (state, action) => {

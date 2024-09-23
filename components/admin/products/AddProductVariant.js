@@ -71,7 +71,6 @@ function AddProductVariant({ product }) {
   };
   const [data, setData] = useState({
     name: "",
-    description: "",
     color: "",
     price: "",
     quantity: "",
@@ -79,6 +78,36 @@ function AddProductVariant({ product }) {
     discount: "",
     isActive: true,
   });
+
+  const handleCreateVariant = () => {
+    let myHeaders = new Headers();
+    myHeaders.append("token", getCookie("x-auth-token"));
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("variant_name", data.name);
+    urlencoded.append("variant_stack", data.stack);
+    urlencoded.append("variant_quantity", data.quantity);
+    urlencoded.append("variant_color", data.color);
+    urlencoded.append("variant_price", data.price);
+    urlencoded.append("variant_discount", data.discount);
+    urlencoded.append("is_active", data.isActive);
+    urlencoded.append("variant_product_id", product.id);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/products-variant/add`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
 
   return (
     <div>
