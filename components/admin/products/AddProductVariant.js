@@ -20,6 +20,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import { setProductVariant } from "../../../redux/reducers/productSlice";
 
 import { MuiColorInput } from "mui-color-input";
 import ProductVariantList from "./ProductVariantList";
@@ -104,8 +105,11 @@ function AddProductVariant({ product }) {
       `${process.env.NEXT_PUBLIC_API_URL}/products-variant/add`,
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => response.json())
+      .then((result) => {
+        setProductVariant(result);
+        console.log(result);
+      })
       .catch((error) => console.log("error", error));
   };
 
@@ -221,7 +225,7 @@ function AddProductVariant({ product }) {
             }}
           >
             <Button
-              // onClick={handleCreateProduct}
+              onClick={handleCreateVariant}
               sx={{
                 p: "12px 24px",
                 fontSize: "16px",

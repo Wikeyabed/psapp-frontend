@@ -18,7 +18,7 @@ export const productSlice = createSlice({
       state.products = action.payload;
     },
 
-    getProductVariants: (state, action) => {
+    setProductVariant: (state, action) => {
       state.productVariants = action.payload;
     },
 
@@ -56,6 +56,7 @@ export const {
   setFilter,
   loadCart,
   getProducts,
+  setProductVariant,
 } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -51,7 +51,7 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   opacity: "0.5",
 }));
 
-const EditForm = ({ closeAfterUpdate }) => {
+const EditForm = ({ product, closeAfterUpdate }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState();
   const [categoryList, setCategoryList] = useState([]);
@@ -82,10 +82,7 @@ const EditForm = ({ closeAfterUpdate }) => {
     product_id: "",
     description: "",
     features: "",
-    price: "",
-    quantity: "",
-    stack: "",
-    discount: "",
+    currentProduct: {},
   });
   const [files, setFiles] = useState([]);
 
@@ -114,10 +111,6 @@ const EditForm = ({ closeAfterUpdate }) => {
     formData.append("product_id", data.product_id);
     formData.append("product_description", data.description);
     formData.append("category", category);
-    formData.append("price", data.price);
-    formData.append("product_quantity", parseInt(data.quantity));
-    formData.append("stack", data.stack);
-    formData.append("discount", data.discount);
     formData.append("product_features", data.features);
 
     for (let i = 0; i < files.length; i++) {
@@ -147,7 +140,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           );
 
           // close parent modal after a short timeout
-          setTimeout(() => closeAfterUpdate(true), 500);
+          // setTimeout(() => closeAfterUpdate(true), 500);
 
           return response.json();
         } else {
@@ -159,8 +152,11 @@ const EditForm = ({ closeAfterUpdate }) => {
           );
         }
       })
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error.message));
+      .then((result) => {
+        setData({ ...data, currentProduct: result });
+        console.log(result);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleCategoryChange = (event) => {
@@ -198,27 +194,6 @@ const EditForm = ({ closeAfterUpdate }) => {
             label="کد محصول"
           />
         </Grid>
-
-        {/* <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="quantity"
-            size="small"
-            type="number"
-            fullWidth
-            label="مقدار موجود"
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="stack"
-            size="small"
-            fullWidth
-            label="تعداد در هر بسته"
-          />
-        </Grid> */}
 
         <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
@@ -380,7 +355,7 @@ const EditForm = ({ closeAfterUpdate }) => {
 
         <StyledDivider />
 
-        <AddProductVariant />
+        <AddProductVariant product={data.currentProduct} />
       </Grid>
     </>
   );
