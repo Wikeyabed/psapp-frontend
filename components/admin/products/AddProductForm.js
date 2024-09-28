@@ -334,28 +334,6 @@ const EditForm = ({ product, closeAfterUpdate }) => {
             ایجاد محصول اولیه
           </Button>
         </Box>
-        <StyledDivider
-          sx={{
-            mt: 12,
-            width: "100%",
-          }}
-        />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Typography
-          variant="h6"
-          sx={{
-            p: 1,
-            textAlign: "center",
-          }}
-        >
-          اضافه کردن تنوع{" "}
-        </Typography>
-
-        <StyledDivider />
-
-        <AddProductVariant product={data.currentProduct} />
       </Grid>
     </>
   );

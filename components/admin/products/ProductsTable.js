@@ -13,6 +13,7 @@ import EditProductModal from "./EditProductModal";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 import DeleteProduct from "./DeleteProduct";
+import AddVariantModal from "./AddVariantModal";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -223,6 +224,8 @@ function ProductsTable() {
                   fetchProducts={fetchProducts}
                   id={product.product_id}
                 />
+
+                <AddVariantModal product={product} />
               </Box>
             </Box>
           </DashboardCard>
