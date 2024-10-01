@@ -4,7 +4,7 @@ import { PRODUCT } from "../constants/constants";
 const initialState = {
   products: [],
   shoppingCart: [],
-  productVariants: [],
+  productVariants: null,
   search: "",
   filter: "all",
   priceSort: "cheap",

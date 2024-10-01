@@ -57,7 +57,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     overflow: "unset",
   },
 }));
-function AddProductVariant({ product }) {
+function  AddProductVariant({ product }) {
   const productVariants = useSelector((state) => state.product.productVariants);
 
   const dispatch = useDispatch();
@@ -73,6 +73,7 @@ function AddProductVariant({ product }) {
 
   const setColorValue = (color) => {
     setData({
+      ...data,
       color: color,
     });
   };
