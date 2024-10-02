@@ -158,7 +158,7 @@ function ProductVariantList({ variants }) {
                             mt: 1,
                           }}
                         >
-                          نام تنوع:
+                          قیمت تنوع:
                         </Typography>
                         <RtlTextField
                           onChange={handleSetValues}
@@ -180,7 +180,7 @@ function ProductVariantList({ variants }) {
                             mt: 1,
                           }}
                         >
-                          نام تنوع:
+                          درصد تخفیف:
                         </Typography>
                         <RtlTextField
                           onChange={handleSetValues}
@@ -202,7 +202,7 @@ function ProductVariantList({ variants }) {
                             mt: 1,
                           }}
                         >
-                          نام تنوع:
+                          مقدار موجودی:
                         </Typography>
                         <RtlTextField
                           onChange={handleSetValues}
@@ -224,7 +224,7 @@ function ProductVariantList({ variants }) {
                             mt: 1,
                           }}
                         >
-                          نام تنوع:
+                          تعداد در بسته:
                         </Typography>
                         <RtlTextField
                           onChange={handleSetValues}

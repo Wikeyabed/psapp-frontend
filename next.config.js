@@ -23,7 +23,7 @@
 module.exports = {
   transpilePackages: ["mui-color-input"],
   compiler: {
-    removeConsole: true,
+    // removeConsole: true,
   },
   reactStrictMode: true,
   images: {
