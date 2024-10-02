@@ -4,7 +4,7 @@ import { getProducts } from "../../redux/reducers/productSlice";
 import { useEffect } from "react";
 import Head from "next/head";
 
-export default function Home({ products }) {
+export default function Home({ products, allVariants }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProducts(products));
@@ -22,6 +22,9 @@ export default function Home({ products }) {
 
 export async function getServerSideProps() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+
+  const varRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+
   const products = await res.json();
 
   return {

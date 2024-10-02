@@ -5,6 +5,7 @@ const initialState = {
   products: [],
   shoppingCart: [],
   productVariants: null,
+  allVariants: null,
   search: "",
   filter: "all",
   priceSort: "cheap",
@@ -20,6 +21,10 @@ export const productSlice = createSlice({
 
     setProductVariant: (state, action) => {
       state.productVariants = action.payload;
+    },
+
+    setAllVariant: (state, action) => {
+      state.allVariants = action.payload;
     },
 
     searchValue: (state, action) => {
@@ -55,6 +60,7 @@ export const {
   removeFromCart,
   setFilter,
   loadCart,
+  setAllVariant,
   getProducts,
   setProductVariant,
 } = productSlice.actions;
