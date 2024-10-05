@@ -12,7 +12,7 @@ const ProductPage = ({ product }) => {
 
   return (
     <>
-      {product != "undefined" && product.is_active ? (
+      {product != "undefined" ? (
         <Grid container display={"flex"} justifyContent={"center"}>
           {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
           <Grid

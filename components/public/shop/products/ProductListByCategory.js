@@ -19,7 +19,7 @@ function ProductListByCategory() {
 
     setUniqueCategories(categories);
 
-    console.log("first", uniqueCategories);
+    console.log("first", productList);
   };
   // const productCategories = () => {
   //   let categories = [];
@@ -35,10 +35,9 @@ function ProductListByCategory() {
   }, []);
 
   const setCategoryItems = (category) => {
-    return productList.filter(
-      (product) => product.category === category && product.is_active
-    );
+    return productList.filter((product) => product.category === category);
   };
+
   return (
     <Grid container>
       <Grid

@@ -57,7 +57,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     overflow: "unset",
   },
 }));
-function  AddProductVariant({ product }) {
+function AddProductVariant({ product }) {
   const productVariants = useSelector((state) => state.product.productVariants);
 
   const dispatch = useDispatch();
@@ -85,6 +85,7 @@ function  AddProductVariant({ product }) {
     stack: "",
     discount: "",
     isActive: true,
+    sort: "",
   });
 
   useEffect(() => {
@@ -125,6 +126,7 @@ function  AddProductVariant({ product }) {
     urlencoded.append("variant_price", data.price * 1);
     urlencoded.append("variant_discount", data.discount * 1);
     urlencoded.append("is_active", data.isActive);
+    urlencoded.append("variant_sort", data.sort * 1);
     urlencoded.append("variant_product_id", product.product_id);
 
     console.log(urlencoded);
@@ -225,6 +227,16 @@ function  AddProductVariant({ product }) {
           />
         </Grid>
 
+        <Grid sx={{ px: 1 }} item xs={12} md={4}>
+          <RtlTextField
+            onChange={handleSetValues}
+            name="sort"
+            size="small"
+            fullWidth
+            label="ترتیب"
+          />
+        </Grid>
+
         <Grid sx={{ px: 1, fontFamily: "sans-serif !important" }} item xs={12}>
           <Box
             sx={{
@@ -317,5 +329,4 @@ function  AddProductVariant({ product }) {
     </div>
   );
 }
-
 export default AddProductVariant;

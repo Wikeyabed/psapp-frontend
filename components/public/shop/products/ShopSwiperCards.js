@@ -15,14 +15,21 @@ import theme from "../../../../src/theme";
 import { useState } from "react";
 import Quantity from "../productPage/Quantity";
 import AddToCart from "../productPage/AddToCart";
-function ShopSwiperCards({ item }) {
+import { useSelector } from "react-redux";
+function ShopSwiperCards({ item, variants }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
-
+  const allVariants = useSelector((state) => state.product.allVariants);
   const handleActiveQuantity = () => {
     setActiveQuantity(true);
   };
+
+  const thisProductFirstVariant = allVariants.filter((variant) => {
+    item.product_id == variant.variant_product_id;
+  });
   return (
     <Card sx={{ width: 300, position: "relative", mx: "auto" }}>
+      {console.log("only this product", thisProductFirstVariant)}
+
       <Link href={`/products/${item.product_id}`}>
         {" "}
         <Image
@@ -35,7 +42,7 @@ function ShopSwiperCards({ item }) {
           alt={item.product_name}
         />
       </Link>
-      {item.discount > 0 ? (
+      {thisProductFirstVariant[0].variant_discount > 0 ? (
         <Box
           component={"span"}
           sx={{
@@ -65,13 +72,12 @@ function ShopSwiperCards({ item }) {
             }}
             textAlign={"center"}
           >
-            {persianNumber(item.discount)}% -
+            {persianNumber(thisProductFirstVariant[0].discount)}% -
           </Typography>
         </Box>
       ) : (
         ""
       )}
-
       <CardContent>
         <Link
           style={{
@@ -79,7 +85,12 @@ function ShopSwiperCards({ item }) {
           }}
           href={`/products/${item.product_id}`}
         >
-          <Tooltip placement="top" title={item.product_name}>
+          <Tooltip
+            placement="top"
+            title={
+              item.product_name + " " + thisProductFirstVariant[0].variant_name
+            }
+          >
             <Typography
               sx={{
                 textDecoration: "none",
@@ -91,7 +102,9 @@ function ShopSwiperCards({ item }) {
               variant="h6"
               fontWeight={"bold"}
             >
-              {item.product_name}
+              {item.product_name +
+                " " +
+                thisProductFirstVariant[0].variant_name}
             </Typography>
           </Tooltip>
         </Link>
@@ -106,7 +119,7 @@ function ShopSwiperCards({ item }) {
           کد محصول: {item.product_id}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          تعداد در هر بسته : {item.stack}
+          تعداد در هر بسته : {thisProductFirstVariant[0].variant_stack}
         </Typography>
 
         <Typography
@@ -118,7 +131,7 @@ function ShopSwiperCards({ item }) {
           variant="body1"
           color="lightPrimary.main"
         >
-          {item.discount > 0 ? (
+          {thisProductFirstVariant[0].variant_discount > 0 ? (
             <>
               <span
                 style={{
@@ -127,14 +140,22 @@ function ShopSwiperCards({ item }) {
                   color: "#444",
                 }}
               >
-                {persianNumber(Math.round(item.price))} ریال
+                {persianNumber(
+                  Math.round(thisProductFirstVariant[0].variant_price)
+                )}{" "}
+                ریال
               </span>
               <br />
             </>
           ) : (
             ""
           )}
-          {persianNumber(Math.round(item.price * (1 - item.discount * 0.01)))}{" "}
+          {persianNumber(
+            Math.round(
+              thisProductFirstVariant[0].variant_price *
+                (1 - thisProductFirstVariant[0].variant_discount * 0.01)
+            )
+          )}{" "}
           ریال
         </Typography>
       </CardContent>
@@ -151,17 +172,17 @@ function ShopSwiperCards({ item }) {
           <>
             <Quantity
               productId={item.product_id}
-              stack={item.stack}
-              quantity={item.product_quantity}
-              discount={item.discount}
-              price={item.price}
+              stack={thisProductFirstVariant[0].variant_stack}
+              quantity={thisProductFirstVariant[0].variant_quantity}
+              discount={thisProductFirstVariant[0].variant_discount}
+              price={thisProductFirstVariant[0].variant_price}
               showDetails={false}
-              product_uuid={item.product_uuid}
+              product_uuid={thisProductFirstVariant[0].variant_uuid}
             />
           </>
         ) : (
           <Button
-            disabled={item.product_quantity < 1}
+            disabled={thisProductFirstVariant[0].variant_quantity < 1}
             fullWidth
             sx={{
               color: "#fff",
@@ -171,7 +192,9 @@ function ShopSwiperCards({ item }) {
             color="primary"
             size="medium"
           >
-            {item.product_quantity > 0 ? "خرید" : "ناموجود"}
+            {thisProductFirstVariant[0].variant_quantity > 0
+              ? "خرید"
+              : "ناموجود"}
           </Button>
         )}
       </CardActions>

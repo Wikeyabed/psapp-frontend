@@ -46,6 +46,7 @@ function ProductVariantList({ variants }) {
     variant_quantity: "",
     variant_stack: "",
     is_active: "",
+    variant_sort: "",
   });
 
   const changeActiveStatus = (uuid, currentId) => {
@@ -74,6 +75,7 @@ function ProductVariantList({ variants }) {
         variant_quantity: variant.variant_quantity,
         variant_stack: variant.variant_stack,
         is_active: variant.is_active,
+        variant_sort: variant.variant_sort,
       });
     }
   };
@@ -233,6 +235,27 @@ function ProductVariantList({ variants }) {
                           value={data.variant_stack}
                         />
                       </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            ml: 2,
+                            mt: 1,
+                          }}
+                        >
+                          ترتیب:
+                        </Typography>
+                        <RtlTextField
+                          onChange={handleSetValues}
+                          name="variant_sort"
+                          variant="standard"
+                          value={data.variant_sort}
+                        />
+                      </Box>
                     </>
                   ) : (
                     <>
@@ -271,6 +294,30 @@ function ProductVariantList({ variants }) {
                         }}
                       >
                         تعداد در بسته:{variant.variant_stack}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          my: 1,
+                        }}
+                      >
+                        ترتیب:{variant.variant_sort}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          my: 1,
+                        }}
+                      >
+                        وضعیت تنوع:{" "}
+                        <span
+                          style={{
+                            color: variant.is_active ? "green" : "red",
+                          }}
+                        >
+                          {" "}
+                          {variant.is_active ? "فعال" : "غیر فعال"}
+                        </span>{" "}
                       </Typography>
                     </>
                   )}
