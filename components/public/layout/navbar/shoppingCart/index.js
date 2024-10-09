@@ -97,7 +97,12 @@ function MiniShoppingCart() {
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, requestOptions)
         .then((response) => response.json())
-        .then((result) => dispatch(getProducts(result)))
+        .then(
+          (result) => {
+            console.log(result);
+          }
+          // dispatch(getProducts(result)
+        )
         .catch((error) => console.log("error", error));
     }
   };

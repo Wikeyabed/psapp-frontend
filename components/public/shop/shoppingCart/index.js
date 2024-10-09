@@ -84,7 +84,10 @@ function ShoppingCart() {
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, requestOptions)
         .then((response) => response.json())
-        .then((result) => dispatch(getProducts(result)))
+        .then((result) =>
+          // dispatch(getProducts(result))
+          console.log(result)
+        )
         .catch((error) => console.log("error", error));
     }
   };

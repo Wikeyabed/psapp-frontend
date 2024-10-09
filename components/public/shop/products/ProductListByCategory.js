@@ -18,8 +18,6 @@ function ProductListByCategory() {
     const categories = await res.json();
 
     setUniqueCategories(categories);
-
-    console.log("first", productList);
   };
   // const productCategories = () => {
   //   let categories = [];
@@ -32,10 +30,11 @@ function ProductListByCategory() {
 
   useEffect(() => {
     getAllCategories();
+    console.log("cats", productList);
   }, []);
 
   const setCategoryItems = (category) => {
-    return productList.filter((product) => product.category === category);
+    return productList.filter((product) => product.info.category === category);
   };
 
   return (
