@@ -46,7 +46,7 @@ export const productSlice = createSlice({
 
     removeFromCart: (state, action) => {
       state.shoppingCart = state.shoppingCart.filter(
-        (product) => product.product_uuid != action.payload
+        (product) => product.variant_uuid != action.payload
       );
     },
   },

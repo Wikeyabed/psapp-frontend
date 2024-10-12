@@ -13,6 +13,7 @@ function Quantity({
   productId,
   showDetails = true,
   product_uuid,
+  variant_uuid,
 }) {
   const [counter, setCounter] = useState(1);
 
@@ -47,6 +48,7 @@ function Quantity({
           showDetails={showDetails}
           product_uuid={product_uuid}
           instock={quantity}
+          variant_uuid={variant_uuid}
         />
         {/* </Grid> */}
         {/* <Grid xs={12} md={6}> */}{" "}

@@ -16,6 +16,7 @@ function AddToCart({
   fullStack,
   showDetails,
   product_uuid,
+  variant_uuid,
   instock,
 }) {
   const dispatch = useDispatch();
@@ -96,6 +97,7 @@ function AddToCart({
 
     let urlencoded = new URLSearchParams();
     urlencoded.append(`product_uuid`, `${product_uuid}`);
+    urlencoded.append(`variant_uuid`, `${variant_uuid}`);
     urlencoded.append(`product_id`, `${productId}`);
     urlencoded.append(`quantity`, `${fullStack}`);
     let requestOptions = {

@@ -42,13 +42,13 @@ function MiniShoppingCart() {
     let newStore = [...store];
 
     const sortedStore = newStore.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const lowerID = a.variant_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.variant_uuid.toUpperCase(); // ignore upper and lowercase
       if (lowerID < higherID) {
         return -1;
       }
       if (lowerID > higherID) {
-        return 1;
+        return 1;  
       }
 
       // names must be equal
@@ -56,8 +56,8 @@ function MiniShoppingCart() {
     });
 
     const sortedSession = session.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const lowerID = a.variant_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.variant_uuid.toUpperCase(); // ignore upper and lowercase
       if (lowerID < higherID) {
         return -1;
       }
@@ -68,7 +68,7 @@ function MiniShoppingCart() {
       return 0;
     });
 
-    return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
+    return intersectionBy(sortedStore, sortedSession, "variant_uuid").map(
       (product, i) => {
         console.log("product 23123", product.product_name);
 

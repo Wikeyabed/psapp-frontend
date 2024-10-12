@@ -14,7 +14,6 @@ import Link from "../../../../src/Link";
 import theme from "../../../../src/theme";
 import { useEffect, useState } from "react";
 import Quantity from "../productPage/Quantity";
-import AddToCart from "../productPage/AddToCart";
 import { useSelector } from "react-redux";
 function ShopSwiperCards({ item, variants }) {
   const [activeQuantity, setActiveQuantity] = useState(false);

@@ -29,8 +29,8 @@ function ShoppingCart() {
     let newStore = [...store];
 
     const sortedStore = newStore.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const lowerID = a.variant_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.variant_uuid.toUpperCase(); // ignore upper and lowercase
       if (lowerID < higherID) {
         return -1;
       }
@@ -43,8 +43,8 @@ function ShoppingCart() {
     });
 
     const sortedSession = session.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const lowerID = a.variant_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.variant_uuid.toUpperCase(); // ignore upper and lowercase
       if (lowerID < higherID) {
         return -1;
       }
@@ -55,7 +55,7 @@ function ShoppingCart() {
       return 0;
     });
 
-    return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
+    return intersectionBy(sortedStore, sortedSession, "variant_uuid").map(
       (product, i) => {
         console.log("product 23123", product.product_name);
 
@@ -120,7 +120,7 @@ function ShoppingCart() {
         product_discount: product.discount + "%",
         product_name: product.product_name,
         product_id: product.product_id,
-        product_uuid: product.product_uuid,
+        variant_uuid: product.variant_uuid,
         product_quantity: product.cart_quantity,
         unit_price: product.price * (1 - product.discount * 0.01),
         total_price:
