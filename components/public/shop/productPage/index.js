@@ -6,15 +6,23 @@ import BottomTabs from "./BottomTabs";
 import SmallDescription from "./SmallDescription";
 import Quantity from "./Quantity";
 import Error from "../../../../pages/404";
+import SelectVariants from "./SelectVariants";
+import { useState } from "react";
 
-const ProductPage = ({ product }) => {
+const ProductPage = ({ product, variants }) => {
   const router = useRouter();
+
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+
+  const handleSelect = (value) => {
+    setSelectedVariant(value);
+  };
 
   return (
     <>
       {product != "undefined" ? (
         <Grid container display={"flex"} justifyContent={"center"}>
-          {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
+          <Grid item xs={false} md={2} lg={2.5}></Grid>
           <Grid
             sx={{
               p: { xs: 2, md: 0 },
@@ -58,17 +66,19 @@ const ProductPage = ({ product }) => {
                   <Typography
                     variant="h4"
                     sx={{
-                      fontSize: { xs: "25px", lg: "35px" },
+                      fontSize: { xs: "15px", lg: "25px" },
                       paddingBottom: 5,
                       fontWeight: "bold",
                     }}
                   >
-                    {product.product_name}
+                    {product.product_name + "-" + selectedVariant.variant_name}
                   </Typography>
 
                   <SmallDescription
                     desc={product.product_features.split("-")}
                   />
+
+                  <SelectVariants select={handleSelect} variants={variants} />
                   <Divider />
                   <Box
                     sx={{
@@ -77,11 +87,11 @@ const ProductPage = ({ product }) => {
                   >
                     <Quantity
                       productId={product.product_id}
-                      stack={product.stack}
-                      quantity={product.product_quantity}
-                      discount={product.discount}
-                      price={product.price}
-                      product_uuid={product.product_uuid}
+                      stack={selectedVariant.variant_stack}
+                      quantity={selectedVariant.variant_quantity}
+                      discount={selectedVariant.variant_discount}
+                      price={selectedVariant.variant_price}
+                      product_uuid={selectedVariant.variant_uuid}
                     />
                   </Box>
                 </Grid>
