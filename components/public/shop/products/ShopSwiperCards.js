@@ -171,7 +171,10 @@ function ShopSwiperCards({ item, variants }) {
           <>
             <Quantity
               productId={item.info.product_id}
+              product_name={item.info.product_name}
+              variant_name={item.variants[0].variant_name}
               stack={item.variants[0].variant_stack}
+              images_url={item.info.images_url}
               quantity={item.variants[0].variant_quantity}
               discount={item.variants[0].variant_discount}
               price={item.variants[0].variant_price}

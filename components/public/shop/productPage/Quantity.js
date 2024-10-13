@@ -14,6 +14,9 @@ function Quantity({
   showDetails = true,
   product_uuid,
   variant_uuid,
+  product_name,
+  variant_name,
+  images_url,
 }) {
   const [counter, setCounter] = useState(1);
 
@@ -42,13 +45,17 @@ function Quantity({
       >
         {/* <Grid xs={12} md={6}> */}
         <AddToCart
+          product_name={product_name + "-" + variant_name}
           fullStack={stack * counter}
+          price={price}
           counter={counter}
           productId={productId}
           showDetails={showDetails}
           product_uuid={product_uuid}
           instock={quantity}
+          discount={discount}
           variant_uuid={variant_uuid}
+          images_url={images_url}
         />
         {/* </Grid> */}
         {/* <Grid xs={12} md={6}> */}{" "}

@@ -86,6 +86,8 @@ const ProductPage = ({ product, variants }) => {
                     }}
                   >
                     <Quantity
+                      product_name={product.product_name}
+                      variant_name={selectedVariant.variant_name}
                       productId={product.product_id}
                       stack={selectedVariant.variant_stack}
                       quantity={selectedVariant.variant_quantity}
@@ -93,6 +95,7 @@ const ProductPage = ({ product, variants }) => {
                       price={selectedVariant.variant_price}
                       product_uuid={product.product_uuid}
                       variant_uuid={selectedVariant.variant_uuid}
+                      images_url={product.images_url}
                     />
                   </Box>
                 </Grid>

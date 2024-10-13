@@ -26,7 +26,7 @@ export default function CartItems() {
       {cartItems.map((product, i) => {
         const discountedPrice = product.price * (1 - product.discount * 0.01);
 
-        totalPrice += discountedPrice * product.cart_quantity;
+        totalPrice += discountedPrice * product.quantity;
 
         return (
           <Box key={i}>
@@ -47,7 +47,7 @@ export default function CartItems() {
                   left: 0,
                   bottom: 0,
                 }}
-                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
+                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url}`}
                 alt={product.product_name}
               />
               <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -72,11 +72,11 @@ export default function CartItems() {
                       )} ${"بسته"} `}
                       color="info"
                     /> */}
-                    <DeleteFromCart product_uuid={product.product_uuid} />
+                    <DeleteFromCart product_uuid={product.variant_uuid} />
                   </Typography>
 
                   <Typography variant="caption" color="#000" component="div">
-                    تعداد کل : {product.cart_quantity} عدد
+                    تعداد کل : {product.quantity} عدد
                   </Typography>
 
                   <Typography
@@ -108,10 +108,7 @@ export default function CartItems() {
                       {" "}
                       مبلغ کل :{" "}
                     </span>
-                    {persianNumber(
-                      discountedPrice * product.cart_quantity
-                    )}{" "}
-                    ریال
+                    {persianNumber(discountedPrice * product.quantity)} ریال
                   </Typography>
                 </CardContent>
               </Box>
