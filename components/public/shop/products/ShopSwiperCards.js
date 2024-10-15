@@ -12,30 +12,42 @@ import { persianNumber } from "../../../../src/PersianDigits";
 import Image from "next/image";
 import Link from "../../../../src/Link";
 import theme from "../../../../src/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Quantity from "../productPage/Quantity";
-import AddToCart from "../productPage/AddToCart";
-function ShopSwiperCards({ item }) {
+import { useSelector } from "react-redux";
+function ShopSwiperCards({ item, variants }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
-
+  const products = useSelector((state) => state.product.products);
   const handleActiveQuantity = () => {
     setActiveQuantity(true);
   };
+
+  // const productVariants = allVariants.filter((variant) => {
+  //   if (variant != undefined) {
+  //     return item.info.product_id == variant.variant_product_id;
+  //   }
+  // });
+
+  useEffect(() => {
+    console.log("!!!!HELOOOO", item);
+  }, []);
+
   return (
     <Card sx={{ width: 300, position: "relative", mx: "auto" }}>
-      <Link href={`/products/${item.product_id}`}>
+      <Link href={`/products/${item.info.product_id}`}>
         {" "}
         <Image
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
+          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.info.images_url[0]}`}
           width={0}
           height={0}
           loading="eager"
           sizes="100vw"
           style={{ width: "100%", height: "auto" }}
-          alt={item.product_name}
+          alt={item.info.product_name}
         />
       </Link>
-      {item.discount > 0 ? (
+
+      {item.variants[0].variant_discount != "0" ? (
         <Box
           component={"span"}
           sx={{
@@ -65,7 +77,7 @@ function ShopSwiperCards({ item }) {
             }}
             textAlign={"center"}
           >
-            {persianNumber(item.discount)}% -
+            {persianNumber(item.variants[0].variant_discount)}% -
           </Typography>
         </Box>
       ) : (
@@ -77,9 +89,12 @@ function ShopSwiperCards({ item }) {
           style={{
             textDecoration: "none",
           }}
-          href={`/products/${item.product_id}`}
+          href={`/products/${item.info.product_id}`}
         >
-          <Tooltip placement="top" title={item.product_name}>
+          <Tooltip
+            placement="top"
+            title={item.info.product_name + " " + item.variants[0].variant_name}
+          >
             <Typography
               sx={{
                 textDecoration: "none",
@@ -91,7 +106,7 @@ function ShopSwiperCards({ item }) {
               variant="h6"
               fontWeight={"bold"}
             >
-              {item.product_name}
+              {item.info.product_name + " " + item.variants[0].variant_name}
             </Typography>
           </Tooltip>
         </Link>
@@ -103,10 +118,10 @@ function ShopSwiperCards({ item }) {
           variant="body2"
           color="text.secondary"
         >
-          کد محصول: {item.product_id}
+          کد محصول: {item.info.product_id}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          تعداد در هر بسته : {item.stack}
+          تعداد در هر بسته : {item.variants[0].variant_stack}
         </Typography>
 
         <Typography
@@ -118,7 +133,7 @@ function ShopSwiperCards({ item }) {
           variant="body1"
           color="lightPrimary.main"
         >
-          {item.discount > 0 ? (
+          {item.variants[0].variant_discount > 0 ? (
             <>
               <span
                 style={{
@@ -127,14 +142,19 @@ function ShopSwiperCards({ item }) {
                   color: "#444",
                 }}
               >
-                {persianNumber(Math.round(item.price))} ریال
+                {persianNumber(Math.round(item.variants[0].variant_price))} ریال
               </span>
               <br />
             </>
           ) : (
             ""
           )}
-          {persianNumber(Math.round(item.price * (1 - item.discount * 0.01)))}{" "}
+          {persianNumber(
+            Math.round(
+              item.variants[0].variant_price *
+                (1 - item.variants[0].variant_discount * 0.01)
+            )
+          )}{" "}
           ریال
         </Typography>
       </CardContent>
@@ -150,18 +170,21 @@ function ShopSwiperCards({ item }) {
         {activeQuantity ? (
           <>
             <Quantity
-              productId={item.product_id}
-              stack={item.stack}
-              quantity={item.product_quantity}
-              discount={item.discount}
-              price={item.price}
+              productId={item.info.product_id}
+              product_name={item.info.product_name}
+              variant_name={item.variants[0].variant_name}
+              stack={item.variants[0].variant_stack}
+              images_url={item.info.images_url}
+              quantity={item.variants[0].variant_quantity}
+              discount={item.variants[0].variant_discount}
+              price={item.variants[0].variant_price}
               showDetails={false}
-              product_uuid={item.product_uuid}
+              product_uuid={item.variants[0].variant_uuid}
             />
           </>
         ) : (
           <Button
-            disabled={item.product_quantity < 1}
+            disabled={item.variants[0].variant_quantity < 1}
             fullWidth
             sx={{
               color: "#fff",
@@ -171,7 +194,7 @@ function ShopSwiperCards({ item }) {
             color="primary"
             size="medium"
           >
-            {item.product_quantity > 0 ? "خرید" : "ناموجود"}
+            {item.variants[0].variant_quantity > 0 ? "خرید" : "ناموجود"}
           </Button>
         )}
       </CardActions>

@@ -4,6 +4,8 @@ import { PRODUCT } from "../constants/constants";
 const initialState = {
   products: [],
   shoppingCart: [],
+  productVariants: null,
+  allVariants: null,
   search: "",
   filter: "all",
   priceSort: "cheap",
@@ -15,6 +17,14 @@ export const productSlice = createSlice({
   reducers: {
     getProducts: (state, action) => {
       state.products = action.payload;
+    },
+
+    setProductVariant: (state, action) => {
+      state.productVariants = action.payload;
+    },
+
+    setAllVariant: (state, action) => {
+      state.allVariants = action.payload;
     },
 
     searchValue: (state, action) => {
@@ -36,7 +46,7 @@ export const productSlice = createSlice({
 
     removeFromCart: (state, action) => {
       state.shoppingCart = state.shoppingCart.filter(
-        (product) => product.product_uuid != action.payload
+        (product) => product.variant_uuid != action.payload
       );
     },
   },
@@ -50,7 +60,9 @@ export const {
   removeFromCart,
   setFilter,
   loadCart,
+  setAllVariant,
   getProducts,
+  setProductVariant,
 } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -18,6 +18,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import AddProductVariant from "./AddProductVariant";
 
 const Item = styled(Box)(({ theme }) => ({
   textAlign: "center",
@@ -50,7 +51,7 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   opacity: "0.5",
 }));
 
-const EditForm = ({ closeAfterUpdate }) => {
+const EditForm = ({ product, closeAfterUpdate }) => {
   const dispatch = useDispatch();
   const [category, setCategory] = useState();
   const [categoryList, setCategoryList] = useState([]);
@@ -81,10 +82,7 @@ const EditForm = ({ closeAfterUpdate }) => {
     product_id: "",
     description: "",
     features: "",
-    price: "",
-    quantity: "",
-    stack: "",
-    discount: "",
+    currentProduct: {},
   });
   const [files, setFiles] = useState([]);
 
@@ -113,10 +111,6 @@ const EditForm = ({ closeAfterUpdate }) => {
     formData.append("product_id", data.product_id);
     formData.append("product_description", data.description);
     formData.append("category", category);
-    formData.append("price", data.price);
-    formData.append("product_quantity", parseInt(data.quantity));
-    formData.append("stack", data.stack);
-    formData.append("discount", data.discount);
     formData.append("product_features", data.features);
 
     for (let i = 0; i < files.length; i++) {
@@ -146,7 +140,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           );
 
           // close parent modal after a short timeout
-          setTimeout(() => closeAfterUpdate(true), 500);
+          // setTimeout(() => closeAfterUpdate(true), 500);
 
           return response.json();
         } else {
@@ -158,8 +152,11 @@ const EditForm = ({ closeAfterUpdate }) => {
           );
         }
       })
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error.message));
+      .then((result) => {
+        setData({ ...data, currentProduct: result });
+        console.log(result);
+      })
+      .catch((error) => console.log(error));
   };
 
   const handleCategoryChange = (event) => {
@@ -198,27 +195,6 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
 
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="quantity"
-            size="small"
-            type="number"
-            fullWidth
-            label="مقدار موجود"
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="stack"
-            size="small"
-            fullWidth
-            label="تعداد در هر بسته"
-          />
-        </Grid>
-
         <Grid item xs={12} md={4} sx={{ px: 1 }}>
           {" "}
           <RtlTextField
@@ -244,7 +220,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           </RtlTextField>
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
+        <Grid sx={{ mt: 4, px: 1 }} item xs={12} md={6}>
           <RtlTextField
             onChange={handleSetValues}
             name="features"
@@ -260,7 +236,7 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
 
-        <Grid sx={{ my: 4, px: 1 }} item xs={12} md={6}>
+        <Grid sx={{ mt: 4, px: 1 }} item xs={12} md={6}>
           <Editor
             onChange={handleEditorsContent}
             textareaName="description"
@@ -300,44 +276,6 @@ const EditForm = ({ closeAfterUpdate }) => {
           />
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Typography
-          variant="h6"
-          sx={{
-            p: 1,
-            textAlign: "center",
-          }}
-        >
-          قیمت و تخفیفات{" "}
-        </Typography>
-
-        <StyledDivider />
-        <Grid component={Item} container>
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="price"
-              size="small"
-              fullWidth
-              label=" قیمت محصول به ریال"
-            />
-          </Grid>
-
-          {/* <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField size="small" fullWidth label="قیمت عمده" />
-          </Grid> */}
-
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="discount"
-              size="small"
-              fullWidth
-              label="درصد تخفیف"
-            />
-          </Grid>
-        </Grid>
-      </Grid>
 
       <Grid item xs={12}>
         <Typography
@@ -357,41 +295,45 @@ const EditForm = ({ closeAfterUpdate }) => {
           </Grid>
 
           <Grid sx={{ px: 1 }} item xs={12} md={12}></Grid>
-
-          {/* <StyledDivider /> */}
-
-          <Grid sx={{ px: 1, mx: "auto", mt: 2 }} xs={12} md={4} item>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                borderRadius: "8px",
-                overflow: "hidden",
-              }}
-            >
-              <Button
-                onClick={handleCreateProduct}
-                sx={{
-                  p: "12px 24px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  color: "#fff",
-                  backgroundColor: "primary.main",
-                  borderRadius: "8px",
-                  transition: ".2s ease-in-out",
-                  "& .MuiButton-startIcon": {
-                    marginLeft: "12px",
-                    fontSize: "148px",
-                  },
-                }}
-                startIcon={<AddIcon />}
-                variant="contained"
-              >
-                اعمال تغییرات
-              </Button>
-            </Box>
-          </Grid>
         </Grid>
+      </Grid>
+
+      <Grid sx={{ px: 1, mx: "auto", mb: 12 }} xs={12} item>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        >
+          <Button
+            onClick={handleCreateProduct}
+            sx={{
+              p: "12px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "#fff",
+              backgroundColor: "primary.main",
+              borderRadius: "8px",
+              transition: ".2s ease-in-out",
+              "& .MuiButton-startIcon": {
+                marginLeft: "12px",
+                fontSize: "148px",
+              },
+            }}
+            endIcon={
+              <AddIcon
+                sx={{
+                  marginRight: 1,
+                }}
+              />
+            }
+            variant="contained"
+          >
+            ایجاد محصول اولیه
+          </Button>
+        </Box>
       </Grid>
     </>
   );

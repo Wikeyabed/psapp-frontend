@@ -11,12 +11,16 @@ import { intersectionBy } from "lodash";
 
 function AddToCart({
   counter,
+  discount,
   price,
+  product_name,
   productId,
   fullStack,
   showDetails,
   product_uuid,
+  variant_uuid,
   instock,
+  images_url,
 }) {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.product.products);
@@ -44,8 +48,8 @@ function AddToCart({
     let newStore = [...store];
 
     const sortedStore = newStore.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const lowerID = a.info.product_uuid.toUpperCase(); // ignore upper and lowercase
+      const higherID = b.info.product_uuid.toUpperCase(); // ignore upper and lowercase
       if (lowerID < higherID) {
         return -1;
       }
@@ -90,14 +94,20 @@ function AddToCart({
 
   const handleAddToCart = async () => {
     console.log("adding to cart", product_uuid, fullStack);
+
     handleAlertOpen();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     let urlencoded = new URLSearchParams();
     urlencoded.append(`product_uuid`, `${product_uuid}`);
+    urlencoded.append(`product_name`, `${product_name}`);
+    urlencoded.append(`price`, `${price * 1}`);
+    urlencoded.append(`discount`, `${discount * 1}`);
+    urlencoded.append(`variant_uuid`, `${variant_uuid}`);
+    urlencoded.append(`images_url`, `${images_url[0]}`);
     urlencoded.append(`product_id`, `${productId}`);
-    urlencoded.append(`quantity`, `${fullStack}`);
+    urlencoded.append(`cart_quantity`, `${fullStack * 1}`);
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
@@ -109,8 +119,8 @@ function AddToCart({
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/add/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("form result :", findFromReduxStore(allProducts, result));
-        dispatch(addToCart(findFromReduxStore(allProducts, result)));
+        console.log("form result :", result);
+        dispatch(addToCart(result));
       })
       .catch((error) => console.log("error", error));
   };

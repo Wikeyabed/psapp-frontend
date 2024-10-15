@@ -13,6 +13,7 @@ import EditProductModal from "./EditProductModal";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 import DeleteProduct from "./DeleteProduct";
+import AddVariantModal from "./AddVariantModal";
 
 const DashboardCard = styled(Paper)(({ theme }) => ({
   padding: "10px",
@@ -202,11 +203,11 @@ function ProductsTable() {
               <Typography variant={"caption"} color="#666">
                 کد محصول : {product.product_id}
                 <br />
-                قیمت: {product.price * (1 - product.discount * 0.01)}
+                {/* قیمت: {product.price * (1 - product.discount * 0.01)} */}
                 <br />
-                در صد تخفیف : {product.discount}
+                {/* در صد تخفیف : {product.discount} */}
                 <br />
-                موجودی: {product.product_quantity}
+                {/* موجودی: {product.product_quantity} */}
               </Typography>
 
               <Box
@@ -223,6 +224,8 @@ function ProductsTable() {
                   fetchProducts={fetchProducts}
                   id={product.product_id}
                 />
+
+                <AddVariantModal product={product} />
               </Box>
             </Box>
           </DashboardCard>

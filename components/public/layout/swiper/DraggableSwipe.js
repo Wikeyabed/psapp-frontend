@@ -104,7 +104,6 @@ export default function DraggableSwipe({ title, items, effect, children }) {
                     }}
                     key={i}
                   >
-                    {/* <ShopSwiperCards item={item} /> */}
                     {cloneElement(children, { item: item })}
                   </SwiperSlide>
                 );

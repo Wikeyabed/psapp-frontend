@@ -27,6 +27,7 @@ import shortUUID from "short-uuid";
 import moment from "moment-jalaali";
 import Link from "../../../../src/Link";
 import { LoadingButton } from "@mui/lab";
+import AddressSelect from "./AddressSelect";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
@@ -80,7 +81,7 @@ function CheckoutToPayment() {
   };
 
   useEffect(() => {
-    if (cart.length === 0 || payment.totalPrice == "0") router.push("/shop");
+    // if (cart.length === 0 || payment.totalPrice == "0") router.push("/shop");
   }, []);
 
   const handleNewPayment = async () => {
@@ -372,25 +373,11 @@ function CheckoutToPayment() {
           )}
 
           <Grid spacing={2} container>
-            <Grid xs={12} md={6} item>
-              <RtlTextField
-                name="description"
-                value={data.description}
-                required
-                multiline
-                minRows={7}
-                maxRows={7}
-                fullWidth
-                onChange={handleData}
-                label="توضیحات سفارش"
-                type="text"
-              />
-            </Grid>
-
-            <Grid xs={12} md={6} item>
+            <Grid xs={12} item>
               <Typography
                 sx={{
                   width: "100%",
+                  mb: 2,
                 }}
                 component={"div"}
                 color={"ButtonText"}
@@ -414,6 +401,7 @@ function CheckoutToPayment() {
                     <FormControlLabel
                       sx={{
                         m: 0,
+                        mb: 4,
                       }}
                       value={false}
                       control={<Radio />}
@@ -422,6 +410,7 @@ function CheckoutToPayment() {
                     <FormControlLabel
                       sx={{
                         m: 0,
+                        mb: 4,
                       }}
                       value={true}
                       control={<Radio />}
@@ -443,19 +432,7 @@ function CheckoutToPayment() {
               )}
 
               {data.setNewAddress == "true" ? (
-                <RtlTextField
-                  sx={{
-                    my: 2,
-                  }}
-                  name="newAddress"
-                  multiline
-                  minRows={3}
-                  maxRows={3}
-                  value={data.newAddress}
-                  onChange={handleData}
-                  label="آدرس جدید را وارد کنید"
-                  type="text"
-                />
+                <AddressSelect />
               ) : (
                 <Typography
                   variant="subtitle2"
@@ -469,7 +446,20 @@ function CheckoutToPayment() {
                 </Typography>
               )}
             </Grid>
-
+            <Grid xs={12} item>
+              <RtlTextField
+                name="description"
+                value={data.description}
+                required
+                multiline
+                minRows={7}
+                maxRows={7}
+                fullWidth
+                onChange={handleData}
+                label="توضیحات سفارش"
+                type="text"
+              />
+            </Grid>
             <Grid display={"flex"} xs={12} item>
               <Typography
                 component={"div"}
