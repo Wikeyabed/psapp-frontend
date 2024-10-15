@@ -7,6 +7,7 @@ import { useSearchParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
+
 import {
   setFilter,
   setPriceSort,
@@ -44,7 +45,7 @@ const SelectIcon = styled(KeyboardArrowDownIcon)(({ theme }) => ({
 }));
 
 // Main component for the filter bar
-function FilterBar() {
+function FilterBar({ changePage }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -52,7 +53,7 @@ function FilterBar() {
   const productList = useSelector((state) => state.product.products);
   const priceSort = useSelector((state) => state.product.priceSort);
   const categories = productList.map((product) => {
-    return product.category;
+    return product.info.category;
   });
   let uniqueCategories = [...new Set(categories)];
 

@@ -15,6 +15,8 @@ import Quantity from "../productPage/Quantity";
 function ShopSwiperCards({
   productName,
   productCode,
+  variant_uuid,
+  variant_name,
   price,
   stack,
   imageUrl,
@@ -37,7 +39,7 @@ function ShopSwiperCards({
     >
       <Link href={`/products/${productCode}`}>
         <Image
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl}`}
+          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl[0]}`}
           width={0}
           height={0}
           sizes="100vw"
@@ -101,7 +103,7 @@ function ShopSwiperCards({
               variant="h6"
               fontWeight={"bold"}
             >
-              {productName}
+              {productName + "-" + variant_name}
             </Typography>
           </Tooltip>
         </Link>
@@ -153,6 +155,10 @@ function ShopSwiperCards({
           <>
             <Quantity
               productId={productCode}
+              variant_uuid={variant_uuid}
+              product_name={productName}
+              variant_name={variant_name}
+              images_url={imageUrl}
               stack={stack}
               quantity={quantity}
               discount={discount}
