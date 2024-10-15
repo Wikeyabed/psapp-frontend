@@ -8,6 +8,9 @@ import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import ModalBox from "../layout/Modal";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import NewBlogCategory from "./NewBlogCategory";
 const RtlTextField = styled(TextField)(({ theme }) => ({
   marginBottom: 5,
@@ -32,6 +35,8 @@ function NewBlog() {
   const [data, setData] = useState({
     title: "",
     description: "",
+    video_url: "",
+    is_video: false,
   });
 
   const [open, setOpen] = useState(false);
@@ -49,6 +54,7 @@ function NewBlog() {
 
   const handleEditorsContent = (event) => {
     if (event.target.targetElm.name == "description") {
+      console.log(data);
       setData({ ...data, description: descRef.current.getContent() });
     }
   };
@@ -59,6 +65,11 @@ function NewBlog() {
 
     var formData = new FormData();
     formData.append("title", data.title);
+    formData.append("is_video", data.is_video);
+    if (data.is_video) {
+      formData.append("video_url", data.video_url);
+    }
+
     formData.append("category", "");
     formData.append("description", data.description);
 
@@ -83,7 +94,12 @@ function NewBlog() {
             })
           );
 
-          setData({ title: "", description: "" });
+          setData({
+            title: "",
+            description: "",
+            video_url: "",
+            is_video: false,
+          });
           setFiles([]);
         } else {
           dispatch(
@@ -108,9 +124,21 @@ function NewBlog() {
   return (
     <>
       {" "}
-      <Typography sx={{ mb: 4 }} variant="h4">
-        ایجاد بلاگ جدید
+      <Typography sx={{ mb: 4 }} variant="h5">
+        ایجاد بلاگ/ویدیو جدید
       </Typography>
+      <FormControlLabel
+        sx={{
+          mb: 4,
+          mr: -1,
+        }}
+        control={
+          <Checkbox
+            onChange={(e) => setData({ ...data, is_video: e.target.checked })}
+          />
+        }
+        label="آیا این  یک ویدیو است ؟"
+      />
       <Grid container display={"flex"} justifyContent={"center"} spacing={2}>
         <Grid item xs={12}>
           <ModalBox
@@ -153,7 +181,46 @@ function NewBlog() {
 
         <Grid xs={12} md={6} item>
           {" "}
-          <DropZone getFiles={handleGetFiles} />
+          {data.is_video ? (
+            <>
+              <RtlTextField
+                value={data.video_url}
+                onChange={(e) =>
+                  setData({ ...data, video_url: e.target.value })
+                }
+                label="لینک ویدیو آپارات"
+              />
+              <Typography
+                color={"GrayText"}
+                sx={{
+                  mt: 2,
+                }}
+                variant="body2"
+              >
+                -منظور از لینک ویدیو فقط قسمت هایلایت شده می باشد
+              </Typography>
+
+              <Typography
+                color={"GrayText"}
+                sx={{
+                  mt: 2,
+                }}
+                variant="body2"
+                component={"div"}
+              >
+                https://www.aparat.com/v/
+                <span
+                  style={{
+                    backgroundColor: "lightgreen",
+                  }}
+                >
+                  vaak7uw
+                </span>{" "}
+              </Typography>
+            </>
+          ) : (
+            <DropZone getFiles={handleGetFiles} />
+          )}
         </Grid>
 
         <Grid xs={12} item>
@@ -199,7 +266,7 @@ function NewBlog() {
         <Grid xs={12} md={6} item>
           <Button
             disabled={
-              data.title == "" || data.description == "" || files.length == 0
+              data.title == "" || data.description == "" || data.video_url == ""
             }
             sx={{
               my: 10,

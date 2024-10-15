@@ -74,15 +74,14 @@ const StyledLi = styled.li`
   display: inline-block;
   cursor: pointer;
   margin-left: 20px;
-  font-size: 20px;
 `;
 
 const StyledText = styled(Typography)({
   color: "#fff",
+  fontSize: 14,
 });
 
 export default function TopMenu() {
-  const dispatch = useDispatch();
   const [anchorProduct, setAnchorProduct] = React.useState(null);
   const [anchorServices, setAnchorServices] = React.useState(null);
 
@@ -206,6 +205,19 @@ export default function TopMenu() {
             disableElevation
           >
             <StyledText>وبلاگ</StyledText>
+          </Button>
+        </StyledLi>
+
+        <StyledLi>
+          {" "}
+          <Button
+            component={Link}
+            href="/videos"
+            variant="text"
+            color="secondary"
+            disableElevation
+          >
+            <StyledText>ویدیو های آموزشی</StyledText>
           </Button>
         </StyledLi>
 

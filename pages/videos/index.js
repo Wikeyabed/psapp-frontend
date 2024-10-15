@@ -7,9 +7,9 @@ export default function BlogSection({ blogPosts = [] }) {
     <>
       {" "}
       <Head>
-        <title>ایباکس - بلاگ</title>
+        <title>ایباکس - ویدیو های آموزشی</title>
       </Head>
-      <AllBlogs video={false} blogPosts={blogPosts} />
+      <AllBlogs video={true} blogPosts={blogPosts} />
     </>
   );
 }

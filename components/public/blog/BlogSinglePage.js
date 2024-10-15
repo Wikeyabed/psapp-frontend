@@ -15,7 +15,6 @@ export default function BlogSinglePage({ blog }) {
     <PublicLayout>
       <Grid display={"flex"} justifyContent={"center"} container>
         <Grid xs={12} md={10} lg={8}>
-          {" "}
           <BlogNav blogId={15} blogTitle={blog.title} />
           <Box sx={{ mx: "auto", my: 4 }}>
             <Box
@@ -25,18 +24,50 @@ export default function BlogSinglePage({ blog }) {
                 p: 2,
               }}
             >
-              <CardMedia
-                sx={{
-                  aspectRatio: "16/9",
-                  objectFit: "contain",
-                  maxHeight: 400,
-                  minWidth: "100%",
-                  mb: 10,
-                }}
-                component="img"
-                image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
-                alt={blog.title}
-              />
+              {blog.is_video ? (
+                <CardMedia
+                  sx={{
+                    aspectRatio: "16/9",
+                    objectFit: "contain",
+                    maxHeight: 750,
+                    minWidth: "100%",
+                    mb: 10,
+                  }}
+                  alt={blog.title}
+                >
+                  <div
+                    className="h_iframe-aparat_embed_frame"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <iframe
+                      src={`https://www.aparat.com/video/video/embed/videohash/${blog.video_url}/vt/frame`}
+                      allowFullScreen="true"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        border: 0,
+                      }}
+                    ></iframe>
+                  </div>{" "}
+                </CardMedia>
+              ) : (
+                <CardMedia
+                  sx={{
+                    aspectRatio: "16/9",
+                    objectFit: "contain",
+                    maxHeight: 750,
+                    minWidth: "100%",
+                    mb: 10,
+                  }}
+                  component="img"
+                  image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
+                  alt={blog.title}
+                />
+              )}
+
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   {blog.title}
