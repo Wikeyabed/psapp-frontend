@@ -10,7 +10,7 @@ import {
 import { truncate } from "../../../../src/tranculate";
 import parse from "html-react-parser";
 import Link from "../../../../src/Link";
-function MiniBlogCard({ item }) {
+function MiniBlogCard({ item, video }) {
   return (
     <Grid
       sx={{
@@ -29,15 +29,39 @@ function MiniBlogCard({ item }) {
         }}
         elevation={2}
       >
-        <CardMedia
-          component="img"
-          alt={item.title}
-          sx={{
-            height: "160px !important",
-            objectFit: "cover",
-          }}
-          image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
-        />
+        {video ? (
+          <CardMedia sx={{ width: "100%", height: 160 }} alt={item.title}>
+            {" "}
+            <div
+              className="h_iframe-aparat_embed_frame"
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <iframe
+                src={`https://www.aparat.com/video/video/embed/videohash/${item.video_url}/vt/frame`}
+                allowFullScreen="true"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  border: 0,
+                }}
+              ></iframe>
+            </div>{" "}
+          </CardMedia>
+        ) : (
+          <CardMedia
+            component="img"
+            alt={item.title}
+            sx={{
+              height: "160px !important",
+              objectFit: "cover",
+            }}
+            image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.images_url[0]}`}
+          />
+        )}
+
         <Typography
           sx={{
             minHeight: 70,
