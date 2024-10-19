@@ -15,6 +15,11 @@ export default function MyDocument(props) {
         {/* <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" /> */}
+
+        <link rel="manifest" href="/public/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon-512x512.png"></link>
+        <meta name="theme-color" content="#000" />
+
         {emotionStyleTags}
       </Head>
       <body style={{ width: "100%", overflowX: "hidden" }}>
