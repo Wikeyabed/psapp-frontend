@@ -10,6 +10,7 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../../../redux/reducers/productSlice";
+import { useEffect } from "react";
 
 import {
   Inventory as InventoryIcon,
@@ -94,6 +95,36 @@ export default function TopMenu() {
     setAnchorProduct(null);
   };
 
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
+
+          const deferredPrompt = e;
+
+          const installButton = document.getElementById("install-app");
+
+          installButton.addEventListener("click", () => {
+            deferredPrompt.prompt();
+
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("App installed");
+              } else {
+                console.log("App installation declined");
+              }
+
+              installButton.style.display = "none";
+            });
+          });
+
+          document.body.appendChild(installButton);
+        });
+      }
+    }
+  }, []);
+
   const openServices = Boolean(anchorServices);
 
   const handleClickServices = (event) => {
@@ -103,6 +134,15 @@ export default function TopMenu() {
     setAnchorServices(null);
   };
 
+  const handleAppInstall = async () => {
+    if (deferredPrompt !== null) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === "accepted") {
+        deferredPrompt = null;
+      }
+    }
+  };
   return (
     <>
       <StyledUl>
@@ -233,6 +273,22 @@ export default function TopMenu() {
             <StyledText>قوانین و مقررات</StyledText>
           </Button>
         </StyledLi>
+
+        <StyledLi>
+          {" "}
+          <Button
+            id="install-app"
+            variant="contained"
+            disableElevation
+            size="large"
+            sx={{
+              borderRadius: "20px",
+              backgroundColor: "brown",
+            }}
+          >
+            <StyledText>نصب اپلیکیشن ایباکس</StyledText>
+          </Button>
+        </StyledLi>
       </StyledUl>
 
       {/* ************************************************** */}
@@ -284,7 +340,6 @@ export default function TopMenu() {
             pr: 0,
             py: 1.5,
           }}
-          onClick={handleCloseServices}
           disableRipple
           component={Link}
           href="/partnership"

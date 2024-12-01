@@ -13,5 +13,6 @@
   "CodeGPT.model": "gpt-3.5-turbo",
   "CodeGPT.apiKey": "OpenAI",
   "cSpell.words": ["Ebox", "iranyekan", "reduxjs", "Swipeable"],
-  "indentRainbow.indicatorStyle": "light"
+  "indentRainbow.indicatorStyle": "light",
+  "editor.wordWrap": "on"
 }

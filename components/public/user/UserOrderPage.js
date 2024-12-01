@@ -1,5 +1,5 @@
 import PublicLayout from "../layout";
-import { Box, Divider, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import moment from "moment-jalaali";
 import Table from "@mui/material/Table";
@@ -9,10 +9,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { persianNumber } from "../../../src/PersianDigits";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import OrderStatus from "../../admin/orders/OrderStatus";
+import OrderPdf from "./OrderPdf";
+
+import ReactPDF from "@react-pdf/renderer";
+
 function UserOrderPage({ order }) {
   const [rows, setRows] = useState([]);
+
   useEffect(() => {
     let strings = [];
     for (let i = 0; i < order.products.length; i++) {
@@ -70,6 +75,25 @@ function UserOrderPage({ order }) {
               my: 2,
             }}
           />
+
+          <Box
+            sx={{
+              my: 3,
+              display: { xs: "block", md: "flex" },
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant={"h6"}>
+              شماره فاکتور : {order.order_number}
+            </Typography>
+
+            <Box>
+              <Button onClick={() => renderPdf()} variant="contained">
+                چاپ فاکتور
+              </Button>
+            </Box>
+          </Box>
+
           <Typography color={"#000"} variant="body2">
             نحوه دریافت :{" "}
             {order.delivery_type == "in-person"
@@ -90,31 +114,29 @@ function UserOrderPage({ order }) {
               justifyContent: "space-between",
             }}
           >
-            <Typography variant={"body2"}>
-              شماره فاکتور : {order.order_number}
+            {" "}
+            <Typography
+              sx={{
+                my: 2,
+              }}
+              variant={"body2"}
+            >
+              شماره پیگیری: {order.track_id}
             </Typography>
-
             <Typography
               sx={{
                 display: "flex",
                 mt: { xs: 3, md: 0 },
+                mb: 2,
                 fontSize: "15px",
               }}
               component={"div"}
               variant="subtitle1"
             >
+              {" "}
               وضعیت فاکتور : <OrderStatus status={order.status} />
             </Typography>
           </Box>
-
-          <Typography
-            sx={{
-              my: 2,
-            }}
-            variant={"body2"}
-          >
-            شماره پیگیری: {order.track_id}
-          </Typography>
 
           <TableContainer
             sx={{

@@ -13,10 +13,13 @@ import AuthCheck from "../components/HOC/AuthCheck";
 import TopLoadingBar from "../components/public/layout/TopLoadingBar";
 import Notification from "../components/public/notification";
 import Loading from "../components/HOC/Loading";
+import { useState } from "react";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
