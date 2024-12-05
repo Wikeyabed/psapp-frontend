@@ -54,7 +54,7 @@ function Quantity({
           product_uuid={product_uuid}
           instock={quantity}
           discount={discount}
-          variant_uuid={variant_uuid}
+          variant_uuid={product_uuid}
           images_url={images_url}
         />
         {/* </Grid> */}

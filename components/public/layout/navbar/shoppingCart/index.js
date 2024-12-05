@@ -97,17 +97,14 @@ function MiniShoppingCart() {
 
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/`, requestOptions)
         .then((response) => response.json())
-        .then(
-          (result) => {
-            console.log(result);
-          }
-          // dispatch(getProducts(result)
-        )
+        .then((result) => {
+          console.log(result);
+        })
         .catch((error) => console.log("error", error));
     }
   };
 
-  const checkCart = () => {
+  const checkCart = async () => {
     var myHeaders = new Headers();
 
     var requestOptions = {
@@ -117,10 +114,10 @@ function MiniShoppingCart() {
       credentials: "include",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(addToCart(findFromReduxStore(allProducts, result)));
+        dispatch(addToCart(result));
         console.log("hahaha", result);
       })
       .catch((error) => console.log("error", error));
@@ -133,22 +130,12 @@ function MiniShoppingCart() {
 
   return (
     <>
-      <IconButton
-        onClick={handleClickOpen}
-        aria-label="add to shopping cart"
-        sx={{
-          color: "#fff",
-        }}
-      >
+      <IconButton onClick={handleClickOpen} aria-label="add to shopping cart">
         <Badge
           color={"secondary"}
           badgeContent={persianNumber(shoppingCart.length)}
         >
-          <ShoppingCartIcon
-            sx={{
-              color: "#fff",
-            }}
-          />
+          <ShoppingCartIcon color="primary" />
         </Badge>
       </IconButton>
       <Dialog

@@ -62,7 +62,7 @@ function ShoppingCart() {
         const cartProducts = {
           ...product,
           ...{
-            cart_quantity: session[i].quantity,
+            quantity: session[i].quantity,
             product_name: product.product_name,
           },
         };
@@ -86,13 +86,13 @@ function ShoppingCart() {
         .then((response) => response.json())
         .then((result) =>
           // dispatch(getProducts(result))
-          console.log(result)
+          console.log("this is itttt", result)
         )
         .catch((error) => console.log("error", error));
     }
   };
 
-  const checkCart = () => {
+  const checkCart = async () => {
     var myHeaders = new Headers();
 
     var requestOptions = {
@@ -102,10 +102,11 @@ function ShoppingCart() {
       credentials: "include",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cart/check`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        dispatch(addToCart(findFromReduxStore(allProducts, result)));
+        dispatch(addToCart(result));
+        console.log("big cart", result);
       })
       .catch((error) => console.log("error", error));
   };
@@ -115,16 +116,16 @@ function ShoppingCart() {
     let finalPrice = 0;
     cartItems.map((product) => {
       finalPrice +=
-        product.price * (1 - product.discount * 0.01) * product.cart_quantity;
+        product.price * (1 - product.discount * 0.01) * product.quantity;
       const prodObj = {
         product_discount: product.discount + "%",
         product_name: product.product_name,
         product_id: product.product_id,
         variant_uuid: product.variant_uuid,
-        product_quantity: product.cart_quantity,
+        product_quantity: product.quantity,
         unit_price: product.price * (1 - product.discount * 0.01),
         total_price:
-          product.price * (1 - product.discount * 0.01) * product.cart_quantity,
+          product.price * (1 - product.discount * 0.01) * product.quantity,
       };
 
       orderProduct = [...orderProduct, prodObj];
@@ -139,7 +140,7 @@ function ShoppingCart() {
   useEffect(() => {
     fetchProducts();
     checkCart();
-  }, [allProducts]);
+  }, []);
 
   return (
     <PublicLayout>
@@ -148,6 +149,7 @@ function ShoppingCart() {
           <Grid
             sx={{
               borderRadius: "5px",
+              mt: 10,
             }}
           >
             <Typography mb={4} textAlign={"center"} variant="h5">
