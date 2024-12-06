@@ -75,7 +75,7 @@ function TopCards({ orders }) {
       <Grid xs={12} item>
         {" "}
         <Typography
-          variant="h4"
+          variant="h5"
           sx={{ marginBottom: "10px", textAlign: "center" }}
         >
           ... خدایا شکرت ...
@@ -103,7 +103,7 @@ function TopCards({ orders }) {
       </CardContainer>
       {/* finished orders */}
       <Grid container item xs={12}>
-        <CardContainer item xs={12} md={6}>
+        <CardContainer item xs={12} md={3}>
           <TopBox elevation={4}>
             <Typography
               variant="h6"
@@ -122,7 +122,7 @@ function TopCards({ orders }) {
         </CardContainer>
 
         {/* today orders */}
-        <CardContainer item xs={12} md={6}>
+        <CardContainer item xs={12} md={3}>
           <TopBox elevation={4}>
             <Typography
               variant="h6"
@@ -143,7 +143,7 @@ function TopCards({ orders }) {
           </TopBox>
         </CardContainer>
 
-        <CardContainer item xs={12} md={6}>
+        <CardContainer item xs={12} md={3}>
           <TopBox elevation={4}>
             <Typography
               variant="h6"
@@ -164,7 +164,7 @@ function TopCards({ orders }) {
         </CardContainer>
 
         {/* today orders */}
-        <CardContainer item xs={12} md={6}>
+        <CardContainer item xs={12} md={3}>
           <TopBox elevation={4}>
             <Typography
               variant="h6"

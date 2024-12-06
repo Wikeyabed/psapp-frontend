@@ -16,7 +16,7 @@ import AdminLayout from "../layout";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import moment from "moment-jalaali";
-import OrderStatus from "./OrderStatus";
+import OrderStatusInside from "./OrderStatusInside";
 import { getCookie } from "cookies-next";
 import { useSelector } from "react-redux";
 
@@ -100,7 +100,7 @@ const OrderPage = ({ order }) => {
 
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Typography display={"flex"} variant="subtitle1" gutterBottom>
-            وضعیت: <OrderStatus status={status} />
+            وضعیت: <OrderStatusInside status={status} />
           </Typography>
         </div>
 

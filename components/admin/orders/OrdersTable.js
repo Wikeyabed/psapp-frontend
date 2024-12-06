@@ -183,11 +183,14 @@ const OrdersTable = ({ orders }) => {
                 <StyledTableCell>شماره فاکتور</StyledTableCell>
 
                 <StyledTableCell>نام مشتری</StyledTableCell>
-                <StyledTableCell>تاریخ صدور</StyledTableCell>
+
+                {/* <StyledTableCell>تاریخ صدور</StyledTableCell> */}
 
                 <StyledTableCell>وضعیت</StyledTableCell>
 
                 <StyledTableCell>مبلغ کل</StyledTableCell>
+
+                <StyledTableCell>چاپ بیجک/فاکتور</StyledTableCell>
               </StyledTableHeaderRow>
             </TableHead>
             <TableBody>
@@ -213,12 +216,18 @@ const OrdersTable = ({ orders }) => {
                       </Link>{" "}
                     </TableCell>
 
+                    {/* 
                     <TableCell style={{ textAlign: "right" }}>
                       <ToPersianDate timestamp={order.order_date} />
-                    </TableCell>
+                    </TableCell> */}
+
+                    {/* 
+                    <TableCell style={{ textAlign: "right" }}>
+                      <ToPersianDate timestamp={order.order_date} />
+                    </TableCell> */}
 
                     <TableCell style={{ textAlign: "right" }}>
-                      <OrderStatus status={order.status} />
+                      <OrderStatus order={order} />
                     </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>
