@@ -34,8 +34,9 @@ function ShopSwiperCards({ item, variants }) {
 
   return (
     <Card sx={{ width: 300, position: "relative", mx: "auto" }}>
-      <Link href={`/products/${item.info.product_id}`}>
-        {" "}
+      <Link
+        href={`/products/${item.info.product_id}?variant=${item.variants[0].variant_uuid}&category=${item.info.category}`}
+      >
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.info.images_url[0]}`}
           width={0}
@@ -89,7 +90,7 @@ function ShopSwiperCards({ item, variants }) {
           style={{
             textDecoration: "none",
           }}
-          href={`/products/${item.info.product_id}`}
+          href={`/products/${item.info.product_id}?variant=${item.variants[0].variant_uuid}&category=${item.info.category}`}
         >
           <Tooltip
             placement="top"

@@ -24,6 +24,7 @@ function ShopSwiperCards({
   quantity,
   stock,
   product_uuid,
+  category,
 }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
 
@@ -37,7 +38,9 @@ function ShopSwiperCards({
         position: "relative",
       }}
     >
-      <Link href={`/products/${productCode}`}>
+      <Link
+        href={`/products/${productCode}?variant=${variant_uuid}&category=${category}`}
+      >
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl[0]}`}
           width={0}
@@ -89,7 +92,7 @@ function ShopSwiperCards({
           style={{
             textDecoration: "none",
           }}
-          href={`/products/${productCode}`}
+          href={`/products/${productCode}?variant=${variant_uuid}&category=${category}`}
         >
           <Tooltip placement="top" title={productName}>
             <Typography

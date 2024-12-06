@@ -65,6 +65,7 @@ function ProductList() {
               <ProductCard
                 productName={product.info.product_name}
                 productCode={product.info.product_id}
+                category={product.info.category}
                 product_uuid={product.info.product_uuid}
                 variant_uuid={product.variants[0].variant_uuid}
                 variant_name={product.variants[0].variant_name}
