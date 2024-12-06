@@ -184,7 +184,7 @@ const OrdersTable = ({ orders }) => {
 
                 <StyledTableCell>نام مشتری</StyledTableCell>
 
-                {/* <StyledTableCell>تاریخ صدور</StyledTableCell> */}
+                <StyledTableCell>تاریخ صدور</StyledTableCell>
 
                 <StyledTableCell>وضعیت</StyledTableCell>
 
@@ -216,15 +216,9 @@ const OrdersTable = ({ orders }) => {
                       </Link>{" "}
                     </TableCell>
 
-                    {/* 
                     <TableCell style={{ textAlign: "right" }}>
                       <ToPersianDate timestamp={order.order_date} />
-                    </TableCell> */}
-
-                    {/* 
-                    <TableCell style={{ textAlign: "right" }}>
-                      <ToPersianDate timestamp={order.order_date} />
-                    </TableCell> */}
+                    </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>
                       <OrderStatus order={order} />
@@ -233,6 +227,27 @@ const OrdersTable = ({ orders }) => {
                     <TableCell style={{ textAlign: "right" }}>
                       {/* {order.finished_price} */}
                       {persianNumber(order.finished_price)} ریال
+                    </TableCell>
+                    <TableCell style={{ textAlign: "right" }}>
+                      <Button
+                        size="small"
+                        sx={{
+                          ml: 1,
+                          borderRadius: "20px",
+                        }}
+                        variant="outlined"
+                      >
+                        بیجک
+                      </Button>
+                      <Button
+                        size="small"
+                        sx={{
+                          borderRadius: "20px",
+                        }}
+                        variant="contained"
+                      >
+                        فاکتور
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

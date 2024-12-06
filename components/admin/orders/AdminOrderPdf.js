@@ -12,12 +12,14 @@ import {
 import { persianNumber } from "../../../src/PersianDigits";
 
 import { useEffect, useState } from "react";
-import font from "./Anjoman.woff";
+import font from "./Iranyekan.ttf";
 import moment from "moment-jalaali";
 import dynamic from "next/dynamic";
+import { clippingParents } from "@popperjs/core";
+import { Height } from "@mui/icons-material";
 Font.register({
-  family: "anjoman",
-  format: "web",
+  family: "iranyekan",
+  format: "truetype",
   src: font,
 });
 
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     direction: "rtl",
     textAlign: "right !important",
-    fontFamily: "anjoman",
+    fontFamily: "iranyekan",
     padding: 20,
   },
   section: {
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function BijackPdf({ order }) {
+function AdminOrderPdf({ order }) {
   const [rows, setRows] = useState([]);
   const [min, setMin] = useState(800);
 
@@ -78,14 +80,14 @@ function BijackPdf({ order }) {
   }, [SlicedRows]);
 
   const sliceTheArray = async (mainArray) => {
-    let numberOfSlice = Math.ceil(mainArray.length / 7);
+    let numberOfSlice = Math.ceil(mainArray.length / 8);
     let bigArray = [];
 
-    let numberArray = [...Array(numberOfSlice).keys()].map((num) => num * 7);
+    let numberArray = [...Array(numberOfSlice).keys()].map((num) => num * 8);
 
     console.log(numberArray);
     numberArray.map((num, i) => {
-      bigArray = [...bigArray, mainArray.slice(num, num + 7)];
+      bigArray = [...bigArray, mainArray.slice(num, num + 8)];
       setSlicedRows(bigArray);
     });
   };
@@ -115,7 +117,7 @@ function BijackPdf({ order }) {
                 return (
                   <View
                     style={{
-                      height: 800,
+                      height: 790,
                       padding: 10,
                     }}
                     key={i}
@@ -123,7 +125,7 @@ function BijackPdf({ order }) {
                     <Text
                       style={{
                         fontSize: "10px",
-                        marginBottom: 10,
+
                         fontWeight: "bold",
                         textAlign: "center",
                       }}
@@ -133,7 +135,7 @@ function BijackPdf({ order }) {
                     <View
                       style={{
                         position: "absolute",
-                        top: -5,
+                        top: 15,
                         right: 15,
                         fontSize: "10px",
                       }}
@@ -175,17 +177,17 @@ function BijackPdf({ order }) {
                         {" "}
                         شماره فاکتور : {persianNumber(order.order_number)}
                       </Text>
-                      {/* <Text> شماره پیگیری :{order.track_id}</Text> */}
+                      <Text> شماره پیگیری :{order.track_id}</Text>
                     </View>
 
-                    {/* <Text
+                    <Text
                       style={{
                         textAlign: "center",
                         fontSize: "18px",
                       }}
                     >
-                      بی
-                    </Text> */}
+                      فاکتور فروش ایباکس
+                    </Text>
                     <Text
                       style={{
                         textAlign: "center",
@@ -194,153 +196,59 @@ function BijackPdf({ order }) {
                     >
                       www.eebox.ir
                     </Text>
-
                     <View
                       style={{
-                        border: "2px dotted #000",
-                        marginTop: 30,
-                        padding: 10,
-                        borderRadius: 20,
+                        direction: "rtl !important",
+                        marginTop: 15,
+                        paddingTop: 5,
+                        borderTop: "1px solid #000",
+                        flexDirection: "row-reverse",
                       }}
                     >
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          fontSize: "12px",
-                          width: "100%",
-                        }}
-                      >
-                        مشخصات گیرنده
-                      </Text>
                       <View
                         style={{
-                          direction: "rtl !important",
-                          marginTop: 30,
-                          flexDirection: "row-reverse",
+                          alignItems: "flex-end",
+                          flexGrow: 1,
                         }}
                       >
-                        <View
+                        {" "}
+                        <Text
                           style={{
-                            alignItems: "flex-end",
-                            flexGrow: 1,
+                            fontSize: "8px",
                           }}
                         >
-                          {" "}
-                          <Text
-                            style={{
-                              fontSize: "10px",
-                            }}
-                          >
-                            گیرنده: {order.customer_name}
-                          </Text>
-                        </View>{" "}
-                        <View
-                          style={{
-                            alignItems: "flex-end",
-                            flexGrow: 1,
-                          }}
-                        >
-                          {" "}
-                          <Text
-                            style={{
-                              fontSize: "10px",
-                            }}
-                          >
-                            نحوه ارسال :
-                            {order.delivery_type == "in-person"
-                              ? "حضوری از انبار ما"
-                              : order.delivery_type == "snap"
-                              ? "از طریق اسنپ (مخصوص تهران)"
-                              : order.delivery_type == "shipping"
-                              ? "از طریق باربری (مخصوص شهرستان)"
-                              : order.delivery_type == "posting"
-                              ? "ارسال از طریق پست یا تیپاکس"
-                              : ""}
-                          </Text>
-                        </View>{" "}
-                      </View>
-                      <Text
+                          شرکت/خانم/آقای : {order.customer_name}
+                        </Text>
+                      </View>{" "}
+                      <View
                         style={{
-                          fontSize: "10px",
-                          textAlign: "right",
-                          minHeight: 30,
-                          marginTop: 20,
+                          alignItems: "flex-end",
+                          flexGrow: 1,
                         }}
                       >
-                        آدرس : {order.delivery_address}
-                      </Text>
+                        {" "}
+                        <Text
+                          style={{
+                            fontSize: "8px",
+                          }}
+                        >
+                          {order.customer_phone}: شماره تماس
+                        </Text>
+                      </View>{" "}
                     </View>
 
-                    <View
+                    <Text
                       style={{
-                        border: "2px dotted #000",
-                        marginTop: 10,
-                        padding: 10,
-                        borderRadius: 20,
+                        fontSize: "10px",
+                        textAlign: "right",
+                        minHeight: 30,
                       }}
                     >
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          fontSize: "12px",
-                          width: "100%",
-                        }}
-                      >
-                        مشخصات فرستنده
-                      </Text>
-                      <View
-                        style={{
-                          direction: "rtl !important",
-                          marginTop: 30,
-                          flexDirection: "row-reverse",
-                        }}
-                      >
-                        <View
-                          style={{
-                            alignItems: "flex-end",
-                            flexGrow: 1,
-                          }}
-                        >
-                          {" "}
-                          <Text
-                            style={{
-                              fontSize: "10px",
-                            }}
-                          >
-                            فرستنده: عبداله نوروزی
-                          </Text>
-                        </View>{" "}
-                        <View
-                          style={{
-                            alignItems: "flex-end",
-                            flexGrow: 1,
-                          }}
-                        >
-                          {" "}
-                          <Text
-                            style={{
-                              fontSize: "10px",
-                            }}
-                          >
-                            آدرس:تهران-صالح آباد غربی
-                          </Text>
-                        </View>{" "}
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: "10px",
-                          textAlign: "right",
-                          minHeight: 30,
-                          marginTop: 20,
-                        }}
-                      >
-                        تماس : 55538370-021
-                      </Text>
-                    </View>
+                      آدرس : {order.delivery_address}
+                    </Text>
                     <View
                       style={{
                         flexDirection: "row-reverse",
-
                         marginTop: "20px",
                         textAlign: "center !important",
                         fontSize: "12px",
@@ -375,7 +283,7 @@ function BijackPdf({ order }) {
                           alignItems: "flex-end",
                           paddingTop: 10,
                           paddingBottom: 10,
-                          width: "200px",
+                          width: "130px",
                         }}
                       >
                         <Text
@@ -383,7 +291,6 @@ function BijackPdf({ order }) {
                             fontSize: "10px",
                             fontWeight: "bold",
                             marginRight: 10,
-                            textAlign: "center",
                           }}
                         >
                           نام محصول
@@ -393,24 +300,24 @@ function BijackPdf({ order }) {
                       <View
                         style={{
                           flexGrow: 1,
-                          alignItems: "center",
+                          alignItems: "flex-end",
                           paddingTop: 10,
                           paddingBottom: 10,
-                          width: "140px",
+                          width: "30px",
                         }}
                       >
                         <Text
                           style={{
                             fontSize: "10px",
                             fontWeight: "bold",
-                            textAlign: "center",
+                            textAlign: "right",
                           }}
                         >
                           تعداد
                         </Text>
                       </View>
 
-                      {/* <View
+                      <View
                         style={{
                           flexGrow: 1,
                           alignItems: "flex-end",
@@ -426,8 +333,8 @@ function BijackPdf({ order }) {
                         >
                           (ریال) قیمت هر عدد
                         </Text>
-                      </View> */}
-                      {/* <View
+                      </View>
+                      <View
                         style={{
                           flexGrow: 1,
                           alignItems: "flex-end",
@@ -443,7 +350,7 @@ function BijackPdf({ order }) {
                         >
                           (ریال) قیمت کل
                         </Text>
-                      </View> */}
+                      </View>
                     </View>
                     <View
                       style={{
@@ -510,7 +417,7 @@ function BijackPdf({ order }) {
                               <View
                                 style={{
                                   flexGrow: 1,
-                                  alignItems: "center",
+                                  alignItems: "flex-end",
                                   paddingTop: 10,
                                   paddingBottom: 10,
                                   width: "30px",
@@ -520,13 +427,12 @@ function BijackPdf({ order }) {
                                   style={{
                                     fontSize: "10px",
                                     fontWeight: "bold",
-                                    textAlign: "center",
                                   }}
                                 >
                                   {persianNumber(row.product_quantity)}
                                 </Text>
                               </View>
-                              {/* <View
+                              <View
                                 style={{
                                   flexGrow: 1,
                                   alignItems: "flex-end",
@@ -544,8 +450,8 @@ function BijackPdf({ order }) {
                                 >
                                   {persianNumber(row.unit_price)}
                                 </Text>
-                              </View> */}
-                              {/* <View
+                              </View>
+                              <View
                                 style={{
                                   flexGrow: 1,
                                   alignItems: "flex-end",
@@ -563,13 +469,52 @@ function BijackPdf({ order }) {
                                 >
                                   {persianNumber(row.total_price)}
                                 </Text>
-                              </View> */}
+                              </View>
                             </View>
                           );
                         })}
 
                       {i + 1 == SlicedRows.length ? (
                         <View>
+                          <View
+                            style={{
+                              alignItems: "flex-start",
+                              paddingTop: 10,
+                              paddingBottom: 10,
+                              paddingLeft: 20,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {`${persianNumber(sum)} : تعداد کل  `}
+                              {/* {rows.reduce((accumulator, row) => {
+                      return accumulator + row.product_quantity * 1;
+                    }, 0)} */}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              alignItems: "flex-start",
+
+                              paddingBottom: 10,
+                              paddingLeft: 20,
+                            }}
+                          >
+                            <Text
+                              style={{
+                                fontSize: "14px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              جمع کل فاکتور: ریال{" "}
+                              {persianNumber(order.finished_price)}
+                            </Text>
+                          </View>
+
                           <Text
                             style={{
                               fontSize: "12px",
@@ -597,4 +542,4 @@ function BijackPdf({ order }) {
     </PDFViewer>
   );
 }
-export default BijackPdf;
+export default AdminOrderPdf;
