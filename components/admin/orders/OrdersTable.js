@@ -14,10 +14,11 @@ import {
   Button,
   MenuItem,
   TablePagination,
+  Backdrop,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-
+import PhoneForwardedTwoToneIcon from "@mui/icons-material/PhoneForwardedTwoTone";
 import OrderStatus from "./OrderStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
@@ -55,6 +56,25 @@ const OrdersTable = ({ orders }) => {
   const [category, setCategory] = useState("All");
   const [loadMore, setLoadMore] = useState(15);
   const [page, setPage] = useState(0);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const [showPhone, setShowPhone] = useState({
+    id: "",
+    phone: "",
+  });
+
+  const handlePhoneTrigger = (id, phone) => {
+    handleOpen();
+    setShowPhone({ id, phone });
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -120,6 +140,37 @@ const OrdersTable = ({ orders }) => {
 
   return (
     <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: 10000 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <Box
+          sx={{
+            width: 300,
+            height: 200,
+            backgroundColor: "#fff",
+            borderRadius: 10,
+            padding: 5,
+            textAlign: "center",
+            paddingTop: 10,
+          }}
+        >
+          <Typography
+            sx={{
+              textAlign: "center",
+              color: "#000",
+              mt: 10,
+              cursor: "pointer",
+            }}
+            component={Link}
+            href={`tel:+98${showPhone.phone}`}
+          >
+            برای تماس کلیک کنید :
+            <br /> {showPhone.phone}
+          </Typography>
+        </Box>
+      </Backdrop>
       <Typography
         variant="h5"
         sx={{ marginBottom: "10px", textAlign: "center" }}
@@ -182,6 +233,8 @@ const OrdersTable = ({ orders }) => {
               <StyledTableHeaderRow>
                 <StyledTableCell>شماره فاکتور</StyledTableCell>
 
+                <StyledTableCell>شماره تماس</StyledTableCell>
+
                 <StyledTableCell>نام مشتری</StyledTableCell>
 
                 <StyledTableCell>تاریخ صدور</StyledTableCell>
@@ -205,8 +258,35 @@ const OrdersTable = ({ orders }) => {
                   <TableRow key={order.order_id}>
                     <TableCell style={{ textAlign: "right" }}>
                       <Link href={`orders/${order.order_id}`}>
-                        فاکتور شماره {order.order_number}
+                        {order.order_number}
                       </Link>
+                    </TableCell>
+
+                    <TableCell style={{ textAlign: "right" }}>
+                      <Box
+                        sx={{
+                          color: "#000",
+                          backgroundColor: "#3061db",
+                          display: "inline-block",
+                          paddingLeft: "12px",
+                          borderRadius: 1,
+                          paddingRight: "8px",
+                        }}
+                      >
+                        <PhoneForwardedTwoToneIcon
+                          onClick={() =>
+                            handlePhoneTrigger(
+                              order.order_id,
+                              order.customer_phone
+                            )
+                          }
+                          sx={{
+                            marginTop: "4px",
+                            color: "#fff",
+                            cursor: "pointer",
+                          }}
+                        />
+                      </Box>
                     </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>
@@ -230,6 +310,9 @@ const OrdersTable = ({ orders }) => {
                     </TableCell>
                     <TableCell style={{ textAlign: "right" }}>
                       <Button
+                        component={Link}
+                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/bijack/${order.order_id}`}
+                        target="_blank"
                         size="small"
                         sx={{
                           ml: 1,
@@ -240,8 +323,12 @@ const OrdersTable = ({ orders }) => {
                         بیجک
                       </Button>
                       <Button
+                        component={Link}
+                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/print/${order.order_id}`}
+                        target="_blank"
                         size="small"
                         sx={{
+                          ml: 1,
                           borderRadius: "20px",
                         }}
                         variant="contained"
