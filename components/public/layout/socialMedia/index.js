@@ -1,5 +1,5 @@
 import Link from "@mui/material/Link";
-import { Instagram, Telegram } from "@mui/icons-material";
+import { BorderLeft, Instagram, Padding, Telegram } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import Ita from "../../../../public/images/ita.svg";
 import Image from "next/image";
@@ -8,23 +8,25 @@ function SocialMediaBar() {
   const styles = {
     borderRadius: "100%",
     display: "flex",
-    backgroundColor: "primary.main",
-    width: 50,
-    height: 50,
+    color: "#fff",
+    width: 20,
+    height: 20,
     justifyContent: "center",
     alignItems: "center",
-    mb: 1,
+    Padding: 2,
+    mx: 3,
+
     "&:hover": {
-      backgroundColor: "secondary.main",
+      transform: "scale(1.2)",
     },
   };
   return (
     <Box
       sx={{
-        width: 156,
+        width: 100,
         display: "flex",
-
-        left: "44%",
+        right: "0",
+        top: 8,
         position: "absolute",
         justifyContent: "space-evenly",
       }}

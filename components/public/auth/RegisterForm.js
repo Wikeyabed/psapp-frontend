@@ -206,8 +206,12 @@ function RegisterForm() {
                 lg={6}
                 sx={{
                   mx: "auto",
-                  textAlign: "center",
-                  padding: "10px",
+                  padding: 1,
+                  border: "1px solid #ccc",
+                  boxShadow: "0px 0px 10px 0px #ccc",
+                  borderRadius: 5,
+                  padding: 2,
+                  mt: 5,
                 }}
                 container
               >
@@ -342,7 +346,7 @@ function RegisterForm() {
                 <Grid xs={12} item>
                   <Button
                     disabled={!isValid.password && isValid.email}
-                    sx={{ p: 1 }}
+                    sx={{ p: 1, borderRadius: 10 }}
                     fullWidth
                     type="submit"
                     variant="contained"
@@ -358,12 +362,12 @@ function RegisterForm() {
                     fontSize: 14,
                     textAlign: "center",
                     mt: 2,
-                    textDecoration: "none",
+                    borderRadius: 5,
                     color: "#ec9d50",
                     border: "2px solid #ec9d50",
-                    borderRadius: "5px",
+                    textDecoration: "none",
                     px: 1,
-                    py: 2,
+                    py: 1,
                   }}
                   component={Link}
                   item
@@ -381,9 +385,10 @@ function RegisterForm() {
                     textDecoration: "none",
                     color: "primary",
                     border: "2px solid #75502f",
-                    borderRadius: "5px",
+                    borderRadius: 10,
                     px: 1,
                     py: 2,
+                    mb: 2,
                   }}
                   component={Link}
                   item

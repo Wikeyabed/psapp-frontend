@@ -78,7 +78,7 @@ const StyledLi = styled.li`
 `;
 
 const StyledText = styled(Typography)({
-  color: "#fff",
+  color: "#000",
   fontSize: 14,
 });
 
@@ -95,35 +95,35 @@ export default function TopMenu() {
     setAnchorProduct(null);
   };
 
-  useEffect(() => {
-    if (typeof window != "undefined") {
-      if ("serviceWorker" in navigator && "PushManager" in window) {
-        window.addEventListener("beforeinstallprompt", (e) => {
-          e.preventDefault();
+  // useEffect(() => {
+  //   if (typeof window != "undefined") {
+  //     if ("serviceWorker" in navigator && "PushManager" in window) {
+  //       window.addEventListener("beforeinstallprompt", (e) => {
+  //         e.preventDefault();
 
-          const deferredPrompt = e;
+  //         const deferredPrompt = e;
 
-          const installButton = document.getElementById("install-app");
+  //         const installButton = document.getElementById("install-app");
 
-          installButton.addEventListener("click", () => {
-            deferredPrompt.prompt();
+  //         installButton.addEventListener("click", () => {
+  //           deferredPrompt.prompt();
 
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === "accepted") {
-                console.log("App installed");
-              } else {
-                console.log("App installation declined");
-              }
+  //           deferredPrompt.userChoice.then((choiceResult) => {
+  //             if (choiceResult.outcome === "accepted") {
+  //               console.log("App installed");
+  //             } else {
+  //               console.log("App installation declined");
+  //             }
 
-              installButton.style.display = "none";
-            });
-          });
+  //             installButton.style.display = "none";
+  //           });
+  //         });
 
-          document.body.appendChild(installButton);
-        });
-      }
-    }
-  }, []);
+  //         document.body.appendChild(installButton);
+  //       });
+  //     }
+  //   }
+  // }, []);
 
   const openServices = Boolean(anchorServices);
 
@@ -274,7 +274,7 @@ export default function TopMenu() {
           </Button>
         </StyledLi>
 
-        <StyledLi>
+        {/* <StyledLi>
           {" "}
           <Button
             id="install-app"
@@ -288,7 +288,7 @@ export default function TopMenu() {
           >
             <StyledText>نصب اپلیکیشن ایباکس</StyledText>
           </Button>
-        </StyledLi>
+        </StyledLi> */}
       </StyledUl>
 
       {/* ************************************************** */}

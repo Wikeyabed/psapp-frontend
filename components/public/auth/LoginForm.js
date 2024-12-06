@@ -157,6 +157,12 @@ function LoginForm() {
                 lg={6}
                 sx={{
                   mx: "auto",
+                  padding: 1,
+                  border: "1px solid #ccc",
+                  boxShadow: "0px 0px 10px 0px #ccc",
+                  borderRadius: 5,
+                  padding: 2,
+                  mt: 5,
                 }}
                 component={Item}
                 container
@@ -174,13 +180,13 @@ function LoginForm() {
                       sizes="100vh"
                       alt="ایباکس"
                       style={{
-                        width: "200px",
+                        width: "100px",
                         height: "auto",
                       }}
                     />
                   </Box>
 
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
+                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h6">
                     ورود بـه حساب کـاربـری
                   </Typography>
 
@@ -197,8 +203,20 @@ function LoginForm() {
                     required
                     fullWidth
                     onChange={handlePhoneNumber}
-                    label="شماره تماس"
+                    label="شماره موبایل"
                   />
+
+                  <Typography
+                    variant="caption"
+                    color={"error"}
+                    sx={{
+                      marginRight: 1,
+                    }}
+                  >
+                    {!isValid && loginInfo.phoneNumber.length != 11
+                      ? "لطفا شماره موبایل خود را به درستی وارد نمایید"
+                      : ""}
+                  </Typography>
                   <RtlTextField
                     value={loginInfo.password}
                     required
@@ -252,7 +270,7 @@ function LoginForm() {
                 <Grid sx={{ mt: 2 }} xs={12} item>
                   <Button
                     disabled={!isValid}
-                    sx={{ p: 1 }}
+                    sx={{ p: 1, borderRadius: 10 }}
                     fullWidth
                     type="submit"
                     variant="contained"
@@ -278,12 +296,12 @@ function LoginForm() {
                         fontSize: 14,
                         textAlign: "center",
                         mt: 2,
-
+                        borderRadius: 5,
                         color: "#ec9d50",
                         border: "2px solid #ec9d50",
-                        borderRadius: "5px",
+
                         px: 1,
-                        py: 2,
+                        py: 1,
                       }}
                     >
                       بازگشت به فروشگاه
@@ -306,11 +324,12 @@ function LoginForm() {
                         fontSize: 14,
                         textAlign: "center",
                         mt: 2,
+                        borderRadius: 5,
                         color: "#ec9d50",
                         border: "2px solid #ec9d50",
-                        borderRadius: "5px",
+
                         px: 1,
-                        py: 2,
+                        py: 1,
                       }}
                     >
                       رمز عبور جدید
@@ -327,7 +346,7 @@ function LoginForm() {
                     textDecoration: "none",
                     color: "primary",
                     border: "2px solid #75502f",
-                    borderRadius: "5px",
+                    borderRadius: 10,
                     px: 1,
                     py: 2,
                     mb: 2,

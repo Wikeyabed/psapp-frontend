@@ -227,7 +227,21 @@ function PhoneVerification() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container component={FormControl} container spacing={2}>
-        <Card container xs={12} md={8} lg={6}>
+        <Card
+          container
+          xs={12}
+          md={8}
+          lg={6}
+          sx={{
+            mx: "auto",
+            padding: 1,
+            border: "1px solid #ccc",
+            boxShadow: "0px 0px 10px 0px #ccc",
+            borderRadius: 5,
+            padding: 2,
+            mt: 5,
+          }}
+        >
           <Box
             component="div"
             sx={{
@@ -242,7 +256,7 @@ function PhoneVerification() {
               sizes="100vh"
               alt="ایباکس"
               style={{
-                width: "200px",
+                width: "100px",
                 height: "auto",
                 marginLeft: "auto",
                 marginRight: "auto",
@@ -306,16 +320,16 @@ function PhoneVerification() {
                     component={Button}
                     variant="text"
                     sx={{
-                      cursor: "pointer",
                       fontSize: 14,
                       textAlign: "center",
-                      mt: 4,
+                      mt: 2,
                       textDecoration: "none",
-                      color: "#ec9d50",
-                      border: "2px solid #ec9d50",
-                      borderRadius: "5px",
+                      color: "primary",
+                      border: "2px solid #75502f",
+                      borderRadius: 5,
                       px: 1,
                       py: 2,
+                      mb: 2,
                     }}
                     item
                     xs={12}
@@ -327,7 +341,7 @@ function PhoneVerification() {
             ) : (
               <>
                 <Grid sx={{ mb: 3 }} item xs={12}>
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
+                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h6">
                     شماره موبایل خود را وارد کنید
                   </Typography>
                   <RtlTextField
@@ -341,8 +355,19 @@ function PhoneVerification() {
                     type="number"
                     fullWidth
                     onChange={handleSetPhoneNumber}
-                    label="شماره تماس"
+                    label="شماره موبایل"
                   />
+                  <Typography
+                    variant="caption"
+                    color={"error"}
+                    sx={{
+                      marginRight: 1,
+                    }}
+                  >
+                    {!isValid && number.length != 11
+                      ? "لطفا شماره موبایل خود را به درستی وارد نمایید"
+                      : ""}
+                  </Typography>
                 </Grid>
 
                 <Grid item xs={12} lg={6} sx={{ mb: 1 }}>
@@ -382,7 +407,7 @@ function PhoneVerification() {
                     }
                     onClick={handleSendSms}
                     size="medium"
-                    sx={{ p: 2 }}
+                    sx={{ p: 2, borderRadius: 10 }}
                     fullWidth
                     variant="contained"
                   >
@@ -399,13 +424,14 @@ function PhoneVerification() {
               sx={{
                 fontSize: 14,
                 textAlign: "center",
-                mt: 1,
+                mt: 2,
                 textDecoration: "none",
                 color: "primary",
                 border: "2px solid #75502f",
-                borderRadius: "5px",
+                borderRadius: 10,
                 px: 1,
                 py: 2,
+                mb: 2,
               }}
               component={Link}
               item

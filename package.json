@@ -26,6 +26,7 @@
     "cookies-next": "^2.1.2",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.3.1",
+    "easy-react-text-loop": "^1.0.2",
     "eslint-plugin-react-hooks": "^5.0.0-canary-3ff846d10-20230724",
     "html-react-parser": "^4.2.0",
     "html2canvas": "^1.4.1",
