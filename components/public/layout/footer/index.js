@@ -13,8 +13,9 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "#efefef",
+        background: "linear-gradient(to bottom, #7B6D8D,#2F2235)",
         borderRadius: 4,
+        color: "#fff",
         p: 4,
         pb: { xs: 10, md: 4 },
       }}
@@ -22,10 +23,15 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" color="secondary.main" gutterBottom>
               درباره ما
             </Typography>
-            <Typography variant="caption" color="text.secondary">
+            <Typography
+              variant="caption"
+              sx={{
+                color: "#fff",
+              }}
+            >
               از سال ۱۳۹۸ در خدمت شما هستیم. از همان روز اول متوجه شدیم که هرچه
               خریداران، محصولات بسته بندی را گرانتر خریداری کنند، مجبور به
               افزایش قیمت محصولات خود میشوند.از همین رو اهدافی را برای خود ترسیم
@@ -38,7 +44,7 @@ export default function Footer() {
                 mt: 2,
               }}
               variant="h6"
-              color="text.primary"
+              color="secondary.main"
               gutterBottom
             >
               ما را دنبال کنید
@@ -71,22 +77,23 @@ export default function Footer() {
           </Grid>
 
           <Grid item xs={12} sm={4}>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" color="secondary.main" gutterBottom>
               تماس با ما
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="#fff">
               شماره تماس : 55538370-021
             </Typography>
 
             <Divider
               sx={{
                 my: 1,
+                backgroundColor: "orange",
               }}
             />
             {/* <Typography variant="body2" color="text.secondary">
               Email: info@example.com
             </Typography> */}
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="#fff">
               آدرس : یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
               آلاله یک , پلاک 1
             </Typography>
@@ -103,32 +110,38 @@ export default function Footer() {
             ></Box>
           </Grid>
           <Grid item>
-            <Typography variant="h6" color="text.primary" gutterBottom>
+            <Typography variant="h6" color="secondary.main" gutterBottom>
               نماد اکترونیکی
             </Typography>
-
-            <a
-              referrerpolicy="origin"
-              target="_blank"
-              href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+            <Box
+              sx={{
+                backgroundColor: "#fff",
+                borderRadius: "20px",
+              }}
             >
-              <img
+              <a
                 referrerpolicy="origin"
-                src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
-                alt="ebox-ایباکس"
-                style={{
-                  cursor: "pointer",
-                  width: "auto",
-                  height: "atuo",
-                }}
-                Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
-              />
-            </a>
+                target="_blank"
+                href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+              >
+                <img
+                  referrerpolicy="origin"
+                  src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+                  alt="ebox-ایباکس"
+                  style={{
+                    cursor: "pointer",
+                    width: "auto",
+                    height: "atuo",
+                  }}
+                  Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+                />
+              </a>
+            </Box>
           </Grid>
         </Grid>
         <Box mt={5}>
-          <Typography variant="body2" color="text.secondary" align="center">
-            {"تمامی حقوق این سایت متعلق به ایباکس می باشد ©      2023 - "}
+          <Typography variant="body2" color="#fff" align="center">
+            {"تمامی حقوق این سایت متعلق به ایباکس می باشد ©      2025 - "}
             <Link color="inherit" href="https://eebox.ir/">
               www.eebox.ir
             </Link>
@@ -139,6 +152,7 @@ export default function Footer() {
               my: 1,
               width: { md: "50%" },
               mx: "auto",
+              backgroundColor: "orange",
             }}
           />
           <Typography
@@ -146,10 +160,10 @@ export default function Footer() {
               fontFamily: "sans-serif !important",
             }}
             variant="body2"
-            color="text.secondary"
+            color="#fff"
             align="center"
           >
-            {"All Right Reserved And Belongs to Eebox © 2023"}
+            {"All Right Reserved And Belongs to Eebox © 2025"}
 
             {"  "}
           </Typography>

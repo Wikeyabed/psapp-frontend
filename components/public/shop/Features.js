@@ -60,7 +60,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={SendBanner.src} />
+          <BannerImage src={"/images/send.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -75,7 +75,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={ReturnBanner.src} />
+          <BannerImage src={"/images/return.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -90,7 +90,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={InPersonBanner.src} />
+          <BannerImage src={"/images/in-person.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -105,7 +105,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={AboutUsBanner.src} />
+          <BannerImage src={"/images/about-us.jpg"} />
         </FeatureContainer>
       </Grid>
     </Grid>

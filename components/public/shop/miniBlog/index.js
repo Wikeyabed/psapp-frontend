@@ -71,8 +71,9 @@ function LatestBlog() {
             px: 10,
             mb: 10,
             fontWeight: "bold",
+            backgroundColor: "#F17105",
           }}
-          color="warning"
+          // color="warning"
           size="large"
           variant="contained"
         >

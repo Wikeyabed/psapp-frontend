@@ -8,15 +8,20 @@ function Logo({ small }) {
     <Box
       sx={{
         width: small ? 80 : 130,
+        position: "absolute",
+        right: 20,
+        top: 0,
       }}
       display={"flex"}
       justifySelf={"center"}
       component={Link}
       // href="/shop"
+
       href="/"
     >
       <Image
-        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo.png`}
+        src={`https://api.eebox.ir/static/logo.png`}
+        // src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo.png`}
         width={0}
         height={0}
         sizes="100vh"

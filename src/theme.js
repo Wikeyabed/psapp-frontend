@@ -23,7 +23,7 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: "#75502f",
+      main: "#593F62",
       lightBg: "#fefefe",
       text: "#222",
       textWhite: "#fff",
@@ -42,7 +42,7 @@ const theme = createTheme({
     },
 
     lightPrimary: {
-      main: "#bea587",
+      main: "#FF5719",
     },
     error: {
       main: red.A400,

@@ -79,7 +79,7 @@ export default function Navbar() {
           sx={{
             width: "100%",
             height: 40,
-            backgroundColor: "#444",
+            backgroundColor: "#2F2235",
             position: "fixed",
             zIndex: 4000,
           }}
@@ -119,11 +119,11 @@ export default function Navbar() {
                 fontSize: "16px",
                 ml: 1,
                 color: "#000",
-                backgroundColor: "#fff",
                 borderRadius: 20,
                 width: 20,
                 height: 20,
                 padding: "1px",
+                backgroundColor: "#ec9d50",
               }}
             />
             <Typography
@@ -139,10 +139,15 @@ export default function Navbar() {
         </Box>
         <AppBar
           sx={{
-            backgroundColor: "#fff",
+            background: "linear-gradient(to bottom, #2F2235, #7B6D8D)",
+            borderBottomLeftRadius: "40px",
+            borderBottomRightRadius: "40px",
+
             paddingY: 1,
             marginBottom: 4,
-            top: 40,
+            top: "41px",
+            width: "90%",
+            right: "5%",
           }}
           position="fixed"
         >

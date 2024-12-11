@@ -14,6 +14,7 @@ import { Button, Paper } from "@mui/material";
 import Link from "../../../../src/Link";
 
 export default function FullScreenSlider({ slides }) {
+  console.log("easy", slides[0].img);
   return (
     <>
       <Paper
@@ -47,7 +48,7 @@ export default function FullScreenSlider({ slides }) {
               sizes="100vw"
               style={{ width: "100%", height: "auto" }}
               unoptimized
-              src={slide.img.src}
+              src={slide.img}
               alt={"ایباکس"}
             />
             {slide.text ? (

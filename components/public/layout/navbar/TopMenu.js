@@ -78,7 +78,7 @@ const StyledLi = styled.li`
 `;
 
 const StyledText = styled(Typography)({
-  color: "#000",
+  color: "#fff",
   fontSize: 14,
 });
 

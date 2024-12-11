@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
-import { Badge } from "@mui/material";
+import { Badge, collapseClasses } from "@mui/material";
 import CartItems from "./CartItems";
 import Link from "../../../../../src/Link";
 import { useState, useEffect, forwardRef } from "react";
@@ -135,7 +135,11 @@ function MiniShoppingCart() {
           color={"secondary"}
           badgeContent={persianNumber(shoppingCart.length)}
         >
-          <ShoppingCartIcon color="primary" />
+          <ShoppingCartIcon
+            sx={{
+              color: "#fff",
+            }}
+          />
         </Badge>
       </IconButton>
       <Dialog

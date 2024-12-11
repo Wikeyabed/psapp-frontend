@@ -37,6 +37,12 @@ module.exports = withPWA({
       "api.eebox.ir",
       "v2api.eebox.ir",
     ],
+    // localPatterns: [
+    //   {
+    //     pathname: "/public/images/**",
+    //     search: "",
+    //   },
+    // ],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import DogPic from "../../../public/images/dog.jpg";
 // import Banner0 from "../../../public/images/banner0.jpg";
 import Banner1 from "../../../public/images/banner1.jpg";
+import testBanner from "../../../public/images/banner1.jpg";
 import Banner2 from "../../../public/images/banner2.jpg";
 import Banner3 from "../../../public/images/banner3.jpg";
 import Banner4 from "../../../public/images/banner4.jpg";
@@ -20,15 +21,15 @@ const BannerBox = styled(Grid)({
 
 const slides = [
   // { img: Banner0 },
-  { img: Banner4, href: "/shop", text: "خرید" },
+  { img: "/images/banner4.jpg", href: "/shop", text: "خرید" },
 
-  { img: Banner1, href: "/contact", text: "ثبت درخواست" },
+  { img: "/images/banner1.jpg", href: "/contact", text: "ثبت درخواست" },
   {
-    img: Banner2,
+    img: "/images/banner2.jpg",
     href: "/shop/categories?category=کارتن+پستی",
     text: "خرید",
   },
-  { img: Banner3, href: "/order-form", text: "فرم سفارش" },
+  { img: "/images/banner3.jpg", href: "/order-form", text: "فرم سفارش" },
 ];
 
 const mobileSlides = [
@@ -45,6 +46,7 @@ const mobileSlides = [
   { img: Banner3Mobile, href: "/order-form", text: "فرم سفارش" },
 ];
 
+console.log("slidessssssssss", slides);
 function ShopSlider() {
   return (
     <Grid sx={{ display: "flex" }} container>
