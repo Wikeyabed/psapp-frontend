@@ -22,7 +22,7 @@ const ProductPage = ({ product, variants }) => {
     <>
       {product != "undefined" ? (
         <Grid container display={"flex"} justifyContent={"center"}>
-          <Grid item xs={false} md={2} lg={2.5}></Grid>
+          {/* <Grid item xs={false} md={2} lg={2.5}></Grid> */}
           <Grid
             sx={{
               p: { xs: 2, md: 0 },
@@ -33,26 +33,16 @@ const ProductPage = ({ product, variants }) => {
             xl={8}
           >
             <Paper
-              elevation={3}
+              elevation={0}
               sx={{
                 padding: { xs: 0, md: 4 },
-
+                border: "1px solid #ccc",
+                borderRadius: "20px",
                 marginY: { sm: 5, md: 10 },
                 mb: { xs: 10, md: "auto" },
               }}
             >
               <Grid container>
-                <Grid
-                  item
-                  xs={12}
-                  md={6}
-                  sx={{
-                    padding: 2,
-                    textAlign: { xs: "center", md: "left" },
-                  }}
-                >
-                  <Slider images={product.images_url} />
-                </Grid>
                 <Grid
                   item
                   xs={12}
@@ -98,6 +88,22 @@ const ProductPage = ({ product, variants }) => {
                       images_url={product.images_url}
                     />
                   </Box>
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  md={6}
+                  sx={{
+                    padding: 2,
+                    textAlign: { xs: "center", md: "left" },
+                    backgroundColor: "#fefefe",
+                    borderRadius: "20px",
+                    border: "1px dashed #ccc",
+                    height: "100%",
+                  }}
+                >
+                  <Slider images={product.images_url} />
                 </Grid>
               </Grid>
 

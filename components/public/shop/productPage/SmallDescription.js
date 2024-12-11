@@ -20,7 +20,7 @@ export default function SmallDescription({ desc }) {
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="body2" color={"secondary"} textAlign={"justify"}>
+          {/* <Typography variant="body2" color={"secondary"} textAlign={"justify"}>
             مجموعه ایباکس همواره میکوشد اجناس خود را با بهترین کیفیت و پایین
             ترین قیمت به فروش برساند.از این رو هزینه ارسال محصولات بر عهده مشتری
             می باشد.
@@ -53,7 +53,7 @@ export default function SmallDescription({ desc }) {
               تماس با ما
             </Box>
             در ارتباط باشید.
-          </Typography>
+          </Typography> */}
 
           <Typography
             sx={{ mt: 4, mb: 2, fontWeight: "bold" }}

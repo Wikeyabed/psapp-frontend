@@ -3,6 +3,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import { Box } from "@mui/material";
 import Image from "next/image";
+import { useState } from "react";
 
 function ThumbnailPlugin(mainRef) {
   return (slider) => {
@@ -38,15 +39,26 @@ function ThumbnailPlugin(mainRef) {
 }
 
 export default function ProductSlicer({ images }) {
+  const [loaded, setLoaded] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   const [sliderRef, instanceRef] = useKeenSlider({
     initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
+    },
   });
+
   const [thumbnailRef] = useKeenSlider(
     {
       initial: 0,
+
       slides: {
-        perView: 3,
-        spacing: 10,
+        perView: 4,
+        spacing: 20,
       },
     },
     [ThumbnailPlugin(instanceRef)]
@@ -64,7 +76,7 @@ export default function ProductSlicer({ images }) {
         {images.map((image, i) => (
           <Box
             sx={{
-              width: "100%",
+              width: "101%",
               height: { xs: 250, md: 400 },
             }}
             key={image + i}
@@ -82,7 +94,13 @@ export default function ProductSlicer({ images }) {
         ))}
       </Box>
 
-      <Box ref={thumbnailRef} className="keen-slider thumbnail">
+      <Box
+        sx={{
+          pb: 10,
+        }}
+        ref={thumbnailRef}
+        className="keen-slider thumbnail"
+      >
         {images.map((image, i) => (
           <Box
             key={image + i}
@@ -106,6 +124,40 @@ export default function ProductSlicer({ images }) {
             />
           </Box>
         ))}
+
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            zIndex: 1000,
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          {loaded && instanceRef.current && (
+            <div className="dots">
+              {[
+                ...Array(
+                  instanceRef.current.track.details.slides.length
+                ).keys(),
+              ]
+                .reverse()
+                .map((idx) => {
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        instanceRef.current?.moveToIdx(idx);
+                      }}
+                      className={
+                        "dot" + (currentSlide === idx ? " active" : "")
+                      }
+                    ></button>
+                  );
+                })}
+            </div>
+          )}
+        </Box>
       </Box>
     </>
   );
