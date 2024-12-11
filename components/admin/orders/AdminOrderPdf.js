@@ -1,4 +1,4 @@
-"use client";
+"use strict";
 import React from "react";
 import {
   Page,
@@ -15,11 +15,10 @@ import { useEffect, useState } from "react";
 import font from "./Iranyekan.ttf";
 import moment from "moment-jalaali";
 import dynamic from "next/dynamic";
-import { clippingParents } from "@popperjs/core";
-import { Height } from "@mui/icons-material";
+
 Font.register({
   family: "iranyekan",
-  format: "truetype",
+  // format: "truetype",
   src: font,
 });
 
@@ -53,7 +52,6 @@ const styles = StyleSheet.create({
 
 function AdminOrderPdf({ order }) {
   const [rows, setRows] = useState([]);
-  const [min, setMin] = useState(800);
 
   const [SlicedRows, setSlicedRows] = useState([]);
 
@@ -66,18 +64,13 @@ function AdminOrderPdf({ order }) {
     for (let i = 0; i < order.products.length; i++) {
       strings.push(JSON.parse(order.products[i]));
     }
-    console.log("rows", rows);
-    console.log("order", order);
 
     const withNumberedRows = strings.map((row, i) => {
       return { row_number: i + 1, ...row };
     });
     setRows(withNumberedRows);
-    console.log("object", withNumberedRows);
     sliceTheArray(rows);
-
-    console.log("slice", SlicedRows);
-  }, [SlicedRows]);
+  });
 
   const sliceTheArray = async (mainArray) => {
     let numberOfSlice = Math.ceil(mainArray.length / 8);

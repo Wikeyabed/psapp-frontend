@@ -67,5 +67,8 @@
     "fs": false,
     "os": false,
     "path": false
+  },
+  "overrides": {
+    "restructure": "3.0.0"
   }
 }

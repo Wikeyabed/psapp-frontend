@@ -64,18 +64,13 @@ function BijackPdf({ order }) {
     for (let i = 0; i < order.products.length; i++) {
       strings.push(JSON.parse(order.products[i]));
     }
-    console.log("rows", rows);
-    console.log("order", order);
 
     const withNumberedRows = strings.map((row, i) => {
       return { row_number: i + 1, ...row };
     });
     setRows(withNumberedRows);
-    console.log("object", withNumberedRows);
     sliceTheArray(rows);
-
-    console.log("slice", SlicedRows);
-  }, [SlicedRows]);
+  });
 
   const sliceTheArray = async (mainArray) => {
     let numberOfSlice = Math.ceil(mainArray.length / 7);

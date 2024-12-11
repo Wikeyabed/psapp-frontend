@@ -12,6 +12,7 @@ import ToPersianDate from "../../../src/TimestampToPersian";
 import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
+import UserOrderStatus from "./userOrderStatus";
 
 function UserOrders() {
   const [page, setPage] = useState(0);
@@ -101,7 +102,7 @@ function UserOrders() {
                         <ToPersianDate timestamp={row.order_date} />
                       </TableCell>
                       <TableCell align="right">
-                        <OrderStatus status={row.status} />
+                        <UserOrderStatus status={row.status} />
                       </TableCell>
                       <TableCell align="right">
                         {" "}
