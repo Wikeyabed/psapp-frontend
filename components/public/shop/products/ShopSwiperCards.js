@@ -33,7 +33,14 @@ function ShopSwiperCards({ item, variants }) {
   }, []);
 
   return (
-    <Card sx={{ width: 300, position: "relative", mx: "auto" }}>
+    <Card
+      sx={{
+        width: 300,
+        position: "relative",
+        mx: "auto",
+        border: "1px solid #593F62",
+      }}
+    >
       <Link
         href={`/products/${item.info.product_id}?variant=${item.variants[0].variant_uuid}&category=${item.info.category}`}
       >

@@ -72,16 +72,16 @@ function Quantity({
           size="small"
         >
           <Button
-            variant="text"
+            variant="contained"
             sx={{
-              // padding: "5px 2px !important",
-              // borderBottom: "2px solid !important",
-              // borderTop: "2px solid !important",
-              fontSize: 10,
+              padding: "5px 2px !important",
 
-              borderRadius: "20%",
+              fontSize: 10,
+              color: "orange",
+
+              borderRadius: "50%",
             }}
-            color="secondary"
+            color="primary"
             onClick={handleIncrement}
           >
             <AddIcon
@@ -96,11 +96,10 @@ function Quantity({
                 padding: "2px !important",
                 fontSize: 15,
                 textAlign: "center",
-                borderRadius: "20% !important",
-                // border: "2px solid !important",
+                border: "2px solid !important",
                 fontWeight: "bold",
               }}
-              color="info"
+              color="primary"
               variant="text"
             >
               {persianNumber(counter * stack)}
@@ -109,13 +108,15 @@ function Quantity({
           {displayCounter && (
             <Button
               sx={{
+                padding: "5px 2px !important",
                 fontSize: 10,
+                color: "orange",
 
-                borderRadius: "20%",
+                borderRadius: "50%",
               }}
-              color="secondary"
+              color="primary"
               onClick={handleDecrement}
-              variant="text"
+              variant="contained"
             >
               <RemoveIcon
                 sx={{

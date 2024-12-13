@@ -8,8 +8,9 @@ import Quantity from "./Quantity";
 import Error from "../../../../pages/404";
 import SelectVariants from "./SelectVariants";
 import { useState } from "react";
+import RecomendedProduct from "./RecomendedProduct";
 
-const ProductPage = ({ product, variants }) => {
+const ProductPage = ({ product, variants, products }) => {
   const router = useRouter();
 
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
@@ -69,7 +70,7 @@ const ProductPage = ({ product, variants }) => {
                   />
 
                   <SelectVariants select={handleSelect} variants={variants} />
-                  <Divider />
+                  {/* <Divider /> */}
                   <Box
                     sx={{
                       p: 1,
@@ -105,6 +106,9 @@ const ProductPage = ({ product, variants }) => {
                 >
                   <Slider images={product.images_url} />
                 </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <RecomendedProduct products={products} />
               </Grid>
 
               <Grid item xs={12}>

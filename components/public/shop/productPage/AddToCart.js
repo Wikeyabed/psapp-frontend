@@ -41,7 +41,7 @@ function AddToCart({
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 500);
   };
 
   // const findFromReduxStore = (store, session) => {
@@ -154,11 +154,11 @@ function AddToCart({
         disabled={loading || instock < 1}
         onClick={handleAddToCart}
         sx={{
-          p: `${loading ? 0 : "5px"}`,
+          p: "25px",
           fontSize: { xs: "11px", md: "inherit" },
           marginRight: "auto",
-          borderRadius: "5px",
-          backgroundColor: "lightPrimary.main",
+          borderRadius: "25px",
+          backgroundColor: "primary.main",
           width: {
             xs: `${showDetails ? "auto" : "120px"}`,
             md: `${showDetails ? "320px" : "120px"}`,
@@ -175,13 +175,18 @@ function AddToCart({
         {loading ? (
           <Box
             sx={{
+              p: "25px",
               width: "100%",
               borderRadius: "5px",
+              fontSize: { xs: "11px", md: "inherit" },
+              marginRight: "auto",
+              borderRadius: "25px",
             }}
           >
             <LinearProgress
               sx={{
                 color: "green",
+                p: "25px",
                 opacity: 0.3,
                 height: "36.5px",
                 borderRadius: "5px",

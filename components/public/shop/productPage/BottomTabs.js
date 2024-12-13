@@ -51,15 +51,34 @@ export default function BottomTabs({ description, postId }) {
     <Box sx={{ width: "100%", padding: { xs: 0, md: 1 }, minHeight: "280px" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange} aria-label="tabs">
-          <Tab label="توضیحات" {...a11yProps(0)} />
-          <Tab label="دیدگاه ها" {...a11yProps(1)} />
+          <Tab
+            sx={{
+              fontSize: value == 0 ? 16 : 12,
+              border: value == 0 ? "1px solid #ccc" : "none",
+              borderTopRightRadius: "20px",
+              backgroundColor: value == 0 ? "#eee" : "#fff",
+            }}
+            label="دیدگاه ها"
+            {...a11yProps(0)}
+          />
+          <Tab
+            sx={{
+              fontSize: value == 1 ? 16 : 12,
+              border: value == 1 ? "1px solid #ccc" : "none",
+              borderTopLeftRadius: "20px",
+              backgroundColor: value == 1 ? "#eee" : "#fff",
+            }}
+            label="توضیحات"
+            {...a11yProps(1)}
+          />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        {parse(description)}
+        <Comments postId={postId} postType={"product"} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <Comments postId={postId} postType={"product"} />
+        {" "}
+        {parse(description)}
       </CustomTabPanel>
     </Box>
   );

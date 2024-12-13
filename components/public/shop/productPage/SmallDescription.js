@@ -11,6 +11,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from "../../../../src/Link";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+
+import BlurCircularIcon from "@mui/icons-material/BlurCircular";
 const Demo = styled("div")(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
@@ -67,15 +69,15 @@ export default function SmallDescription({ desc }) {
               {desc.map((item, i) => {
                 return (
                   <ListItem key={i}>
-                    <FiberManualRecordIcon
+                    <BlurCircularIcon
+                      color="primary"
                       sx={{
                         minWidth: "30px",
-                        color: "#666",
-                        fontSize: 10,
+                        fontSize: 14,
                       }}
                     >
                       <ListIcon />
-                    </FiberManualRecordIcon>
+                    </BlurCircularIcon>
                     <ListItemText>
                       <Typography variant="body2">{item}</Typography>
                     </ListItemText>
