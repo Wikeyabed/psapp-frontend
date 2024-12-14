@@ -3,15 +3,22 @@ import { Grid, Box, Typography, Paper } from "@mui/material";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { useEffect } from "react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import DraggableSwipe from "../../layout/swiper/DraggableSwipe";
+import RecomendedSingle from "./RecomendedSingle";
 
-function RecomendedProduct({ products }) {
+import { useDispatch } from "react-redux";
+import {
+  getProducts,
+  setAllVariant,
+} from "../../../../redux/reducers/productSlice";
+function RecomendedProduct({ products, allVariants }) {
   //   const random = Math.floor(Math.random() * products.length);
-
+  const dispatch = useDispatch();
   const randomProduct = [
     products[Math.floor(Math.random() * products.length)],
     products[Math.floor(Math.random() * products.length)],
@@ -20,21 +27,32 @@ function RecomendedProduct({ products }) {
     products[Math.floor(Math.random() * products.length)],
   ];
 
+  useEffect(() => {
+    let productsWithVariants = [];
+
+    products.map((product) => {
+      let thisProductVariant = [];
+      allVariants.filter((variant) => {
+        if (variant.variant_product_id == product.product_id) {
+          thisProductVariant = [...thisProductVariant, variant];
+
+          productsWithVariants = [
+            ...productsWithVariants,
+            { info: product, variants: thisProductVariant },
+          ];
+        }
+      });
+    });
+
+    const uniqueProducts = uniqBy(productsWithVariants, "info.product_id");
+    console.log("its here 2 ", productsWithVariants);
+
+    dispatch(getProducts(uniqueProducts));
+    dispatch(setAllVariant(allVariants));
+  });
   console.log("randoms", randomProduct);
   return (
     <>
-      <Typography
-        variant="h5"
-        sx={{
-          borderTop: "1px solid #ccc",
-          mt: 4,
-          pt: 4,
-          textAlign: "center",
-        }}
-      >
-        محصولات پیشنهادی
-      </Typography>
-
       <Grid
         sx={{
           //   border: "1px solid #ccc",
@@ -45,12 +63,8 @@ function RecomendedProduct({ products }) {
         container
         spacing={1}
       >
-        <DraggableSwipe
-          title={"محصولات پیشنهادی"}
-          items={randomProduct}
-          key={"1"}
-        >
-          <div>sdsd</div>
+        <DraggableSwipe title={"محصولات پیشنهادی"} items={randomProduct}>
+          <RecomendedSingle />
         </DraggableSwipe>
         {/* {randomProduct.map((product, i) => {
           return (

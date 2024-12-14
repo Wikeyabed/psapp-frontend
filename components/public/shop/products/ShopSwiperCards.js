@@ -38,7 +38,10 @@ function ShopSwiperCards({ item, variants }) {
         width: 300,
         position: "relative",
         mx: "auto",
-        border: "1px solid #593F62",
+        // border: "1px solid ",
+        boxShadow: "0 0 5px 0.5px #593F62",
+        borderBottom: "2px solid #593F62",
+        borderRadius: 5,
       }}
     >
       <Link
@@ -92,7 +95,13 @@ function ShopSwiperCards({ item, variants }) {
         ""
       )}
 
-      <CardContent>
+      <CardContent
+        sx={{
+          borderTop: "2px dotted #ccc",
+          background: "linear-gradient(to top, #f1f1f1,#fff)",
+          paddingBottom: 5,
+        }}
+      >
         <Link
           style={{
             textDecoration: "none",
@@ -107,9 +116,10 @@ function ShopSwiperCards({ item, variants }) {
               sx={{
                 textDecoration: "none",
                 cursor: "pointer",
-                minHeight: 55,
+                minHeight: 85,
                 textAlign: "center !important",
                 fontSize: "18px",
+                color: "#000",
               }}
               variant="h6"
               fontWeight={"bold"}
@@ -135,10 +145,10 @@ function ShopSwiperCards({ item, variants }) {
         <Typography
           sx={{
             textAlign: "center",
-            my: 1,
+            mt: 1,
             height: 30,
           }}
-          variant="body1"
+          variant="h6"
           color="lightPrimary.main"
         >
           {item.variants[0].variant_discount > 0 ? (
@@ -166,11 +176,15 @@ function ShopSwiperCards({ item, variants }) {
           ریال
         </Typography>
       </CardContent>
-      <Divider />
+      {/* <Divider
+        sx={{
+          backgroundColor: "#ccc",
+        }}
+      /> */}
       <CardActions
         sx={{
           padding: 2,
-
+          background: "linear-gradient(to bottom, #fff, #fff,#ccc)",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -196,6 +210,8 @@ function ShopSwiperCards({ item, variants }) {
             fullWidth
             sx={{
               color: "#fff",
+              padding: "13px",
+              borderRadius: "25px",
             }}
             onClick={handleActiveQuantity}
             variant="contained"

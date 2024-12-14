@@ -81,7 +81,7 @@ function LatestBlog() {
         </Button>
       </Grid>
 
-      <Grid xs={12}>
+      {/* <Grid xs={12}>
         <Typography
           sx={{
             mt: 2,
@@ -117,7 +117,7 @@ function LatestBlog() {
         >
           تمامی ویدیو ها{" "}
         </Button>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

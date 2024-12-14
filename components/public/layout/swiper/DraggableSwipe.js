@@ -31,14 +31,26 @@ export default function DraggableSwipe({ title, items, effect, children }) {
 
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid
+        sx={{
+          textAlign: "center",
+
+          // borderRadius: "25px",
+
+          pt: 2,
+        }}
+        item
+        xs={12}
+      >
         <Typography
           gutterBottom
           sx={{
             width: "100% !important",
             fontWeight: "bold",
-            textDecoration: "underline #primary.main",
-            textDecorationThickness: "4px",
+            textAlign: "center !important",
+            mx: "auto",
+            textDecoration: "none",
+            // textDecorationThickness: "4px",
             textUnderlineOffset: 15,
           }}
           color="text.primary"

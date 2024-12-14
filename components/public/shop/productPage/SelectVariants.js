@@ -5,8 +5,43 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Box } from "@mui/material";
-
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
 export default function SelectVariants({ variants, select }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [selectedVariant, setSelectedVariant] = useState();
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
+  useEffect(() => {
+    const variantParam = searchParams.get("variant");
+    if (variantParam != null && variantParam != "undefined") {
+      const defaultVariant = variants.filter((variant) => {
+        return variantParam == variant.variant_uuid;
+      });
+      checkTheSelected(defaultVariant[0]);
+    }
+  }, []);
+
+  const checkTheSelected = (variant) => {
+    setSelectedVariant(variant.variant_uuid);
+    router.push(
+      pathname + "?" + createQueryString("variant", variant.variant_uuid)
+    );
+    select(variant);
+  };
+
   return (
     <FormControl
       sx={{
@@ -27,7 +62,7 @@ export default function SelectVariants({ variants, select }) {
       </FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue={variants[0].variant_name}
+        defaultValue={variants[0].variant_name ? variants[0].variant_name : ""}
         name="radio-buttons-group"
       >
         {variants.map((variant, i) => {
@@ -39,7 +74,8 @@ export default function SelectVariants({ variants, select }) {
               }}
             >
               <FormControlLabel
-                onChange={() => select(variant)}
+                checked={variant.variant_uuid == selectedVariant}
+                onChange={() => checkTheSelected(variant)}
                 value={variant.variant_uuid}
                 control={
                   <Radio

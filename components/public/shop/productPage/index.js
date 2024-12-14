@@ -10,7 +10,7 @@ import SelectVariants from "./SelectVariants";
 import { useState } from "react";
 import RecomendedProduct from "./RecomendedProduct";
 
-const ProductPage = ({ product, variants, products }) => {
+const ProductPage = ({ product, variants, products, allVariants }) => {
   const router = useRouter();
 
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
@@ -45,6 +45,7 @@ const ProductPage = ({ product, variants, products }) => {
             >
               <Grid container>
                 <Grid
+                  order={{ xs: 2, sm: 1 }}
                   item
                   xs={12}
                   md={6}
@@ -92,6 +93,7 @@ const ProductPage = ({ product, variants, products }) => {
                 </Grid>
 
                 <Grid
+                  order={{ xs: 1, sm: 2 }}
                   item
                   xs={12}
                   md={6}
@@ -108,7 +110,10 @@ const ProductPage = ({ product, variants, products }) => {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <RecomendedProduct products={products} />
+                <RecomendedProduct
+                  allVariants={allVariants}
+                  products={products}
+                />
               </Grid>
 
               <Grid item xs={12}>

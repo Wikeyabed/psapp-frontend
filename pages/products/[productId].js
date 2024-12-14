@@ -2,7 +2,12 @@ import ProductPage from "../../components/public/shop/productPage";
 import PublicLayout from "../../components/public/layout";
 import Head from "next/head";
 
-export default function ProductSingle({ product, variants, products }) {
+export default function ProductSingle({
+  product,
+  variants,
+  products,
+  allVariants,
+}) {
   return (
     <PublicLayout>
       <Head>
@@ -24,7 +29,12 @@ export default function ProductSingle({ product, variants, products }) {
 
         <title>ایباکس - {product.product_name}</title>
       </Head>
-      <ProductPage products={products} variants={variants} product={product} />
+      <ProductPage
+        allVariants={allVariants}
+        products={products}
+        variants={variants}
+        product={product}
+      />
     </PublicLayout>
   );
 }
@@ -36,6 +46,7 @@ export const getServerSideProps = async (context) => {
 
   const ProdRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
 
+  const allVar = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`);
   const varRes = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/products-variant/${context.params.productId}`
   );
@@ -43,6 +54,9 @@ export const getServerSideProps = async (context) => {
   const product = await res.json();
   const products = await ProdRes.json();
   const variants = await varRes.json();
+  const allVariants = await allVar.json();
 
-  return { props: { product: product[0], variants, products } };
+  return {
+    props: { product: product[0], variants, products, allVariants },
+  };
 };
