@@ -27,10 +27,13 @@ export default function SelectVariants({ variants, select }) {
   useEffect(() => {
     const variantParam = searchParams.get("variant");
     if (variantParam != null && variantParam != "undefined") {
+      console.log("variant param", variantParam);
       const defaultVariant = variants.filter((variant) => {
         return variantParam == variant.variant_uuid;
       });
       checkTheSelected(defaultVariant[0]);
+    } else {
+      checkTheSelected(variants[0]);
     }
   }, []);
 
@@ -62,7 +65,11 @@ export default function SelectVariants({ variants, select }) {
       </FormLabel>
       <RadioGroup
         aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue={variants[0].variant_name ? variants[0].variant_name : ""}
+        defaultValue={
+          variants[0].variant_name != "undefined"
+            ? variants[0].variant_name
+            : ""
+        }
         name="radio-buttons-group"
       >
         {variants.map((variant, i) => {

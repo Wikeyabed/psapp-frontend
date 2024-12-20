@@ -9,10 +9,9 @@ import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import ToPersianDate from "../../../src/TimestampToPersian";
-import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
-import UserOrderStatus from "./userOrderStatus";
+import UserOrderStatus from "./UserOrderStatus";
 
 function UserOrders() {
   const [page, setPage] = useState(0);
