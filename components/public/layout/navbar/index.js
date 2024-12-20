@@ -14,6 +14,8 @@ import { keyframes, textAlign } from "@mui/system";
 import { once, sample } from "lodash";
 import { TextLoop } from "easy-react-text-loop";
 
+import CypherText from "react-cypher-text-loop";
+
 export default function Navbar() {
   // mobile menu item
 
@@ -39,10 +41,10 @@ export default function Navbar() {
     "اینستاگرام ایباکس رو فالو کردی؟",
     "در کانال تلگرام ایباکس رو عضو شدی؟",
     "خرید مطمعا و امن با ایباکس",
-    "...ارسال به شهرستان از طریق : پست ، باربری ، تیپاکس و",
+    "ارسال به شهرستان از طریق : پست ، باربری ، تیپاکس و...",
     " انواع تسمه و دستگاه تسمه کش",
     "انواع نایلون و نایلکس",
-    "...انواع ملزومات اداری مثل خودکار ، ماژیک ، کاغذ و",
+    "انواع ملزومات اداری مثل خودکار ، ماژیک ، کاغذ و...",
     "امکان دریافت فاکتور در منوی کاربری",
     "امکان مشاهده فاکتور در منوی کاربری",
     "حتما از بازار عمده فروشی دیدن کنید",
@@ -82,23 +84,29 @@ export default function Navbar() {
             backgroundColor: "#2F2235",
             position: "fixed",
             zIndex: 4000,
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <SocialMediaBar />
+
           <Typography
             component={"div"}
             sx={{
-              textAlign: "center !important",
               mt: 1,
-              ml: 30,
               color: "#fff",
+              // width: "100%",
+              textAlign: "center",
             }}
           >
-            <TextLoop timeout={5000} animation="tween">
-              {preload.map((word) => {
-                return <span> {word}</span>;
-              })}
-            </TextLoop>
+            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Perspiciatis consequatur laborum */}
+
+            <CypherText delay={5000} textList={preload} randomOrder={true} />
+            {/* {preload.map((word) => {
+                  return <Typography>{word}</Typography>;
+                })} */}
           </Typography>
 
           <Box

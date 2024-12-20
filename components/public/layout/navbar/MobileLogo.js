@@ -3,19 +3,21 @@ import Image from "next/image";
 import { Box } from "@mui/material";
 import Link from "../../../../src/Link";
 
-function Logo({ small }) {
+function MobileLogo({ small }) {
   return (
     <Box
       sx={{
-        width: 170,
+        width: 100,
         position: "absolute",
         right: 0,
+        top: 30,
         px: 2,
+        background: "linear-gradient(to top, #2F2235, #543d5e , #7B6D8D )",
 
-        bottom: "-7px",
+        pt: "2px",
         // backgroundColor: "#fff",
         // border: "1px solid #2F2235",
-        borderBottomRightRadius: "40px",
+        borderBottomLeftRadius: "10px",
       }}
       display={"flex"}
       justifySelf={"center"}
@@ -40,4 +42,4 @@ function Logo({ small }) {
   );
 }
 
-export default Logo;
+export default MobileLogo;

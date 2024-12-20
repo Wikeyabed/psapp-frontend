@@ -13,14 +13,14 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Link from "../../../../src/Link";
-import Logo from "./Logo";
+import MobileLogo from "./MobileLogo";
 import MobileFilterBar from "../../shop/categories/MobileFilterBar";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import SocialMediaBar from "../socialMedia";
 import { userLogout } from "../../../../redux/reducers/authSlice";
 import { deleteCookie } from "cookies-next";
-
+import { Call } from "@mui/icons-material";
 const drawerWidth = 240;
 
 const navItems = [
@@ -65,7 +65,7 @@ function TopNavMobile(props) {
         display={"flex"}
         justifyContent={"center"}
       >
-        <Logo />
+        <MobileLogo />
       </Box>
 
       <Divider />
@@ -154,43 +154,108 @@ function TopNavMobile(props) {
       <CssBaseline />
       <AppBar
         sx={{
-          backgroundColor: "#3e2723",
+          background: "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+          height: 30,
         }}
         component="nav"
       >
         <Toolbar
           sx={{
-            display: "flex",
-            justifyContent: "space-between",
             py: 1,
+            position: "relative",
           }}
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon
-              sx={{
-                fontSize: 40,
-              }}
-              color="secondary"
-            />
-          </IconButton>
+          {/* <></> */}
           <Box
             sx={{
               position: "absolute",
-              left: "38%",
-              top: 50,
+              left: 20,
+              top: 0,
+              mt: 1,
+              fontSize: "12px",
+              color: "#fff",
+              display: "flex",
+
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#fff",
+                fontSize: "11px",
+                color: "#ccc",
+                mt: "1px",
+              }}
+            >
+              021-55538370
+            </Typography>
+            <Call
+              sx={{
+                fontSize: "16px",
+                ml: 1,
+                color: "#000",
+                borderRadius: 20,
+                width: 15,
+                height: 15,
+                // padding: "1px",
+                backgroundColor: "#ec9d50",
+              }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              background:
+                "linear-gradient(to top, #2F2235, #543d5e , #7B6D8D )",
+              width: 90,
+              height: 43,
+              position: "absolute",
+              left: 0,
+              top: 30,
+              borderBottomRightRadius: "10px",
+              textAlign: "center",
+            }}
+          >
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                // mb: 1,
+                // mr: 2,
+                // display: { sm: "none" },
+                mt: "-2px",
+                // height: 40,
+              }}
+            >
+              <MenuIcon
+                sx={{
+                  fontSize: 30,
+                }}
+                color="secondary"
+              />
+            </IconButton>
+          </Box>
+
+          <Box
+            sx={{
+              position: "absolute",
+              right: 70,
+              top: 5,
               transform: "scale(.7)",
             }}
           >
             <SocialMediaBar />
           </Box>
-          <Box>
-            <Logo small={true} />
+          <Box
+            sx={{
+              marginTop: "120px !important",
+              width: 100,
+              height: 100,
+            }}
+          >
+            <MobileLogo />
           </Box>
         </Toolbar>
         {/* {router.pathname === "/shop" ? <MobileFilterBar /> : ""} */}
