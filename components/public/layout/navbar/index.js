@@ -139,15 +139,17 @@ export default function Navbar() {
         </Box>
         <AppBar
           sx={{
-            background: "linear-gradient(to bottom, #2F2235, #7B6D8D)",
+            background:
+              "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
             borderBottomLeftRadius: "40px",
             borderBottomRightRadius: "40px",
 
             paddingY: 1,
             marginBottom: 4,
-            top: "41px",
+            top: "40px",
             width: "90%",
             right: "5%",
+            borderTop: "1px solid #fff",
           }}
           position="fixed"
         >

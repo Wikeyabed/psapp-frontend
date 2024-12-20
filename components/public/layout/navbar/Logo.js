@@ -7,10 +7,14 @@ function Logo({ small }) {
   return (
     <Box
       sx={{
-        width: small ? 80 : 130,
+        width: small ? 80 : 170,
         position: "absolute",
-        right: 20,
-        top: 0,
+        right: 0,
+        px: 2,
+        bottom: "-7px",
+        // backgroundColor: "#fff",
+        // border: "1px solid #2F2235",
+        borderBottomRightRadius: "40px",
       }}
       display={"flex"}
       justifySelf={"center"}
@@ -26,7 +30,10 @@ function Logo({ small }) {
         height={0}
         sizes="100vh"
         alt="ebox"
-        style={{ width: "100%", height: "auto" }}
+        style={{
+          width: "100%",
+          height: "auto",
+        }}
       />
     </Box>
   );

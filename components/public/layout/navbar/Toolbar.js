@@ -59,6 +59,7 @@ function ToolbarMenu() {
         vertical: "bottom",
         horizontal: "center",
       }}
+      disableScrollLock={true}
       transformOrigin={{
         vertical: "top",
         horizontal: "center",

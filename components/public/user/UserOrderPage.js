@@ -10,15 +10,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { persianNumber } from "../../../src/PersianDigits";
 import React, { useEffect, useState } from "react";
-import OrderStatus from "../../admin/orders/OrderStatus";
+import UserOrderStatus from "./UserOrderStatus";
 import OrderPdf from "./OrderPdf";
 
 import ReactPDF from "@react-pdf/renderer";
+import Link from "../../../src/Link";
 
 function UserOrderPage({ order }) {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
+    console.log("ORDER", order);
     let strings = [];
     for (let i = 0; i < order.products.length; i++) {
       strings.push(JSON.parse(order.products[i]));
@@ -88,7 +90,12 @@ function UserOrderPage({ order }) {
             </Typography>
 
             <Box>
-              <Button onClick={() => renderPdf()} variant="contained">
+              <Button
+                component={Link}
+                href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/user/print/${order.order_id}`}
+                target="_blank"
+                variant="contained"
+              >
                 چاپ فاکتور
               </Button>
             </Box>
@@ -134,7 +141,7 @@ function UserOrderPage({ order }) {
               variant="subtitle1"
             >
               {" "}
-              وضعیت فاکتور : <OrderStatus status={order.status} />
+              وضعیت فاکتور : <UserOrderStatus status={order.status} />
             </Typography>
           </Box>
 

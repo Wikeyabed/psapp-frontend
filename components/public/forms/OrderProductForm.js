@@ -10,8 +10,11 @@ import {
   Typography,
   FormGroup,
   Divider,
+  Collapse,
+  Input,
 } from "@mui/material";
-
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import PublicLayout from "../layout/index";
@@ -54,6 +57,15 @@ function RequestPartnership() {
   });
 
   const [isValid, setIsValid] = useState(true);
+  const [checked, setChecked] = useState("");
+
+  const handleChange = (index) => {
+    if (index == checked) {
+      setChecked("");
+    } else {
+      setChecked(index);
+    }
+  };
 
   const handlePhoneNumber = (event) => {
     setFormInfo({ ...formInfo, phoneNumber: event.target.value });
@@ -126,7 +138,7 @@ function RequestPartnership() {
                       variant="h5"
                     >
                       سفارش تولید
-                    </Typography>
+                    </Typography>{" "}
                     <Typography
                       component={"div"}
                       textAlign={"right"}
@@ -138,168 +150,291 @@ function RequestPartnership() {
                       نمایید. سفارش شما توسط تیم پشتیبانی ایباکس بررسی شده و در
                       اسرع وقت با شما تماس گرفته می شود.
                     </Typography>
-
-                    <Typography
+                    <Box
+                      onClick={() => handleChange("box")}
                       sx={{
                         my: 2,
+                        background:
+                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+                        color: "#fff",
+                        p: 1,
+                        borderRadius: "10px",
+                        position: "relative",
                       }}
-                      variant="h5"
                     >
-                      سفارش تولید کارتن:
-                    </Typography>
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3, color: "primary.main" }}
-                      variant="body1"
-                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          textAlign: "center",
+                        }}
+                      >
+                        {" "}
+                        سفارش تولید کارتن
+                      </Typography>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "5px",
+                          top: "5px",
+                          color: "#000",
+                          borderRadius: "20px",
+                          cursor: "pointer",
+                          width: 50,
+                          textAlign: "center",
+                        }}
+                      >
+                        {checked === "box" ? (
+                          <ExpandLessIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        ) : (
+                          <ExpandMoreIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        )}
+                      </span>
+                    </Box>
+                    <Collapse orientation="vertical" in={checked === "box"}>
                       {" "}
-                      لطفا توجه داشته باشید، تولید کارتن مخصوص کارخانه جات ،
-                      تولیدی ها و .... بوده و سفارشات تولید کم پذیرفته نمیشود.
-                    </Typography>
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body1"
-                    >
-                      {" "}
-                      برای ثبت صحیح سفارش تولید کارتن اطلاعاتی نظیر:{" "}
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body2"
-                    >
-                      ابعاد کارتن: طول عرض ارتفاع
-                      <br />
-                      تعداد لایه: 3 لایه 5 لایه
-                      <br />
-                      وضعیت چاپ: چاپدار و بدون چاپ
-                      <br />
-                      <br />
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3, color: "primary.main" }}
+                        variant="body1"
+                      >
+                        {" "}
+                        لطفا توجه داشته باشید، تولید کارتن مخصوص کارخانه جات ،
+                        تولیدی ها و .... بوده و سفارشات تولید کم پذیرفته نمیشود.
+                      </Typography>
                       <Typography
                         component={"div"}
                         textAlign={"right"}
                         sx={{ mb: 3 }}
                         variant="body1"
                       >
-                        را در بخش توضیحات وارد نمایید.
+                        {" "}
+                        برای ثبت صحیح سفارش تولید کارتن اطلاعاتی نظیر:{" "}
                       </Typography>
-                    </Typography>
-                    <Divider
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3 }}
+                        variant="body2"
+                      >
+                        ابعاد کارتن: طول عرض ارتفاع
+                        <br />
+                        تعداد لایه: 3 لایه 5 لایه
+                        <br />
+                        وضعیت چاپ: چاپدار و بدون چاپ
+                        <br />
+                        <br />
+                        <Typography
+                          component={"div"}
+                          textAlign={"right"}
+                          sx={{ mb: 3 }}
+                          variant="body1"
+                        >
+                          را در بخش توضیحات وارد نمایید.
+                        </Typography>
+                      </Typography>
+                    </Collapse>
+                    {/* <Divider
                       sx={{
                         my: 1,
                       }}
-                    />
-
-                    <Typography
+                    /> */}
+                    <Box
+                      onClick={() => handleChange("tape")}
                       sx={{
                         my: 2,
+                        background:
+                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+                        color: "#fff",
+                        p: 1,
+                        borderRadius: "10px",
+                        position: "relative",
                       }}
-                      variant="h5"
                     >
-                      سفارش چاپ روی چسب پهن:{" "}
-                    </Typography>
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3, color: "primary.main" }}
-                      variant="body1"
-                    >
-                      لطفا توجه داشته باشید، حداقل سفارش چاپ 1 رنگ روی چسب پهن
-                      180 حلقه می باشد و سفارشات چاپ 2 رنگ و 3 رنگ حداقل 2000
-                      حلقه می باشد.
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body1"
-                    >
-                      {" "}
-                      برای ثبت صحیح سفارش چاپ روی چسب پهن اطلاعاتی نظیر:{" "}
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body2"
-                    >
-                      تعداد رنگ چاپ: مثال: 3 رنگ <br />
-                      تعداد:مثال: 180 حلقه
-                      <br />
-                      رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
-                      <br />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          textAlign: "center",
+                        }}
+                      >
+                        {" "}
+                        سفارش چاپ روی چسب پهن
+                      </Typography>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "5px",
+                          top: "5px",
+                          color: "#000",
+                          borderRadius: "20px",
+                          cursor: "pointer",
+                          width: 50,
+                          textAlign: "center",
+                        }}
+                      >
+                        {checked === "tape" ? (
+                          <ExpandLessIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        ) : (
+                          <ExpandMoreIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        )}
+                      </span>
+                    </Box>
+                    <Collapse orientation="vertical" in={checked === "tape"}>
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3, color: "primary.main" }}
+                        variant="body1"
+                      >
+                        لطفا توجه داشته باشید، حداقل سفارش چاپ 1 رنگ روی چسب پهن
+                        180 حلقه می باشد و سفارشات چاپ 2 رنگ و 3 رنگ حداقل 2000
+                        حلقه می باشد.
+                      </Typography>
                       <Typography
                         component={"div"}
                         textAlign={"right"}
                         sx={{ mb: 3 }}
                         variant="body1"
                       >
-                        را در بخش توضیحات وارد نمایید.
-                      </Typography>{" "}
-                    </Typography>
-
-                    <Divider
+                        {" "}
+                        برای ثبت صحیح سفارش چاپ روی چسب پهن اطلاعاتی نظیر:{" "}
+                      </Typography>
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3 }}
+                        variant="body2"
+                      >
+                        تعداد رنگ چاپ: مثال: 3 رنگ <br />
+                        تعداد:مثال: 180 حلقه
+                        <br />
+                        رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
+                        <br />
+                        <Typography
+                          component={"div"}
+                          textAlign={"right"}
+                          sx={{ mb: 3 }}
+                          variant="body1"
+                        >
+                          را در بخش توضیحات وارد نمایید.
+                        </Typography>{" "}
+                      </Typography>
+                    </Collapse>
+                    {/* <Divider
                       sx={{
                         my: 1,
                       }}
-                    />
-
-                    <Typography
+                    /> */}
+                    <Box
+                      onClick={() => handleChange("bubble")}
                       sx={{
                         my: 2,
+                        background:
+                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+                        color: "#fff",
+                        p: 1,
+                        borderRadius: "10px",
+                        position: "relative",
                       }}
-                      variant="h5"
                     >
-                      سفارش چاپ روی نایلون حبابدار :{" "}
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3, color: "primary.main" }}
-                      variant="body1"
-                    >
-                      لطفا توجه داشته باشید، حداقل سفارش چاپ روی نایلون حبابدار
-                      500 کیلوگرم می باشد.
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body1"
-                    >
-                      {" "}
-                      برای ثبت صحیح سفارش چاپ روی نایلون حبابدار اطلاعاتی نظیر:{" "}
-                    </Typography>
-
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body2"
-                    >
-                      تعداد رنگ چاپ: مثال: 3 رنگ <br />
-                      مقدار :مثال: 500 کیلوگرم <br />
-                      رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
-                      <br />
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          textAlign: "center",
+                        }}
+                      >
+                        {" "}
+                        سفارش چاپ روی نایلون حبابدار{" "}
+                      </Typography>
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "5px",
+                          top: "5px",
+                          color: "#000",
+                          borderRadius: "20px",
+                          cursor: "pointer",
+                          width: 50,
+                          textAlign: "center",
+                        }}
+                      >
+                        {checked === "bubble" ? (
+                          <ExpandLessIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        ) : (
+                          <ExpandMoreIcon
+                            color="warning"
+                            sx={{
+                              fontSize: 40,
+                            }}
+                          />
+                        )}
+                      </span>
+                    </Box>
+                    <Collapse orientation="vertical" in={checked === "bubble"}>
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3, color: "primary.main" }}
+                        variant="body1"
+                      >
+                        لطفا توجه داشته باشید، حداقل سفارش چاپ روی نایلون
+                        حبابدار 500 کیلوگرم می باشد.
+                      </Typography>
                       <Typography
                         component={"div"}
                         textAlign={"right"}
                         sx={{ mb: 3 }}
                         variant="body1"
                       >
-                        را در بخش توضیحات وارد نمایید.
+                        {" "}
+                        برای ثبت صحیح سفارش چاپ روی نایلون حبابدار اطلاعاتی
+                        نظیر:{" "}
                       </Typography>
-                    </Typography>
-
+                      <Typography
+                        component={"div"}
+                        textAlign={"right"}
+                        sx={{ mb: 3 }}
+                        variant="body2"
+                      >
+                        تعداد رنگ چاپ: مثال: 3 رنگ <br />
+                        مقدار :مثال: 500 کیلوگرم <br />
+                        رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
+                        <br />
+                        <Typography
+                          component={"div"}
+                          textAlign={"right"}
+                          sx={{ mb: 3 }}
+                          variant="body1"
+                        >
+                          را در بخش توضیحات وارد نمایید.
+                        </Typography>
+                      </Typography>
+                    </Collapse>
                     <RtlTextField
                       value={formInfo.phoneNumber}
                       required

@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Divider, TablePagination, Typography } from "@mui/material";
+import { Button, Divider, TablePagination, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
@@ -27,7 +27,6 @@ function UserOrders() {
   };
 
   const [rows, setRows] = useState([]);
-
   const handleOrdersByUserId = () => {
     var myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
@@ -79,6 +78,7 @@ function UserOrders() {
                   <TableCell align="right">تاریخ صدور</TableCell>
                   <TableCell align="right">وضعیت</TableCell>
                   <TableCell align="right">مبلغ کل</TableCell>
+                  <TableCell align="right">چاپ فاکتور</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -106,6 +106,18 @@ function UserOrders() {
                       <TableCell align="right">
                         {" "}
                         {persianNumber(row.finished_price)} ریال
+                      </TableCell>
+
+                      <TableCell align="right">
+                        {" "}
+                        <Button
+                          component={Link}
+                          href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/user/print/${row.order_id}`}
+                          target="_blank"
+                          variant="contained"
+                        >
+                          چاپ فاکتور
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

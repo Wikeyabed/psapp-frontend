@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {
+import ReactPDF, {
   Page,
   Text,
   View,
@@ -17,6 +17,7 @@ import moment from "moment-jalaali";
 import dynamic from "next/dynamic";
 import { clippingParents } from "@popperjs/core";
 import { Height } from "@mui/icons-material";
+import { Typography } from "@mui/material";
 Font.register({
   family: "iranyekan",
   format: "truetype",
@@ -27,7 +28,7 @@ const PDFViewer = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
   {
     ssr: false,
-    loading: () => <p>Loading...</p>,
+    loading: () => <Typography component={"div"}>در حال بارگذاری</Typography>,
   }
 );
 
