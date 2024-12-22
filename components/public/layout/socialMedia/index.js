@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import Ita from "../../../../public/images/ita.svg";
 import Image from "next/image";
 
-function SocialMediaBar() {
+function SocialMediaBar({ mobile }) {
   const styles = {
     borderRadius: "100%",
     display: "flex",
@@ -25,10 +25,11 @@ function SocialMediaBar() {
       sx={{
         width: 100,
         display: "flex",
-        right: "0",
+        right: -15,
         top: 8,
         position: "absolute",
         justifyContent: "space-evenly",
+        transform: mobile ? "scale(0.8)" : "none",
       }}
     >
       {" "}

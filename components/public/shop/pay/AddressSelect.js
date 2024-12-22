@@ -47,7 +47,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     overflow: "unset",
   },
 }));
-function AddressSelect() {
+function AddressSelect({ tehran, newAddress }) {
   const [province, setProvince] = useState(null);
   const [city, setCity] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -79,56 +79,67 @@ function AddressSelect() {
 
   return (
     <Grid container>
-      <Grid item xs={12} md={6}>
-        <Autocomplete
-          disablePortal
-          onChange={handleSetProvince}
-          options={provinces}
-          sx={{ width: "100%" }}
-          renderInput={(params) => (
-            <RtlTextField
-              {...params}
-              placeholder="انتخاب استان"
-              label={"انتخاب استان"}
+      {tehran ? (
+        ""
+      ) : (
+        <>
+          <Grid item xs={12} md={6}>
+            <Autocomplete
+              disablePortal
+              onChange={handleSetProvince}
+              options={provinces}
+              sx={{ width: "100%" }}
+              renderInput={(params) => (
+                <RtlTextField
+                  {...params}
+                  placeholder="انتخاب استان"
+                  label={"انتخاب استان"}
+                />
+              )}
             />
-          )}
-        />
-      </Grid>
+          </Grid>
 
-      <Grid item xs={12} md={6}>
-        {" "}
-        {province !== "" && province !== null ? (
-          <Autocomplete
-            disablePortal
-            disabled={city == null && province == null}
-            onChange={handleSelectCity}
-            value={
-              selectedCity !== null && province !== null ? selectedCity : ""
-            }
-            options={city}
-            sx={{ width: "100%" }}
-            renderInput={(params) => (
-              <RtlTextField {...params} label="انتخاب شهر" />
+          <Grid item xs={12} md={6}>
+            {" "}
+            {province !== "" && province !== null ? (
+              <Autocomplete
+                disablePortal
+                disabled={city == null && province == null}
+                onChange={handleSelectCity}
+                value={
+                  selectedCity !== null && province !== null ? selectedCity : ""
+                }
+                options={city}
+                sx={{ width: "100%" }}
+                renderInput={(params) => (
+                  <RtlTextField {...params} label="انتخاب شهر" />
+                )}
+              />
+            ) : (
+              ""
             )}
-          />
-        ) : (
-          ""
-        )}
-      </Grid>
+          </Grid>
+        </>
+      )}
 
-      <RtlTextField
-        sx={{
-          my: 2,
-        }}
-        name="newAddress"
-        multiline
-        minRows={3}
-        maxRows={3}
-        value={exactAddress}
-        onChange={handleSetExactAddress}
-        label="آدرس دقیق را وارد کنید"
-        type="text"
-      />
+      {newAddress && !tehran ? (
+        <RtlTextField
+          sx={{
+            my: 2,
+          }}
+          name="newAddress"
+          multiline
+          minRows={3}
+          maxRows={3}
+          value={exactAddress}
+          onChange={handleSetExactAddress}
+          label="آدرس دقیق را وارد کنید"
+          type="text"
+        />
+      ) : (
+        ""
+      )}
+
       {province !== null && exactAddress !== null && selectedCity !== null ? (
         <Typography
           sx={{

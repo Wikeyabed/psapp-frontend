@@ -18,7 +18,7 @@ export default function CartItems() {
   return (
     <Box
       sx={{
-        minWidth: { md: "700px" },
+        minWidth: { xs: "100%", md: "700px" },
 
         overflow: "hidden",
       }}
@@ -41,8 +41,7 @@ export default function CartItems() {
               <CardMedia
                 component="img"
                 sx={{
-                  width: 80,
-
+                  width: 100,
                   position: "absolute",
                   left: 0,
                   bottom: 0,

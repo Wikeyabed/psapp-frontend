@@ -69,6 +69,7 @@ function CheckoutToPayment() {
 
   const handleChangeSend = (event) => {
     setSend(event.target.value);
+    // if(event.tar)
   };
 
   const handleChangeNewAddress = (event) => {
@@ -174,7 +175,7 @@ function CheckoutToPayment() {
                 }}
                 id="controlled-radio-buttons-group"
               >
-                انتخاب نحوه دریافت :
+                انتخاب نحوه ارسال :
               </FormLabel>
               <RadioGroup
                 aria-labelledby="controlled-radio-buttons-group"
@@ -182,28 +183,155 @@ function CheckoutToPayment() {
                 value={send}
                 onChange={handleChangeSend}
               >
-                <FormControlLabel
-                  value={"in-person"}
-                  control={<Radio />}
-                  label="تحویل حضوری مرسوله از انبار ما"
-                />
-                <FormControlLabel
-                  value={"snap"}
-                  control={<Radio />}
-                  label="ارسال با اسنپ (مخصوص تهران)"
-                />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyItems: "center",
+                    mb: 1,
+                  }}
+                >
+                  <Image
+                    style={{
+                      backgroundColor: "#FDC60C",
+                      borderRadius: "50px",
+                    }}
+                    src={"/images/in-person.png"}
+                    width={50}
+                    height={50}
+                  />{" "}
+                  <FormControlLabel
+                    value={"in-person"}
+                    control={<Radio />}
+                    label="تحویل حضوری از انبار ایباکس"
+                  />
+                </Box>{" "}
+                {send == "in-person" ? (
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      borderBottom: "1px solid #444",
+                      mb: 4,
+                      mr: 10,
+                    }}
+                  >
+                    توجه : تحویل مرسوله حضوری همه روزه بین ساعات 11 صبح تا 18
+                    عصر انجام می پذیرد
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyItems: "center",
+                    mb: 1,
+                  }}
+                >
+                  <Image
+                    style={{
+                      backgroundColor: "#FDC60C",
+                      borderRadius: "50px",
+                    }}
+                    src={"/images/snap.png"}
+                    width={50}
+                    height={50}
+                  />{" "}
+                  <FormControlLabel
+                    value={"snap"}
+                    control={<Radio />}
+                    label="ارسال با اسنپ و تپسی (مخصوص تهران)"
+                  />
+                </Box>
+                {send == "snap" ? (
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      borderBottom: "1px solid #444",
+                      mb: 4,
+                      mr: 10,
+                    }}
+                  >
+                    توجه :هزینه ارسال بر عهده مشتری میباشد. ارسال بار بین ساعات
+                    9 صبح تا 18 عصر انجام می پذیرد.
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyItems: "center",
+                    mb: 1,
+                  }}
+                >
+                  <Image
+                    style={{
+                      backgroundColor: "#FDC60C",
+                      borderRadius: "51px",
+                      padding: 10,
+                    }}
+                    src={"/images/shipping.png"}
+                    width={50}
+                    height={50}
+                  />{" "}
+                  <FormControlLabel
+                    value={"shipping"}
+                    control={<Radio />}
+                    label="ارسال از طریق باربری(مخصوص شهرستان)"
+                  />
+                </Box>
+                {send == "shipping" ? (
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      borderBottom: "1px solid #444",
+                      mb: 4,
+                      mr: 10,
+                    }}
+                  >
+                    توجه : هزینه ارسال تا باربری پس کرایه شده و توسط مشتری
+                    پرداخت میگردد.
+                  </Typography>
+                ) : (
+                  ""
+                )}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyItems: "center",
+                    mb: 1,
+                  }}
+                >
+                  <Image
+                    style={{
+                      backgroundColor: "#FDC60C",
+                      borderRadius: "50px",
+                    }}
+                    src={"/images/post.png"}
+                    width={50}
+                    height={50}
+                  />{" "}
+                  <FormControlLabel
+                    value={"posting"}
+                    control={<Radio />}
+                    label="ارسال از طریق پست ایران"
+                  />
+                </Box>
+                {send == "posting" ? (
+                  <Typography
+                    sx={{
+                      fontSize: "12px",
+                      borderBottom: "1px solid #444",
 
-                <FormControlLabel
-                  value={"shipping"}
-                  control={<Radio />}
-                  label="ارسال از طریق باربری(مخصوص شهرستان)"
-                />
-
-                <FormControlLabel
-                  value={"posting"}
-                  control={<Radio />}
-                  label="ارسال از طریق پست یا تیپاکس"
-                />
+                      mb: 4,
+                      mr: 10,
+                    }}
+                  >
+                    توجه : هزینه پست بر عهده مشتری می باشد
+                  </Typography>
+                ) : (
+                  ""
+                )}
               </RadioGroup>
             </FormControl>
 
@@ -247,34 +375,7 @@ function CheckoutToPayment() {
                   onChange={handleChangeDate}
                 />
               </Grid>
-
-              <Grid xs={12} md={6} item>
-                {" "}
-                <Typography
-                  component={"div"}
-                  variant="body1"
-                  color={"primary"}
-                  sx={{
-                    my: 4,
-                  }}
-                >
-                  توجه :هزینه ارسال بر عهده مشتری میباشد. تحویل بار غیر حضوری
-                  بین ساعات 9 صبح تا 18 عصر انجام می پذیرد.
-                </Typography>
-              </Grid>
             </Grid>
-          ) : send == "in-person" ? (
-            <Typography
-              component={"div"}
-              variant="body1"
-              color={"primary"}
-              sx={{
-                my: 4,
-              }}
-            >
-              توجه : تحویل مرسوله حضوری همه روزه بین ساعات 11 صبح تا 18 عصر
-              انجام می پذیرد
-            </Typography>
           ) : send == "shipping" ? (
             <Grid container>
               <Grid
@@ -290,7 +391,7 @@ function CheckoutToPayment() {
                     mb: 4,
                   }}
                 >
-                  انتخاب تاریخ دریافت
+                  انتخاب تاریخ ارسال
                 </Typography>
                 <DatePicker
                   style={{
@@ -306,18 +407,6 @@ function CheckoutToPayment() {
                   calendarPosition="bottom-left"
                   onChange={handleChangeDate}
                 />
-
-                <Typography
-                  component={"div"}
-                  variant="body1"
-                  color={"primary"}
-                  sx={{
-                    my: 4,
-                  }}
-                >
-                  توجه : هزینه ارسال تا باربری پس کرایه شده و توسط مشتری پرداخت
-                  میگردد.
-                </Typography>
               </Grid>
 
               <Grid xs={12} md={6} item></Grid>
@@ -337,7 +426,7 @@ function CheckoutToPayment() {
                     mb: 4,
                   }}
                 >
-                  انتخاب تاریخ دریافت
+                  انتخاب تاریخ ارسال
                 </Typography>
                 <DatePicker
                   style={{
@@ -353,17 +442,6 @@ function CheckoutToPayment() {
                   calendarPosition="bottom-left"
                   onChange={handleChangeDate}
                 />
-
-                <Typography
-                  component={"div"}
-                  variant="body1"
-                  color={"primary"}
-                  sx={{
-                    my: 4,
-                  }}
-                >
-                  .توجه : هزینه پست با مشتری می باشد
-                </Typography>
               </Grid>
 
               <Grid xs={12} md={6} item></Grid>
@@ -374,17 +452,6 @@ function CheckoutToPayment() {
 
           <Grid spacing={2} container>
             <Grid xs={12} item>
-              <Typography
-                sx={{
-                  width: "100%",
-                  mb: 2,
-                }}
-                component={"div"}
-                color={"ButtonText"}
-                variant="subtitle1"
-              >
-                آدرس دریافت مرسوله :{" "}
-              </Typography>
               {send != "in-person" ? (
                 <FormControl
                   sx={{
@@ -426,26 +493,30 @@ function CheckoutToPayment() {
                     mt: 2,
                   }}
                 >
-                  یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
-                  آلاله یک , پلاک 1
+                  صالح آباد غربی،شهرک رسالت،خیابان طالقانی،خیابان ۲۰ متری جوادی،
+                  بعد از فروشگاه افق کوروش پلاک ۶۲
                 </Typography>
               )}
 
-              {data.setNewAddress == "true" ? (
-                <AddressSelect />
+              {send != "in-person" ? (
+                <AddressSelect
+                  newAddress={data.setNewAddress == "true"}
+                  tehran={send == "snap"}
+                />
               ) : (
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    color: "darkred",
-                    mt: 2,
-                  }}
-                >
-                  {userData.address}
-                  {send == "true" ? userData.address : ""}
-                </Typography>
+                ""
               )}
             </Grid>
+
+            <Typography
+              variant="subtitle2"
+              sx={{
+                color: "darkred",
+                mt: 2,
+              }}
+            >
+              {send == "in-person" ? "" : userData.address}
+            </Typography>
             <Grid xs={12} item>
               <RtlTextField
                 name="description"

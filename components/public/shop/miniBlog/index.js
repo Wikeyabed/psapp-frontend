@@ -44,8 +44,6 @@ function LatestBlog() {
       <Grid xs={12}>
         <Typography
           sx={{
-            mt: 2,
-
             width: "100% !important",
             fontWeight: "bold",
             textDecoration: "underline #primary.main !important",
@@ -63,7 +61,7 @@ function LatestBlog() {
         <MiniBlogCard video={false} />
       </Swiper>
 
-      <Grid display={"flex"} justifyContent={"center"} xs={12}>
+      {/* <Grid display={"flex"} justifyContent={"center"} xs={12}>
         <Button
           component={Link}
           href="/blog"
@@ -79,7 +77,7 @@ function LatestBlog() {
         >
           تمامی وبلاگ ها
         </Button>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid xs={12}>
         <Typography

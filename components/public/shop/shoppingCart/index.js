@@ -168,12 +168,12 @@ function ShoppingCart() {
                   mt: 4,
                   paddingLeft: 5,
                   marginRight: "auto",
-                  borderRadius: "10px",
+                  borderRadius: "50px",
                   backgroundColor: "primary.main",
                   border: "1px solid",
-                  borderColor: "lightPrimary.main",
+                  borderColor: "primary.main",
                   borderBottom: "4px solid",
-                  borderBottomColor: "lightPrimary.main",
+                  borderBottomColor: "primary.main",
                 }}
                 size="large"
                 color="primary"
@@ -191,12 +191,12 @@ function ShoppingCart() {
                   mt: 4,
                   paddingLeft: 5,
                   marginRight: "auto",
-                  borderRadius: "10px",
+                  borderRadius: "50px",
                   backgroundColor: "primary.main",
                   border: "1px solid",
-                  borderColor: "lightPrimary.main",
+                  borderColor: "primary.main",
                   borderBottom: "4px solid",
-                  borderBottomColor: "lightPrimary.main",
+                  borderBottomColor: "primary.main",
                 }}
                 size="large"
                 color="primary"

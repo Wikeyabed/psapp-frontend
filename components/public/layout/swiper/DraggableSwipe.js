@@ -36,8 +36,6 @@ export default function DraggableSwipe({ title, items, effect, children }) {
           textAlign: "center",
 
           // borderRadius: "25px",
-
-          pt: 2,
         }}
         item
         xs={12}

@@ -23,6 +23,49 @@ import { deleteCookie } from "cookies-next";
 import { Call } from "@mui/icons-material";
 const drawerWidth = 240;
 
+import CypherText from "react-cypher-text-loop";
+
+const preload = [
+  "با ایباکس به صرفه و با کیفیت بسته بندی کنید",
+  "امکان خرید حضوری",
+  "ارسال به تهران همه روزه از 8 تا 18",
+  "ارسال به سراسر تهران و ایران عزیز",
+  "راحت خرید کن، تا 48 ساعت می تونی عودت بدی",
+  "خیالت راحت اینجا همه چیز ارزون و با کیفیته",
+  "هرسوالی داری،میتونی زنگ بزنی و بپرسی",
+  "هرچی برای بسته بندی نیاز داری اینجا هست",
+  "دنبال ترفند های بسته بندی هستی؟ وبلاگ رو ببین",
+  "ایباکس سریع و خشن",
+  "تولید انواع کارتن در سایز مختلف",
+  "تاحالا لوگوی خودت رو روی چسب چاپ زدی؟",
+  "امکان چاپ لوگو بر روی چسب پهن",
+  "سوالی داری؟ از صفحه تماس با ما سوال کن",
+  "نایلون حبابدار در ابعاد مختلف",
+  "ایباکس نماینده رسمی محصولات ماتیسا",
+  "لطفا حتما بعد از خرید نظر خود رو با دیگران به اشتراک بزارید",
+  "اینستاگرام ایباکس رو فالو کردی؟",
+  "در کانال تلگرام ایباکس رو عضو شدی؟",
+  "خرید مطمعا و امن با ایباکس",
+  "...ارسال به شهرستان از طریق : پست ، باربری ، تیپاکس و",
+  " انواع تسمه و دستگاه تسمه کش",
+  "انواع نایلون و نایلکس",
+  "...انواع ملزومات اداری مثل خودکار ، ماژیک ، کاغذ و",
+  "امکان دریافت فاکتور در منوی کاربری",
+  "امکان مشاهده فاکتور در منوی کاربری",
+  "حتما از بازار عمده فروشی دیدن کنید",
+  "عمده بخری به صرفه تره",
+  "برای دسترسی سریع و آسان اپلیکیشن ایباکس رو نصب کن",
+  "تولید انواع نایلون و سلفون",
+  "کجا ارزون تر از ایباکس؟",
+  "انواع پاکت پستی",
+  "انواع کارتن پستی",
+  "انواع چسب کاغذی",
+  "انواع چسب دوطرفه",
+  "اینجا بهشت لوازم بسته بندیه",
+  "انواع چسب نواری",
+  "سود تو ارزون خریدنه",
+];
+
 const navItems = [
   { title: "محصولات", link: "/product-categories" },
   { title: "بلاگ", link: "/blog" },
@@ -165,26 +208,54 @@ function TopNavMobile(props) {
             position: "relative",
           }}
         >
+          <Box
+            sx={{
+              color: "#fff",
+
+              position: "absolute",
+              top: 10,
+              left: 0,
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              component={"div"}
+              sx={{
+                fontSize: 7,
+                // width: "100%",
+                textAlign: "center !important",
+              }}
+            >
+              {" "}
+              <CypherText delay={5000} textList={preload} randomOrder={true} />
+            </Typography>
+            {/* {preload.map((word) => {
+                  return <Typography>{word}</Typography>;
+                })} */}
+          </Box>
           {/* <></> */}
           <Box
             sx={{
               position: "absolute",
-              left: 20,
+              left: 10,
               top: 0,
               mt: 1,
-              fontSize: "12px",
               color: "#fff",
               display: "flex",
-
               alignItems: "center",
             }}
           >
             <Typography
+              component={Link}
+              href="tel:+982155538370"
               sx={{
                 color: "#fff",
-                fontSize: "11px",
+                fontSize: "8px",
                 color: "#ccc",
                 mt: "1px",
+                textDecoration: "none",
               }}
             >
               021-55538370
@@ -246,7 +317,7 @@ function TopNavMobile(props) {
               transform: "scale(.7)",
             }}
           >
-            <SocialMediaBar />
+            <SocialMediaBar mobile={true} />
           </Box>
           <Box
             sx={{
