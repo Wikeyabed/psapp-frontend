@@ -181,14 +181,14 @@ function MiniShoppingCart() {
             component={Link}
             href="/shop/cart"
             sx={{ m: 1 }}
-            color="secondary"
+            color="primary"
             variant="contained"
             onClick={handleClose}
           >
             پرداخت
           </Button>
 
-          <Button variant="outlined" color="secondary" onClick={handleClose}>
+          <Button variant="outlined" color="primary" onClick={handleClose}>
             ادامه خرید
           </Button>
         </DialogActions>

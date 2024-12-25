@@ -90,6 +90,7 @@ function AddProductVariant({ product }) {
 
   useEffect(() => {
     getProductVariants(product.product_id);
+    console.log("READ");
   }, []);
 
   const getProductVariants = (id) => {
@@ -110,6 +111,7 @@ function AddProductVariant({ product }) {
       .then((result) => {
         console.log("all the variant for this id ", result);
         dispatch(setProductVariant(result));
+        return result;
       })
       .catch((error) => console.log("error", error));
   };

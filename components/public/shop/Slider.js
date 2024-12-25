@@ -35,15 +35,15 @@ const slides = [
 const mobileSlides = [
   // { img: Banner0Mobile },
 
-  { img: Banner4Mobile, href: "/shop", text: "خرید" },
-  { img: Banner1Mobile, href: "/shop", text: "خرید" },
+  { img: "/images/banner4-mobile.jpg", href: "/shop", text: "خرید" },
+  { img: "/images/banner1-mobile.jpg", href: "/shop", text: "خرید" },
 
   {
-    img: Banner2Mobile,
+    img: "/images/banner2-mobile.jpg",
     href: "/shop/categories?category=کارتن+پستی",
     text: "خرید",
   },
-  { img: Banner3Mobile, href: "/order-form", text: "فرم سفارش" },
+  { img: "/images/banner3-mobile.jpg", href: "/order-form", text: "فرم سفارش" },
 ];
 
 console.log("slidessssssssss", slides);

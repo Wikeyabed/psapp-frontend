@@ -11,7 +11,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../../../redux/reducers/productSlice";
 import { useEffect } from "react";
-
+import AndroidIcon from "@mui/icons-material/Android";
+import AppleIcon from "@mui/icons-material/Apple";
+import MicrosoftIcon from "@mui/icons-material/Microsoft";
 import {
   Inventory as InventoryIcon,
   Inbox as InboxIcon,
@@ -95,35 +97,34 @@ export default function TopMenu() {
     setAnchorProduct(null);
   };
 
-  // useEffect(() => {
-  //   if (typeof window != "undefined") {
-  //     if ("serviceWorker" in navigator && "PushManager" in window) {
-  //       window.addEventListener("beforeinstallprompt", (e) => {
-  //         e.preventDefault();
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
 
-  //         const deferredPrompt = e;
+          const deferredPrompt = e;
 
-  //         const installButton = document.getElementById("install-app");
+          const installButton = document.getElementById("install-app");
 
-  //         installButton.addEventListener("click", () => {
-  //           deferredPrompt.prompt();
+          installButton.addEventListener("click", () => {
+            console.log("clicked");
+            deferredPrompt.prompt();
 
-  //           deferredPrompt.userChoice.then((choiceResult) => {
-  //             if (choiceResult.outcome === "accepted") {
-  //               console.log("App installed");
-  //             } else {
-  //               console.log("App installation declined");
-  //             }
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("App installed");
+              } else {
+                console.log("App installation declined");
+              }
 
-  //             installButton.style.display = "none";
-  //           });
-  //         });
-
-  //         document.body.appendChild(installButton);
-  //       });
-  //     }
-  //   }
-  // }, []);
+              installButton.style.display = "none";
+            });
+          });
+        });
+      }
+    }
+  });
 
   const openServices = Boolean(anchorServices);
 
@@ -134,15 +135,15 @@ export default function TopMenu() {
     setAnchorServices(null);
   };
 
-  const handleAppInstall = async () => {
-    if (deferredPrompt !== null) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === "accepted") {
-        deferredPrompt = null;
-      }
-    }
-  };
+  // const handleAppInstall = async () => {
+  //   if (deferredPrompt !== null) {
+  //     deferredPrompt.prompt();
+  //     const { outcome } = await deferredPrompt.userChoice;
+  //     if (outcome === "accepted") {
+  //       deferredPrompt = null;
+  //     }
+  //   }
+  // };
   return (
     <>
       <StyledUl>
@@ -274,7 +275,7 @@ export default function TopMenu() {
           </Button>
         </StyledLi>
 
-        {/* <StyledLi>
+        <StyledLi>
           {" "}
           <Button
             id="install-app"
@@ -287,8 +288,11 @@ export default function TopMenu() {
             }}
           >
             <StyledText>نصب اپلیکیشن ایباکس</StyledText>
+            <MicrosoftIcon />
+            <AppleIcon />
+            <AndroidIcon />
           </Button>
-        </StyledLi> */}
+        </StyledLi>
       </StyledUl>
 
       {/* ************************************************** */}

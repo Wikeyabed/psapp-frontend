@@ -46,6 +46,7 @@ function ProductsTable() {
   const [category, setCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([]);
   const [products, setProducts] = useState([]);
+  const [variantLength, setVariantLength] = useState(0);
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
@@ -208,6 +209,7 @@ function ProductsTable() {
                 {/* در صد تخفیف : {product.discount} */}
                 <br />
                 {/* موجودی: {product.product_quantity} */}
+                تعداد تنوع ها : {variantLength}
               </Typography>
 
               <Box
