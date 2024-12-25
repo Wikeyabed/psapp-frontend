@@ -47,160 +47,164 @@ function CommentList() {
               نظرات
             </Typography>
             <Grid container>
-              {comments.map((comment) => {
-                return (
-                  <Grid
-                    key={comment.id}
-                    item
-                    sx={{
-                      p: 1,
-                    }}
-                    xs={12}
-                    md={6}
-                  >
-                    {" "}
-                    <Paper
+              {comments
+                .sort((a, b) => {
+                  return b.comment_date - a.comment_date;
+                })
+                .map((comment) => {
+                  return (
+                    <Grid
+                      key={comment.id}
                       item
                       sx={{
-                        bgcolor: "#f1f1f1",
-                        position: "relative",
-                        p: 2,
+                        p: 1,
                       }}
-                      key={comment.id}
+                      xs={12}
+                      md={6}
                     >
-                      <Typography
+                      {" "}
+                      <Paper
+                        item
                         sx={{
-                          mb: 2,
+                          bgcolor: "#f1f1f1",
+                          position: "relative",
+                          p: 2,
                         }}
-                        variant="body2"
+                        key={comment.id}
                       >
-                        نوع کامنت:{" "}
-                        {comment.is_reply == "true" ? "پاسخ" : "کامنت جدید"}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          mb: 2,
-                        }}
-                        variant="body2"
-                      >
-                        کامنت مادر : {comment.parent_comment_id}
-                      </Typography>
-
-                      <Typography variant="body2">
-                        نام کاربری : {comment.username}
-                      </Typography>
-                      <Box
-                        sx={{ display: "flex", justifyContent: "flex-start" }}
-                      >
-                        {" "}
                         <Typography
                           sx={{
-                            mt: 0.5,
-                          }}
-                          variant="body2"
-                        >
-                          تاریخ صدور:
-                        </Typography>
-                        <ToPersianDate timestamp={comment.comment_date} />
-                      </Box>
-                      <Box
-                        sx={{ display: "flex", justifyContent: "flex-start" }}
-                      >
-                        {" "}
-                        <Typography
-                          sx={{
-                            mt: 0.5,
-                          }}
-                          variant="body2"
-                        >
-                          تاریخ بروزرسانی:
-                        </Typography>
-                        <ToPersianDate timestamp={comment.update_date} />
-                      </Box>
-                      <Typography
-                        sx={{
-                          mb: 2,
-                        }}
-                        variant="body2"
-                      >
-                        شناسه : {comment.id}
-                      </Typography>
-                      <Box>
-                        {" "}
-                        <Typography
-                          sx={{
-                            mt: 0.5,
                             mb: 2,
                           }}
                           variant="body2"
                         >
-                          محتویات :
+                          نوع کامنت:{" "}
+                          {comment.is_reply == "true" ? "پاسخ" : "کامنت جدید"}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            mb: 2,
+                          }}
+                          variant="body2"
+                        >
+                          کامنت مادر : {comment.parent_comment_id}
+                        </Typography>
+
+                        <Typography variant="body2">
+                          نام کاربری : {comment.username}
                         </Typography>
                         <Box
+                          sx={{ display: "flex", justifyContent: "flex-start" }}
+                        >
+                          {" "}
+                          <Typography
+                            sx={{
+                              mt: 0.5,
+                            }}
+                            variant="body2"
+                          >
+                            تاریخ صدور:
+                          </Typography>
+                          <ToPersianDate timestamp={comment.comment_date} />
+                        </Box>
+                        <Box
+                          sx={{ display: "flex", justifyContent: "flex-start" }}
+                        >
+                          {" "}
+                          <Typography
+                            sx={{
+                              mt: 0.5,
+                            }}
+                            variant="body2"
+                          >
+                            تاریخ بروزرسانی:
+                          </Typography>
+                          <ToPersianDate timestamp={comment.update_date} />
+                        </Box>
+                        <Typography
                           sx={{
-                            p: 2,
-                            backgroundColor: "#fff",
-                            minHeight: 250,
-                            MaxWidth: "100%",
-                            borderRadius: 1,
-                            border: "1px solid #ccc",
+                            mb: 2,
+                          }}
+                          variant="body2"
+                        >
+                          شناسه : {comment.id}
+                        </Typography>
+                        <Box>
+                          {" "}
+                          <Typography
+                            sx={{
+                              mt: 0.5,
+                              mb: 2,
+                            }}
+                            variant="body2"
+                          >
+                            محتویات :
+                          </Typography>
+                          <Box
+                            sx={{
+                              p: 2,
+                              backgroundColor: "#fff",
+                              minHeight: 250,
+                              MaxWidth: "100%",
+                              borderRadius: 1,
+                              border: "1px solid #ccc",
+                            }}
+                          >
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                maxWidth: "100%",
+                                textAlign: "justify",
+                              }}
+                            >
+                              {" "}
+                              {comment.content}
+                            </Typography>
+                          </Box>
+                          {comment.post_type == "product" ? (
+                            <Link
+                              style={{
+                                MarginTop: 2,
+                              }}
+                              target="_blank"
+                              href={`/products/${comment.post_id}`}
+                            >
+                              لینک صفحه
+                            </Link>
+                          ) : (
+                            <Link
+                              style={{
+                                MarginTop: 2,
+                              }}
+                              target="_blank"
+                              href={`/blog/${comment.post_id}`}
+                            >
+                              لینک صفحه
+                            </Link>
+                          )}
+                        </Box>
+
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 3,
+                            left: 3,
                           }}
                         >
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              maxWidth: "100%",
-                              textAlign: "justify",
-                            }}
-                          >
-                            {" "}
-                            {comment.content}
-                          </Typography>
+                          <ConfirmComment
+                            isActive={comment.is_active}
+                            id={comment.id}
+                            fetchComments={fetchComments}
+                          />
+                          <DeleteComment
+                            id={comment.id}
+                            fetchComments={fetchComments}
+                          />
                         </Box>
-                        {comment.post_type == "product" ? (
-                          <Link
-                            style={{
-                              MarginTop: 2,
-                            }}
-                            target="_blank"
-                            href={`/products/${comment.post_id}`}
-                          >
-                            لینک صفحه
-                          </Link>
-                        ) : (
-                          <Link
-                            style={{
-                              MarginTop: 2,
-                            }}
-                            target="_blank"
-                            href={`/blog/${comment.post_id}`}
-                          >
-                            لینک صفحه
-                          </Link>
-                        )}
-                      </Box>
-
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: 3,
-                          left: 3,
-                        }}
-                      >
-                        <ConfirmComment
-                          isActive={comment.is_active}
-                          id={comment.id}
-                          fetchComments={fetchComments}
-                        />
-                        <DeleteComment
-                          id={comment.id}
-                          fetchComments={fetchComments}
-                        />
-                      </Box>
-                    </Paper>
-                  </Grid>
-                );
-              })}
+                      </Paper>
+                    </Grid>
+                  );
+                })}
             </Grid>
           </Grid>
         </Grid>

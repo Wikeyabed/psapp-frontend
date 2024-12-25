@@ -1,9 +1,10 @@
 import { useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
 import ModalBox from "../layout/Modal";
 import AddCategoryForm from "./AddCategoryForm";
+import { Edit } from "@mui/icons-material";
+import EditCategoryForm from "./EditCategoryForm";
 
-export default function AddCategoryModal({ cats }) {
+export default function EditCategoryModal({ cats }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -13,11 +14,11 @@ export default function AddCategoryModal({ cats }) {
       handleOpen={handleOpen}
       handleClose={handleClose}
       open={open}
-      buttonText={"دسته بندی ها"}
+      buttonText={"ویرایش دسته بندی ها"}
       buttonVariant={"outlined"}
-      icon={<AddIcon />}
+      icon={<Edit />}
     >
-      <AddCategoryForm cats={cats} />
+      <EditCategoryForm cats={cats} />
     </ModalBox>
   );
 }

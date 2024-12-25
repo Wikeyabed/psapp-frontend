@@ -237,9 +237,12 @@ function TopNavMobile(props) {
           </Box>
           {/* <></> */}
           <Box
+            component={Link}
+            href="tel:+982155538370"
             sx={{
               position: "absolute",
               left: 10,
+              textDecoration: "none",
               top: 0,
               mt: 1,
               color: "#fff",
@@ -248,8 +251,6 @@ function TopNavMobile(props) {
             }}
           >
             <Typography
-              component={Link}
-              href="tel:+982155538370"
               sx={{
                 color: "#fff",
                 fontSize: "8px",
@@ -266,6 +267,7 @@ function TopNavMobile(props) {
                 ml: 1,
                 color: "#000",
                 borderRadius: 20,
+
                 width: 15,
                 height: 15,
                 // padding: "1px",

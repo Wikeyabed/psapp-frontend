@@ -120,13 +120,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
     formData.append("product_id", data.product_id);
     formData.append("product_description", data.description);
     formData.append("category", category);
-    formData.append("price", data.price);
-    formData.append("product_quantity", data.quantity);
-    formData.append("stack", data.stack);
-    formData.append("discount", data.discount);
     formData.append("product_features", data.features);
-    formData.append("is_active", activeStatus);
-
     for (let i = 0; i < files.length; i++) {
       formData.append("images_url", files[i], files[i].name);
     }
@@ -159,6 +153,7 @@ const EditForm = ({ product, closeAfterUpdate }) => {
 
           return response.json();
         } else {
+          console.log(response.json());
           dispatch(
             setNotificationOn({
               message: "مشکلی پیش آمده",
@@ -206,29 +201,6 @@ const EditForm = ({ product, closeAfterUpdate }) => {
             defaultValue={product.product_id}
             fullWidth
             label="کد محصول"
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="quantity"
-            size="small"
-            type="number"
-            defaultValue={product.product_quantity}
-            fullWidth
-            label="مقدار موجود"
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={6} md={4}>
-          <RtlTextField
-            onChange={handleSetValues}
-            name="stack"
-            size="small"
-            defaultValue={product.stack}
-            fullWidth
-            label="تعداد در هر بسته"
           />
         </Grid>
 
@@ -320,46 +292,6 @@ const EditForm = ({ product, closeAfterUpdate }) => {
                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
             }}
           />
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography
-          variant="h6"
-          sx={{
-            p: 1,
-            textAlign: "center",
-          }}
-        >
-          قیمت و تخفیفات{" "}
-        </Typography>
-
-        <StyledDivider />
-        <Grid component={Item} container>
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="price"
-              defaultValue={product.price}
-              size="small"
-              fullWidth
-              label=" قیمت محصول به ریال"
-            />
-          </Grid>
-
-          {/* <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField size="small" fullWidth label="قیمت عمده" />
-          </Grid> */}
-
-          <Grid sx={{ px: 1 }} item xs={12} md={4}>
-            <RtlTextField
-              onChange={handleSetValues}
-              name="discount"
-              defaultValue={product.discount}
-              size="small"
-              fullWidth
-              label="درصد تخفیف"
-            />
-          </Grid>
         </Grid>
       </Grid>
 

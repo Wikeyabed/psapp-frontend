@@ -21,6 +21,7 @@ import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 import Image from "next/image";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
+import SimpleBottomNavigation from "../layout/navbar/BottomNav";
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
 
@@ -148,6 +149,9 @@ function LoginForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <SimpleBottomNavigation />
+        </Box>
         <Grid container>
           <form onSubmit={handleSubmit}>
             <FormGroup container>

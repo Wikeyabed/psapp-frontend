@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 import Image from "next/image";
+import SimpleBottomNavigation from "../layout/navbar/BottomNav";
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
 
@@ -126,6 +127,9 @@ function PasswordReset() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <SimpleBottomNavigation />
+        </Box>
         <Grid>
           <form onSubmit={handleSubmit}>
             <FormGroup>
@@ -135,6 +139,12 @@ function PasswordReset() {
                 lg={6}
                 sx={{
                   mx: "auto",
+                  padding: 1,
+                  border: "1px solid #ccc",
+                  boxShadow: "0px 0px 10px 0px #ccc",
+                  borderRadius: 5,
+                  padding: 2,
+                  mt: 5,
                 }}
                 component={Item}
                 container

@@ -1,4 +1,3 @@
-"use client";
 import {
   Box,
   Grid,
@@ -14,7 +13,12 @@ import {
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { DeleteOutline, CreateOutlined } from "@mui/icons-material";
+import {
+  DeleteOutline,
+  CreateOutlined,
+  EditOutlined,
+  Category,
+} from "@mui/icons-material";
 import { getCookie } from "cookies-next";
 import {
   setNotificationOff,
@@ -60,13 +64,14 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-function AddCategoryForm({ cats }) {
+function EditCategoryForm({ cats }) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
 
   const [categories, setCategories] = useState(cats);
   const [data, setData] = useState({
     category_name: "",
+    category_id: "",
     parent_category_id: null,
     sort_order: 0,
   });
@@ -76,6 +81,17 @@ function AddCategoryForm({ cats }) {
       await fetchCategories();
     };
   }, [categories]);
+
+  const handleStartEdit = (name, sort, id) => {
+    setData({
+      ...data,
+      category_name: name,
+      sort_order: sort,
+      category_id: id,
+    });
+
+    console.log(data);
+  };
 
   const fetchCategories = async () => {
     let myHeaders = new Headers();
@@ -89,19 +105,18 @@ function AddCategoryForm({ cats }) {
 
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`, requestOptions)
       .then((response) => response.json())
-      .then((result) => setCategories(result))
+      .then((result) => {
+        setCategories(result);
+      })
       .catch((error) => console.log("error", error));
-
-    console.log("category", categories);
   };
 
-  const handleNewCategory = () => {
+  const handleEditCategory = () => {
     let myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
-
     var formData = new FormData();
+    formData.append("category_id", data.category_id);
     formData.append("category_name", data.category_name);
-    formData.append("parent_category_id", data.parent_category_id);
     formData.append("sort_order", data.sort_order);
 
     for (let i = 0; i < files.length; i++) {
@@ -109,46 +124,20 @@ function AddCategoryForm({ cats }) {
     }
 
     let requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: myHeaders,
       body: formData,
       redirect: "follow",
     };
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/add`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/edit`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         fetchCategories();
         dispatch(
           setNotificationOn({
-            message: "دسته بندی جدید اضافه شد",
+            message: "دسته بندی بروزرسانی شد",
             color: "success",
-          })
-        );
-      })
-      .catch((error) => console.log("error", error));
-  };
-
-  const handleDeleteCategory = (id) => {
-    let myHeaders = new Headers();
-
-    myHeaders.append("token", getCookie("x-auth-token"));
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-    let requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/${id}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => {
-        fetchCategories();
-        dispatch(
-          setNotificationOn({
-            message: "دسته بندی مورد نظر حذف شد",
-            color: "warning",
           })
         );
       })
@@ -172,7 +161,7 @@ function AddCategoryForm({ cats }) {
                   textAlign: "center",
                 }}
               >
-                دسته بندی جدید
+                ویرایش دسته بندی ها
               </Typography>
               <StyledDivider />
               <Grid container component={Item}>
@@ -191,6 +180,7 @@ function AddCategoryForm({ cats }) {
                     size="small"
                     fullWidth
                     label="نام دسته بندی"
+                    value={data.category_name}
                   />
                 </Grid>
 
@@ -209,6 +199,7 @@ function AddCategoryForm({ cats }) {
                     size="small"
                     fullWidth
                     label="ترتیب دسته بندی"
+                    value={data.sort_order}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -218,13 +209,13 @@ function AddCategoryForm({ cats }) {
                       my: 2,
                     }}
                     disabled={data.category_name.length <= 0}
-                    onClick={handleNewCategory}
+                    onClick={handleEditCategory}
                     color="success"
                     size="medium"
                     variant="contained"
                     fullWidth
                   >
-                    اضافه کردن دسته بندی جدید
+                    ویراش دسته بندی
                   </Button>
                 </Grid>
               </Grid>
@@ -276,12 +267,16 @@ function AddCategoryForm({ cats }) {
                           >
                             <IconButton
                               onClick={() =>
-                                handleDeleteCategory(item.category_id)
+                                handleStartEdit(
+                                  item.category_name,
+                                  item.sort_order,
+                                  item.category_id
+                                )
                               }
                             >
-                              <DeleteOutline
+                              <EditOutlined
                                 sx={{
-                                  color: "red",
+                                  color: "blue",
                                 }}
                               />
                             </IconButton>
@@ -299,4 +294,4 @@ function AddCategoryForm({ cats }) {
   );
 }
 
-export default AddCategoryForm;
+export default EditCategoryForm;

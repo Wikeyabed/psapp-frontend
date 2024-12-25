@@ -85,7 +85,7 @@ const ProductPage = ({ product, variants, products, allVariants }) => {
                       quantity={selectedVariant.variant_quantity}
                       discount={selectedVariant.variant_discount}
                       price={selectedVariant.variant_price}
-                      product_uuid={product.product_uuid}
+                      product_uuid={selectedVariant.variant_uuid}
                       variant_uuid={selectedVariant.variant_uuid}
                       images_url={product.images_url}
                     />

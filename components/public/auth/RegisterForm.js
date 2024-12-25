@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { setCookie } from "cookies-next";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
+import SimpleBottomNavigation from "../layout/navbar/BottomNav";
 
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
@@ -197,6 +198,9 @@ function RegisterForm() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <SimpleBottomNavigation />
+        </Box>
         <Grid>
           <form onSubmit={handleSubmit}>
             <FormGroup container>

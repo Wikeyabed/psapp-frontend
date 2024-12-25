@@ -150,7 +150,7 @@ function TopBoxes({ users, orders, products }) {
 
   const getMonthlyIncome = () => {
     const lastMonth = moment()
-      .subtract(moment().day() + 2, "days")
+      .subtract(moment().day() + 1, "days")
       .subtract(moment().hours(), "hours")
       .subtract(moment().minute(), "minutes")
       .subtract(moment().second(), "seconds")
@@ -195,7 +195,7 @@ function TopBoxes({ users, orders, products }) {
 
   const getMonthlyUsers = () => {
     const lastMonth = moment()
-      .subtract(moment().day() + 2, "days")
+      .subtract(moment().day() + 1, "days")
       .subtract(moment().hours(), "hours")
       .subtract(moment().minute(), "minutes")
       .subtract(moment().second(), "seconds")
@@ -231,12 +231,17 @@ function TopBoxes({ users, orders, products }) {
 
   const getMonthlyOrders = () => {
     const lastMonth = moment()
-      .subtract(moment().day() + 2, "days")
+      .subtract(moment().day() + 1, "days")
       .subtract(moment().hours(), "hours")
       .subtract(moment().minute(), "minutes")
       .subtract(moment().second(), "seconds")
 
       .unix();
+
+    console.log(
+      "monthtt",
+      moment.unix(lastMonth).format("jYYYY/jMM/jDD HH:mm")
+    );
 
     const lastMonthOrders = orders.filter((order) => {
       return order.order_date >= lastMonth;
@@ -251,6 +256,11 @@ function TopBoxes({ users, orders, products }) {
       .subtract(moment().minute(), "minutes")
       .subtract(moment().second(), "seconds")
       .unix();
+
+    console.log(
+      "twilight",
+      moment.unix(hourOfTwilight).format("jYYYY/jMM/jDD HH:mm")
+    );
 
     const lastDayOrders = orders.filter((order) => {
       return order.order_date >= hourOfTwilight;

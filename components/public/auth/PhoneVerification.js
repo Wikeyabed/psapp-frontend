@@ -25,6 +25,7 @@ import {
 } from "../../../redux/reducers/authSlice";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
+import SimpleBottomNavigation from "../layout/navbar/BottomNav";
 
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
@@ -227,6 +228,9 @@ function PhoneVerification() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container component={FormControl} container spacing={2}>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <SimpleBottomNavigation />
+        </Box>
         <Card
           container
           xs={12}

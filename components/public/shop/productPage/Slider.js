@@ -57,7 +57,7 @@ export default function ProductSlicer({ images }) {
       initial: 0,
 
       slides: {
-        perView: 4,
+        perView: 3,
         spacing: 20,
       },
     },
@@ -113,7 +113,7 @@ export default function ProductSlicer({ images }) {
             <Image
               style={{
                 width: "100%",
-                height: "200px",
+                height: "100px",
                 objectFit: "contain",
               }}
               width={0}
