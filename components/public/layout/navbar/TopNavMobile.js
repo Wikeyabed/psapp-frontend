@@ -2,7 +2,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import { Grid, Typography, Divider } from "@mui/material";
+import { Grid, Typography, Divider, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { SwipeableDrawer } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -21,9 +21,23 @@ import SocialMediaBar from "../socialMedia";
 import { userLogout } from "../../../../redux/reducers/authSlice";
 import { deleteCookie } from "cookies-next";
 import { Call } from "@mui/icons-material";
+import { useEffect } from "react";
 const drawerWidth = 240;
-
+import {
+  Category,
+  WebStories,
+  OndemandVideo,
+  InsertDriveFile,
+  ContactPhone,
+  Gavel,
+  Handshake,
+  ExitToApp,
+  Microsoft,
+  Apple,
+  Android,
+} from "@mui/icons-material";
 import CypherText from "react-cypher-text-loop";
+import Logo from "./Logo";
 
 const preload = [
   "با ایباکس به صرفه و با کیفیت بسته بندی کنید",
@@ -67,16 +81,115 @@ const preload = [
 ];
 
 const navItems = [
-  { title: "محصولات", link: "/product-categories" },
-  { title: "بلاگ", link: "/blog" },
-  { title: "ویدیو های آموزشی", link: "/videos" },
-  { title: "فرم سفارش محصول", link: "/order-form" },
-  { title: "فرم درخواست همکاری", link: "/partnership" },
-  { title: "تماس با ما", link: "/contact" },
-  { title: "قوانین و مقررات", link: "/roles" },
+  {
+    title: "محصولات",
+    link: "/product-categories",
+    icon: (
+      <Category
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
+  {
+    title: "بلاگ",
+    link: "/blog",
+    icon: (
+      <WebStories
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
+  // {
+  //   title: "ویدیو های آموزشی",
+  //   link: "/videos",
+  //   icon: (
+  //     <OndemandVideo
+  //       sx={{
+  //         ml: 1,
+  //       }}
+  //     />
+  //   ),
+  // },
+  {
+    title: "فرم سفارش محصول",
+    link: "/order-form",
+    icon: (
+      <InsertDriveFile
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
+  {
+    title: "فرم درخواست همکاری",
+    link: "/partnership",
+    icon: (
+      <Handshake
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
+  {
+    title: "تماس با ما",
+    link: "/contact",
+    icon: (
+      <ContactPhone
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
+  {
+    title: "قوانین و مقررات",
+    link: "/roles",
+    icon: (
+      <Gavel
+        sx={{
+          ml: 1,
+        }}
+      />
+    ),
+  },
 ];
 
 function TopNavMobile(props) {
+  useEffect(() => {
+    if (typeof window != "undefined") {
+      if ("serviceWorker" in navigator && "PushManager" in window) {
+        window.addEventListener("beforeinstallprompt", (e) => {
+          e.preventDefault();
+
+          const deferredPrompt = e;
+
+          const installButton = document.getElementById("install-app");
+
+          installButton.addEventListener("click", () => {
+            console.log("clicked");
+            deferredPrompt.prompt();
+
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === "accepted") {
+                console.log("App installed");
+              } else {
+                console.log("App installation declined");
+              }
+
+              installButton.style.display = "none";
+            });
+          });
+        });
+      }
+    }
+  });
+
   const isAdminLoggedIn = useSelector(
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
   );
@@ -100,18 +213,40 @@ function TopNavMobile(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", p: 1 }}>
       <Box
+        id="install-app"
         sx={{
-          py: 2,
+          width: "100%",
+          borderRadius: "20px",
+          backgroundColor: "brown",
+          color: "#fff",
+          p: 2,
         }}
-        display={"flex"}
-        justifyContent={"center"}
       >
-        <MobileLogo />
+        <Box
+          sx={{
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          {" "}
+          <Microsoft />
+          <Apple />
+          <Android />
+        </Box>
+        <Typography
+          sx={{
+            fontSize: 15,
+            display: "block",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          نصب اپلیکیشن ایباکس
+        </Typography>
       </Box>
 
-      <Divider />
       <List>
         {navItems.map((item, i) => (
           <ListItem key={i} disablePadding>
@@ -121,6 +256,7 @@ function TopNavMobile(props) {
               sx={{ textAlign: "center" }}
             >
               <ListItemText primary={item.title} />
+              {item.icon}
             </ListItemButton>
           </ListItem>
         ))}
@@ -133,6 +269,12 @@ function TopNavMobile(props) {
               sx={{ textAlign: "center", color: "red" }}
             >
               <ListItemText primary={"خروج از حساب کاربری"} />
+              <ExitToApp
+                sx={{
+                  ml: 1,
+                }}
+                color="warning"
+              />
             </ListItemButton>
           </ListItem>
         ) : (
@@ -167,24 +309,29 @@ function TopNavMobile(props) {
         <Typography variant="body2" color="text.primary" gutterBottom>
           نماد اکترونیکی
         </Typography>
-
-        <a
-          referrerpolicy="origin"
-          target="_blank"
-          href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+        <Box
+          sx={{
+            textAlign: "center",
+          }}
         >
-          <img
+          <a
             referrerpolicy="origin"
-            src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
-            alt="ebox-ایباکس"
-            style={{
-              cursor: "pointer",
-              width: "auto",
-              height: "atuo",
-            }}
-            Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
-          />
-        </a>
+            target="_blank"
+            href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+          >
+            <img
+              referrerpolicy="origin"
+              src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+              alt="ebox-ایباکس"
+              style={{
+                cursor: "pointer",
+                width: "auto",
+                height: "atuo",
+              }}
+              Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
+            />
+          </a>
+        </Box>
       </Grid>
     </Box>
   );

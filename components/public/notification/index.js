@@ -5,6 +5,7 @@ import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotificationOff } from "../../../redux/reducers/notificationSlice";
 import { Typography } from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return (
@@ -35,17 +36,18 @@ export default function Notification() {
   return (
     <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
+        sx={{
+          zIndex: 5000,
+        }}
         anchorOrigin={{ horizontal: "center", vertical: "top" }}
         open={notification.showNotification}
-        sx={{
-          mt: "80px",
-        }}
       >
         <Alert
           severity={notification.color}
           sx={{
             width: "100%",
             padding: "10px 5px ",
+            mt: "120px !important",
           }}
         >
           <Typography

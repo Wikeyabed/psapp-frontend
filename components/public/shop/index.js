@@ -8,6 +8,7 @@ import Features from "./Features";
 import Products from "./products";
 import ShopSlider from "./Slider";
 import LatestBlog from "./miniBlog";
+import Image from "next/image";
 // Define Shop component
 function Shop() {
   return (

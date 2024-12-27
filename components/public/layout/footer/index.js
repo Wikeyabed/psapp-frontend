@@ -94,8 +94,8 @@ export default function Footer() {
               Email: info@example.com
             </Typography> */}
             <Typography variant="body2" color="#fff">
-              آدرس : یافت آباد جنوبی , خیابان میرهاشمی ,کوچه خرقانیان , بن بست
-              آلاله یک , پلاک 1
+              آدرس : صالح آباد غربی،شهرک رسالت،خیابان طالقانی،خیابان ۲۰ متری
+              جوادی، بعد از فروشگاه افق کوروش پلاک ۶۲
             </Typography>
 
             <Box

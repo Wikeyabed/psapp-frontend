@@ -12,6 +12,7 @@ import ReturnBanner from "../../../public/images/return.jpg";
 import AboutUsBanner from "../../../public/images/about-us.jpg";
 
 import Link from "../../../src/Link";
+import Image from "next/image";
 // Style the Paper component with Emotion's styled function
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
@@ -43,7 +44,6 @@ function Features() {
     <Grid
       container
       columnSpacing={{ xs: 2, lg: 6 }}
-      spacing={2}
       sx={{
         padding: "10px",
         marginTop: "25px",
@@ -108,6 +108,18 @@ function Features() {
         <FeatureContainer elevation={1}>
           <BannerImage src={"/images/about-us.jpg"} />
         </FeatureContainer>
+      </Grid>
+      <Grid
+        component={Link}
+        href="/shop/categories?category=بازار+عمده+فروشی"
+        sx={{
+          pl: 2,
+          mt: 2,
+          textAlign: "center",
+        }}
+        xs={12}
+      >
+        <BannerImage src="/images/b-mobile.jpg" />
       </Grid>
     </Grid>
   );

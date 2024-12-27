@@ -154,7 +154,7 @@ function AddToCart({
         disabled={loading || instock < 1}
         onClick={handleAddToCart}
         sx={{
-          p: "25px",
+          p: "8px",
           fontSize: { xs: "11px", md: "inherit" },
           marginRight: "auto",
           borderRadius: "25px",
@@ -175,8 +175,8 @@ function AddToCart({
         {loading ? (
           <Box
             sx={{
-              p: "25px",
-              width: "100%",
+              p: "8px",
+              width: "90px",
               borderRadius: "5px",
               fontSize: { xs: "11px", md: "inherit" },
               marginRight: "auto",
@@ -186,7 +186,7 @@ function AddToCart({
             <LinearProgress
               sx={{
                 color: "green",
-                p: "25px",
+                px: "4px",
                 opacity: 0.3,
                 height: "36.5px",
                 borderRadius: "5px",
