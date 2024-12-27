@@ -209,7 +209,7 @@ function ProductsTable() {
                 {/* در صد تخفیف : {product.discount} */}
                 <br />
                 {/* موجودی: {product.product_quantity} */}
-                تعداد تنوع ها : {variantLength}
+                {/* تعداد تنوع ها : {variantLength} */}
               </Typography>
 
               <Box

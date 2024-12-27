@@ -15,6 +15,7 @@ import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ProductVariantDelete from "./ProductVariantDelete";
+import { MuiColorInput } from "mui-color-input";
 
 import { styled } from "@mui/material/styles";
 import ProductVariantEdit from "./ProductVariantEdit";
@@ -45,9 +46,17 @@ function ProductVariantList({ variants }) {
     variant_discount: "",
     variant_quantity: "",
     variant_stack: "",
+    variant_color: "",
     is_active: "",
     variant_sort: "",
   });
+
+  const setColorValue = (color) => {
+    setData({
+      ...data,
+      variant_color: color,
+    });
+  };
 
   const changeActiveStatus = (uuid, currentId) => {
     if (uuid == currentId) {
@@ -74,6 +83,7 @@ function ProductVariantList({ variants }) {
         variant_discount: variant.variant_discount,
         variant_quantity: variant.variant_quantity,
         variant_stack: variant.variant_stack,
+        variant_color: variant.variant_color,
         is_active: variant.is_active,
         variant_sort: variant.variant_sort,
       });
@@ -324,6 +334,33 @@ function ProductVariantList({ variants }) {
 
                   {edit.currentId == variant.variant_uuid ? (
                     <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          width: "100%",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            ml: 2,
+                            mt: 1,
+                          }}
+                        >
+                          رنگ تنوع:
+                        </Typography>
+
+                        <MuiColorInput
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            width: "140px",
+                            direction: "rtl !important",
+                          }}
+                          value={data.variant_color}
+                          format="hex"
+                          onChange={setColorValue}
+                        />
+                      </Box>
                       <FormControlLabel
                         label={
                           <Typography variant="body2">

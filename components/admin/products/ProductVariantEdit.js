@@ -61,7 +61,7 @@ export default function ProductVariantEdit({
     urlencoded.append("variant_name", variant.variant_name);
     urlencoded.append("variant_stack", variant.variant_stack * 1);
     urlencoded.append("variant_quantity", variant.variant_quantity * 1);
-    // urlencoded.append("variant_color", variant.variant_color);
+    urlencoded.append("variant_color", variant.variant_color);
     urlencoded.append("variant_price", variant.variant_price * 1);
     urlencoded.append("variant_discount", variant.variant_discount * 1);
     urlencoded.append("variant_uuid", uuid);

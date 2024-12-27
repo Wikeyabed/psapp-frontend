@@ -15,6 +15,7 @@ import { once, sample } from "lodash";
 import { TextLoop } from "easy-react-text-loop";
 
 import CypherText from "react-cypher-text-loop";
+import Link from "../../../../src/Link";
 
 export default function Navbar() {
   // mobile menu item
@@ -234,13 +235,17 @@ export default function Navbar() {
           </Toolbar>
         </AppBar>
         <Box
+          component={Link}
+          href="/shop/categories?category=بازار+عمده+فروشی"
           sx={{
             position: "fixed",
-            left: 5,
-            top: "92px",
+            zIndex: 2,
+            left: "110px",
+            top: "115px",
           }}
         >
           {/* <img src={MoharamPng.src} width="130px" /> */}
+          <img src="/images/b-desktop.png" width="130px" />
         </Box>
       </Box>
     </>
