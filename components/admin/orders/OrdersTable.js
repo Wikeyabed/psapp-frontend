@@ -231,12 +231,11 @@ const OrdersTable = ({ orders }) => {
           <Table>
             <TableHead>
               <StyledTableHeaderRow>
-                <StyledTableCell>شماره فاکتور</StyledTableCell>
+                <StyledTableCell>نام مشتری</StyledTableCell>
 
                 <StyledTableCell>شماره تماس</StyledTableCell>
 
-                <StyledTableCell>نام مشتری</StyledTableCell>
-
+                <StyledTableCell>شماره فاکتور</StyledTableCell>
                 <StyledTableCell>تاریخ صدور</StyledTableCell>
 
                 <StyledTableCell>وضعیت</StyledTableCell>
@@ -257,9 +256,10 @@ const OrdersTable = ({ orders }) => {
                 .map((order) => (
                   <TableRow key={order.order_id}>
                     <TableCell style={{ textAlign: "right" }}>
-                      <Link href={`orders/${order.order_id}`}>
-                        {order.order_number}
-                      </Link>
+                      {/* Generating order */}
+                      <Link href={`users/${order.user_id}`}>
+                        {order.customer_name}
+                      </Link>{" "}
                     </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>
@@ -290,10 +290,9 @@ const OrdersTable = ({ orders }) => {
                     </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>
-                      {/* Generating order */}
-                      <Link href={`users/${order.user_id}`}>
-                        {order.customer_name}
-                      </Link>{" "}
+                      <Link href={`orders/${order.order_id}`}>
+                        {order.order_number}
+                      </Link>
                     </TableCell>
 
                     <TableCell style={{ textAlign: "right" }}>

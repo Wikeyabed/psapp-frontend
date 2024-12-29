@@ -98,7 +98,9 @@ function OrdersList() {
         />
       </Grid>
 
-      {requests.filter((request) => request.request_type == "2").length > 0 ? (
+      {requests
+        .sort((a, b) => b.create_time - a.create_time)
+        .filter((request) => request.request_type == "2").length > 0 ? (
         requests
           .filter((request) => request.request_type == "2")
           .map((request) => {

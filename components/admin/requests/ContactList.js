@@ -98,7 +98,9 @@ function ContactList() {
         />
       </Grid>
 
-      {requests.filter((request) => request.request_type == "3").length > 0 ? (
+      {requests
+        .sort((a, b) => b.create_time - a.create_time)
+        .filter((request) => request.request_type == "3").length > 0 ? (
         requests
           .filter((request) => request.request_type == "3")
           .map((request) => {

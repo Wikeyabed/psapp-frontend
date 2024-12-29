@@ -47,7 +47,7 @@ export default function Notification() {
           sx={{
             width: "100%",
             padding: "10px 5px ",
-            mt: "120px !important",
+            mt: { xs: 0, md: "120px !important" },
           }}
         >
           <Typography

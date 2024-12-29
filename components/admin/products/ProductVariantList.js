@@ -139,6 +139,7 @@ function ProductVariantList({ variants }) {
                         sx={{
                           display: "flex",
                           justifyItems: "center",
+                          pt: 5,
                         }}
                       >
                         {" "}
@@ -268,7 +269,11 @@ function ProductVariantList({ variants }) {
                       </Box>
                     </>
                   ) : (
-                    <>
+                    <Box
+                      sx={{
+                        pt: 5,
+                      }}
+                    >
                       <Typography
                         sx={{
                           my: 1,
@@ -329,7 +334,7 @@ function ProductVariantList({ variants }) {
                           {variant.is_active ? "فعال" : "غیر فعال"}
                         </span>{" "}
                       </Typography>
-                    </>
+                    </Box>
                   )}
 
                   {edit.currentId == variant.variant_uuid ? (

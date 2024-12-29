@@ -12,17 +12,17 @@ export default function SelectVariants({ variants, select }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [selectedVariant, setSelectedVariant] = useState();
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
 
-  const createQueryString = useCallback(
-    (name, value) => {
-      const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+  // const createQueryString = useCallback(
+  //   (name, value) => {
+  //     const params = new URLSearchParams(searchParams);
+  //     params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams]
-  );
+  //     return params.toString();
+  //   },
+  //   [searchParams]
+  // );
 
   useEffect(() => {
     const variantParam = searchParams.get("variant");
@@ -31,17 +31,15 @@ export default function SelectVariants({ variants, select }) {
       const defaultVariant = variants.filter((variant) => {
         return variantParam == variant.variant_uuid;
       });
-      checkTheSelected(defaultVariant[0]);
+      select(defaultVariant[0]);
     } else {
-      checkTheSelected(variants[0]);
+      select(variants[0]);
     }
   }, []);
 
   const checkTheSelected = (variant) => {
     setSelectedVariant(variant.variant_uuid);
-    router.push(
-      pathname + "?" + createQueryString("variant", variant.variant_uuid)
-    );
+
     select(variant);
   };
 
@@ -85,9 +83,9 @@ export default function SelectVariants({ variants, select }) {
                 }}
               >
                 <FormControlLabel
-                  checked={variant.variant_uuid == selectedVariant}
+                  defaultChecked={i == 0}
                   onChange={() => checkTheSelected(variant)}
-                  value={variant.variant_uuid}
+                  value={selectedVariant}
                   control={
                     <Radio
                       sx={{
