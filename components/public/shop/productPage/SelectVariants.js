@@ -72,46 +72,50 @@ export default function SelectVariants({ variants, select }) {
         }
         name="radio-buttons-group"
       >
-        {variants.map((variant, i) => {
-          return (
-            <Box
-              key={i}
-              sx={{
-                position: "relative",
-              }}
-            >
-              <FormControlLabel
-                checked={variant.variant_uuid == selectedVariant}
-                onChange={() => checkTheSelected(variant)}
-                value={variant.variant_uuid}
-                control={
-                  <Radio
-                    sx={{
-                      "&, &.Mui-checked": {
-                        color: "primary",
-                      },
-                    }}
-                  />
-                }
-                label={variant.variant_name}
-              />
+        {variants
+          .sort((a, b) => {
+            return a.variant_sort - b.variant_sort;
+          })
+          .map((variant, i) => {
+            return (
               <Box
+                key={i}
                 sx={{
-                  position: "absolute",
-                  top: 11,
-                  right: -10,
-                  width: 30,
-                  height: 20,
-                  border: "1px solid #444",
-                  backgroundColor: variant.variant_color
-                    ? variant.variant_color
-                    : "#fff",
-                  borderRadius: "10px",
+                  position: "relative",
                 }}
-              ></Box>
-            </Box>
-          );
-        })}
+              >
+                <FormControlLabel
+                  checked={variant.variant_uuid == selectedVariant}
+                  onChange={() => checkTheSelected(variant)}
+                  value={variant.variant_uuid}
+                  control={
+                    <Radio
+                      sx={{
+                        "&, &.Mui-checked": {
+                          color: "primary",
+                        },
+                      }}
+                    />
+                  }
+                  label={variant.variant_name}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 11,
+                    right: -10,
+                    width: 30,
+                    height: 20,
+                    border: "1px solid #444",
+                    backgroundColor: variant.variant_color
+                      ? variant.variant_color
+                      : "#fff",
+                    borderRadius: "10px",
+                  }}
+                ></Box>
+              </Box>
+            );
+          })}
       </RadioGroup>
     </FormControl>
   );

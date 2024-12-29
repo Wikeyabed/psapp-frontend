@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Grid, Typography } from "@mui/material";
+import { Paper, Grid, Typography, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -17,13 +17,14 @@ import Image from "next/image";
 const FeatureContainer = styled(Paper)({
   height: "140px !important",
   cursor: "pointer",
-  borderRadius: "10px",
-  border: "1px solid #593F62",
-  borderBottom: "5px solid #593F62",
-  boxShadow: "0px 0px 10px 0px #593F62",
+  borderRadius: "20px",
+  border: "1px solid #ccc",
+  borderBottom: "5px solid #ccc",
+  boxShadow: "0px 0px 10px 0px #ccc",
   textAlign: "center",
   transition: ".2s ease all",
   position: "relative",
+
   // Add a hover effect to the Paper component
   "&:hover": {
     transform: "scale(1.03)",
@@ -42,8 +43,8 @@ function Features() {
   return (
     // Use the Grid component to create a responsive grid layout
     <Grid
+      spacing={4}
       container
-      columnSpacing={{ xs: 2, lg: 6 }}
       sx={{
         padding: "10px",
         marginTop: "25px",
@@ -110,12 +111,13 @@ function Features() {
         </FeatureContainer>
       </Grid>
       <Grid
+        item
         component={Link}
         href="/shop/categories?category=بازار+عمده+فروشی"
         sx={{
-          pl: 2,
-          mt: 2,
           textAlign: "center",
+          width: "100%",
+          display: { xs: "block", md: "none" },
         }}
         xs={12}
       >

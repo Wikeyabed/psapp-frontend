@@ -517,7 +517,21 @@ function CheckoutToPayment() {
             >
               {send == "in-person" ? "" : userData.address}
             </Typography>
+
             <Grid xs={12} item>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: "blue",
+                  my: 2,
+                  mr: 2,
+                }}
+              >
+                <br />
+                {send == "posting"
+                  ? "در صورت امکان کد پستی خود را در بخش توضیحات وارد نمایید"
+                  : ""}
+              </Typography>
               <RtlTextField
                 name="description"
                 value={data.description}
@@ -551,7 +565,7 @@ function CheckoutToPayment() {
               </Typography>
             </Grid>
             {!data.finalize ? (
-              <LoadingButton
+              <Button
                 onClick={handleNewPayment}
                 loading={data.loading}
                 color="info"
@@ -563,8 +577,8 @@ function CheckoutToPayment() {
                   px: 4,
                 }}
               >
-                تایید نهایی فاکتور
-              </LoadingButton>
+                {data.loading ? "لطفا منتظر بمانید..." : "تایید نهایی فاکتور"}
+              </Button>
             ) : (
               <Button
                 component={"a"}

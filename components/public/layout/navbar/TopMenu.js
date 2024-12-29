@@ -249,7 +249,7 @@ export default function TopMenu() {
           </Button>
         </StyledLi>
 
-        <StyledLi>
+        {/* <StyledLi>
           {" "}
           <Button
             component={Link}
@@ -260,7 +260,7 @@ export default function TopMenu() {
           >
             <StyledText>ویدیو های آموزشی</StyledText>
           </Button>
-        </StyledLi>
+        </StyledLi> */}
 
         <StyledLi>
           {" "}

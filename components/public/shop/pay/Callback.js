@@ -90,7 +90,7 @@ function Callback() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/verify-payment/`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("error", error)); 
   };
 
   useEffect(() => {

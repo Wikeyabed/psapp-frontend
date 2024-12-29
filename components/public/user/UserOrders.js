@@ -111,6 +111,9 @@ function UserOrders() {
                       <TableCell align="right">
                         {" "}
                         <Button
+                          sx={{
+                            fontSize: 10,
+                          }}
                           component={Link}
                           href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/user/print/${row.order_id}`}
                           target="_blank"

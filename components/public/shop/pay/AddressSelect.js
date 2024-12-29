@@ -85,6 +85,7 @@ function AddressSelect({ tehran, newAddress }) {
         <>
           <Grid item xs={12} md={6}>
             <Autocomplete
+              forcePopupIcon={false}
               disablePortal
               onChange={handleSetProvince}
               options={provinces}
@@ -103,6 +104,7 @@ function AddressSelect({ tehran, newAddress }) {
             {" "}
             {province !== "" && province !== null ? (
               <Autocomplete
+                forcePopupIcon={false}
                 disablePortal
                 disabled={city == null && province == null}
                 onChange={handleSelectCity}
@@ -122,7 +124,7 @@ function AddressSelect({ tehran, newAddress }) {
         </>
       )}
 
-      {newAddress && !tehran ? (
+      {newAddress ? (
         <RtlTextField
           sx={{
             my: 2,
