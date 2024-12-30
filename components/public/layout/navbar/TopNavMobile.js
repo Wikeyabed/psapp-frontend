@@ -186,13 +186,21 @@ function TopNavMobile(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", p: 1 }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", p: 1, pt: 3 }}>
       <Box
+        component={Link}
+        href="/app"
         sx={{
           width: "100%",
+          backgroundColor: "primary.main",
+          p: 2,
+          mb: 2,
+          color: "#fff",
+          textAlign: "center",
+          borderRadius: "20px",
         }}
       >
-        <InstallApp mobile={true} />
+        نصب اپلیکیشن ایباکس
       </Box>
       <List>
         {navItems.map((item, i) => (
@@ -200,7 +208,7 @@ function TopNavMobile(props) {
             <ListItemButton
               component={Link}
               href={item.link}
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", mt: 2 }}
             >
               <ListItemText primary={item.title} />
               {item.icon}

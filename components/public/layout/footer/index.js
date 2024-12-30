@@ -8,7 +8,6 @@ import { Box, Divider } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Ita from "../../../../public/images/ita.svg";
 import Image from "next/image";
-import InstallApp from "../navbar/InstallApp";
 export default function Footer() {
   return (
     <Box

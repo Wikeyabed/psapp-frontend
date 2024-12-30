@@ -47,59 +47,102 @@ function InstallApp({ mobile }) {
 
   const isWindowsLoadedPc =
     typeof window != "undefined" ? (
-      <Button
-        onClick={promptAppInstall}
-        variant="contained"
-        disableElevation
-        size="large"
+      <Box
         sx={{
-          borderRadius: "20px",
-          backgroundColor: "brown",
-          mx: "auto",
-        }}
-      >
-        <Typography variant="subtitle1">نصب اپلیکیشن ایباکس</Typography>
-        <Box>
-          <MicrosoftIcon />
-          <AppleIcon />
-          <AndroidIcon />
-        </Box>
-      </Button>
-    ) : (
-      ""
-    );
-
-  const isWindowsLoadedMobile =
-    typeof window != "undefined" ? (
-      <Button
-        onClick={promptAppInstall}
-        variant="contained"
-        disableElevation
-        size="large"
-        sx={{
-          borderRadius: "20px",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "brown",
-          mx: "auto",
         }}
       >
-        <Typography variant="subtitle1">نصب اپلیکیشن ایباکس</Typography>
-        <Box>
-          <MicrosoftIcon />
-          <AppleIcon />
-          <AndroidIcon />
-        </Box>
-      </Button>
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 4,
+          }}
+        >
+          "اپلیکیشن میانبر دسترسی به ایباکس"
+        </Typography>{" "}
+        <Button
+          onClick={promptAppInstall}
+          variant="contained"
+          disableElevation
+          size="large"
+          sx={{
+            borderRadius: "20px",
+            backgroundColor: "green",
+            mx: "auto",
+            width: "250px",
+            mb: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              ml: 2,
+            }}
+            variant="subtitle1"
+          >
+            اندروید{" "}
+          </Typography>
+          <Box>
+            <AndroidIcon />
+          </Box>
+        </Button>
+        <Button
+          onClick={promptAppInstall}
+          variant="contained"
+          disableElevation
+          size="large"
+          sx={{
+            borderRadius: "20px",
+            backgroundColor: "silver",
+            mx: "auto",
+            color: "#444",
+            width: "250px",
+            mb: 2,
+          }}
+        >
+          <Typography variant="subtitle1">نصب اپلیکیشن ایباکس</Typography>
+          <Box>
+            <AppleIcon />
+          </Box>
+        </Button>
+        <Button
+          onClick={promptAppInstall}
+          variant="contained"
+          disableElevation
+          size="large"
+          sx={{
+            borderRadius: "20px",
+            backgroundColor: "blue",
+            mx: "auto",
+            width: "250px",
+            mb: 2,
+          }}
+        >
+          <Typography
+            sx={{
+              ml: 2,
+            }}
+            variant="subtitle1"
+          >
+            ویندوز
+          </Typography>
+          <Box>
+            <MicrosoftIcon />
+          </Box>
+        </Button>
+        <p
+          style={{
+            textAlign: "center",
+          }}
+        >
+          برای دسترسی سریع و آسان به محصولات <br /> اپلیکیشن ایباکس را نصب کنید.
+        </p>
+      </Box>
     ) : (
       ""
     );
 
-  return mobile ? (
-    <Box>{isWindowsLoadedMobile}</Box>
-  ) : (
-    <Box>{isWindowsLoadedPc}</Box>
-  );
+  return typeof window != "undefined" ? <Box>{isWindowsLoadedPc}</Box> : "";
 }
 
 export default InstallApp;

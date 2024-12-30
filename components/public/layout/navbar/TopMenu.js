@@ -240,22 +240,21 @@ export default function TopMenu() {
 
         <StyledLi>
           {" "}
-          <InstallApp mobile={false} />
-          {/* <Button
-            id="install-app"
-            variant="contained"
-            disableElevation
-            size="large"
+          <Button
+            component={Link}
             sx={{
-              borderRadius: "20px",
-              backgroundColor: "brown",
+              backgroundColor: "#fff",
+              color: "primary.main",
+              borderRadius: 20,
+              py: 1,
             }}
+            href="/app"
+            variant="contained"
+            color="secondary"
+            disableElevation
           >
-            <StyledText>نصب اپلیکیشن ایباکس</StyledText>
-            <MicrosoftIcon />
-            <AppleIcon />
-            <AndroidIcon />
-          </Button> */}
+            <Typography variant="subtitle2">نصب اپلیکیشن ایباکس</Typography>
+          </Button>
         </StyledLi>
       </StyledUl>
 
