@@ -14,6 +14,7 @@ import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
 import OrderStatus from "../orders/OrderStatus";
+import OrderStatusInside from "../orders/OrderStatusInside";
 function UserPage({ userData, userOrders }) {
   return (
     <AdminLayout>
@@ -135,7 +136,8 @@ function UserPage({ userData, userOrders }) {
                             }}
                             component="div"
                           >
-                            وضعیت فعلی : <OrderStatus status={order.status} />
+                            وضعیت فعلی :{" "}
+                            <OrderStatusInside status={order.status} />
                           </Typography>
                         </CardContent>
                       </Card>

@@ -16,6 +16,11 @@ function RecommendedProduct({ products, allVariants }) {
     products[Math.floor(Math.random() * products.length)],
     products[Math.floor(Math.random() * products.length)],
     products[Math.floor(Math.random() * products.length)],
+    products[Math.floor(Math.random() * products.length)],
+    products[Math.floor(Math.random() * products.length)],
+    products[Math.floor(Math.random() * products.length)],
+    products[Math.floor(Math.random() * products.length)],
+    products[Math.floor(Math.random() * products.length)],
   ];
 
   console.log("randoms", randomProduct);

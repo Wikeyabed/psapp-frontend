@@ -76,14 +76,17 @@ export default function NavigationBar() {
   return (
     <Box
       sx={{
-        minHeight: 48,
-        py: 1,
-        // px: { xs: 2, md: 5 },
-        // bgcolor: "primary.main", // changed background color
+        minHeight: 58,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        boxShadow: 2,
+
+        backgroundColor: "primary.main",
+        position: "fixed",
+        zIndex: 2,
+        top: 0,
+        right: 0,
+        width: "100%",
       }}
     >
       <SmallNavbar open={openDrawer} toggleDrawer={toggleDrawer} />
@@ -117,7 +120,11 @@ export default function NavigationBar() {
             sx={{ color: "primary" }}
             onClick={handleNotificationsOpen}
           >
-            <NotificationsIcon />
+            <NotificationsIcon
+              sx={{
+                color: "#fff",
+              }}
+            />
           </IconButton>
         </Badge>
         <Dialog
@@ -148,7 +155,11 @@ export default function NavigationBar() {
           sx={{ mr: 1, color: "primary" }}
           onClick={handleMenuOpen}
         >
-          <AccountCircleIcon />
+          <AccountCircleIcon
+            sx={{
+              color: "#fff",
+            }}
+          />
         </IconButton>
         <Menu
           anchorEl={anchorEl}

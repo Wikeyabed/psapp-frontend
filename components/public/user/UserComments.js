@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import { getCookie } from "cookies-next";
 import { useState, useEffect } from "react";
 import ToPersianDate from "../../../src/TimestampToPersian";
-import OrderStatus from "../../admin/orders/OrderStatus";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
 

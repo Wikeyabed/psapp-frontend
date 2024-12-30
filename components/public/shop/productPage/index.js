@@ -109,12 +109,12 @@ const ProductPage = ({ product, variants, products, allVariants }) => {
                   <Slider images={product.images_url} />
                 </Grid>
               </Grid>
-              {/* <Grid item xs={12}>
+              <Grid item xs={12}>
                 <RecommendedProduct
                   allVariants={allVariants}
                   products={products}
                 />
-              </Grid> */}
+              </Grid>
 
               <Grid item xs={12}>
                 <BottomTabs

@@ -38,7 +38,10 @@ function SmallNavbar({ open, toggleDrawer }) {
         anchor="right"
         open={open}
         onClose={toggleDrawer}
-        sx={{ height: "100vh", overflow: "auto" }}
+        sx={{
+          height: "100vh",
+          overflow: "auto",
+        }}
       >
         <List
           sx={{

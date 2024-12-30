@@ -182,13 +182,18 @@ const OrderPage = ({ order }) => {
                 />
               </ListItem>
               {rows.map((row, i) => (
-                <ListItem key={row.product_name}>
+                <ListItem
+                  sx={{
+                    borderBottom: "1px solid #ccc",
+                  }}
+                  key={row.product_name}
+                >
                   <ListItemText
                     primary={`${row.product_name}`}
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
-                      minHeight: 50,
+                      minHeight: 80,
                     }}
                   />
                 </ListItem>
@@ -213,13 +218,18 @@ const OrderPage = ({ order }) => {
                 />
               </ListItem>
               {rows.map((row) => (
-                <ListItem key={row.id + 1000}>
+                <ListItem
+                  sx={{
+                    borderBottom: "1px solid #ccc",
+                  }}
+                  key={row.id + 1000}
+                >
                   <ListItemText
                     primary={`${persianNumber(row.product_quantity)}`}
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
-                      minHeight: 50,
+                      minHeight: 80,
                     }}
                   />
                 </ListItem>
@@ -244,13 +254,18 @@ const OrderPage = ({ order }) => {
                 />
               </ListItem>
               {rows.map((row) => (
-                <ListItem key={row.id + 2000}>
+                <ListItem
+                  sx={{
+                    borderBottom: "1px solid #ccc",
+                  }}
+                  key={row.id + 2000}
+                >
                   <ListItemText
                     primary={`${persianNumber(row.unit_price)} ریال`}
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       fontSize: { xs: 10, md: 13 },
-                      minHeight: 50,
+                      minHeight: 80,
                     }}
                   />
                 </ListItem>
@@ -275,14 +290,19 @@ const OrderPage = ({ order }) => {
                 />
               </ListItem>
               {rows.map((row) => (
-                <ListItem key={row.id + 3000}>
+                <ListItem
+                  sx={{
+                    borderBottom: "1px solid #ccc",
+                  }}
+                  key={row.id + 3000}
+                >
                   <ListItemText
                     primary={`${persianNumber(row.total_price)} ریال`}
                     primaryTypographyProps={{
                       variant: "subtitle1",
                       align: "right",
                       fontSize: { xs: 10, md: 13 },
-                      minHeight: 50,
+                      minHeight: 80,
                     }}
                   />
                 </ListItem>

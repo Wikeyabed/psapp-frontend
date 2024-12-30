@@ -8,39 +8,12 @@ import { Box } from "@mui/material";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
 export default function SelectVariants({ variants, select }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  useEffect(() => {});
 
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
-
-  // const createQueryString = useCallback(
-  //   (name, value) => {
-  //     const params = new URLSearchParams(searchParams);
-  //     params.set(name, value);
-
-  //     return params.toString();
-  //   },
-  //   [searchParams]
-  // );
-
-  useEffect(() => {
-    const variantParam = searchParams.get("variant");
-    if (variantParam != null && variantParam != "undefined") {
-      console.log("variant param", variantParam);
-      const defaultVariant = variants.filter((variant) => {
-        return variantParam == variant.variant_uuid;
-      });
-      select(defaultVariant[0]);
-    } else {
-      select(variants[0]);
-    }
-  }, []);
-
   const checkTheSelected = (variant) => {
-    setSelectedVariant(variant.variant_uuid);
-
     select(variant);
+    setSelectedVariant(variant);
   };
 
   return (
@@ -83,9 +56,9 @@ export default function SelectVariants({ variants, select }) {
                 }}
               >
                 <FormControlLabel
-                  defaultChecked={i == 0}
+                  checked={variant == selectedVariant}
                   onChange={() => checkTheSelected(variant)}
-                  value={selectedVariant}
+                  value={variant}
                   control={
                     <Radio
                       sx={{

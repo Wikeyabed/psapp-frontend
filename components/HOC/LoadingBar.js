@@ -20,9 +20,9 @@ function LoadingBar({ children, loading }) {
             overflowY: "hidden",
           }}
         >
-          <CircularProgress
-            color="secondary"
-            thickness={2}
+          <LinearProgress
+            color="primary"
+            thickness={4}
             // disableShrink
             sx={{
               position: "absolute",
@@ -42,7 +42,7 @@ function LoadingBar({ children, loading }) {
               position: "absolute",
               left: 0,
               right: 0,
-              top: "39%",
+              top: "40%",
               marginTop: "45px",
               marginLeft: "auto",
               marginRight: "auto",

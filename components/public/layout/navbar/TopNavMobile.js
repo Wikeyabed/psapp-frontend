@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -21,7 +22,7 @@ import SocialMediaBar from "../socialMedia";
 import { userLogout } from "../../../../redux/reducers/authSlice";
 import { deleteCookie } from "cookies-next";
 import { Call } from "@mui/icons-material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const drawerWidth = 240;
 import {
   Category,
@@ -38,6 +39,7 @@ import {
 } from "@mui/icons-material";
 import CypherText from "react-cypher-text-loop";
 import Logo from "./Logo";
+import InstallApp from "./InstallApp";
 
 const preload = [
   "با ایباکس به صرفه و با کیفیت بسته بندی کنید",
@@ -161,35 +163,6 @@ const navItems = [
 ];
 
 function TopNavMobile(props) {
-  useEffect(() => {
-    if (typeof window != "undefined") {
-      if ("serviceWorker" in navigator && "PushManager" in window) {
-        window.addEventListener("beforeinstallprompt", (e) => {
-          e.preventDefault();
-
-          const deferredPrompt = e;
-
-          const installButton = document.getElementById("install-app");
-
-          installButton.addEventListener("click", () => {
-            console.log("clicked");
-            deferredPrompt.prompt();
-
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === "accepted") {
-                console.log("App installed");
-              } else {
-                console.log("App installation declined");
-              }
-
-              installButton.style.display = "none";
-            });
-          });
-        });
-      }
-    }
-  });
-
   const isAdminLoggedIn = useSelector(
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
   );
@@ -215,38 +188,12 @@ function TopNavMobile(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", p: 1 }}>
       <Box
-        id="install-app"
         sx={{
           width: "100%",
-          borderRadius: "20px",
-          backgroundColor: "brown",
-          color: "#fff",
-          p: 2,
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          {" "}
-          <Microsoft />
-          <Apple />
-          <Android />
-        </Box>
-        <Typography
-          sx={{
-            fontSize: 15,
-            display: "block",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          نصب اپلیکیشن ایباکس
-        </Typography>
+        <InstallApp mobile={true} />
       </Box>
-
       <List>
         {navItems.map((item, i) => (
           <ListItem key={i} disablePadding>
@@ -295,7 +242,6 @@ function TopNavMobile(props) {
           ""
         )}
       </List>
-
       <Divider
         sx={{
           my: 1,
