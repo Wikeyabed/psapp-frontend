@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function BijackPdf({ order }) {
+function ShippingPdf({ order }) {
   const [rows, setRows] = useState([]);
   const [min, setMin] = useState(800);
 
@@ -170,7 +170,6 @@ function BijackPdf({ order }) {
                         {" "}
                         شماره فاکتور : {persianNumber(order.order_number)}
                       </Text>
-                      {/* <Text> شماره پیگیری :{order.track_id}</Text> */}
                     </View>
 
                     {/* <Text
@@ -294,6 +293,21 @@ function BijackPdf({ order }) {
                             }}
                           >
                             گیرنده: {order.customer_name}
+                          </Text>
+                        </View>{" "}
+                        <View
+                          style={{
+                            alignItems: "flex-end",
+                            flexGrow: 1,
+                          }}
+                        >
+                          {" "}
+                          <Text
+                            style={{
+                              fontSize: "10px",
+                            }}
+                          >
+                            شماره تماس: {order.customer_phone}
                           </Text>
                         </View>{" "}
                         <View
@@ -594,4 +608,4 @@ function BijackPdf({ order }) {
     </PDFViewer>
   );
 }
-export default BijackPdf;
+export default ShippingPdf;

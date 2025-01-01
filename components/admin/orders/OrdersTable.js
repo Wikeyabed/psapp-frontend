@@ -321,6 +321,21 @@ const OrdersTable = ({ orders }) => {
                       >
                         بیجک
                       </Button>
+
+                      <Button
+                        component={Link}
+                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/shipping/${order.order_id}`}
+                        target="_blank"
+                        size="small"
+                        sx={{
+                          ml: 1,
+                          borderRadius: "20px",
+                        }}
+                        variant="outlined"
+                      >
+                        باربری
+                      </Button>
+
                       <Button
                         component={Link}
                         href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/print/${order.order_id}`}
