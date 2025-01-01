@@ -38,7 +38,7 @@ function ShopSwiperCards({
         position: "relative",
       }}
     >
-      <Link href={`/products/${productCode}?category=${category}`}>
+      <Link href={`/products/${productCode}?product=${productName}`}>
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${imageUrl[0]}`}
           width={0}
@@ -90,7 +90,7 @@ function ShopSwiperCards({
           style={{
             textDecoration: "none",
           }}
-          href={`/products/${productCode}?category=${category}`}
+          href={`/products/${productCode}?category=${productName}`}
         >
           <Tooltip placement="top" title={productName}>
             <Typography

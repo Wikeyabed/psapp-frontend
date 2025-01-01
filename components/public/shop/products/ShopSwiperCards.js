@@ -45,7 +45,7 @@ function ShopSwiperCards({ item, variants }) {
       }}
     >
       <Link
-        href={`/products/${item.info.product_id}?category=${item.info.category}`}
+        href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
       >
         <Image
           src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.info.images_url[0]}`}
@@ -106,7 +106,7 @@ function ShopSwiperCards({ item, variants }) {
           style={{
             textDecoration: "none",
           }}
-          href={`/products/${item.info.product_id}?category=${item.info.category}`}
+          href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
         >
           <Tooltip
             placement="top"

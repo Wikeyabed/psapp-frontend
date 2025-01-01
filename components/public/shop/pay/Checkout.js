@@ -82,7 +82,7 @@ function CheckoutToPayment() {
   };
 
   useEffect(() => {
-    // if (cart.length === 0 || payment.totalPrice == "0") router.push("/shop");
+    if (cart.length === 0 || payment.totalPrice == "0") router.push("/");
   }, []);
 
   const handleNewPayment = async () => {

@@ -111,7 +111,7 @@ export default function Footer() {
           </Grid>
           <Grid item>
             <Typography variant="h6" color="secondary.main" gutterBottom>
-              نماد اکترونیکی
+              نماد الکترونیکی
             </Typography>
             <Box
               sx={{

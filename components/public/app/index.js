@@ -9,6 +9,7 @@ function InstallAppContainer() {
       <Grid container>
         <Grid
           xs={12}
+          component={"div"}
           sx={{
             display: "flex",
             justifyContent: "center",

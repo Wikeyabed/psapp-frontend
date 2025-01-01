@@ -38,7 +38,7 @@ function RecommendedSingle({ item, variants }) {
         </Typography>
         <Box
           component={Link}
-          href={`/products/${item.product_id}?category=${item.category}`}
+          href={`/products/${item.product_id}?category=${item.product_name}`}
           target="_blank"
         >
           <Image
@@ -57,7 +57,7 @@ function RecommendedSingle({ item, variants }) {
             sx={{
               borderRadius: "25px",
             }}
-            href={`/products/${item.product_id}?category=${item.category}`}
+            href={`/products/${item.product_id}?category=${item.product_name}`}
             component={Link}
             variant="contained"
           >
