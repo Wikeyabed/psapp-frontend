@@ -11,7 +11,7 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
           mt: 2,
         }}
       >
-        {/* <Typography color="text.secondary" variant="body2">
+        <Typography color="text.secondary" variant="body2">
           {" "}
           قیمت هر عدد : {persianNumber(price)} ریال
         </Typography>
@@ -19,10 +19,14 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
         <Typography color="text.secondary" variant="body2">
           {" "}
           قیمت هر بسته : {persianNumber(price * stack)} ریال
-        </Typography> */}
+        </Typography>
 
         <Typography color="text.secondary" variant="body2">
-          {/* تعداد در هر بسته : {persianNumber(stack)} عدد */}
+          {" "}
+          تعداد در هر بسته : {persianNumber(stack)} عدد
+        </Typography>
+
+        <Typography color="text.secondary" variant="body2">
           حداقل مقدار سفارش این محصول {persianNumber(stack)} عدد می باشد.
         </Typography>
       </Box>
@@ -66,7 +70,7 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
             }}
             variant="h6"
           >
-            {persianNumber(price)}
+            {persianNumber(price * stack)}
             &nbsp;ریال
           </Typography>
         ) : (
@@ -81,7 +85,7 @@ function PriceBox({ price, discount = 0, quantity, counter, stack }) {
             my: { xs: 2, lg: 0 },
           }}
         >
-          {persianNumber(price * (1 - discount * 0.01))}
+          {persianNumber(price * (1 - discount * 0.01) * stack)}
           &nbsp;ریال
         </Typography>
         <Chip

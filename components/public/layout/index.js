@@ -23,6 +23,7 @@ function PublicLayout({ children }) {
       >
         {children}
       </Grid>
+      <Footer />
     </Box>
   );
 }

@@ -16,7 +16,13 @@ import { Box, Grid, Typography } from "@mui/material";
 import { persianNumber } from "../../../../src/PersianDigits";
 import { cloneElement } from "react";
 import Link from "../../../../src/Link";
-export default function DraggableSwipe({ title, items, effect, children }) {
+export default function DraggableSwipe({
+  title,
+  items,
+  effect,
+  children,
+  isLink = true,
+}) {
   const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
@@ -40,24 +46,40 @@ export default function DraggableSwipe({ title, items, effect, children }) {
         item
         xs={12}
       >
-        <Typography
-          gutterBottom
-          sx={{
-            width: "100% !important",
-            fontWeight: "bold",
-            textAlign: "center !important",
-            mx: "auto",
-            textDecoration: "none",
-            // textDecorationThickness: "4px",
-            textUnderlineOffset: 15,
-          }}
-          color="text.primary"
-          variant="h5"
-          component={Link}
-          href={`/shop/categories?${createQueryString("category", title)}`}
-        >
-          {title}
-        </Typography>
+        {isLink ? (
+          <Typography
+            gutterBottom
+            sx={{
+              width: "100% !important",
+              fontWeight: "bold",
+              textAlign: "center !important",
+              mx: "auto",
+              textDecoration: "none",
+              // textDecorationThickness: "4px",
+              textUnderlineOffset: 15,
+            }}
+            color="text.primary"
+            variant="h5"
+            component={Link}
+            href={`/shop/categories?${createQueryString("category", title)}`}
+          >
+            {title}
+          </Typography>
+        ) : (
+          <Typography
+            gutterBottom
+            sx={{
+              width: "100% !important",
+              fontWeight: "bold",
+              textAlign: "center !important",
+              mx: "auto",
+            }}
+            color="text.primary"
+            variant="h5"
+          >
+            {title}
+          </Typography>
+        )}
       </Grid>
 
       <Grid

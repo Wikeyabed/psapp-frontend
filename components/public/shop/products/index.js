@@ -49,7 +49,6 @@ function Products() {
           <ProductListByCategory />
         </Grid>
       </Grid>
-      <Footer />
     </>
   );
 }

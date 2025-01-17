@@ -105,7 +105,7 @@ export default function Navbar() {
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Perspiciatis consequatur laborum */}
 
-            <CypherText delay={5000} textList={preload} randomOrder={true} />
+            <CypherText delay={2500} textList={preload} randomOrder={true} />
             {/* {preload.map((word) => {
                   return <Typography>{word}</Typography>;
                 })} */}

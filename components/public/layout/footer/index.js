@@ -1,7 +1,7 @@
 import * as React from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
+import Link from "../../../../src/Link";
 import Grid from "@mui/material/Grid";
 import { Instagram, Telegram } from "@mui/icons-material";
 import { Box, Divider } from "@mui/material";
@@ -14,15 +14,15 @@ export default function Footer() {
       component="footer"
       sx={{
         background: "linear-gradient(to bottom, #7B6D8D,#2F2235)",
-        borderRadius: 4,
+
         color: "#fff",
         p: 4,
         pb: { xs: 10, md: 4 },
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Grid container spacing={5}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} md={3}>
             <Typography variant="h6" color="secondary.main" gutterBottom>
               درباره ما
             </Typography>
@@ -76,7 +76,7 @@ export default function Footer() {
             </Link>
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} md={3}>
             <Typography variant="h6" color="secondary.main" gutterBottom>
               تماس با ما
             </Typography>
@@ -109,7 +109,7 @@ export default function Footer() {
               referrerpolicy="no-referrer-when-downgrade"
             ></Box>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} sm={4} md={3}>
             <Typography variant="h6" color="secondary.main" gutterBottom>
               نماد الکترونیکی
             </Typography>
@@ -137,6 +137,110 @@ export default function Footer() {
                 />
               </a>
             </Box>
+          </Grid>
+          <Grid item xs={12} sm={4} md={3}>
+            <Typography variant="h6" color="secondary.main" gutterBottom>
+              دسترسی سریع
+            </Typography>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%20%D8%B9%D9%85%D8%AF%D9%87%20%D9%81%D8%B1%D9%88%D8%B4%DB%8C"
+            >
+              بازار عمده فروشی
+            </Typography>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%DA%A9%D8%A7%D8%B1%D8%AA%D9%86%20%D9%BE%D8%B3%D8%AA%DB%8C"
+            >
+              کارتن پستی
+            </Typography>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D9%BE%D8%A7%DA%A9%D8%AA%20%D9%BE%D8%B3%D8%AA%DB%8C"
+            >
+              پاکت پستی
+            </Typography>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D9%86%D9%88%D8%A7%D8%B1%20%DA%86%D8%B3%D8%A8%20%D9%87%D8%A7%DB%8C%20%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D8%A7%D9%84"
+            >
+              چسب پهن
+            </Typography>
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D8%AD%D8%A8%D8%A7%D8%A8%D8%AF%D8%A7%D8%B1"
+            >
+              حبابدار
+            </Typography>
+
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D8%B3%D9%84%D9%81%D9%88%D9%86%20%D8%A7%D8%B3%D8%AA%D8%B1%DA%86"
+            >
+              سلفون
+            </Typography>
+
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D9%88%20%D9%86%D8%A7%DB%8C%D9%84%DA%A9%D8%B3"
+            >
+              نایلون و نایلکس
+            </Typography>
+
+            <Typography
+              sx={{
+                textDecoration: "none",
+                color: "#fff",
+                display: "block",
+              }}
+              variant="subtitle1"
+              component={Link}
+              href="/shop/categories?category=%D9%85%D9%84%D8%B2%D9%88%D9%85%D8%A7%D8%AA%20%D8%A8%D8%B3%D8%AA%D9%87%20%D8%A8%D9%86%D8%AF%DB%8C"
+            >
+              ملزومات بسته بندی
+            </Typography>
           </Grid>
         </Grid>
         <Box mt={5}>

@@ -65,7 +65,8 @@ const UsersTable = ({ users }) => {
 
   const filteredUsers = users
     ? users.filter((user) => {
-        return user.first_name + " " + user.last_name.includes(searchValue);
+        const fullName = user.first_name + " " + user.last_name;
+        return fullName.includes(searchValue);
       })
     : [];
 

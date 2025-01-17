@@ -36,7 +36,11 @@ function RecommendedProduct({ products, allVariants }) {
         container
         spacing={1}
       >
-        <DraggableSwipe title={"محصولات پیشنهادی"} items={randomProduct}>
+        <DraggableSwipe
+          isLink={false}
+          title={"محصولات پیشنهادی"}
+          items={randomProduct}
+        >
           <RecommendedSingle />
         </DraggableSwipe>
       </Grid>

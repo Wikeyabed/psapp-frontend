@@ -34,7 +34,7 @@ export default function Home({ products, allVariants }) {
   return (
     <>
       <Head>
-        <title>ایباکس - صفحه نخست </title>
+        <title>ایباکس - خرید کارتن پستی , نایلون حبابدار , پاکت و سلفون </title>
       </Head>
       <Shop />
     </>

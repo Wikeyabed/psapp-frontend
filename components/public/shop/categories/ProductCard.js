@@ -96,7 +96,7 @@ function ShopSwiperCards({
             <Typography
               sx={{
                 cursor: "pointer",
-                minHeight: 55,
+                minHeight: 115,
                 textAlign: "center",
                 fontSize: "18px",
               }}

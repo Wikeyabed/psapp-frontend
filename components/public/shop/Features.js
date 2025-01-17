@@ -31,7 +31,7 @@ const FeatureContainer = styled(Paper)({
   },
 });
 
-const BannerImage = styled("img")({
+const BannerImage = styled(Image)({
   display: { xs: "none !important", md: "block" },
   width: "100%",
   height: "100%",
@@ -62,7 +62,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={"/images/send.jpg"} />
+          <BannerImage width={300} height={200} src={"/images/send.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -77,7 +77,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={"/images/return.jpg"} />
+          <BannerImage width={300} height={200} src={"/images/return.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -92,7 +92,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={"/images/in-person.jpg"} />
+          <BannerImage width={300} height={200} src={"/images/in-person.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -107,7 +107,7 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage src={"/images/about-us.jpg"} />
+          <BannerImage width={300} height={200} src={"/images/about-us.jpg"} />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -121,7 +121,7 @@ function Features() {
         }}
         xs={12}
       >
-        <BannerImage src="/images/b-mobile.jpg" />
+        <BannerImage width={400} height={200} src="/images/b-mobile.jpg" />
       </Grid>
     </Grid>
   );
