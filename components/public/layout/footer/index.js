@@ -140,109 +140,139 @@ export default function Footer() {
               </a>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="h6" color="secondary.main" gutterBottom>
-              دسترسی سریع
-            </Typography>
-            <Typography
+          <Grid item xs={12} sm={4} md={3} container>
+            <Grid
+              xs={12}
+              item
               sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
+                maxHeight: 40,
               }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%20%D8%B9%D9%85%D8%AF%D9%87%20%D9%81%D8%B1%D9%88%D8%B4%DB%8C"
             >
-              بازار عمده فروشی
-            </Typography>
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%DA%A9%D8%A7%D8%B1%D8%AA%D9%86%20%D9%BE%D8%B3%D8%AA%DB%8C"
-            >
-              کارتن پستی
-            </Typography>
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D9%BE%D8%A7%DA%A9%D8%AA%20%D9%BE%D8%B3%D8%AA%DB%8C"
-            >
-              پاکت پستی
-            </Typography>
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D9%86%D9%88%D8%A7%D8%B1%20%DA%86%D8%B3%D8%A8%20%D9%87%D8%A7%DB%8C%20%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D8%A7%D9%84"
-            >
-              چسب پهن
-            </Typography>
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D8%AD%D8%A8%D8%A7%D8%A8%D8%AF%D8%A7%D8%B1"
-            >
-              حبابدار
-            </Typography>
+              {" "}
+              <Typography variant="h6" color="secondary.main">
+                دسترسی سریع
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              {" "}
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
 
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D8%B3%D9%84%D9%81%D9%88%D9%86%20%D8%A7%D8%B3%D8%AA%D8%B1%DA%86"
-            >
-              سلفون
-            </Typography>
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%20%D8%B9%D9%85%D8%AF%D9%87%20%D9%81%D8%B1%D9%88%D8%B4%DB%8C"
+              >
+                بازار عمده فروشی
+              </Typography>
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
 
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D9%88%20%D9%86%D8%A7%DB%8C%D9%84%DA%A9%D8%B3"
-            >
-              نایلون و نایلکس
-            </Typography>
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%DA%A9%D8%A7%D8%B1%D8%AA%D9%86%20%D9%BE%D8%B3%D8%AA%DB%8C"
+              >
+                کارتن پستی
+              </Typography>
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
 
-            <Typography
-              sx={{
-                textDecoration: "none",
-                color: "#fff",
-                display: "block",
-              }}
-              variant="subtitle1"
-              component={Link}
-              href="/shop/categories?category=%D9%85%D9%84%D8%B2%D9%88%D9%85%D8%A7%D8%AA%20%D8%A8%D8%B3%D8%AA%D9%87%20%D8%A8%D9%86%D8%AF%DB%8C"
-            >
-              ملزومات بسته بندی
-            </Typography>
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D9%BE%D8%A7%DA%A9%D8%AA%20%D9%BE%D8%B3%D8%AA%DB%8C"
+              >
+                پاکت پستی
+              </Typography>
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
+
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D9%86%D9%88%D8%A7%D8%B1%20%DA%86%D8%B3%D8%A8%20%D9%87%D8%A7%DB%8C%20%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D8%A7%D9%84"
+              >
+                چسب پهن
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
+
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D8%AD%D8%A8%D8%A7%D8%A8%D8%AF%D8%A7%D8%B1"
+              >
+                حبابدار
+              </Typography>
+
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
+
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D8%B3%D9%84%D9%81%D9%88%D9%86%20%D8%A7%D8%B3%D8%AA%D8%B1%DA%86"
+              >
+                سلفون
+              </Typography>
+
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
+
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D9%88%20%D9%86%D8%A7%DB%8C%D9%84%DA%A9%D8%B3"
+              >
+                نایلون و نایلکس
+              </Typography>
+
+              <Typography
+                sx={{
+                  textDecoration: "none",
+                  color: "#fff",
+                  display: "block",
+
+                  py: 1,
+                }}
+                variant="subtitle1"
+                component={Link}
+                href="/shop/categories?category=%D9%85%D9%84%D8%B2%D9%88%D9%85%D8%A7%D8%AA%20%D8%A8%D8%B3%D8%AA%D9%87%20%D8%A8%D9%86%D8%AF%DB%8C"
+              >
+                ملزومات بسته بندی
+              </Typography>
+            </Grid>
           </Grid>
         </Grid>
         <Box mt={5}>

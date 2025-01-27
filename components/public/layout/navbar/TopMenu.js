@@ -8,24 +8,9 @@ import Link from "../../../../src/Link";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useDispatch } from "react-redux";
-import { setFilter } from "../../../../redux/reducers/productSlice";
-import { useEffect } from "react";
-import AndroidIcon from "@mui/icons-material/Android";
-import AppleIcon from "@mui/icons-material/Apple";
-import MicrosoftIcon from "@mui/icons-material/Microsoft";
-import {
-  Inventory as InventoryIcon,
-  Inbox as InboxIcon,
-  AllInbox as AllInboxIcon,
-  LocalShipping as LocalShippingIcon,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
-
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import ProductsDropDown from "./ProductsDropDown";
-import InstallApp from "./InstallApp";
 
 const StyledMenu = stylize((props) => (
   <Menu

@@ -82,8 +82,13 @@ function CheckoutToPayment() {
   };
 
   useEffect(() => {
+    console.log(data);
     if (cart.length === 0 || payment.totalPrice == "0") router.push("/");
-  }, []);
+  }, [data]);
+
+  const passExactAddress = (newAddress) => {
+    setData({ ...data, newAddress: newAddress });
+  };
 
   const handleNewPayment = async () => {
     var myHeaders = new Headers();
@@ -201,7 +206,7 @@ function CheckoutToPayment() {
                   />{" "}
                   <FormControlLabel
                     value={"in-person"}
-                    control={<Radio />}
+                    control={<Radio disabled={data.finalize} />}
                     label="تحویل حضوری از انبار ایباکس"
                   />
                 </Box>{" "}
@@ -238,7 +243,7 @@ function CheckoutToPayment() {
                   />{" "}
                   <FormControlLabel
                     value={"snap"}
-                    control={<Radio />}
+                    control={<Radio disabled={data.finalize} />}
                     label="ارسال با اسنپ و تپسی (مخصوص تهران)"
                   />
                 </Box>
@@ -276,7 +281,7 @@ function CheckoutToPayment() {
                   />{" "}
                   <FormControlLabel
                     value={"shipping"}
-                    control={<Radio />}
+                    control={<Radio disabled={data.finalize} />}
                     label="ارسال از طریق باربری(مخصوص شهرستان)"
                   />
                 </Box>
@@ -313,7 +318,7 @@ function CheckoutToPayment() {
                   />{" "}
                   <FormControlLabel
                     value={"posting"}
-                    control={<Radio />}
+                    control={<Radio disabled={data.finalize} />}
                     label="ارسال از طریق پست ایران"
                   />
                 </Box>
@@ -502,6 +507,7 @@ function CheckoutToPayment() {
                 <AddressSelect
                   newAddress={data.setNewAddress == "true"}
                   tehran={send == "snap"}
+                  passTheAddress={passExactAddress}
                 />
               ) : (
                 ""
@@ -523,7 +529,8 @@ function CheckoutToPayment() {
                 variant="subtitle1"
                 sx={{
                   color: "blue",
-                  my: 2,
+                  my: 4,
+                  mb: 6,
                   mr: 2,
                 }}
               >
@@ -534,7 +541,9 @@ function CheckoutToPayment() {
               </Typography>
               <RtlTextField
                 name="description"
+                focused={true}
                 value={data.description}
+                disabled={data.finalize}
                 required
                 multiline
                 minRows={7}
@@ -542,7 +551,14 @@ function CheckoutToPayment() {
                 fullWidth
                 onChange={handleData}
                 label="توضیحات سفارش"
+                InputLabelProps={{
+                  sx: {
+                    mt: -6,
+                    fontSize: 19,
+                  },
+                }}
                 type="text"
+                variant="filled"
               />
             </Grid>
             <Grid display={"flex"} xs={12} item>
@@ -564,12 +580,31 @@ function CheckoutToPayment() {
                 </Box>
               </Typography>
             </Grid>
-            {!data.finalize ? (
+            {!data.finalize && data.setNewAddress == "false" ? (
               <Button
                 onClick={handleNewPayment}
                 loading={data.loading}
                 color="info"
                 disabled={data.loading}
+                variant="contained"
+                sx={{
+                  mx: "auto",
+                  my: 4,
+                  px: 4,
+                }}
+              >
+                {data.loading ? "لطفا منتظر بمانید..." : "تایید نهایی فاکتور"}
+              </Button>
+            ) : !data.finalize && data.setNewAddress == "true" ? (
+              <Button
+                onClick={handleNewPayment}
+                loading={data.loading}
+                color="info"
+                disabled={
+                  data.loading ||
+                  data.newAddress == "" ||
+                  data.newAddress == null
+                }
                 variant="contained"
                 sx={{
                   mx: "auto",

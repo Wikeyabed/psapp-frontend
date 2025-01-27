@@ -9,7 +9,7 @@ import Categories from "../../../components/public/shop/categories/index.js";
 import { CleanHands } from "@mui/icons-material";
 import { uniqBy } from "lodash";
 
-export default function CategoriesPage({ products, allVariants }) {
+export default function CategoriesPage({ products, allVariants, categories }) {
   const dispatch = useDispatch();
   useEffect(() => {
     let productsWithVariants = [];
@@ -42,7 +42,7 @@ export default function CategoriesPage({ products, allVariants }) {
       <Head>
         <title>ایباکس - دسته بندی ها</title>
       </Head>
-      <Categories />
+      <Categories cats={categories} />
     </>
   );
 }
@@ -54,11 +54,15 @@ export async function getServerSideProps() {
   const varRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`);
   const allVariants = await varRes.json();
 
+  const catRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`);
+  const categories = await catRes.json();
+
   console.log("ressssss", varRes);
   return {
     props: {
       products,
       allVariants,
+      categories,
     },
   };
 }

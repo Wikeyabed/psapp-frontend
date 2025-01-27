@@ -20,7 +20,6 @@ import Link from "../../../../src/Link";
 export default function Navbar() {
   // mobile menu item
 
-  const [word, setWord] = useState("");
   const preload = [
     "با ایباکس به صرفه و با کیفیت بسته بندی کنید",
     "امکان خرید حضوری",
@@ -63,12 +62,6 @@ export default function Navbar() {
     "در ایباکس بدون ارزش افزوده خرید کنید",
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setWord(sample(preload));
-    }, 10000);
-  }, [word]);
-
   return (
     <>
       {/* bottom menu for mobile */}
@@ -105,10 +98,7 @@ export default function Navbar() {
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Perspiciatis consequatur laborum */}
 
-            <CypherText delay={2500} textList={preload} randomOrder={true} />
-            {/* {preload.map((word) => {
-                  return <Typography>{word}</Typography>;
-                })} */}
+            <CypherText delay={2500} textList={preload} />
           </Typography>
 
           <Box

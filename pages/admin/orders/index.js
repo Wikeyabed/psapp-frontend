@@ -15,7 +15,7 @@ export async function getServerSideProps({ req, res }) {
 
   const orders = await response.json();
 
-  console.log(orders);
+  console.log("orders", orders);
 
   return {
     props: {

@@ -20,6 +20,9 @@ import {
   Category,
 } from "@mui/icons-material";
 import { getCookie } from "cookies-next";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 import {
   setNotificationOff,
   setNotificationOn,
@@ -67,7 +70,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 function EditCategoryForm({ cats }) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
-
+  const [description, setDescription] = useState(null);
   const [categories, setCategories] = useState(cats);
   const [data, setData] = useState({
     category_name: "",
@@ -82,13 +85,15 @@ function EditCategoryForm({ cats }) {
     };
   }, [categories]);
 
-  const handleStartEdit = (name, sort, id) => {
+  const handleStartEdit = (name, sort, id, description) => {
     setData({
       ...data,
       category_name: name,
       sort_order: sort,
       category_id: id,
     });
+
+    setDescription(description);
 
     console.log(data);
   };
@@ -118,6 +123,7 @@ function EditCategoryForm({ cats }) {
     formData.append("category_id", data.category_id);
     formData.append("category_name", data.category_name);
     formData.append("sort_order", data.sort_order);
+    formData.append("category_description", description);
 
     for (let i = 0; i < files.length; i++) {
       formData.append("images_url", files[i], files[i].name);
@@ -201,6 +207,24 @@ function EditCategoryForm({ cats }) {
                     label="ترتیب دسته بندی"
                     value={data.sort_order}
                   />
+                  <Grid
+                    sx={{
+                      margin: "auto",
+                    }}
+                    xs={12}
+                    item
+                  >
+                    {" "}
+                    <ReactQuill
+                      theme="snow"
+                      defaultValue={description}
+                      value={description}
+                      onChange={setDescription}
+                      style={{
+                        minHeight: 300,
+                      }}
+                    />
+                  </Grid>
                 </Grid>
                 <Grid item xs={12}>
                   <DropZone getFiles={handleGetFiles} />
@@ -270,7 +294,8 @@ function EditCategoryForm({ cats }) {
                                 handleStartEdit(
                                   item.category_name,
                                   item.sort_order,
-                                  item.category_id
+                                  item.category_id,
+                                  item.category_description
                                 )
                               }
                             >

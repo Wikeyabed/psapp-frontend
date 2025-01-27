@@ -47,7 +47,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     overflow: "unset",
   },
 }));
-function AddressSelect({ tehran, newAddress }) {
+function AddressSelect({ tehran, newAddress, passTheAddress, isFinal }) {
   const [province, setProvince] = useState(null);
   const [city, setCity] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -66,16 +66,17 @@ function AddressSelect({ tehran, newAddress }) {
   };
 
   useEffect(() => {
-    console.log("city", city);
-
     if (province !== "" && province !== null) {
       const filteredCities = cities.filter((provinceCity) => {
         return provinceCity.province_id === province.id;
       });
       setCity(filteredCities);
       setSelectedCity(filteredCities[0].label);
+      passTheAddress(province.label + "," + selectedCity + "," + exactAddress);
+    } else {
+      passTheAddress(exactAddress);
     }
-  }, [province]);
+  }, [exactAddress]);
 
   return (
     <Grid container>
@@ -87,6 +88,7 @@ function AddressSelect({ tehran, newAddress }) {
             <Autocomplete
               forcePopupIcon={false}
               disablePortal
+              disabled={isFinal}
               onChange={handleSetProvince}
               options={provinces}
               sx={{ width: "100%" }}

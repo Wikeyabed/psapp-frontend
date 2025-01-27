@@ -51,6 +51,7 @@
     "react-drag-drop-files": "^2.3.9",
     "react-dropzone": "^14.2.3",
     "react-multi-date-picker": "^4.1.2",
+    "react-quill": "^2.0.0",
     "react-redux": "^8.0.5",
     "react-simple-captcha": "^9.0.17",
     "react-top-loading-bar": "^2.3.1",

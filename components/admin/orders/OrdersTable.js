@@ -17,7 +17,7 @@ import {
   Backdrop,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneForwardedTwoToneIcon from "@mui/icons-material/PhoneForwardedTwoTone";
 import OrderStatus from "./OrderStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
@@ -35,7 +35,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: theme.palette.primary.lightBg,
   padding: "20px",
   textAlign: "right",
-  minWidth: "180px",
+  minWidth: "120px",
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
@@ -65,6 +65,10 @@ const OrdersTable = ({ orders }) => {
   const handleOpen = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    console.log("orders from table ", orders);
+  }, [orders]);
 
   const [showPhone, setShowPhone] = useState({
     id: "",
@@ -241,7 +245,7 @@ const OrdersTable = ({ orders }) => {
                 <StyledTableCell>وضعیت</StyledTableCell>
 
                 <StyledTableCell>مبلغ کل</StyledTableCell>
-
+                <StyledTableCell>نحوه تحویل بار</StyledTableCell>
                 <StyledTableCell>چاپ بیجک/فاکتور</StyledTableCell>
               </StyledTableHeaderRow>
             </TableHead>
@@ -307,6 +311,33 @@ const OrdersTable = ({ orders }) => {
                       {/* {order.finished_price} */}
                       {persianNumber(order.finished_price)} ریال
                     </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "right",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          border: "2px solid blue",
+                          textAlign: "center",
+                          padding: 1,
+                          borderRadius: "25px",
+                          boxShadow: "inset 0px 0px 15px 2px cyan",
+                        }}
+                        variant="body2"
+                      >
+                        {" "}
+                        {order.delivery_type == "in-person"
+                          ? "حضوری"
+                          : order.delivery_type == "snap"
+                          ? "از طریق اسنپ"
+                          : order.delivery_type == "shipping"
+                          ? "از طریق باربری"
+                          : order.delivery_type == "posting"
+                          ? "از طریق پست"
+                          : ""}
+                      </Typography>
+                    </TableCell>
                     <TableCell style={{ textAlign: "right" }}>
                       <Button
                         component={Link}
@@ -316,6 +347,7 @@ const OrdersTable = ({ orders }) => {
                         sx={{
                           ml: 1,
                           borderRadius: "20px",
+                          width: "45%",
                         }}
                         variant="outlined"
                       >
@@ -330,10 +362,11 @@ const OrdersTable = ({ orders }) => {
                         sx={{
                           ml: 1,
                           borderRadius: "20px",
+                          width: "45%",
                         }}
                         variant="outlined"
                       >
-                        باربری
+                        پست
                       </Button>
 
                       <Button
@@ -344,6 +377,8 @@ const OrdersTable = ({ orders }) => {
                         sx={{
                           ml: 1,
                           borderRadius: "20px",
+                          width: "95% !important",
+                          mt: 1,
                         }}
                         variant="contained"
                       >

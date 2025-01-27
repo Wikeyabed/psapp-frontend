@@ -1,22 +1,35 @@
-import { Grid, Typography } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Collapse,
+  Typography,
+  FormControlLabel,
+  Switch,
+  Box,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { useSelector, useDispatch } from "react-redux";
 import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";
+import parse from "html-react-parser";
 
 // get product list from database
 
-function ProductList() {
+function ProductList({ cats }) {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.products);
   const searchValue = useSelector((state) => state.product.search);
   const category = useSelector((state) => state.product.filter);
   const priceSort = useSelector((state) => state.product.priceSort);
+  const [showMore, setShowMore] = useState(false);
 
   let [page, setPage] = useState(1);
   const PER_PAGE = 12;
 
+  const handleShowMore = () => {
+    setShowMore((prev) => !prev);
+  };
   const filteredProductList = productList
     .filter(
       (product) =>
@@ -109,6 +122,100 @@ function ProductList() {
           shape="rounded"
           onChange={handleChange}
         />
+      </Grid>
+      <Divider
+        sx={{
+          my: 10,
+          padding: 2,
+          width: "100%",
+          display: "block",
+        }}
+      />
+      <Grid
+        sx={{
+          my: 2,
+          display: "flex",
+          justifyContent: "center",
+        }}
+        item
+        container
+        xs={12}
+      >
+        <Grid item xs={12}>
+          {" "}
+          <Typography
+            component={"div"}
+            sx={{
+              width: "100%",
+              textAlign: "center",
+              mb: 5,
+            }}
+            variant="h5"
+          >
+            {category}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          {cats.map((currentCategory) => {
+            if (
+              category == currentCategory.category_name &&
+              currentCategory.category_description != null
+            ) {
+              return (
+                <Collapse
+                  collapsedSize={200}
+                  in={showMore}
+                  orientation="vertical"
+                >
+                  <Typography
+                    component={"div"}
+                    sx={{
+                      width: "100%",
+                      p: 2,
+                    }}
+                  >
+                    {parse(currentCategory.category_description)}
+                  </Typography>
+                </Collapse>
+              );
+            }
+          })}
+          <Box
+            sx={{
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+            {" "}
+            <FormControlLabel
+              sx={{
+                mt: 5,
+                mx: 0,
+                border: "2px solid purple",
+                backgroundColor: "rgba(139, 86, 204, .3)",
+                color: "darkred",
+
+                p: 2,
+                borderRadius: "35px",
+              }}
+              control={
+                <Switch
+                  size="medium"
+                  sx={{
+                    textAlign: "center",
+                    mx: 0,
+                    fontSize: "22px !important",
+                  }}
+                  checked={showMore}
+                  onChange={handleShowMore}
+                />
+              }
+              label="نمایش بیشتر"
+            />{" "}
+          </Box>
+        </Grid>
+
+        {/* */}
       </Grid>
     </Grid>
   );

@@ -1,24 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Select,
-  MenuItem,
-  Typography,
-  Divider,
-  Grid,
-  Box,
-  Stack,
-} from "@mui/material";
-import { useRouter } from "next/router";
-import AdminLayout from "../layout";
-import ToPersianDate from "../../../src/TimestampToPersian";
-import { persianNumber } from "../../../src/PersianDigits";
-import moment from "moment-jalaali";
+import { Select, MenuItem, Stack } from "@mui/material";
 import { getCookie } from "cookies-next";
-import { useSelector } from "react-redux";
 
 function OrderStatus({ order }) {
   const [status, setStatus] = useState(order.status);
@@ -86,7 +68,14 @@ function OrderStatus({ order }) {
         value={status == null ? "-2" : status}
         onChange={handleStatusChange}
       >
-        <MenuItem value={order.status}>وضعیت فعلی</MenuItem>
+        {status == "200" || status == "2" ? (
+          <MenuItem value={order.status}> پرداخت شده</MenuItem>
+        ) : status == "3" ? (
+          <MenuItem value={order.status}> انصراف از پرداخت</MenuItem>
+        ) : (
+          ""
+        )}
+
         <MenuItem value={"100"}>در حال پردازش</MenuItem>
         <MenuItem value={"200"}>تکمیل شده</MenuItem>
         <MenuItem value={"-2"}>کنسل شده</MenuItem>

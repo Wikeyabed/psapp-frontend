@@ -16,6 +16,10 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { DeleteOutline, CreateOutlined } from "@mui/icons-material";
 import { getCookie } from "cookies-next";
+import dynamic from "next/dynamic";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 import {
   setNotificationOff,
   setNotificationOn,
@@ -63,7 +67,7 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
 function AddCategoryForm({ cats }) {
   const dispatch = useDispatch();
   const [files, setFiles] = useState([]);
-
+  const [description, setDescription] = useState(null);
   const [categories, setCategories] = useState(cats);
   const [data, setData] = useState({
     category_name: "",
@@ -103,6 +107,7 @@ function AddCategoryForm({ cats }) {
     formData.append("category_name", data.category_name);
     formData.append("parent_category_id", data.parent_category_id);
     formData.append("sort_order", data.sort_order);
+    formData.append("category_description", description);
 
     for (let i = 0; i < files.length; i++) {
       formData.append("images_url", files[i], files[i].name);
@@ -211,6 +216,24 @@ function AddCategoryForm({ cats }) {
                     label="ترتیب دسته بندی"
                   />
                 </Grid>
+                <Grid
+                  sx={{
+                    margin: "auto",
+                  }}
+                  xs={12}
+                  item
+                >
+                  {" "}
+                  <ReactQuill
+                    theme="snow"
+                    value={description}
+                    onChange={setDescription}
+                    style={{
+                      minHeight: 300,
+                    }}
+                  />
+                </Grid>
+
                 <Grid item xs={12}>
                   <DropZone getFiles={handleGetFiles} />
                   <Button

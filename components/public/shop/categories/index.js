@@ -3,7 +3,7 @@ import PublicLayout from "../../layout/index";
 import FilterBar from "./FilterBar";
 import ProductList from "./ProductList";
 
-function Categories() {
+function Categories({ cats }) {
   return (
     <PublicLayout>
       <Grid
@@ -34,7 +34,7 @@ function Categories() {
             تمامی محصولات
           </Typography>
           <FilterBar />
-          <ProductList />
+          <ProductList cats={cats} />
         </Grid>
       </Grid>
     </PublicLayout>
