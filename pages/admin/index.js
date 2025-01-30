@@ -1,3 +1,5 @@
+"use client";
+
 import AdminDashboard from "../../components/admin/dashboard/";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

@@ -580,31 +580,12 @@ function CheckoutToPayment() {
                 </Box>
               </Typography>
             </Grid>
-            {!data.finalize && data.setNewAddress == "false" ? (
+            {!data.finalize ? (
               <Button
                 onClick={handleNewPayment}
                 loading={data.loading}
                 color="info"
                 disabled={data.loading}
-                variant="contained"
-                sx={{
-                  mx: "auto",
-                  my: 4,
-                  px: 4,
-                }}
-              >
-                {data.loading ? "لطفا منتظر بمانید..." : "تایید نهایی فاکتور"}
-              </Button>
-            ) : !data.finalize && data.setNewAddress == "true" ? (
-              <Button
-                onClick={handleNewPayment}
-                loading={data.loading}
-                color="info"
-                disabled={
-                  data.loading ||
-                  data.newAddress == "" ||
-                  data.newAddress == null
-                }
                 variant="contained"
                 sx={{
                   mx: "auto",

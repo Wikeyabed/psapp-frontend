@@ -1,3 +1,5 @@
+"use client";
+
 import OrderList from "../../../components/admin/orders";
 import { getCookie } from "cookies-next";
 function Orders({ orders }) {

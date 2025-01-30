@@ -1,0 +1,21 @@
+.text-loop-container {
+  position: relative;
+  height: 60px;
+  font-size: 2rem;
+  text-align: center;
+  width: 430px;
+}
+
+.text-item {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  text-align: center;
+  transform: translateY(-20px);
+  transition: all 0.5s ease-in-out;
+}
+
+.text-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

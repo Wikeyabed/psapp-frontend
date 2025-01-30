@@ -38,6 +38,7 @@ import {
   Android,
 } from "@mui/icons-material";
 import CypherText from "react-cypher-text-loop";
+import TextLoop from "../../../../src/TextLoop";
 
 const preload = [
   "با ایباکس به صرفه و با کیفیت بسته بندی کنید",
@@ -329,7 +330,7 @@ function TopNavMobile(props) {
               }}
             >
               {" "}
-              <CypherText delay={5000} textList={preload} randomOrder={true} />
+              <TextLoop messages={preload} interval={3000} />
             </Typography>
             {/* {preload.map((word) => {
                   return <Typography>{word}</Typography>;

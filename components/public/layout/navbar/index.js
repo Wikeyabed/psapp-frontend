@@ -9,10 +9,7 @@ import Logo from "./Logo";
 import SocialMediaBar from "../socialMedia";
 // import MoharamPng from "../../../../public/images/moharam2.png";
 import CallIcon from "@mui/icons-material/Call";
-import { useEffect, useState } from "react";
-import { keyframes, textAlign } from "@mui/system";
-import { once, sample } from "lodash";
-import { TextLoop } from "easy-react-text-loop";
+import TextLoop from "../../../../src/TextLoop";
 
 import CypherText from "react-cypher-text-loop";
 import Link from "../../../../src/Link";
@@ -98,7 +95,7 @@ export default function Navbar() {
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Perspiciatis consequatur laborum */}
 
-            <CypherText delay={2500} textList={preload} />
+            <TextLoop messages={preload} interval={3000} />
           </Typography>
 
           <Box
