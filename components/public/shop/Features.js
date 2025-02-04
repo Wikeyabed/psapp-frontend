@@ -62,7 +62,12 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage width={300} height={200} src={"/images/send.jpg"} />
+          <BannerImage
+            alt="خرید پاکت پستی"
+            width={300}
+            height={200}
+            src={"/images/send.jpg"}
+          />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -77,7 +82,12 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage width={300} height={200} src={"/images/return.jpg"} />
+          <BannerImage
+            alt="خرید کارتن پستی"
+            width={300}
+            height={200}
+            src={"/images/return.jpg"}
+          />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -92,7 +102,12 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage width={300} height={200} src={"/images/in-person.jpg"} />
+          <BannerImage
+            alt="خرید سلفون"
+            width={300}
+            height={200}
+            src={"/images/in-person.jpg"}
+          />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -107,7 +122,12 @@ function Features() {
         }}
       >
         <FeatureContainer elevation={1}>
-          <BannerImage width={300} height={200} src={"/images/about-us.jpg"} />
+          <BannerImage
+            alt="خرید حبابدار"
+            width={300}
+            height={200}
+            src={"/images/about-us.jpg"}
+          />
         </FeatureContainer>
       </Grid>
       <Grid
@@ -121,7 +141,12 @@ function Features() {
         }}
         xs={12}
       >
-        <BannerImage width={400} height={200} src="/images/b-mobile.jpg" />
+        <BannerImage
+          alt="خرید چسب"
+          width={400}
+          height={200}
+          src="/images/b-mobile.jpg"
+        />
       </Grid>
     </Grid>
   );

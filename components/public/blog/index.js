@@ -17,6 +17,7 @@ import usePagination from "../../../src/usePagination";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import SearchBar from "../layout/navbar/SearchBar";
+import Image from "next/image";
 
 export default function AllBlogs({ blogPosts = [], video }) {
   const searchValue = useSelector((state) => state.product.search);
@@ -183,11 +184,22 @@ export default function AllBlogs({ blogPosts = [], video }) {
                         </div>{" "}
                       </CardMedia> */}
 
-                      <CardMedia
-                        component="img"
+                      {/* <CardMedia
+                        component={Image}
+                        width={500}
+                        height={400}
                         sx={{ width: "100%", height: 200 }}
                         image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
                         alt={post.title}
+                      /> */}
+
+                      <Image
+                        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${post.images_url[0]}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        alt={post.title}
+                        style={{ width: "100%", height: "auto" }} // optional
                       />
 
                       <Box sx={{ display: "flex", flexDirection: "column" }}>

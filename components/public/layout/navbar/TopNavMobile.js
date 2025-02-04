@@ -37,7 +37,6 @@ import {
   Apple,
   Android,
 } from "@mui/icons-material";
-import CypherText from "react-cypher-text-loop";
 import TextLoop from "../../../../src/TextLoop";
 
 const preload = [
@@ -330,7 +329,7 @@ function TopNavMobile(props) {
               }}
             >
               {" "}
-              <TextLoop messages={preload} interval={3000} />
+              <TextLoop messages={preload} interval={4000} />
             </Typography>
             {/* {preload.map((word) => {
                   return <Typography>{word}</Typography>;

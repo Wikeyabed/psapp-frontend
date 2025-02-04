@@ -11,7 +11,6 @@ import SocialMediaBar from "../socialMedia";
 import CallIcon from "@mui/icons-material/Call";
 import TextLoop from "../../../../src/TextLoop";
 
-import CypherText from "react-cypher-text-loop";
 import Link from "../../../../src/Link";
 
 export default function Navbar() {
@@ -95,7 +94,7 @@ export default function Navbar() {
             {/* Lorem ipsum dolor sit amet consectetur adipisicing elit.
               Perspiciatis consequatur laborum */}
 
-            <TextLoop messages={preload} interval={3000} />
+            <TextLoop messages={preload} interval={4000} />
           </Typography>
 
           <Box

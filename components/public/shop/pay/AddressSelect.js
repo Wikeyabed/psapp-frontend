@@ -1,37 +1,10 @@
-import {
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  Divider,
-  TextField,
-  Box,
-  Autocomplete,
-  InputAdornment,
-} from "@mui/material";
-import PublicLayout from "../../layout";
-import DatePicker from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
+import { Grid, Typography, TextField, Autocomplete } from "@mui/material";
+
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { persianNumber } from "../../../../src/PersianDigits";
-import { getCookie } from "cookies-next";
-import shortUUID from "short-uuid";
-import moment from "moment-jalaali";
-import Link from "../../../../src/Link";
-import { LoadingButton } from "@mui/lab";
+
 import provinces from "./provinces";
 import cities from "./cities";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
@@ -76,7 +49,7 @@ function AddressSelect({ tehran, newAddress, passTheAddress, isFinal }) {
     } else {
       passTheAddress(exactAddress);
     }
-  }, [exactAddress]);
+  }, [exactAddress, province]);
 
   return (
     <Grid container>

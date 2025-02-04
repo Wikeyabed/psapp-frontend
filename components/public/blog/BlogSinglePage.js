@@ -9,6 +9,7 @@ import BlogNav from "./Breadcrumb";
 import parse from "html-react-parser";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Comments from "../comments";
+import Image from "next/image";
 
 export default function BlogSinglePage({ blog }) {
   return (
@@ -54,17 +55,13 @@ export default function BlogSinglePage({ blog }) {
                   </div>{" "}
                 </CardMedia>
               ) : (
-                <CardMedia
-                  sx={{
-                    aspectRatio: "16/9",
-                    objectFit: "contain",
-                    maxHeight: 750,
-                    minWidth: "100%",
-                    mb: 10,
-                  }}
-                  component="img"
-                  image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${blog.images_url[0]}`}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
                   alt={blog.title}
+                  style={{ width: "100%", height: "auto" }} // optional
                 />
               )}
 

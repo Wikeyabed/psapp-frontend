@@ -125,7 +125,6 @@ function ProductList({ cats }) {
       </Grid>
       <Divider
         sx={{
-          my: 10,
           padding: 2,
           width: "100%",
           display: "block",
@@ -192,14 +191,17 @@ function ProductList({ cats }) {
                 mt: 5,
                 mx: 0,
                 border: "2px solid purple",
-                backgroundColor: "rgba(139, 86, 204, .3)",
-                color: "darkred",
+                backgroundColor: "primary.main",
+                color: "#fff",
 
-                p: 2,
+                px: 2,
                 borderRadius: "35px",
+                border: "3px solid orange",
+                py: 1,
               }}
               control={
                 <Switch
+                  color="secondary"
                   size="medium"
                   sx={{
                     textAlign: "center",
