@@ -3,14 +3,10 @@ import { styled } from "@mui/material/styles";
 import {
   Box,
   Grid,
-  Paper,
   TextField,
   Button,
   Typography,
-  FormControlLabel,
-  Checkbox,
   FormControl,
-  useMediaQuery,
   Container,
 } from "@mui/material";
 import Image from "next/image";

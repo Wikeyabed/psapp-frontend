@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CommentList from "../../../components/admin/comments";
-import { getCookie } from "cookies-next";
 
 export default function Comments({ comments }) {
   const [loading, setLoading] = useState(true);

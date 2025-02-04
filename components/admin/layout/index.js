@@ -2,9 +2,7 @@ import Navbar from "./Navbar";
 import { Grid, Box } from "@mui/material";
 import NavigationBar from "./Navigation";
 import theme from "../../../src/theme";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Error from "../../../pages/404";
 function AdminLayout({ children }) {
   const isAdminLoggedIn = useSelector(
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"

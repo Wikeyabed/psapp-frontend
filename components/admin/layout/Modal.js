@@ -1,19 +1,5 @@
 import styled from "@emotion/styled";
-import {
-  Box,
-  Paper,
-  Stack,
-  Typography,
-  Button,
-  Fade,
-  Modal,
-  Backdrop,
-  Grid,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
+import { Stack, Typography, Button, Grid, Dialog } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ModalContainer = styled(Grid)(({ theme }) => ({

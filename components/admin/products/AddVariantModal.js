@@ -1,9 +1,5 @@
 import { useState } from "react";
 import ModalBox from "../layout/Modal";
-import EditIcon from "@mui/icons-material/Edit";
-import EditProductForm from "./EditProductForm";
-import { useEffect } from "react";
-import ProductVariantList from "./ProductVariantList";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import AddProductVariant from "./AddProductVariant";
 function AddVariantModal({ product }) {

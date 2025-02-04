@@ -1,7 +1,5 @@
 import { useState } from "react";
 import ModalBox from "../layout/Modal";
-import EditIcon from "@mui/icons-material/Edit";
-import { useEffect } from "react";
 import AddProductForm from "./AddProductForm";
 
 function AddProductModal({ product }) {

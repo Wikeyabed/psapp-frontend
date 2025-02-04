@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import IconButton from "@mui/material/IconButton";
-import { Badge, collapseClasses } from "@mui/material";
+import { Badge } from "@mui/material";
 import CartItems from "./CartItems";
 import Link from "../../../../../src/Link";
 import { useState, useEffect, forwardRef } from "react";
@@ -17,7 +17,6 @@ import {
   getProducts,
 } from "../../../../../redux/reducers/productSlice";
 import { persianNumber } from "../../../../../src/PersianDigits";
-import differenceBy from "lodash/differenceBy";
 import { intersectionBy, invokeMap, find } from "lodash";
 
 const Transition = forwardRef(function Transition(props, ref) {

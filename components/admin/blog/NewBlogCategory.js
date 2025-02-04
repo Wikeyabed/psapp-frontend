@@ -5,7 +5,6 @@ import {
   Typography,
   Divider,
   TextField,
-  InputAdornment,
   IconButton,
   Button,
   Paper,

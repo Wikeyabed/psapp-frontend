@@ -1,6 +1,5 @@
 import { AppBar, Box, Divider, Toolbar, Typography, Grid } from "@mui/material";
 import ToolbarIcons from "./Toolbar";
-import SearchBar from "./SearchBar";
 import TopMenu from "./TopMenu";
 import BottomNav from "./BottomNav";
 import MiniShoppingCart from "./shoppingCart/index";

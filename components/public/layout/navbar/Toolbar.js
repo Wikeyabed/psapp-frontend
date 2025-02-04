@@ -1,19 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import {
-  AppBar,
   Box,
   Button,
-  Toolbar,
   IconButton,
   Typography,
-  Badge,
   Menu,
   MenuItem,
-  Skeleton,
 } from "@mui/material";
 import {
-  Mail as MailIcon,
   Notifications as NotificationsIcon,
   AccountCircle as AccountCircleIcon,
   Login as LoginIcon,

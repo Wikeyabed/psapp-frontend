@@ -1,19 +1,9 @@
 import React from "react";
-import { useRouter } from "next/router";
 import AdminLayout from "../layout";
-import {
-  Grid,
-  Card,
-  CardContent,
-  Typography,
-  Divider,
-  Badge,
-  Chip,
-} from "@mui/material";
+import { Grid, Card, CardContent, Typography, Divider } from "@mui/material";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import { persianNumber } from "../../../src/PersianDigits";
 import Link from "../../../src/Link";
-import OrderStatus from "../orders/OrderStatus";
 import OrderStatusInside from "../orders/OrderStatusInside";
 function UserPage({ userData, userOrders }) {
   return (

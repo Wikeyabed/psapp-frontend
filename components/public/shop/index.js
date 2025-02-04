@@ -3,12 +3,10 @@ import React from "react";
 import { Box, Grid } from "@mui/material";
 // Import components
 import PublicLayout from "../layout";
-import Banners from "./Banners";
 import Features from "./Features";
 import Products from "./products";
 import ShopSlider from "./Slider";
 import LatestBlog from "./miniBlog";
-import Image from "next/image";
 // Define Shop component
 function Shop() {
   return (

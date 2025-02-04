@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { Box, Button, CircularProgress, LinearProgress } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
@@ -7,7 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../../../redux/reducers/productSlice";
 import { setNotificationOn } from "../../../../redux/reducers/notificationSlice";
 import { getCookie } from "cookies-next";
-import { intersectionBy } from "lodash";
 
 function AddToCart({
   counter,

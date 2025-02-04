@@ -5,7 +5,7 @@ import ToPersianDate from "../../../src/TimestampToPersian";
 import { useState, useEffect } from "react";
 import parse from "html-react-parser";
 // import DeleteBlog from "./DeleteBlog";
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 
 function ContactList() {
   const [requests, setRequests] = useState([]);

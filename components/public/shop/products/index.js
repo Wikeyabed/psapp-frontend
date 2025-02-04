@@ -1,7 +1,5 @@
-import { Grid, Box, Paper, Typography } from "@mui/material";
-import styled from "@emotion/styled";
+import { Grid } from "@mui/material";
 import ProductListByCategory from "./ProductListByCategory";
-import Footer from "../../layout/footer";
 function Products() {
   return (
     <>

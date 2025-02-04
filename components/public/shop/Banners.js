@@ -1,6 +1,5 @@
 import { Grid, Paper } from "@mui/material";
 import styled from "@emotion/styled";
-import DogPic from "../../../public/images/dog.jpg";
 import Banner1 from "../../../public/images/banner1.jpg";
 import Banner2 from "../../../public/images/banner2.jpg";
 import Banner3 from "../../../public/images/banner3.jpg";

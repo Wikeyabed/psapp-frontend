@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import LoadingBar from "./LoadingBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingOff, setLoadingOn } from "../../redux/reducers/loadingSlice";

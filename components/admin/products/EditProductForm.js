@@ -9,8 +9,6 @@ import {
   Typography,
   Divider,
   MenuItem,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
 import DropZone from "./DropZone";
 import AddIcon from "@mui/icons-material/Add";

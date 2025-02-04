@@ -6,7 +6,6 @@ import {
   Typography,
   Divider,
   TextField,
-  InputAdornment,
   IconButton,
   Button,
   Paper,
@@ -14,7 +13,7 @@ import {
 import styled from "@emotion/styled";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { DeleteOutline, CreateOutlined } from "@mui/icons-material";
+import { DeleteOutline } from "@mui/icons-material";
 import { getCookie } from "cookies-next";
 import dynamic from "next/dynamic";
 

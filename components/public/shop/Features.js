@@ -1,15 +1,6 @@
 import React from "react";
-import { Paper, Grid, Typography, Box } from "@mui/material";
+import { Paper, Grid } from "@mui/material";
 import styled from "@emotion/styled";
-import DeliveryDiningIcon from "@mui/icons-material/DeliveryDining";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import HailIcon from "@mui/icons-material/Hail";
-import FilePresentIcon from "@mui/icons-material/FilePresent";
-import SendBanner from "../../../public/images/send.jpg";
-import InPersonBanner from "../../../public/images/in-person.jpg";
-import ReturnBanner from "../../../public/images/return.jpg";
-import AboutUsBanner from "../../../public/images/about-us.jpg";
 
 import Link from "../../../src/Link";
 import Image from "next/image";

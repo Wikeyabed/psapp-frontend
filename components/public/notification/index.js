@@ -1,11 +1,10 @@
-import { useState, useEffect, forwardRef } from "react";
+import { useEffect, forwardRef } from "react";
 import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { setNotificationOff } from "../../../redux/reducers/notificationSlice";
 import { Typography } from "@mui/material";
-import zIndex from "@mui/material/styles/zIndex";
 
 const Alert = forwardRef(function Alert(props, ref) {
   return (

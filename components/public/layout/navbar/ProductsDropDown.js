@@ -1,5 +1,4 @@
-import { Box, MenuItem, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { MenuItem, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useCallback } from "react";

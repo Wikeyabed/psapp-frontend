@@ -8,7 +8,6 @@ import { getCookie } from "cookies-next";
 import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import ModalBox from "../layout/Modal";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import NewBlogCategory from "./NewBlogCategory";

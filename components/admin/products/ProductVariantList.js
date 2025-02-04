@@ -2,18 +2,15 @@ import React from "react";
 import {
   Grid,
   Box,
-  Button,
   Typography,
   Card,
   FormControlLabel,
   Checkbox,
   TextField,
 } from "@mui/material";
-import { useSelector } from "react-redux";
-import { getCookie } from "cookies-next";
+
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ProductVariantDelete from "./ProductVariantDelete";
 import { MuiColorInput } from "mui-color-input";
 

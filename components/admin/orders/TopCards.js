@@ -1,7 +1,6 @@
 import { Grid, Paper, Typography, Divider, Box } from "@mui/material";
 import styled from "@emotion/styled";
 import theme from "../../../src/theme";
-import { ChartLayout as OrderChart } from "../layout/Chart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { persianNumber } from "../../../src/PersianDigits";

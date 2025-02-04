@@ -1,13 +1,9 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import { Grid } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { persianNumber } from "../../../../../src/PersianDigits";
 import Typography from "@mui/material/Typography";
-
-import { Badge } from "@mui/material";
-
 import { useSelector } from "react-redux";
 import DeleteFromCart from "./DeleteFromCart";
 

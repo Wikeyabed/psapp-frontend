@@ -1,4 +1,3 @@
-import { useState } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import SendIcon from "@mui/icons-material/Send";

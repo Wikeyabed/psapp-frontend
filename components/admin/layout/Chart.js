@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import theme from "../../../src/theme";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { useState, useEffect } from "react";
-import moment from "moment-jalaali";
 
 export function ChartLayout({ typeOfChart, title, columns, name, chartData }) {
   const [showChart, setChart] = useState(false);

@@ -1,9 +1,7 @@
 import React from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Image from "next/image";
-import { persianNumber } from "../../../src/PersianDigits";
-import Link from "../../../src/Link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 

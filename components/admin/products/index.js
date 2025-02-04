@@ -1,10 +1,9 @@
 import React from "react";
 import AdminLayout from "../layout";
 import AddProductModal from "./AddProductModal";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import ProductsTable from "./ProductsTable";
 import AddCategoryModal from "./AddCategoryModal";
-import EditProductModal from "./EditProductModal";
 import EditCategoryModal from "./EditCategoryModal";
 function ProductsList({ products, categories }) {
   return (

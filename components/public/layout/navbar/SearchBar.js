@@ -2,7 +2,7 @@ import * as React from "react";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "@emotion/styled";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { searchValue } from "../../../../redux/reducers/productSlice";
 
 const Search = styled("div")(({ theme }) => ({

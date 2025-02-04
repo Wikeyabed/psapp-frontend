@@ -49,7 +49,7 @@ function AddressSelect({ tehran, newAddress, passTheAddress, isFinal }) {
     } else {
       passTheAddress(exactAddress);
     }
-  }, [exactAddress, province]);
+  }, [province]);
 
   return (
     <Grid container>

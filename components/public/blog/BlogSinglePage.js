@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, CardActionArea, Divider, Grid, Paper } from "@mui/material";
+import { Box, Divider, Grid, Paper } from "@mui/material";
 import PublicLayout from "../layout/index";
 import BlogNav from "./Breadcrumb";
 import parse from "html-react-parser";
