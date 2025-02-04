@@ -82,12 +82,12 @@ function CheckoutToPayment() {
   };
 
   useEffect(() => {
-    console.log(data);
     if (cart.length === 0 || payment.totalPrice == "0") router.push("/");
   }, [data]);
 
   const passExactAddress = (newAddress) => {
     setData({ ...data, newAddress: newAddress });
+    console.log("full address", newAddress);
   };
 
   const handleNewPayment = async () => {

@@ -1,5 +1,4 @@
 import { Grid, Typography, TextField, Autocomplete } from "@mui/material";
-
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 
@@ -20,42 +19,45 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     overflow: "unset",
   },
 }));
+
 function AddressSelect({ tehran, newAddress, passTheAddress, isFinal }) {
   const [province, setProvince] = useState(null);
   const [city, setCity] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
-  const [exactAddress, setExactAdress] = useState(null);
+  const [exactAddress, setExactAddress] = useState("");
+
+  useEffect(() => {
+    if (province) {
+      const filteredCities = cities.filter(
+        (provinceCity) => provinceCity.province_id === province.id
+      );
+      setCity(filteredCities);
+      setSelectedCity(null); // Reset selected city when province changes
+    }
+  }, [province]);
+
+  useEffect(() => {
+    if (province && selectedCity && exactAddress) {
+      const fullAddress = `${province.label}, ${selectedCity.label}, ${exactAddress}`;
+      passTheAddress(fullAddress);
+    }
+  }, [province, selectedCity, exactAddress, passTheAddress]);
 
   const handleSetProvince = (e, value) => {
     setProvince(value);
   };
 
   const handleSelectCity = (e, value) => {
-    setSelectedCity(value.label);
+    setSelectedCity(value);
   };
 
   const handleSetExactAddress = (e) => {
-    setExactAdress(e.target.value);
+    setExactAddress(e.target.value);
   };
 
-  useEffect(() => {
-    if (province !== "" && province !== null) {
-      const filteredCities = cities.filter((provinceCity) => {
-        return provinceCity.province_id === province.id;
-      });
-      setCity(filteredCities);
-      setSelectedCity(filteredCities[0].label);
-      passTheAddress(province.label + "," + selectedCity + "," + exactAddress);
-    } else {
-      passTheAddress(exactAddress);
-    }
-  }, [province]);
-
   return (
-    <Grid container>
-      {tehran ? (
-        ""
-      ) : (
+    <Grid container spacing={2}>
+      {!tehran && (
         <>
           <Grid item xs={12} md={6}>
             <Autocomplete
@@ -69,65 +71,54 @@ function AddressSelect({ tehran, newAddress, passTheAddress, isFinal }) {
                 <RtlTextField
                   {...params}
                   placeholder="انتخاب استان"
-                  label={"انتخاب استان"}
+                  label="انتخاب استان"
                 />
               )}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
-            {" "}
-            {province !== "" && province !== null ? (
+            {province && (
               <Autocomplete
                 forcePopupIcon={false}
                 disablePortal
-                disabled={city == null && province == null}
+                disabled={isFinal}
                 onChange={handleSelectCity}
-                value={
-                  selectedCity !== null && province !== null ? selectedCity : ""
-                }
+                value={selectedCity}
                 options={city}
+                getOptionLabel={(option) => option.label}
                 sx={{ width: "100%" }}
                 renderInput={(params) => (
                   <RtlTextField {...params} label="انتخاب شهر" />
                 )}
               />
-            ) : (
-              ""
             )}
           </Grid>
         </>
       )}
 
-      {newAddress ? (
-        <RtlTextField
-          sx={{
-            my: 2,
-          }}
-          name="newAddress"
-          multiline
-          minRows={3}
-          maxRows={3}
-          value={exactAddress}
-          onChange={handleSetExactAddress}
-          label="آدرس دقیق را وارد کنید"
-          type="text"
-        />
-      ) : (
-        ""
+      {newAddress && (
+        <Grid item xs={12}>
+          <RtlTextField
+            sx={{ my: 2 }}
+            name="newAddress"
+            multiline
+            minRows={3}
+            maxRows={3}
+            value={exactAddress}
+            onChange={handleSetExactAddress}
+            label="آدرس دقیق را وارد کنید"
+            type="text"
+          />
+        </Grid>
       )}
 
-      {province !== null && exactAddress !== null && selectedCity !== null ? (
-        <Typography
-          sx={{
-            my: 2,
-          }}
-          variant="body1"
-        >
-          {province.label + "," + selectedCity + "," + exactAddress}
-        </Typography>
-      ) : (
-        ""
+      {province && selectedCity && exactAddress && (
+        <Grid item xs={12}>
+          <Typography variant="body1">
+            {`${province.label}, ${selectedCity.label}, ${exactAddress}`}
+          </Typography>
+        </Grid>
       )}
     </Grid>
   );

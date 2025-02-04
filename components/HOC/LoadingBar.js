@@ -1,7 +1,5 @@
 import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
-import { CircularProgress } from "@mui/material";
 import Image from "next/image";
 
 function LoadingBar({ children, loading }) {
