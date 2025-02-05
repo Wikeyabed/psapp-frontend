@@ -278,7 +278,7 @@ function NewBlog() {
               size="large"
               onClick={handleCreateBlog}
             >
-              ایجاد بلاگ جدید
+              ایجاد ویدیو جدید
             </Button>
           ) : (
             <Button
