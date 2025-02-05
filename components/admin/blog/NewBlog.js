@@ -263,20 +263,37 @@ function NewBlog() {
           />{" "}
         </Grid>
         <Grid xs={12} md={6} item>
-          <Button
-            disabled={
-              data.title == "" || data.description == "" || data.video_url == ""
-            }
-            sx={{
-              my: 10,
-            }}
-            fullWidth
-            variant="contained"
-            size="large"
-            onClick={handleCreateBlog}
-          >
-            ایجاد بلاگ جدید
-          </Button>
+          {data.is_video ? (
+            <Button
+              disabled={
+                data.title == "" ||
+                data.description == "" ||
+                data.video_url == ""
+              }
+              sx={{
+                my: 10,
+              }}
+              fullWidth
+              variant="contained"
+              size="large"
+              onClick={handleCreateBlog}
+            >
+              ایجاد بلاگ جدید
+            </Button>
+          ) : (
+            <Button
+              disabled={data.title == "" || data.description == ""}
+              sx={{
+                my: 10,
+              }}
+              fullWidth
+              variant="contained"
+              size="large"
+              onClick={handleCreateBlog}
+            >
+              ایجاد بلاگ جدید
+            </Button>
+          )}
         </Grid>
       </Grid>
     </>

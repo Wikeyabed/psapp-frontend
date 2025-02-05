@@ -34,7 +34,10 @@ export default function Home({ products, allVariants }) {
   return (
     <>
       <Head>
-        <title>ایباکس - خرید کارتن پستی , نایلون حبابدار , پاکت و سلفون </title>
+        <title>
+          ایباکس | مرجع خرید کارتن پستی، نایلون حبابدار، پاکت و سلفون با ارسال
+          سریع
+        </title>
       </Head>
       <Shop />
     </>
