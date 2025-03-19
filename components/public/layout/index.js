@@ -3,6 +3,7 @@ import Navbar from "./navbar";
 import { Grid, Box } from "@mui/material";
 import Footer from "./footer";
 import SocialMediaBar from "./socialMedia";
+import PopUp from "./popup";
 
 function PublicLayout({ children }) {
   return (
@@ -12,6 +13,7 @@ function PublicLayout({ children }) {
       }}
     >
       <Navbar />
+      <PopUp />
       <Grid
         sx={{
           overflow: "hidden",
