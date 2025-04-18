@@ -13,7 +13,7 @@ function PublicLayout({ children }) {
       }}
     >
       <Navbar />
-      <PopUp />
+      {/* <PopUp /> */}
       <Grid
         sx={{
           overflow: "hidden",
