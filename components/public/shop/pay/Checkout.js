@@ -10,7 +10,7 @@ function Checkout() {
       <Grid container>
         <Grid
           xs={12}
-          md={6}
+          md={8}
           sx={{
             mt: 10,
             backgroundColor: "#e2e2e2",
@@ -18,7 +18,7 @@ function Checkout() {
             border: "1px solid #444",
             p: 4,
             mx: "auto",
-            minHeight: 500,
+            minHeight: 600,
           }}
         >
           <PaymentStepper />

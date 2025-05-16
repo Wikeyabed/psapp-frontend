@@ -1,626 +1,513 @@
+import { useState } from "react";
 import {
+  Stepper,
+  Step,
+  StepLabel,
   Button,
-  Grid,
-  Paper,
   Typography,
   Radio,
   RadioGroup,
   FormControlLabel,
+  TextField,
+  MenuItem,
+  Box,
   FormControl,
   FormLabel,
+  Select,
+  Paper,
   Divider,
-  TextField,
-  Box,
+  useTheme
 } from "@mui/material";
-import PublicLayout from "../../layout";
-import DatePicker from "react-multi-date-picker";
+import { useSelector } from "react-redux";
+import moment from "moment-jalaali";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import DatePicker from "react-multi-date-picker";
+import provincesData from "./provinces.json";
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { persianNumber } from "../../../../src/PersianDigits";
-import { getCookie } from "cookies-next";
-import shortUUID from "short-uuid";
-import moment from "moment-jalaali";
-import Link from "../../../../src/Link";
-import { LoadingButton } from "@mui/lab";
-import AddressSelect from "./AddressSelect";
+
+const steps = [
+  "روش دریافت محصول",
+  "زمان دریافت محصول",
+  "آدرس کاربر",
+  "نهایی سازی فاکتور",
+];
+
+const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
+  "& .MuiStepLabel-label": {
+    fontSize: "0.9rem",
+    fontWeight: 600,
+    color: theme.palette.text.secondary,
+    "&.Mui-active": {
+      color: theme.palette.primary.main,
+      fontWeight: 700,
+    },
+    "&.Mui-completed": {
+      color: theme.palette.success.main,
+    },
+  },
+}));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginBottom: 5,
+  marginBottom: theme.spacing(2),
   minWidth: "100%",
   direction: "rtl",
-  textAlign: "center !important",
   "& label": {
     transformOrigin: "right !important",
     textAlign: "right !important",
     left: "inherit !important",
-    right: "1.75rem !important",
+    right: "2rem !important",
     overflow: "unset",
+    color: theme.palette.text.secondary,
+  },
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "12px",
+    "& fieldset": {
+      borderColor: theme.palette.divider,
+    },
+    "&:hover fieldset": {
+      borderColor: theme.palette.primary.light,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: theme.palette.primary.main,
+      borderWidth: "1px",
+    },
   },
 }));
 
-function CheckoutToPayment() {
-  const userData = useSelector((state) => state.auth.userInformation);
-  const payment = useSelector((state) => state.order);
-  const cart = useSelector((state) => state.product.shoppingCart);
+const StyledSelect = styled(Select)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  borderRadius: "12px",
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.divider,
+  },
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.primary.light,
+  },
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+    borderColor: theme.palette.primary.main,
+    borderWidth: "1px",
+  },
+}));
 
-  const router = useRouter();
+const DeliveryOptionCard = styled(Paper)(({ theme, selected }) => ({
+  padding: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.divider}`,
+  borderRadius: "12px",
+  backgroundColor: selected ? theme.palette.primary.light + "20" : theme.palette.background.paper,
+  transition: "all 0.3s ease",
+  "&:hover": {
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[2],
+  },
+}));
+
+const AddressBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: "12px",
+  backgroundColor: theme.palette.background.default,
+  marginBottom: theme.spacing(2),
+}));
+
+export default function PaymentStepper() {
+  const theme = useTheme();
+  const userData = useSelector((state) => state.auth.userInformation);
+  const [activeStep, setActiveStep] = useState(0);
+  const [deliveryMethod, setDeliveryMethod] = useState("in-person");
   const [date, setDate] = useState(moment().unix());
-  const [send, setSend] = useState("in-person");
-  const [data, setData] = useState({
-    description: "",
-    loading: false,
-    finalize: false,
-    setNewAddress: false,
-    newAddress: "",
-    paymentUrl: "https://www.eebox.ir",
-  });
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [addressType, setAddressType] = useState("registered");
+
+  const handleNext = () => {
+    if (activeStep === 2) {
+      if (addressType === "new" && (!province || !city || !address)) {
+        alert("لطفا تمامی فیلدهای آدرس جدید را پر کنید");
+        return;
+      }
+    }
+    setActiveStep((prev) => prev + 1);
+  };
+
+  const handleBack = () => setActiveStep((prev) => prev - 1);
+
+  const handleProvinceChange = (event) => {
+    setProvince(event.target.value);
+    setCity("");
+  };
 
   function handleChangeDate(value) {
     setDate(value.unix);
-
-    console.log(date);
   }
 
-  const handleChangeSend = (event) => {
-    setSend(event.target.value);
-    // if(event.tar)
-  };
+  const deliveryMethods = [
+    {
+      value: "in-person",
+      label: "تحویل حضوری سفارش از انبار ایباکس",
+      description: "مراجعه به آدرس انبار در ساعات کاری"
+    },
+    {
+      value: "posting",
+      label: "ارسال از طریق پست ایران",
+      description: "تحویل درب منزل در 3-5 روز کاری"
+    },
+    {
+      value: "snap",
+      label: "ارسال از طریق اسنپ و تپسی (تهران و کرج)",
+      description: "تحویل در همان روز (فقط تهران و کرج)"
+    },
+    {
+      value: "shipping",
+      label: "ارسال از طریق باربری (سراسر ایران عزیز)",
+      description: "تحویل در 2-4 روز کاری در سراسر کشور"
+    }
+  ];
 
-  const handleChangeNewAddress = (event) => {
-    setData({ ...data, setNewAddress: event.target.value });
-    console.log(data);
-  };
-
-  const handleData = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
-  };
-
-  useEffect(() => {
-    if (cart.length === 0 || payment.totalPrice == "0") router.push("/");
-  }, [data]);
-
-  const passExactAddress = (newAddress) => {
-    setData({ ...data, newAddress: newAddress });
-    console.log("full address", newAddress);
-  };
-
-  const handleNewPayment = async () => {
-    var myHeaders = new Headers();
-    myHeaders.append("token", getCookie("x-auth-token"));
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      description: data.description,
-      products: payment.products,
-      finished_price: payment.totalPrice,
-      order_id: shortUUID.generate(),
-      customer_name: userData.firstName + " " + userData.lastName,
-      delivery_date: date,
-      address:
-        data.setNewAddress == "true" ? data.newAddress : userData.address,
-      customer_phone: userData.phoneNumber,
-      delivery_type: send,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/payment/new`,
-      requestOptions
-    )
-      .then((response) => {
-        if (response.status == 201) {
-          const data = response.json();
-
-          console.log("payment data :", data);
-          data.then((data) => {
-            setData({
-              ...data,
-              loading: true,
-            });
-            setTimeout(() => {
-              setData({
-                ...data,
-                loading: false,
-                finalize: true,
-                paymentUrl: `https://gateway.zibal.ir/start/${data[0].track_id}`,
-              });
-            }, 3000); // console.log(" data !!!!!!!!!!!!", data[0].track_id);
-          });
-        }
-      })
-
-      .catch((error) => console.log("error", error.message));
-  };
-
-  return (
-    <PublicLayout>
-      <Grid container justifyContent={"center"}>
-        <Grid
-          component={Paper}
-          sx={{
-            p: 4,
-            minHeight: 600,
-            display: "inline-block",
-          }}
-          item
-          xs={12}
-          md={8}
-          lg={6}
-          container
-        >
-          <Grid item xs={12}>
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 4,
-                textAlign: "center",
-              }}
-            >
-              تکمیل فرم سفارش
+  const getStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.primary, mb: 3 }}>
+              لطفا روش دریافت محصول خود را انتخاب کنید
             </Typography>
-          </Grid>
-
-          <Grid xs={12}>
-            <FormControl>
-              <FormLabel
-                sx={{
-                  mb: 1,
-                  color: "#444",
+            <RadioGroup
+              value={deliveryMethod}
+              onChange={(e) => setDeliveryMethod(e.target.value)}
+            >
+              {deliveryMethods.map((method) => (
+                <DeliveryOptionCard 
+                  key={method.value} 
+                  selected={deliveryMethod === method.value}
+                  onClick={() => setDeliveryMethod(method.value)}
+                >
+                  <FormControlLabel
+                    value={method.value}
+                    control={<Radio color="primary" />}
+                    label={
+                      <Box>
+                        <Typography fontWeight={600}>{method.label}</Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {method.description}
+                        </Typography>
+                      </Box>
+                    }
+                    sx={{ width: "100%", alignItems: "flex-start" }}
+                  />
+                </DeliveryOptionCard>
+              ))}
+            </RadioGroup>
+          </Box>
+        );
+      case 1:
+        return (
+          <Box sx={{ mt: 4, textAlign: "center" }}>
+            <Typography variant="h6" sx={{ color: theme.palette.error.main, mb: 3 }}>
+              توجه: ارسال سفارشات در روزهای جمعه امکان پذیر نمی باشد
+            </Typography>
+            <Box sx={{ 
+              display: "inline-block",
+              border: `1px solid ${theme.palette.divider}`,
+              borderRadius: "12px",
+              p: 1,
+              backgroundColor: theme.palette.background.paper
+            }}>
+              <DatePicker
+                placeholder="انتخاب تاریخ تحویل"
+                mapDays={({ date }) => {
+                  let isWeekend = [6].includes(date.weekDay.index);
+                  if (isWeekend)
+                    return {
+                      disabled: true,
+                      style: { color: theme.palette.error.main },
+                    };
                 }}
-                id="controlled-radio-buttons-group"
-              >
-                انتخاب نحوه ارسال :
+                weekStartDayIndex={7}
+                highlightToday={true}
+                style={{
+                  textAlign: "center",
+                  padding: "16px",
+                  minWidth: 250,
+                  fontSize: "1rem",
+                }}
+                minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
+                maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
+                defaultValue={Date.now()}
+                calendar={persian}
+                locale={persian_fa}
+                calendarPosition="bottom-left"
+                onChange={handleChangeDate}
+                disableDay={(date) => date.weekDay.index === 6}
+              />
+            </Box>
+            <Typography variant="body2" sx={{ mt: 2, color: theme.palette.text.secondary }}>
+              تاریخ انتخابی شما: {moment.unix(date).format("jYYYY/jMM/jDD")}
+            </Typography>
+          </Box>
+        );
+      case 2:
+        return (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="h6" gutterBottom sx={{ color: theme.palette.text.primary, mb: 3 }}>
+              اطلاعات آدرس تحویل
+            </Typography>
+            
+            <FormControl component="fieldset" fullWidth sx={{ mb: 3 }}>
+              <FormLabel component="legend" sx={{ mb: 1, color: theme.palette.text.primary }}>
+                نوع آدرس
               </FormLabel>
               <RadioGroup
-                aria-labelledby="controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={send}
-                onChange={handleChangeSend}
+                value={addressType}
+                onChange={(e) => {
+                  setAddressType(e.target.value);
+                  if (e.target.value === "new") {
+                    setProvince("");
+                    setCity("");
+                    setAddress("");
+                  }
+                }}
+                row
+                sx={{ gap: 2 }}
               >
-                <Box
+                <FormControlLabel
+                  value="registered"
+                  control={<Radio color="primary" />}
+                  label="آدرس ثبت شده"
                   sx={{
-                    display: "flex",
-                    justifyItems: "center",
-                    mb: 1,
+                    px: 2,
+                    py: 1,
+                    borderRadius: "8px",
+                    backgroundColor: addressType === "registered" ? 
+                      theme.palette.primary.light + "20" : "transparent",
+                    border: `1px solid ${addressType === "registered" ? 
+                      theme.palette.primary.main : theme.palette.divider}`
                   }}
-                >
-                  <Image
-                    style={{
-                      backgroundColor: "#FDC60C",
-                      borderRadius: "50px",
-                    }}
-                    src={"/images/in-person.png"}
-                    width={50}
-                    height={50}
-                  />{" "}
-                  <FormControlLabel
-                    value={"in-person"}
-                    control={<Radio disabled={data.finalize} />}
-                    label="تحویل حضوری از انبار ایباکس"
-                  />
-                </Box>{" "}
-                {send == "in-person" ? (
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      borderBottom: "1px solid #444",
-                      mb: 4,
-                      mr: 10,
-                    }}
-                  >
-                    توجه : تحویل مرسوله حضوری همه روزه بین ساعات 11 صبح تا 18
-                    عصر انجام می پذیرد
-                  </Typography>
-                ) : (
-                  ""
-                )}
-                <Box
+                />
+                <FormControlLabel
+                  value="new"
+                  control={<Radio color="primary" />}
+                  label="آدرس جدید"
                   sx={{
-                    display: "flex",
-                    justifyItems: "center",
-                    mb: 1,
+                    px: 2,
+                    py: 1,
+                    borderRadius: "8px",
+                    backgroundColor: addressType === "new" ? 
+                      theme.palette.primary.light + "20" : "transparent",
+                    border: `1px solid ${addressType === "new" ? 
+                      theme.palette.primary.main : theme.palette.divider}`
                   }}
-                >
-                  <Image
-                    style={{
-                      backgroundColor: "#FDC60C",
-                      borderRadius: "50px",
-                    }}
-                    src={"/images/snap.png"}
-                    width={50}
-                    height={50}
-                  />{" "}
-                  <FormControlLabel
-                    value={"snap"}
-                    control={<Radio disabled={data.finalize} />}
-                    label="ارسال با اسنپ و تپسی (مخصوص تهران)"
-                  />
-                </Box>
-                {send == "snap" ? (
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      borderBottom: "1px solid #444",
-                      mb: 4,
-                      mr: 10,
-                    }}
-                  >
-                    توجه :هزینه ارسال بر عهده مشتری میباشد. ارسال بار بین ساعات
-                    9 صبح تا 18 عصر انجام می پذیرد.
-                  </Typography>
-                ) : (
-                  ""
-                )}
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyItems: "center",
-                    mb: 1,
-                  }}
-                >
-                  <Image
-                    style={{
-                      backgroundColor: "#FDC60C",
-                      borderRadius: "51px",
-                      padding: 10,
-                    }}
-                    src={"/images/shipping.png"}
-                    width={50}
-                    height={50}
-                  />{" "}
-                  <FormControlLabel
-                    value={"shipping"}
-                    control={<Radio disabled={data.finalize} />}
-                    label="ارسال از طریق باربری(مخصوص شهرستان)"
-                  />
-                </Box>
-                {send == "shipping" ? (
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      borderBottom: "1px solid #444",
-                      mb: 4,
-                      mr: 10,
-                    }}
-                  >
-                    توجه : هزینه ارسال تا باربری پس کرایه شده و توسط مشتری
-                    پرداخت میگردد.
-                  </Typography>
-                ) : (
-                  ""
-                )}
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyItems: "center",
-                    mb: 1,
-                  }}
-                >
-                  <Image
-                    style={{
-                      backgroundColor: "#FDC60C",
-                      borderRadius: "50px",
-                    }}
-                    src={"/images/post.png"}
-                    width={50}
-                    height={50}
-                  />{" "}
-                  <FormControlLabel
-                    value={"posting"}
-                    control={<Radio disabled={data.finalize} />}
-                    label="ارسال از طریق پست ایران"
-                  />
-                </Box>
-                {send == "posting" ? (
-                  <Typography
-                    sx={{
-                      fontSize: "12px",
-                      borderBottom: "1px solid #444",
-
-                      mb: 4,
-                      mr: 10,
-                    }}
-                  >
-                    توجه : هزینه پست بر عهده مشتری می باشد
-                  </Typography>
-                ) : (
-                  ""
-                )}
+                />
               </RadioGroup>
             </FormControl>
 
-            <Divider
-              sx={{
-                my: 4,
-                borderWidth: "3px",
-              }}
-            />
-          </Grid>
-
-          {send == "snap" ? (
-            <Grid container>
-              <Grid
-                xs={12}
-                md={6}
-                sx={{
-                  direction: "rtl !important",
-                }}
-                item
-              >
-                <Typography
-                  sx={{
-                    mb: 4,
-                  }}
-                >
-                  انتخاب تاریخ ارسال
+            {addressType === "registered" ? (
+              <AddressBox>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                  آدرس ثبت شده شما:
                 </Typography>
-                <DatePicker
-                  style={{
-                    textAlign: "center !important",
-                    padding: "20px 10px",
-                    minWidth: 250,
-                  }}
-                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
-                  defaultValue={Date.now()}
-                  calendar={persian}
-                  locale={persian_fa}
-                  calendarPosition="bottom-left"
-                  onChange={handleChangeDate}
-                />
-              </Grid>
-            </Grid>
-          ) : send == "shipping" ? (
-            <Grid container>
-              <Grid
-                xs={12}
-                md={6}
-                sx={{
-                  direction: "rtl !important",
-                }}
-                item
-              >
-                <Typography
-                  sx={{
-                    mb: 4,
-                  }}
-                >
-                  انتخاب تاریخ ارسال
+                <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                  {userData.address || "شما آدرس ثبت شده ای ندارید"}
                 </Typography>
-                <DatePicker
-                  style={{
-                    textAlign: "center !important",
-                    padding: "20px 10px",
-                    minWidth: 250,
-                  }}
-                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
-                  defaultValue={Date.now()}
-                  calendar={persian}
-                  locale={persian_fa}
-                  calendarPosition="bottom-left"
-                  onChange={handleChangeDate}
-                />
-              </Grid>
-
-              <Grid xs={12} md={6} item></Grid>
-            </Grid>
-          ) : send == "posting" ? (
-            <Grid container>
-              <Grid
-                xs={12}
-                md={6}
-                sx={{
-                  direction: "rtl !important",
-                }}
-                item
-              >
-                <Typography
-                  sx={{
-                    mb: 4,
-                  }}
-                >
-                  انتخاب تاریخ ارسال
-                </Typography>
-                <DatePicker
-                  style={{
-                    textAlign: "center !important",
-                    padding: "20px 10px",
-                    minWidth: 250,
-                  }}
-                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
-                  defaultValue={Date.now()}
-                  calendar={persian}
-                  locale={persian_fa}
-                  calendarPosition="bottom-left"
-                  onChange={handleChangeDate}
-                />
-              </Grid>
-
-              <Grid xs={12} md={6} item></Grid>
-            </Grid>
-          ) : (
-            ""
-          )}
-
-          <Grid spacing={2} container>
-            <Grid xs={12} item>
-              {send != "in-person" ? (
-                <FormControl
-                  sx={{
-                    mt: 1,
-                  }}
-                >
-                  <RadioGroup
-                    aria-labelledby="controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={data.setNewAddress}
-                    onChange={handleChangeNewAddress}
-                    row
-                  >
-                    <FormControlLabel
-                      sx={{
-                        m: 0,
-                        mb: 4,
-                      }}
-                      value={false}
-                      control={<Radio />}
-                      label="آدرس فعلی"
-                    />
-                    <FormControlLabel
-                      sx={{
-                        m: 0,
-                        mb: 4,
-                      }}
-                      value={true}
-                      control={<Radio />}
-                      label="آدرس جدید"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              ) : (
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    color: "darkred",
-                    mt: 2,
-                  }}
-                >
-                  صالح آباد غربی،شهرک رسالت،خیابان طالقانی،خیابان ۲۰ متری جوادی،
-                  بعد از فروشگاه افق کوروش پلاک ۶۲
-                </Typography>
-              )}
-
-              {send != "in-person" ? (
-                <AddressSelect
-                  newAddress={data.setNewAddress == "true"}
-                  tehran={send == "snap"}
-                  passTheAddress={passExactAddress}
-                />
-              ) : (
-                ""
-              )}
-            </Grid>
-
-            <Typography
-              variant="subtitle2"
-              sx={{
-                color: "darkred",
-                mt: 2,
-              }}
-            >
-              {send == "in-person" ? "" : userData.address}
-            </Typography>
-
-            <Grid xs={12} item>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  color: "blue",
-                  my: 4,
-                  mb: 6,
-                  mr: 2,
-                }}
-              >
-                <br />
-                {send == "posting"
-                  ? "در صورت امکان کد پستی خود را در بخش توضیحات وارد نمایید"
-                  : ""}
-              </Typography>
-              <RtlTextField
-                name="description"
-                focused={true}
-                value={data.description}
-                disabled={data.finalize}
-                required
-                multiline
-                minRows={7}
-                maxRows={7}
-                fullWidth
-                onChange={handleData}
-                label="توضیحات سفارش"
-                InputLabelProps={{
-                  sx: {
-                    mt: -6,
-                    fontSize: 19,
-                  },
-                }}
-                type="text"
-                variant="filled"
-              />
-            </Grid>
-            <Grid display={"flex"} xs={12} item>
-              <Typography
-                component={"div"}
-                textAlign={"center"}
-                variant="h6"
-                color={"GrayText"}
-              >
-                مبلغ نهایی فاکتور :
-                <Box
-                  sx={{
-                    color: "darkred",
-                  }}
-                  component={"span"}
-                >
-                  {" "}
-                  {persianNumber(payment.totalPrice)} ریال
-                </Box>
-              </Typography>
-            </Grid>
-            {!data.finalize ? (
-              <Button
-                onClick={handleNewPayment}
-                loading={data.loading}
-                color="info"
-                disabled={data.loading}
-                variant="contained"
-                sx={{
-                  mx: "auto",
-                  my: 4,
-                  px: 4,
-                }}
-              >
-                {data.loading ? "لطفا منتظر بمانید..." : "تایید نهایی فاکتور"}
-              </Button>
+              </AddressBox>
             ) : (
-              <Button
-                component={"a"}
-                href={data.paymentUrl}
-                color="secondary"
-                variant="contained"
-                sx={{
-                  mx: "auto",
-                  my: 4,
-                  px: 4,
-                }}
-              >
-                پرداخت با درگاه امن &nbsp;
-                <Image
-                  alt="zibal"
-                  width={"100"}
-                  height={"50"}
-                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/zibal.svg`}
+              <>
+                <StyledSelect
+                  value={province}
+                  onChange={handleProvinceChange}
+                  displayEmpty
+                  inputProps={{ "aria-label": "انتخاب استان" }}
+                >
+                  <MenuItem value="" disabled>
+                    <em>استان را انتخاب کنید</em>
+                  </MenuItem>
+                  {provincesData.map((province) => (
+                    <MenuItem key={province.id} value={province.label}>
+                      {province.label}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+
+                <StyledSelect
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  disabled={!province}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    <em>شهر را انتخاب کنید</em>
+                  </MenuItem>
+                  {province &&
+                    provincesData
+                      .find((p) => p.label === province)
+                      ?.cities.map((city) => (
+                        <MenuItem key={city.id} value={city.label}>
+                          {city.label}
+                        </MenuItem>
+                      ))}
+                </StyledSelect>
+
+                <RtlTextField
+                  label="آدرس کامل"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  multiline
+                  rows={4}
+                  placeholder="خیابان، کوچه، پلاک، واحد، کدپستی و سایر جزئیات"
                 />
-              </Button>
+              </>
             )}
-          </Grid>
-        </Grid>
-      </Grid>
-    </PublicLayout>
+          </Box>
+        );
+      case 3:
+        return (
+          <Box sx={{ 
+            backgroundColor: theme.palette.background.default,
+            borderRadius: "12px",
+            p: 3,
+            boxShadow: theme.shadows[1]
+          }}>
+            <Typography variant="h6" sx={{ mb: 3, color: theme.palette.primary.main }}>
+              خلاصه سفارش
+            </Typography>
+            
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                روش دریافت:
+              </Typography>
+              <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                {deliveryMethods.find(m => m.value === deliveryMethod)?.label}
+              </Typography>
+            </Box>
+            
+            <Divider sx={{ my: 2 }} />
+            
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                تاریخ دریافت:
+              </Typography>
+              <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                {moment.unix(date).format("jYYYY/jMM/jDD")}
+              </Typography>
+            </Box>
+            
+            <Divider sx={{ my: 2 }} />
+            
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                آدرس تحویل:
+              </Typography>
+              {addressType === "registered" ? (
+                <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                  {userData.address}
+                </Typography>
+              ) : (
+                <>
+                  <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                    استان: {province}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                    شهر: {city}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+                    آدرس: {address}
+                  </Typography>
+                </>
+              )}
+            </Box>
+          </Box>
+        );
+      default:
+        return "مرحله ناشناخته";
+    }
+  };
+
+  return (
+    <Box sx={{ 
+      position: "relative", 
+      height: "100%",
+      maxWidth: "800px",
+      margin: "0 auto",
+      p: 3,
+      backgroundColor: theme.palette.background.paper,
+      borderRadius: "16px",
+      boxShadow: theme.shadows[3]
+    }}>
+      <Stepper 
+        activeStep={activeStep} 
+        alternativeLabel
+        sx={{ 
+          mb: 4,
+          "& .MuiStepConnector-line": {
+            borderColor: theme.palette.divider
+          }
+        }}
+      >
+        {steps.map((label) => (
+          <Step key={label}>
+            <StyledStepLabel>{label}</StyledStepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
+      <Box sx={{ 
+        minHeight: "400px",
+        mb: 8,
+        p: { xs: 1, sm: 3 },
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: "12px"
+      }}>
+        {getStepContent(activeStep)}
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          justifyContent: "space-between",
+          p: 3,
+          backgroundColor: theme.palette.background.paper,
+          borderTop: `1px solid ${theme.palette.divider}`
+        }}
+      >
+        <Button
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          variant="outlined"
+          sx={{
+            px: 4,
+            borderRadius: "8px",
+            fontWeight: 600
+          }}
+        >
+          مرحله قبل
+        </Button>
+
+        <Button
+          variant="contained"
+          onClick={
+            activeStep === steps.length - 1
+              ? () => (window.location.href = "/payment")
+              : handleNext
+          }
+          sx={{
+            px: 4,
+            borderRadius: "8px",
+            fontWeight: 600,
+            boxShadow: "none",
+            "&:hover": {
+              boxShadow: "none"
+            }
+          }}
+        >
+          {activeStep === steps.length - 1 ? "پرداخت و تکمیل سفارش" : "مرحله بعد"}
+        </Button>
+      </Box>
+    </Box>
   );
 }
-
-export default CheckoutToPayment;
