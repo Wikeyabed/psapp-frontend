@@ -5,15 +5,17 @@ import { useRouter } from "next/router";
 import {
   Box,
   Grid,
-  Paper,
   Container,
   TextField,
   Button,
   Typography,
   FormGroup,
-  FormControl,
   IconButton,
   InputAdornment,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import Link from "../../../src/Link";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -28,6 +30,7 @@ import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { setCookie } from "cookies-next";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
+import provincesData from "./provinces.json"; // Make sure to import your provinces data
 
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
@@ -44,7 +47,6 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
   minWidth: "100%",
   direction: "rtl",
   textAlign: "center !important",
-  // display: "block",
   "& label": {
     transformOrigin: "right !important",
     textAlign: "right !important",
@@ -52,6 +54,14 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     right: "1.75rem !important",
     overflow: "unset",
   },
+}));
+
+const RtlSelect = styled(Select)(({ theme }) => ({
+  textAlign: "right",
+  "& .MuiSelect-select": {
+    textAlign: "right",
+  },
+  marginBottom: theme.spacing(1),
 }));
 
 function RegisterForm() {
@@ -67,6 +77,8 @@ function RegisterForm() {
     firstName: "",
     lastName: "",
     address: "",
+    province: "",
+    city: "",
   });
 
   const [isValid, setIsValid] = useState({
@@ -74,8 +86,31 @@ function RegisterForm() {
     email: false,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [cities, setCities] = useState([]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleProvinceChange = (event) => {
+    const provinceName = event.target.value;
+    setRegisterInfo({
+      ...RegisterInfo,
+      province: provinceName,
+      city: "", // Reset city when province changes
+    });
+
+    // Find the selected province and set its cities
+    const selectedProvince = provincesData.find(
+      (p) => p.label === provinceName
+    );
+    setCities(selectedProvince?.cities || []);
+  };
+
+  const handleCityChange = (event) => {
+    setRegisterInfo({
+      ...RegisterInfo,
+      city: event.target.value,
+    });
+  };
 
   const handleSetValue = (event) => {
     if (event.target.name === "password") {
@@ -86,7 +121,6 @@ function RegisterForm() {
 
       let regex = new RegExp("(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$");
       let result = regex.test(event.target.value);
-      console.log("in passowrd", result);
 
       if (result) {
         setIsValid({ ...isValid, [event.target.name]: true });
@@ -102,30 +136,13 @@ function RegisterForm() {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
       let emailResult = emailRegEx.test(event.target.value);
-      console.log("in email", emailResult);
 
       if (emailResult) {
         setIsValid({ ...isValid, [event.target.name]: true });
       } else {
         setIsValid({ ...isValid, [event.target.name]: false });
       }
-    }
-
-    // else if (
-    //   event.target.name == "firstName" ||
-    //   event.target.name == "lastName"
-    // ) {
-    //   if (persianRex.text.test(event.target.value)) {
-    //     setRegisterInfo({
-    //       ...RegisterInfo,
-    //       [event.target.name]: event.target.value,
-    //     });
-    //   } else {
-    //   }
-
-    //   console.log(RegisterInfo);
-    //   // }
-    else {
+    } else {
       setRegisterInfo({
         ...RegisterInfo,
         [event.target.name]: event.target.value,
@@ -134,14 +151,8 @@ function RegisterForm() {
   };
 
   const handleSubmit = async (event) => {
-    console.log(id);
-    const {
-      //  email,
-      password,
-      firstName,
-      lastName,
-      address,
-    } = RegisterInfo;
+    const { password, firstName, lastName, address, province, city } =
+      RegisterInfo;
     event.preventDefault();
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -149,11 +160,10 @@ function RegisterForm() {
     let urlencoded = new URLSearchParams();
     urlencoded.append("first_name", firstName);
     urlencoded.append("last_name", lastName);
-    // urlencoded.append("email", email);
     urlencoded.append("password", password);
     urlencoded.append("phone_number", phone_number);
     urlencoded.append("gender", "male");
-    urlencoded.append("address", address);
+    urlencoded.append("address", `${province}، ${city}، ${address}`); // Combine address with province and city
     urlencoded.append("shopping_list_id", "{}");
     urlencoded.append("refer", id);
 
@@ -171,8 +181,6 @@ function RegisterForm() {
       .then((res) => {
         if (res.status == 200 || res.status == 201) {
           res.json().then((data) => {
-            // console.log(data);
-
             dispatch(
               setNotificationOn({
                 message: "ثبت نام با موفقیت انجام شد.",
@@ -241,21 +249,6 @@ function RegisterForm() {
                     ثـبـت نــام
                   </Typography>
 
-                  {/* <RtlTextField
-                    value={RegisterInfo.email}
-                    // required
-                    name="email"
-                    color={isValid.email ? "success" : ""}
-                    error={!isValid.email && RegisterInfo.email.length > 0}
-                    fullWidth
-                    onChange={handleSetValue}
-                    label="ایمیل (اختیاری)"
-                    helperText={
-                      !isValid.email && RegisterInfo.email.length > 0
-                        ? "لطفا ایمیل معتبر وارد کنید"
-                        : ""
-                    }
-                  /> */}
                   <RtlTextField
                     value={RegisterInfo.password}
                     required
@@ -308,7 +301,7 @@ function RegisterForm() {
                         : "تکرار رمز عبور اشتباه میباشد"
                     }
                   />
-                  <Grid container>
+                  <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                       <RtlTextField
                         value={RegisterInfo.firstName}
@@ -334,6 +327,49 @@ function RegisterForm() {
                     </Grid>
                   </Grid>
 
+                  {/* Province and City Select Fields */}
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} md={6}>
+                      <FormControl fullWidth>
+                        <InputLabel id="province-label">استان</InputLabel>
+                        <RtlTextField
+                          select
+                          labelId="province-label"
+                          value={RegisterInfo.province}
+                          onChange={handleProvinceChange}
+                          label="استان"
+                          required
+                        >
+                          {provincesData.map((province) => (
+                            <MenuItem key={province.id} value={province.label}>
+                              {province.label}
+                            </MenuItem>
+                          ))}
+                        </RtlTextField>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <FormControl fullWidth>
+                        <InputLabel id="city-label">شهر</InputLabel>
+                        <RtlTextField
+                          select
+                          labelId="city-label"
+                          value={RegisterInfo.city}
+                          onChange={handleCityChange}
+                          label="شهر"
+                          disabled={!RegisterInfo.province}
+                          required
+                        >
+                          {cities.map((city) => (
+                            <MenuItem key={city.id} value={city.label}>
+                              {city.label}
+                            </MenuItem>
+                          ))}
+                        </RtlTextField>
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+
                   <RtlTextField
                     value={RegisterInfo.address}
                     required
@@ -342,8 +378,9 @@ function RegisterForm() {
                     minRows={4}
                     fullWidth
                     onChange={handleSetValue}
-                    label="آدرس"
+                    label="آدرس کامل"
                     type="text"
+                    placeholder="خیابان، کوچه، پلاک، واحد و سایر جزئیات"
                   />
                 </Grid>
 

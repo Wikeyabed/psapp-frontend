@@ -13,9 +13,9 @@ function Checkout() {
           md={8}
           sx={{
             mt: 10,
-            backgroundColor: "#e2e2e2",
+            // backgroundColor: "#e2e2e2",s
             borderRadius: 10,
-            border: "1px solid #444",
+            // border: "1px solid #444",
             p: 4,
             mx: "auto",
             minHeight: 600,
