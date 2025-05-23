@@ -1,74 +1,109 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  TextField,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Box,
+  Avatar,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { getCookie } from "cookies-next";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
-// @refresh reset
+import LockIcon from "@mui/icons-material/Lock";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+const ProfileContainer = styled(Card)(({ theme }) => ({
+  maxWidth: 800,
+  margin: "40px auto",
+  borderRadius: 12,
+  boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+  overflow: "hidden",
+}));
+
+const ProfileHeader = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  padding: theme.spacing(4),
+  textAlign: "center",
+}));
+
+const SectionTitle = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  marginBottom: theme.spacing(3),
+  color: theme.palette.text.primary,
+  display: "flex",
+  alignItems: "center",
+  gap: theme.spacing(1),
+}));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginTop: 5,
   marginBottom: 5,
   minWidth: "100%",
   direction: "rtl",
   textAlign: "center !important",
-
   "& label": {
     transformOrigin: "right !important",
     textAlign: "right !important",
     left: "inherit !important",
-    right: "1.75rem !important",
+    right: "2rem !important",
     overflow: "unset",
   },
 }));
 
+
 export default function ChangePassword() {
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    newPasswordR: false,
+  });
   const [info, setInfo] = useState({
     oldPassword: "",
     newPassword: "",
     newPasswordR: "",
   });
 
+  const handleClickShowPassword = (field) => {
+    setShowPassword({ ...showPassword, [field]: !showPassword[field] });
+  };
+
   const handleSetInfo = (event) => {
+    const { name, value } = event.target;
     setInfo({
       ...info,
-      [event.target.name]: fixPersianNumber(event.target.value),
+      [name]: fixPersianNumber(value),
     });
 
-    if (event.target.name === "newPassword") {
-      setInfo({
-        ...info,
-        [event.target.name]: fixPersianNumber(event.target.value),
-      });
-
-      let regex = new RegExp("(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$");
-      let result = regex.test(event.target.value);
-      console.log("in passowrd", result);
-
-      if (result) {
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
+    if (name === "newPassword") {
+      const regex = new RegExp(
+        "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,})$"
+      );
+      setIsValid(regex.test(value));
     }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    let myHeaders = new Headers();
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     myHeaders.append("token", getCookie("x-auth-token"));
-    let urlencoded = new URLSearchParams();
+
+    const urlencoded = new URLSearchParams();
     urlencoded.append("old_password", info.oldPassword);
     urlencoded.append("new_password", info.newPassword);
     urlencoded.append("new_password_r", info.newPasswordR);
 
-    let requestOptions = {
+    const requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: urlencoded,
@@ -84,112 +119,165 @@ export default function ChangePassword() {
               color: "success",
             })
           );
-
           setInfo({ oldPassword: "", newPassword: "", newPasswordR: "" });
+        } else {
+          dispatch(
+            setNotificationOn({
+              message: "رمز عبور فعلی نادرست است",
+              color: "error",
+            })
+          );
         }
       })
-      .catch((error) =>
+      .catch((error) => {
         dispatch(
           setNotificationOn({
-            message: "مشکلی رخ داده است",
+            message: "مشکلی در ارتباط با سرور رخ داده است",
             color: "error",
           })
-        )
-      );
+        );
+      });
   };
+
+  const passwordsMatch = info.newPassword === info.newPasswordR;
+  const isFormValid = isValid && passwordsMatch && info.oldPassword;
+
   return (
-    <Grid container>
-      <Grid item md={3}></Grid>
+    <ProfileContainer>
+      <ProfileHeader>
+        <Avatar
+          sx={{
+            width: 80,
+            height: 80,
+            margin: "0 auto 16px",
+            backgroundColor: "white",
+            color: "primary.main",
+          }}
+        >
+          <LockIcon fontSize="large" />
+        </Avatar>
+        <Typography variant="h4" fontWeight={700}>
+          تغییر رمز عبور
+        </Typography>
+        <Typography variant="subtitle1" mt={1}>
+          برای امنیت حساب خود، رمز عبور قوی انتخاب کنید
+        </Typography>
+      </ProfileHeader>
 
-      <Grid
-        item
-        xs={12}
-        md={8}
-        lg={6}
-        container
-        sx={{
-          mt: 1,
-          p: 1,
-        }}
-        onSubmit={handleSubmit}
-        component="form"
-      >
-        <Grid item xs={12}>
-          <Typography
-            letiant="h6"
-            sx={{
-              textAlign: "center !important",
-            }}
-          >
-            {" "}
-            تغییر رمز عبور
-          </Typography>
-        </Grid>
+      <CardContent>
+        <Box component="form" onSubmit={handleSubmit}>
+          <SectionTitle variant="h5">
+            <LockIcon fontSize="small" />
+            تنظیمات امنیتی
+          </SectionTitle>
 
-        <Grid item xs={12}>
           <RtlTextField
-            onChange={handleSetInfo}
-            value={info.oldPassword}
+            fullWidth
             label="رمز عبور فعلی"
-            size="medium"
+            value={info.oldPassword}
+            onChange={handleSetInfo}
             name="oldPassword"
-            type="password"
-            placeholder="رمز عبور فعلی"
+            type={showPassword.oldPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => handleClickShowPassword("oldPassword")}
+                    edge="end"
+                  >
+                    {showPassword.oldPassword ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-        </Grid>
 
-        <Grid item xs={12}>
           <RtlTextField
+            fullWidth
+            label="رمز عبور جدید"
             value={info.newPassword}
             onChange={handleSetInfo}
-            label="رمز عبور جدید"
-            color={isValid ? "success" : "error"}
-            size="medium"
             name="newPassword"
-            type="password"
-            placeholder="رمز عبور جدید"
+            type={showPassword.newPassword ? "text" : "password"}
+            error={info.newPassword && !isValid}
             helperText={
-              !isValid
+              info.newPassword && !isValid
                 ? "رمز عبور باید حداقل 6 کاراکتر و شامل حروف و اعداد باشد"
                 : ""
             }
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => handleClickShowPassword("newPassword")}
+                    edge="end"
+                  >
+                    {showPassword.newPassword ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-        </Grid>
-        <Grid item xs={12}>
+
           <RtlTextField
+            fullWidth
+            label="تکرار رمز عبور جدید"
             value={info.newPasswordR}
             onChange={handleSetInfo}
-            label="تکرار رمز عبور جدید"
-            color={info.newPassword == info.newPasswordR ? "success" : "error"}
-            size="medium"
             name="newPasswordR"
-            type="password"
-            placeholder="تکرار رمز عبور جدید"
+            type={showPassword.newPasswordR ? "text" : "password"}
+            error={info.newPasswordR && !passwordsMatch}
             helperText={
-              info.password != info.newPasswordR
-                ? "رمز عبور و تکرار آن باید برابر باشد"
+              info.newPasswordR && !passwordsMatch
+                ? "رمز عبور و تکرار آن باید یکسان باشند"
                 : ""
             }
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => handleClickShowPassword("newPasswordR")}
+                    edge="end"
+                  >
+                    {showPassword.newPasswordR ? (
+                      <VisibilityOff />
+                    ) : (
+                      <Visibility />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-        </Grid>
 
-        {/*  */}
+          <Divider sx={{ my: 4 }} />
 
-        <Grid item container xs={12}>
-          <Button
-            disabled={!isValid || info.oldPassword == ""}
-            type="submit"
-            fullWidth
-            size="large"
-            sx={{ mt: 4 }}
-            variant="contained"
-          >
-            اعمال تغییرات
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Grid item md={3}></Grid>
-    </Grid>
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              disabled={!isFormValid}
+              sx={{
+                borderRadius: 2,
+                px: 4,
+                py: 1.5,
+                fontSize: "1rem",
+              }}
+            >
+              تغییر رمز عبور
+            </Button>
+          </Box>
+        </Box>
+      </CardContent>
+    </ProfileContainer>
   );
 }
