@@ -68,8 +68,8 @@ function ShopSwiperCards({ item }) {
   return (
     <Card
       sx={{
-        width: 350,
-        height: 580, // Adjust height when quantity selector is active
+        width: 300,
+       // Adjust height when quantity selector is active
         display: "flex",
         flexDirection: "column",
         borderRadius: 3,
@@ -165,7 +165,7 @@ function ShopSwiperCards({ item }) {
             fontWeight: 700,
             color: "text.primary",
             textAlign: "center",
-            minHeight: 48,
+            minHeight: 70,
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
@@ -261,7 +261,7 @@ function ShopSwiperCards({ item }) {
           }}
         >
           <Box>
-            <Typography variant="h5" color="primary" fontWeight={700}>
+            <Typography variant="body1" color="primary" fontWeight={700}>
               {persianNumber(calculatePrice())} ریال
             </Typography>
             {selectedVariant.variant_discount > 0 && (
@@ -298,7 +298,9 @@ function ShopSwiperCards({ item }) {
           <Button
             fullWidth
             variant="contained"
-            startIcon={<ShoppingCart />}
+            startIcon={<ShoppingCart sx={{
+              ml : 2
+            }} />}
             onClick={handleAddToCartClick}
             disabled={selectedVariant.variant_quantity <= 0}
             sx={{

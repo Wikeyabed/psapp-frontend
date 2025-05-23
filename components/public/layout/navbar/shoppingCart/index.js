@@ -37,53 +37,7 @@ function MiniShoppingCart() {
     setOpen(false);
   };
 
-  const findFromReduxStore = (store, session) => {
-    let newStore = [...store];
 
-    const sortedStore = newStore.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
-      if (lowerID < higherID) {
-        return -1;
-      }
-      if (lowerID > higherID) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
-
-    const sortedSession = session.sort((a, b) => {
-      const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-      const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
-      if (lowerID < higherID) {
-        return -1;
-      }
-      if (lowerID > higherID) {
-        return 1;
-      }
-
-      return 0;
-    });
-
-    return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
-      (product, i) => {
-        console.log("product 23123", product.product_name);
-
-        const cartProducts = {
-          ...product,
-          ...{
-            cart_quantity: session[i].quantity,
-            product_name: product.product_name,
-          },
-        };
-
-        console.log("innn", cartProducts);
-        return cartProducts;
-      }
-    );
-  };
   const fetchProducts = () => {
     if (!allProducts.length > 0) {
       var myHeaders = new Headers();
@@ -145,6 +99,7 @@ function MiniShoppingCart() {
         open={open}
         TransitionComponent={Transition}
         maxWidth="md"
+  
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
@@ -152,6 +107,7 @@ function MiniShoppingCart() {
           style: {
             borderRadius: "10px",
             p: "0 !important",
+            width : "100%",
           },
         }}
       >

@@ -23,7 +23,7 @@ function Shop() {
         <Grid
           item
           sx={{
-            width: { xs: "100% !important ", md: "1200px !important" },
+            width: { xs: "100% !important ", md: "1024px !important" },
           }}
         >
           {/* Display banners */}

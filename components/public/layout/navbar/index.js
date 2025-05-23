@@ -220,7 +220,7 @@ export default function Navbar() {
             <ToolbarIcons />
           </Toolbar>
         </AppBar>
-        <Box
+        {/* <Box
           component={Link}
           href="/shop/categories?category=بازار+عمده+فروشی"
           sx={{
@@ -230,9 +230,12 @@ export default function Navbar() {
             top: "115px",
           }}
         >
-          {/* <img src={MoharamPng.src} width="130px" /> */}
-          <img src="/images/b-desktop.png" width="130px" />
+          <img src={MoharamPng.src} width="130px" /> 
+         <img src="/images/b-desktop.png" width="130px" />
         </Box>
+         */}
+
+
       </Box>
     </>
   );

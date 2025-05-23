@@ -278,7 +278,7 @@ function ShoppingCart() {
                         sx={{
                           ml: 2,
                         }}
-s                      />
+                      />
                     }
                     sx={{ py: 1.5 }}
                   >
@@ -305,13 +305,26 @@ s                      />
                 )}
 
                 <Typography
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    transition: "0.3s ease all",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                    },
+                  }}
+                  component={Link}
+                  href={"/roles"}
                   variant="caption"
                   color="text.secondary"
                   mt={2}
                   display="block"
                   textAlign="center"
                 >
-                  با کلیک بر روی دکمه پرداخت، قوانین و شرایط را پذیرفته‌اید
+                  با کلیک بر روی دکمه پرداخت، <span style={{
+                    color : "red"
+                  }}>قوانین و مقررات</span> را
+                  پذیرفته‌اید
                 </Typography>
               </SummaryCard>
 
@@ -326,11 +339,11 @@ s                      />
               >
                 <Typography
                   variant="body2"
-                  color="warning.dark"
+                  color="primary.main"
                   sx={{ display: "flex", alignItems: "center" }}
                 >
                   <CheckCircle fontSize="small" sx={{ ml: 1 }} />
-                  کالاهای موجود در سبد شما تنها به مدت ۲۴ ساعت رزرو شده‌اند
+                  کالاهای موجود در سبد شما تنها به مدت 72 ساعت رزرو شده‌اند
                 </Typography>
               </Box>
             </Grid>
