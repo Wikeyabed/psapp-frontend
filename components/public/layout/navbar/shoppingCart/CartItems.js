@@ -1,130 +1,184 @@
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Chip,
+  IconButton,
+  Stack,
+  Divider,
+  Badge,
+  Tooltip,
+} from "@mui/material";
 import { persianNumber } from "../../../../../src/PersianDigits";
-import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import DeleteFromCart from "./DeleteFromCart";
+import {
+  Delete,
+  Add,
+  Remove,
+  LocalOffer,
+  Inventory,
+} from "@mui/icons-material";
+import styled from "@emotion/styled";
+
+const CartItemCard = styled(Card)(({ theme }) => ({
+  display: "flex",
+  borderRadius: 12,
+  marginBottom: theme.spacing(2),
+  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: "0 6px 16px rgba(0,0,0,0.12)",
+    transform: "translateY(-2px)",
+  },
+  border: `1px solid ${theme.palette.divider}`,
+  position: "relative", // Added for delete button positioning
+}));
+
+
+
+const ProductImage = styled(CardMedia)(({ theme }) => ({
+  width: 120,
+  height: 120,
+  objectFit: "contain",
+  padding: theme.spacing(1),
+  borderRadius: 16,
+  backgroundColor: theme.palette.background.default,
+}));
+
+const DiscountBadge = styled(Chip)(({ theme }) => ({
+  position: "absolute",
+  top: 8,
+  left: 8,
+  backgroundColor: theme.palette.success.main,
+  color: theme.palette.success.contrastText,
+  fontWeight: 700,
+  fontSize: "0.75rem",
+}));
+
+const QuantityControl = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: theme.palette.action.selected,
+  borderRadius: 8,
+  padding: theme.spacing(0.5),
+}));
 
 export default function CartItems() {
   const cartItems = useSelector((state) => state.product.shoppingCart);
 
-  let totalPrice = 0;
   return (
-    <Box
-      sx={{
-        minWidth: { xs: "100%", md: "700px" },
-
-        overflow: "hidden",
-      }}
-    >
+    <Box sx={{ width: "100%" }}>
       {cartItems.map((product, i) => {
         const discountedPrice = product.price * (1 - product.discount * 0.01);
-
-        totalPrice += discountedPrice * product.quantity;
+        const totalItemPrice = discountedPrice * product.quantity;
 
         return (
-          <Box key={i}>
-            <Card
-              sx={{
-                display: "flex",
-                position: "relative",
-                borderRadius: 0,
-                borderBottom: "1px solid #ccc",
-              }}
-            >
-              <CardMedia
+          <CartItemCard key={i}>
+            {/* Delete Button - Now Always Visible */}
+
+            <Box position="relative">
+              <ProductImage
                 component="img"
-                sx={{
-                  width: 100,
-                  position: "absolute",
-                  left: 0,
-                  bottom: 0,
-                }}
                 image={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url}`}
                 alt={product.product_name}
               />
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <CardContent>
-                  <Typography
-                    sx={{
-                      mb: 1,
-                    }}
-                    component="div"
-                    variant="body2"
-                  >
-                    {product.product_name}
+              {product.discount > 0 && (
+                <DiscountBadge
+                  size="small"
+                  label={`${product.discount}% تخفیف`}
+                  icon={<LocalOffer fontSize="small" />}
+                />
+              )}
+            </Box>
 
-                    {/* <Badge
-                      sx={{
-                        color: "#fff",
-                        paddingX: "40px",
-                        marginRight: "30px",
-                      }}
-                      badgeContent={`${persianNumber(
-                        (product.cart_quantity * 1) / (product.stack * 1)
-                      )} ${"بسته"} `}
-                      color="info"
-                    /> */}
-                    <DeleteFromCart product_uuid={product.variant_uuid} />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                flexGrow: 1,
+                padding: 2,
+              }}
+            >
+              <Typography variant="subtitle1" fontWeight={600}>
+                {product.product_name}
+
+         
+      
+
+                      <DeleteFromCart product_uuid={product.product_uuid} />
+       
+        
+              </Typography>
+
+              <Stack spacing={1} mt={1} mb={2}>
+                <Box display="flex" alignItems="center">
+                  <Inventory color="action" fontSize="small" sx={{ ml: 1 }} />
+                  <Typography variant="caption" color="text.secondary">
+                    موجودی انبار: {product.stack} عدد
                   </Typography>
+                </Box>
 
-                  <Typography variant="caption" color="#000" component="div">
-                    تعداد کل : {product.quantity} عدد
-                  </Typography>
-
-                  <Typography
-                    variant="caption"
-                    color="secondary"
-                    component="div"
-                  >
-                    <span
-                      style={{
-                        color: "#222",
-                      }}
+                <Box display="flex" justifyContent="space-between">
+                  <Typography variant="body2">
+                    قیمت واحد:
+                    {product.discount > 0 && (
+                      <Typography
+                        component="span"
+                        sx={{
+                          textDecoration: "line-through",
+                          color: "text.secondary",
+                          ml: 1,
+                        }}
+                      >
+                        {persianNumber(product.price)} ریال
+                      </Typography>
+                    )}
+                    <Typography
+                      component="span"
+                      color={
+                        product.discount > 0 ? "success.main" : "text.primary"
+                      }
+                      fontWeight={600}
+                      sx={{ ml: 1 }}
                     >
-                      {" "}
-                      مبلغ هر عدد :{" "}
-                    </span>
-                    {persianNumber(discountedPrice)} ریال
+                      {persianNumber(discountedPrice)} ریال
+                    </Typography>
                   </Typography>
+                </Box>
+              </Stack>
 
-                  <Typography
-                    variant="caption"
-                    color="secondary"
-                    component="div"
-                  >
-                    <span
-                      style={{
-                        color: "#222",
-                      }}
-                    >
-                      {" "}
-                      مبلغ کل :{" "}
-                    </span>
-                    {persianNumber(discountedPrice * product.quantity)} ریال
-                  </Typography>
-                </CardContent>
+              <Divider sx={{ my: 1 }} />
+
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <QuantityControl>
+                  <IconButton size="small" sx={{ color: "primary.main" }}>
+                    <Remove fontSize="small" />
+                  </IconButton>
+                  <Badge
+                    badgeContent={product.quantity}
+                    color="primary"
+                    sx={{ mx: 1 }}
+                  />
+                  <IconButton size="small" sx={{ color: "primary.main" }}>
+                    <Add fontSize="small" />
+                  </IconButton>
+                </QuantityControl>
+
+                <Typography variant="subtitle1" fontWeight={700}>
+                  جمع: {persianNumber(totalItemPrice)} ریال
+                </Typography>
               </Box>
-            </Card>
-          </Box>
+            </Box>
+          </CartItemCard>
         );
       })}
-
-      <Box>
-        <Typography
-          color="Highlight"
-          variant="subtitle1"
-          sx={{
-            direction: "ltr !important",
-            textAlign: "center",
-            mt: 4,
-          }}
-        >
-          مبلغ نهایی به ریال : {persianNumber(totalPrice * 1)}
-        </Typography>
-      </Box>
     </Box>
   );
 }

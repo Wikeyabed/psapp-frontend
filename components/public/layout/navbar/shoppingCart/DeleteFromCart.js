@@ -1,6 +1,6 @@
 import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../../../../redux/reducers/productSlice";
 
@@ -30,18 +30,20 @@ function DeleteFromCart({ product_uuid }) {
   };
 
   return (
-    <IconButton
-      onClick={handleDeleteFromCart}
-      sx={{
-        color: "red",
-        position: "absolute",
-        left: "0",
-        top: "0",
-      }}
-      aria-label="delete"
-    >
-      <DeleteForeverIcon />
-    </IconButton>
+    <Tooltip title="حذف از سبد خرید">
+      <IconButton
+        onClick={handleDeleteFromCart}
+        sx={{
+          color: "red",
+          position: "absolute",
+          left: "0",
+          top: "0",
+        }}
+        aria-label="delete"
+      >
+        <DeleteForeverIcon />
+      </IconButton>
+    </Tooltip>
   );
 }
 
