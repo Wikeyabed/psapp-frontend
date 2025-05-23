@@ -1,222 +1,349 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { Tooltip } from "@mui/material";
-import { persianNumber } from "../../../../src/PersianDigits";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "../../../../src/Link";
-import theme from "../../../../src/theme";
-import { useEffect, useState } from "react";
+import { persianNumber } from "../../../../src/PersianDigits";
 import Quantity from "../productPage/Quantity";
-import { useSelector } from "react-redux";
-function ShopSwiperCards({ item, variants }) {
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  Box,
+  Chip,
+  useTheme,
+  Menu,
+  MenuItem,
+  IconButton,
+  Badge,
+  Avatar,
+  Collapse,
+} from "@mui/material";
+import {
+  ShoppingCart,
+  ArrowDropDown,
+  FavoriteBorder,
+  LocalOffer,
+  Inventory,
+  Star,
+  Close,
+} from "@mui/icons-material";
+
+function ShopSwiperCards({ item }) {
   const [activeQuantity, setActiveQuantity] = useState(false);
-  const products = useSelector((state) => state.product.products);
-  const handleActiveQuantity = () => {
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const theme = useTheme();
+
+  const selectedVariant =
+    item.variants?.[selectedVariantIndex] || item.variants?.[0];
+
+  if (!selectedVariant) return null;
+
+  // Menu handlers
+  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
+  const handleVariantSelect = (index) => {
+    setSelectedVariantIndex(index);
+    setActiveQuantity(false);
+    handleMenuClose();
+  };
+
+  // Price calculation
+  const calculatePrice = () => {
+    const price = selectedVariant.variant_price;
+    const discount = selectedVariant.variant_discount || 0;
+    return Math.round(price * (1 - discount / 100));
+  };
+
+  const handleAddToCartClick = () => {
     setActiveQuantity(true);
   };
 
-  // const productVariants = allVariants.filter((variant) => {
-  //   if (variant != undefined) {
-  //     return item.info.product_id == variant.variant_product_id;
-  //   }
-  // });
-
-  useEffect(() => {
-    console.log("!!!!HELOOOO", item);
-  }, []);
+  const handleQuantityClose = () => {
+    setActiveQuantity(false);
+  };
 
   return (
     <Card
       sx={{
-        width: 300,
-        position: "relative",
-        mx: "auto",
-        // border: "1px solid ",
-        boxShadow: "0 0 5px 0.5px #593F62",
-        borderBottom: "2px solid #593F62",
-        borderRadius: 5,
-      }}
-    >
-      <Link
-        href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
-      >
-        <Image
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.info.images_url[0]}`}
-          width={0}
-          height={0}
-          loading="eager"
-          sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
-          alt={item.info.product_name}
-        />
-      </Link>
+        width: 350,
+        height: 580, // Adjust height when quantity selector is active
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 3,
+        overflow: "hidden",
+        boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
 
-      {item.variants[0].variant_discount != "0" ? (
-        <Box
-          component={"span"}
+        background: "linear-gradient(145deg, #ffffff, #f5f5f5)",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Discount Badge */}
+      {selectedVariant.variant_discount > 0 && (
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          badgeContent={
+            <Box
+              sx={{
+                bgcolor: "error.main",
+                color: "#fff",
+                width: 50,
+                height: 50,
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: 2,
+              }}
+            >
+              <Typography variant="caption" fontWeight="bold">
+                {persianNumber(selectedVariant.variant_discount)}%
+              </Typography>
+            </Box>
+          }
           sx={{
             position: "absolute",
-            top: "-62px",
-            right: "-62px",
-            backgroundColor: theme.palette.primary.success,
-            color: "#fff",
-            transform: "rotate(-45deg)",
-            borderRadius: "5px",
-            // boxShadow: "inset 0px 2px 10px 1px rgba(0,0,0,0.50)",
-            width: 120,
-            height: 120,
-            borderRadius: "50%",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "left",
-            alignItems: "center",
-            pl: 1,
+            top: 10,
+            right: 10,
+            zIndex: 1,
           }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              transform: "rotate(45deg)",
-              mr: 1,
-            }}
-            textAlign={"center"}
-          >
-            {persianNumber(item.variants[0].variant_discount)}% -
-          </Typography>
-        </Box>
-      ) : (
-        ""
+        />
       )}
 
-      <CardContent
+      {/* Product Image */}
+      <Box
         sx={{
-          borderTop: "2px dotted #ccc",
-          background: "linear-gradient(to top, #f1f1f1,#fff)",
-          paddingBottom: 5,
+          position: "relative",
+          width: "100%",
+          height: 220,
+          overflow: "hidden",
+          bgcolor: "background.paper",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Link
-          style={{
-            textDecoration: "none",
-          }}
           href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
         >
-          <Tooltip
-            placement="top"
-            title={item.info.product_name + " " + item.variants[0].variant_name}
-          >
-            <Typography
-              sx={{
-                textDecoration: "none",
-                cursor: "pointer",
-                minHeight: 85,
-                textAlign: "center !important",
-                fontSize: "18px",
-                color: "#000",
-              }}
-              variant="h6"
-              fontWeight={"bold"}
-            >
-              {item.info.product_name + " " + item.variants[0].variant_name}
-            </Typography>
-          </Tooltip>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${item.info.images_url[0]}`}
+            fill
+            style={{
+              objectFit: "contain",
+              padding: "20px",
+              transform: isHovered ? "scale(1.05)" : "scale(1)",
+              transition: "transform 0.5s ease",
+            }}
+            alt={item.info.product_name}
+            priority
+          />
         </Link>
+      </Box>
 
-        <Typography
-          sx={{
-            mt: 1,
-          }}
-          variant="body2"
-          color="text.secondary"
-        >
-          کد محصول: {item.info.product_id}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          تعداد در هر بسته : {item.variants[0].variant_stack}
-        </Typography>
-
-        <Typography
-          sx={{
-            textAlign: "center",
-            mt: 1,
-            height: 30,
-          }}
-          variant="h6"
-          color="lightPrimary.main"
-        >
-          {item.variants[0].variant_discount > 0 ? (
-            <>
-              <span
-                style={{
-                  textDecoration: "line-through",
-                  textDecorationColor: "red",
-                  color: "#444",
-                }}
-              >
-                {persianNumber(Math.round(item.variants[0].variant_price))} ریال
-              </span>
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {persianNumber(
-            Math.round(
-              item.variants[0].variant_price *
-                (1 - item.variants[0].variant_discount * 0.01)
-            )
-          )}{" "}
-          ریال
-        </Typography>
-      </CardContent>
-      {/* <Divider
+      <CardContent
         sx={{
-          backgroundColor: "#ccc",
-        }}
-      /> */}
-      <CardActions
-        sx={{
-          padding: 2,
-          background: "linear-gradient(to bottom, #fff, #fff,#ccc)",
+          flexGrow: 1,
+          p: 2.5,
           display: "flex",
-          justifyContent: "space-between",
+          flexDirection: "column",
         }}
       >
-        {activeQuantity ? (
-          <>
+        {/* Product Name */}
+        <Typography
+          component={Link}
+          href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
+       
+          variant="h6"
+          sx={{
+            textDecoration : "none",
+            mb: 1.5,
+            fontWeight: 700,
+            color: "text.primary",
+            textAlign: "center",
+            minHeight: 48,
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {item.info.product_name}
+        </Typography>
+
+        {/* Variant Selection */}
+        <Box
+          sx={{
+            mb: 2,
+            position: "relative",
+            bgcolor: "rgba(0,0,0,0.03)",
+            borderRadius: 1,
+            p: 1,
+          }}
+        >
+          <Button
+            fullWidth
+            onClick={handleMenuOpen}
+            endIcon={<ArrowDropDown />}
+            sx={{
+              justifyContent: "space-between",
+              color: "text.primary",
+              textTransform: "none",
+              fontWeight: 500,
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                overflow: "hidden",
+              }}
+            >
+              <Inventory
+                fontSize="small"
+                sx={{ ml: 2, color: "primary.main" }}
+              />
+              <Typography noWrap>{selectedVariant.variant_name}</Typography>
+            </Box>
+          </Button>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+          >
+            {item.variants.map((variant, index) => (
+              <MenuItem
+                key={variant.variant_uuid}
+                onClick={() => handleVariantSelect(index)}
+                selected={index === selectedVariantIndex}
+                sx={{
+                  "&.Mui-selected": {
+                    bgcolor: "primary.light",
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Inventory
+                      fontSize="small"
+                      sx={{ ml: 2, color: "primary.main" }}
+                    />
+                    <Typography>{variant.variant_name}</Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {persianNumber(variant.variant_price)} ریال
+                  </Typography>
+                </Box>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+
+        {/* Price & Details */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 1.5,
+          }}
+        >
+          <Box>
+            <Typography variant="h5" color="primary" fontWeight={700}>
+              {persianNumber(calculatePrice())} ریال
+            </Typography>
+            {selectedVariant.variant_discount > 0 && (
+              <Typography
+                variant="body2"
+                sx={{
+                  textDecoration: "line-through",
+                  color: "text.disabled",
+                }}
+              >
+                {persianNumber(selectedVariant.variant_price)} ریال
+              </Typography>
+            )}
+          </Box>
+
+          <Chip
+            icon={<LocalOffer fontSize="small" />}
+            label={`${persianNumber(
+              selectedVariant.variant_stack
+            )} عدد در بسته`}
+            size="small"
+            variant="outlined"
+            sx={{
+              borderColor: "divider",
+              color: "text.secondary",
+            }}
+          />
+        </Box>
+      </CardContent>
+
+      {/* Add to Cart Button */}
+      <CardActions sx={{ p: 2.5, pt: 0 }}>
+        {!activeQuantity ? (
+          <Button
+            fullWidth
+            variant="contained"
+            startIcon={<ShoppingCart />}
+            onClick={handleAddToCartClick}
+            disabled={selectedVariant.variant_quantity <= 0}
+            sx={{
+              height: 45,
+              borderRadius: 2,
+              fontWeight: 700,
+              fontSize: "1rem",
+              boxShadow: "none",
+              "&:hover": {
+                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+                bgcolor: "primary.dark",
+              },
+            }}
+          >
+            {selectedVariant.variant_quantity > 0
+              ? "افزودن به سبد خرید"
+              : "موجود نیست"}
+          </Button>
+        ) : (
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                mb: 1,
+              }}
+            >
+              <IconButton onClick={handleQuantityClose} size="small">
+                <Close fontSize="small" />
+              </IconButton>
+            </Box>
             <Quantity
               productId={item.info.product_id}
               product_name={item.info.product_name}
-              variant_name={item.variants[0].variant_name}
-              stack={item.variants[0].variant_stack}
+              variant_name={selectedVariant.variant_name}
+              stack={selectedVariant.variant_stack}
               images_url={item.info.images_url}
-              quantity={item.variants[0].variant_quantity}
-              discount={item.variants[0].variant_discount}
-              price={item.variants[0].variant_price}
+              quantity={selectedVariant.variant_quantity}
+              discount={selectedVariant.variant_discount}
+              price={selectedVariant.variant_price}
               showDetails={false}
-              product_uuid={item.variants[0].variant_uuid}
+              product_uuid={selectedVariant.variant_uuid}
+              onClose={handleQuantityClose}
             />
-          </>
-        ) : (
-          <Button
-            disabled={item.variants[0].variant_quantity < 1}
-            fullWidth
-            sx={{
-              color: "#fff",
-              padding: "13px",
-              borderRadius: "25px",
-            }}
-            onClick={handleActiveQuantity}
-            variant="contained"
-            color="primary"
-            size="medium"
-          >
-            {item.variants[0].variant_quantity > 0 ? "خرید" : "ناموجود"}
-          </Button>
+          </Box>
         )}
       </CardActions>
     </Card>

@@ -6,36 +6,31 @@ import {
 import { useEffect } from "react";
 import Head from "next/head";
 import Categories from "../../../components/public/shop/categories/index.js";
-import { CleanHands } from "@mui/icons-material";
-import { uniqBy } from "lodash";
 
 export default function CategoriesPage({ products, allVariants, categories }) {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    let productsWithVariants = [];
+    // First group variants by their product_id
+    const variantsByProductId = allVariants.reduce((acc, variant) => {
+      const productId = variant.variant_product_id;
+      if (!acc[productId]) {
+        acc[productId] = [];
+      }
+      acc[productId].push(variant);
+      return acc;
+    }, {});
 
-    products.map((product) => {
-      let thisProductVariant = [];
-      allVariants.filter((variant) => {
-        if (variant.variant_product_id == product.product_id) {
-          thisProductVariant = [...thisProductVariant, variant];
+    // Then create products array with all variants included
+    const productsWithVariants = products.map((product) => ({
+      info: product,
+      variants: variantsByProductId[product.product_id] || [],
+    }));
 
-          productsWithVariants = [
-            ...productsWithVariants,
-            { info: product, variants: thisProductVariant },
-          ];
-        }
-      });
-    });
-
-    // removes duplicate
-
-    const uniqueProducts = uniqBy(productsWithVariants, "info.product_id");
-    console.log("its here 2 ", productsWithVariants);
-
-    dispatch(getProducts(uniqueProducts));
+    console.log("Processed products with variants:", productsWithVariants);
+    dispatch(getProducts(productsWithVariants));
     dispatch(setAllVariant(allVariants));
-  });
+  }, [products, allVariants, dispatch]); // Added dependencies
 
   return (
     <>
@@ -48,21 +43,41 @@ export default function CategoriesPage({ products, allVariants, categories }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
-  const products = await res.json();
+  try {
+    // Fetch all data in parallel
+    const [productsRes, variantsRes, categoriesRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`),
+    ]);
 
-  const varRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`);
-  const allVariants = await varRes.json();
+    // Check for errors
+    if (!productsRes.ok || !variantsRes.ok || !categoriesRes.ok) {
+      throw new Error("Failed to fetch data");
+    }
 
-  const catRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/`);
-  const categories = await catRes.json();
+    const [products, allVariants, categories] = await Promise.all([
+      productsRes.json(),
+      variantsRes.json(),
+      categoriesRes.json(),
+    ]);
 
-  console.log("ressssss", varRes);
-  return {
-    props: {
-      products,
-      allVariants,
-      categories,
-    },
-  };
+    return {
+      props: {
+        products,
+        allVariants,
+        categories,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      props: {
+        products: [],
+        allVariants: [],
+        categories: [],
+      },
+    };
+  }
 }
+s

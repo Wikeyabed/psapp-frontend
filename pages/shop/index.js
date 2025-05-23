@@ -3,38 +3,36 @@ import { useDispatch } from "react-redux";
 import { getProducts, setAllVariant } from "../../redux/reducers/productSlice";
 import { useEffect } from "react";
 import Head from "next/head";
-import { uniqBy } from "lodash";
 
 export default function Home({ products, allVariants }) {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    let productsWithVariants = [];
+    // First, group all variants by their product_id
+    const variantsByProductId = allVariants.reduce((acc, variant) => {
+      const productId = variant.variant_product_id;
+      if (!acc[productId]) {
+        acc[productId] = [];
+      }
+      acc[productId].push(variant);
+      return acc;
+    }, {});
 
-    products.map((product) => {
-      let thisProductVariant = [];
-      allVariants.filter((variant) => {
-        if (variant.variant_product_id == product.product_id) {
-          thisProductVariant = [...thisProductVariant, variant];
+    // Then create the final products array with all variants included
+    const productsWithVariants = products.map((product) => ({
+      info: product,
+      variants: variantsByProductId[product.product_id] || [], // All matching variants
+    }));
 
-          productsWithVariants = [
-            ...productsWithVariants,
-            { info: product, variants: thisProductVariant },
-          ];
-        }
-      });
-    });
-
-    const uniqueProducts = uniqBy(productsWithVariants, "info.product_id");
-    console.log("its here 2 ", productsWithVariants);
-
-    dispatch(getProducts(uniqueProducts));
+    console.log("Products with variants:", productsWithVariants);
+    dispatch(getProducts(productsWithVariants));
     dispatch(setAllVariant(allVariants));
-  });
+  }, [products, allVariants, dispatch]);
 
   return (
     <>
       <Head>
-        <title>ایباکس - ملزومات بسته بندی </title>
+        <title>ایباکس - ملزومات بسته بندی</title>
       </Head>
       <Shop />
     </>
@@ -42,17 +40,35 @@ export default function Home({ products, allVariants }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`);
+  try {
+    // Fetch both endpoints in parallel
+    const [productsRes, variantsRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`),
+    ]);
 
-  const varRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`);
+    if (!productsRes.ok || !variantsRes.ok) {
+      throw new Error("Failed to fetch data");
+    }
 
-  const products = await res.json();
-  const allVariants = await varRes.json();
+    const [products, allVariants] = await Promise.all([
+      productsRes.json(),
+      variantsRes.json(),
+    ]);
 
-  return {
-    props: {
-      products,
-      allVariants,
-    },
-  };
+    return {
+      props: {
+        products,
+        allVariants,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      props: {
+        products: [],
+        allVariants: [],
+      },
+    };
+  }
 }
