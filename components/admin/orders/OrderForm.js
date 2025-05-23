@@ -7,17 +7,45 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { MenuItem, Select } from "@mui/material";
+import { MenuItem, Select, Typography, Box } from "@mui/material";
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+
+const StatusSelect = styled(Select)(({ theme }) => ({
+  minWidth: 200,
+  margin: "16px 0",
+  "& .MuiSelect-select": {
+    padding: "12px 32px 12px 12px",
+  },
+}));
+
+const ProductTable = styled(Table)(({ theme }) => ({
+  "& .MuiTableCell-root": {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+}));
+
+const ProductTableCell = styled(TableCell)(({ theme }) => ({
+  fontWeight: 600,
+  color: theme.palette.text.secondary,
+}));
+
+const ProductTableRow = styled(TableRow)(({ theme }) => ({
+  "&:last-child td": {
+    borderBottom: "none",
+  },
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+}));
 
 const containerStyles = css`
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 90%;
+  margin: 2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   @media (min-width: 700px) {
-    max-width: 70%;
+    max-width: 85%;
   }
 `;
 
@@ -38,56 +66,74 @@ const OrderForm = ({ order }) => {
   }, []);
 
   return (
-    <>
+    <Box sx={{ maxWidth: 1200, mx: "auto" }}>
       <FormTile title={`فاکتور شماره ${order.id}`} />
-      <div css={{ textAlign: "center" }}>
-        <Select
+
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <StatusSelect
           value={status}
           label="وضعیت"
-          placeholder="وضعیت"
           onChange={(e) => setStatus(e.target.value)}
         >
           <MenuItem value={"unpaid"}>پرداخت نشده</MenuItem>
           <MenuItem value={"paid"}>پرداخت شده</MenuItem>
           <MenuItem value={"pending"}>در انتظار تایید</MenuItem>
           <MenuItem value={"cancelled"}>لغو شده</MenuItem>
-        </Select>
-      </div>
+        </StatusSelect>
+      </Box>
+
       <TableContainer component={Paper} css={containerStyles}>
-        <Table css={{ minWidth: 650 }} aria-label="جدول محصولات">
+        <ProductTable>
           <TableHead>
             <TableRow>
-              <TableCell align="right" css={{ fontWeight: "bold" }}>
-                نام محصول
-              </TableCell>
-              <TableCell align="right" css={{ fontWeight: "bold" }}>
-                تعداد
-              </TableCell>
-              <TableCell align="right" css={{ fontWeight: "bold" }}>
-                قیمت هر محصول
-              </TableCell>
-              <TableCell align="right" css={{ fontWeight: "bold" }}>
-                قیمت کل
-              </TableCell>
+              <ProductTableCell align="right">نام محصول</ProductTableCell>
+              <ProductTableCell align="right">تعداد</ProductTableCell>
+              <ProductTableCell align="right">قیمت هر محصول</ProductTableCell>
+              <ProductTableCell align="right">قیمت کل</ProductTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell align="right" component="th" scope="row">
+              <ProductTableRow key={product.id} hover>
+                <TableCell align="right">
                   {product.title.slice(0, 10)}
                 </TableCell>
                 <TableCell align="right">{product.id}</TableCell>
-                <TableCell align="right">{product.userId}</TableCell>
                 <TableCell align="right">
-                  {product.id * product.userId * 1000}
+                  {new Intl.NumberFormat("fa-IR").format(product.userId * 1000)}{" "}
+                  ریال
                 </TableCell>
-              </TableRow>
+                <TableCell align="right">
+                  {new Intl.NumberFormat("fa-IR").format(
+                    product.id * product.userId * 1000
+                  )}{" "}
+                  ریال
+                </TableCell>
+              </ProductTableRow>
             ))}
+            <ProductTableRow>
+              <TableCell colSpan={3} align="left">
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                  جمع کل:
+                </Typography>
+              </TableCell>
+              <TableCell align="right">
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                  {new Intl.NumberFormat("fa-IR").format(
+                    products.reduce(
+                      (sum, product) =>
+                        sum + product.id * product.userId * 1000,
+                      0
+                    )
+                  )}{" "}
+                  ریال
+                </Typography>
+              </TableCell>
+            </ProductTableRow>
           </TableBody>
-        </Table>
+        </ProductTable>
       </TableContainer>
-    </>
+    </Box>
   );
 };
 

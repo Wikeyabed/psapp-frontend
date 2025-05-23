@@ -45,6 +45,7 @@ function Quantity({
       >
         {/* <Grid xs={12} md={6}> */}
         <AddToCart
+          variant_stack={stack}
           product_name={product_name + "-" + variant_name}
           fullStack={stack * counter}
           price={price}

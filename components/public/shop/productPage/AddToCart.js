@@ -17,6 +17,7 @@ function AddToCart({
   fullStack,
   showDetails,
   product_uuid,
+  variant_stack,
   variant_uuid,
   instock,
   images_url,
@@ -43,53 +44,7 @@ function AddToCart({
     }, 500);
   };
 
-  // const findFromReduxStore = (store, session) => {
-  //   let newStore = [...store];
 
-  //   const sortedStore = newStore.sort((a, b) => {
-  //     const lowerID = a.info.product_uuid.toUpperCase(); // ignore upper and lowercase
-  //     const higherID = b.info.product_uuid.toUpperCase(); // ignore upper and lowercase
-  //     if (lowerID < higherID) {
-  //       return -1;
-  //     }
-  //     if (lowerID > higherID) {
-  //       return 1;
-  //     }
-
-  //     // names must be equal
-  //     return 0;
-  //   });
-
-  //   const sortedSession = session.sort((a, b) => {
-  //     const lowerID = a.product_uuid.toUpperCase(); // ignore upper and lowercase
-  //     const higherID = b.product_uuid.toUpperCase(); // ignore upper and lowercase
-  //     if (lowerID < higherID) {
-  //       return -1;
-  //     }
-  //     if (lowerID > higherID) {
-  //       return 1;
-  //     }
-
-  //     return 0;
-  //   });
-
-  //   return intersectionBy(sortedStore, sortedSession, "product_uuid").map(
-  //     (product, i) => {
-  //       console.log("product 23123", product.product_name);
-
-  //       const cartProducts = {
-  //         ...product,
-  //         ...{
-  //           cart_quantity: session[i].quantity,
-  //           product_name: product.product_name,
-  //         },
-  //       };
-
-  //       console.log("innn", cartProducts);
-  //       return cartProducts;
-  //     }
-  //   );
-  // };
 
   const handleAddToCart = async () => {
     console.log("adding to cart", product_uuid, fullStack);
@@ -100,6 +55,7 @@ function AddToCart({
 
     let urlencoded = new URLSearchParams();
     urlencoded.append(`product_uuid`, `${product_uuid}`);
+    urlencoded.append(`variant_stack`, `${variant_stack}`);
     urlencoded.append(`product_name`, `${product_name}`);
     urlencoded.append(`price`, `${price * 1}`);
     urlencoded.append(`discount`, `${discount * 1}`);
@@ -107,6 +63,7 @@ function AddToCart({
     urlencoded.append(`images_url`, `${images_url[0]}`);
     urlencoded.append(`product_id`, `${productId}`);
     urlencoded.append(`cart_quantity`, `${fullStack * 1}`);
+
     let requestOptions = {
       method: "POST",
       headers: myHeaders,
