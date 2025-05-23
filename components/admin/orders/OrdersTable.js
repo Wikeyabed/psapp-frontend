@@ -16,53 +16,128 @@ import {
   Button,
   MenuItem,
   Backdrop,
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  InputAdornment,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
-import PhoneForwardedTwoToneIcon from "@mui/icons-material/PhoneForwardedTwoTone";
+import {
+  PhoneForwardedTwoToneIcon,
+  Print,
+  LocalShipping,
+  Receipt,
+  Search,
+  ExpandMore,
+  PhoneAndroid,
+} from "@mui/icons-material";
 import OrderStatus from "./OrderStatus";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
 import { persianNumber } from "../../../src/PersianDigits";
 
 const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
-  backgroundColor: theme.palette.lightPrimary.main,
-  borderRadius: "10px",
-  color: theme.palette.primary.lightBg,
-}));
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  fontWeight: "bold",
-  color: theme.palette.primary.lightBg,
-  padding: "20px",
-  textAlign: "right",
-  minWidth: "120px",
-}));
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "2rem !important",
-    overflow: "unset",
+  backgroundColor: theme.palette.primary.main,
+  "& th": {
+    color: theme.palette.primary.contrastText,
+    fontWeight: 600,
+    fontSize: "0.875rem",
   },
 }));
 
-const OrdersTable = ({ orders }) => {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  padding: "12px 16px",
+  textAlign: "right",
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  "&:last-child": {
+    paddingRight: "16px",
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:hover": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  "&:last-child td": {
+    borderBottom: "none",
+  },
+}));
+
+const SearchField = styled(TextField)(({ theme }) => ({
+  width: "100%",
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "8px",
+    backgroundColor: theme.palette.background.paper,
+    "& fieldset": {
+      borderColor: theme.palette.divider,
+    },
+    "&:hover fieldset": {
+      borderColor: theme.palette.primary.main,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: theme.palette.primary.main,
+      borderWidth: "1px",
+    },
+  },
+}));
+
+const StatusBadge = styled(Box)(({ theme, status }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "4px 12px",
+  borderRadius: "16px",
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  color:
+    status === "200"
+      ? theme.palette.success.dark
+      : status === "100"
+      ? theme.palette.warning.dark
+      : theme.palette.error.dark,
+}));
+
+const DeliveryBadge = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "7px 12px",
+  borderRadius: "16px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  backgroundColor: theme.palette.primary.main,
+  color: "#fff",
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+  minWidth: "unset",
+  padding: "6px 12px",
+  borderRadius: "8px",
+  fontSize: "0.75rem",
+  fontWeight: 500,
+  textTransform: "none",
+  marginLeft: "8px",
+  "&:first-of-type": {
+    marginLeft: 0,
+  },
+}));
+
+export default  function OrdersTable  ({ orders })  {
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All");
   const [loadMore, setLoadMore] = useState(15);
-  const [page, setPage] = useState(0);
-
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showPhone, setShowPhone] = useState({
+    id: "",
+    phone: "",
+  });
 
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -71,31 +146,21 @@ const OrdersTable = ({ orders }) => {
     console.log("orders from table ", orders);
   }, [orders]);
 
-  const [showPhone, setShowPhone] = useState({
-    id: "",
-    phone: "",
-  });
-
   const handlePhoneTrigger = (id, phone) => {
     handleOpen();
     setShowPhone({ id, phone });
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handleLoadMore = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoadMore((prev) => prev + 25);
+      setLoading(false);
+    }, 500);
   };
 
-  const handleLoadMore = () => {
-    if (loadMore < orders.length) {
-      setLoadMore(loadMore + 25);
-    }
-  };
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 25));
-    setPage(0);
   };
 
   const handleCategoryChange = (event) => {
@@ -144,9 +209,13 @@ const OrdersTable = ({ orders }) => {
     : [];
 
   return (
-    <Grid item xs={12} sx={{ marginTop: "20px", padding: "20px" }}>
+    <Box sx={{ p: 3 }}>
       <Backdrop
-        sx={{ color: "#fff", zIndex: 10000 }}
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backdropFilter: "blur(4px)",
+        }}
         open={open}
         onClick={handleClose}
       >
@@ -154,131 +223,122 @@ const OrdersTable = ({ orders }) => {
           sx={{
             width: 300,
             height: 200,
-            backgroundColor: "#fff",
-            borderRadius: 10,
-            padding: 5,
+            backgroundColor: "background.paper",
+            borderRadius: 3,
+            p: 4,
             textAlign: "center",
-            paddingTop: 10,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: 3,
           }}
         >
+          <Typography variant="h6" sx={{ mb: 2, color: "text.primary" }}>
+            شماره تماس مشتری
+          </Typography>
           <Typography
+            component={Link}
+            href={`tel:+98${showPhone.phone}`}
             sx={{
-              textAlign: "center",
-              color: "#000",
-              mt: 10,
-              cursor: "pointer",
+              color: "primary.main",
+              fontSize: "1.5rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              "&:hover": {
+                textDecoration: "underline",
+              },
             }}
+          >
+            {showPhone.phone}
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{ mt: 3 }}
             component={Link}
             href={`tel:+98${showPhone.phone}`}
           >
-            برای تماس کلیک کنید :
-            <br /> {showPhone.phone}
-          </Typography>
+            تماس
+          </Button>
         </Box>
       </Backdrop>
-      <Typography
-        variant="h5"
-        sx={{ marginBottom: "10px", textAlign: "center" }}
-      >
-        فاکتور ها
+
+      <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
+        مدیریت فاکتورها
       </Typography>
-      <Grid container>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            padding: "10px",
+
+      <Box sx={{ mb: 3, display: "flex", gap: 2 }}>
+        <SearchField
+          variant="outlined"
+          placeholder="جستجو بر اساس نام یا شماره فاکتور"
+          value={searchValue}
+          onChange={handleSearch}
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search color="action" />
+              </InputAdornment>
+            ),
           }}
+        />
+
+        <Select
+          value={category}
+          onChange={handleCategoryChange}
+          size="small"
+          sx={{ minWidth: 200 }}
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}
         >
-          <RtlTextField
-            id="search-products"
-            variant="outlined"
-            onChange={handleSearch}
-            placeholder="جستجو کنید"
-            sx={{ width: "100%", margin: "auto" }}
-            size="small"
-          />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            padding: "10px",
-          }}
-        >
-          <Select
-            id="category-filter"
-            value={category}
-            onChange={handleCategoryChange}
-            sx={{ width: "100%", margin: "auto" }}
-            size="small"
-          >
-            <MenuItem value="All">تمامی فاکتور ها</MenuItem>
-            <MenuItem value="finished">فاکتور های تکمیل شده</MenuItem>
-            <MenuItem value="in-progress">فاکتور های در حال انجام</MenuItem>
-            <MenuItem value="last">فاکتور های کنسل شده</MenuItem>
-          </Select>
-        </Grid>
-      </Grid>
-      <Box
-        sx={{
-          minHeight: 1024,
-        }}
-      >
-        <TableContainer
-          component={Paper}
-          sx={{
-            borderRadius: "10px",
-          }}
-        >
+          <MenuItem value="All">همه فاکتورها</MenuItem>
+          <MenuItem value="finished">تکمیل شده</MenuItem>
+          <MenuItem value="in-progress">در حال انجام</MenuItem>
+          <MenuItem value="last">کنسل شده</MenuItem>
+        </Select>
+      </Box>
+
+      <Paper sx={{ borderRadius: 2, overflow: "hidden", boxShadow: 1 }}>
+        <TableContainer>
           <Table>
             <TableHead>
               <StyledTableHeaderRow>
                 <StyledTableCell>نام مشتری</StyledTableCell>
-
                 <StyledTableCell>شماره تماس</StyledTableCell>
-
                 <StyledTableCell>شماره فاکتور</StyledTableCell>
                 <StyledTableCell>تاریخ صدور</StyledTableCell>
-
                 <StyledTableCell>وضعیت</StyledTableCell>
-
                 <StyledTableCell>مبلغ کل</StyledTableCell>
-                <StyledTableCell>نحوه تحویل بار</StyledTableCell>
-                <StyledTableCell>چاپ بیجک/فاکتور</StyledTableCell>
+                <StyledTableCell>نحوه تحویل</StyledTableCell>
+                <StyledTableCell>عملیات</StyledTableCell>
               </StyledTableHeaderRow>
             </TableHead>
             <TableBody>
               {filteredOrders
                 .reverse()
-
-                .sort((a, b) => {
-                  return b.order_number - a.order_number;
-                })
+                .sort((a, b) => b.order_number - a.order_number)
                 .slice(0, loadMore)
                 .map((order) => (
-                  <TableRow key={order.order_id}>
-                    <TableCell style={{ textAlign: "right" }}>
-                      {/* Generating order */}
-                      <Link href={`users/${order.user_id}`}>
-                        {order.customer_name}
-                      </Link>{" "}
-                    </TableCell>
-
-                    <TableCell style={{ textAlign: "right" }}>
-                      <Box
+                  <StyledTableRow key={order.order_id} hover>
+                    <StyledTableCell>
+                      <Link
+                        href={`users/${order.user_id}`}
                         sx={{
-                          color: "#000",
-                          backgroundColor: "#3061db",
-                          display: "inline-block",
-                          paddingLeft: "12px",
-                          borderRadius: 1,
-                          paddingRight: "8px",
+                          color: "primary.main",
+                          fontWeight: 500,
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
                         }}
                       >
-                        <PhoneForwardedTwoToneIcon
+                        {order.customer_name}
+                      </Link>
+                    </StyledTableCell>
+
+                    <StyledTableCell>
+                      <Tooltip title="نمایش شماره تماس">
+                        <IconButton
                           onClick={() =>
                             handlePhoneTrigger(
                               order.order_id,
@@ -286,134 +346,149 @@ const OrdersTable = ({ orders }) => {
                             )
                           }
                           sx={{
-                            marginTop: "4px",
-                            color: "#fff",
-                            cursor: "pointer",
+                            color: "primary.main",
+                            backgroundColor: "primary.light",
+                            "&:hover": {
+                              backgroundColor: "primary.main",
+                              color: "primary.contrastText",
+                            },
                           }}
-                        />
-                      </Box>
-                    </TableCell>
+                        >
+                          <PhoneAndroid fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </StyledTableCell>
 
-                    <TableCell style={{ textAlign: "right" }}>
-                      <Link href={`orders/${order.order_id}`}>
+                    <StyledTableCell>
+                      <Link
+                        href={`orders/${order.order_id}`}
+                        sx={{
+                          color: "primary.main",
+                          fontWeight: 500,
+                          textDecoration: "none",
+                          "&:hover": {
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
                         {order.order_number}
                       </Link>
-                    </TableCell>
+                    </StyledTableCell>
 
-                    <TableCell style={{ textAlign: "right" }}>
+                    <StyledTableCell>
                       <ToPersianDate timestamp={order.order_date} />
-                    </TableCell>
+                    </StyledTableCell>
 
-                    <TableCell style={{ textAlign: "right" }}>
-                      <OrderStatus order={order} />
-                    </TableCell>
+                    <StyledTableCell>
+                      <StatusBadge status={order.status}>
+                        <OrderStatus order={order} />
+                      </StatusBadge>
+                    </StyledTableCell>
 
-                    <TableCell style={{ textAlign: "right" }}>
-                      {/* {order.finished_price} */}
+                    <StyledTableCell>
                       {persianNumber(order.finished_price)} ریال
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        textAlign: "right",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          border: "2px solid blue",
-                          textAlign: "center",
-                          padding: 1,
-                          borderRadius: "25px",
-                          boxShadow: "inset 0px 0px 15px 2px cyan",
-                        }}
-                        variant="body2"
-                      >
-                        {" "}
+                    </StyledTableCell>
+
+                    <StyledTableCell>
+                      <DeliveryBadge>
                         {order.delivery_type == "in-person"
                           ? "حضوری"
                           : order.delivery_type == "snap"
-                          ? "از طریق اسنپ"
+                          ? "اسنپ"
                           : order.delivery_type == "shipping"
-                          ? "از طریق باربری"
+                          ? "باربری"
                           : order.delivery_type == "posting"
-                          ? "از طریق پست"
+                          ? "پست"
                           : ""}
-                      </Typography>
-                    </TableCell>
-                    <TableCell style={{ textAlign: "right" }}>
-                      <Button
-                        component={Link}
-                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/bijack/${order.order_id}`}
-                        target="_blank"
-                        size="small"
-                        sx={{
-                          ml: 1,
-                          borderRadius: "20px",
-                          width: "45%",
-                        }}
-                        variant="outlined"
-                      >
-                        بیجک
-                      </Button>
+                      </DeliveryBadge>
+                    </StyledTableCell>
 
-                      <Button
-                        component={Link}
-                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/shipping/${order.order_id}`}
-                        target="_blank"
-                        size="small"
-                        sx={{
-                          ml: 1,
-                          borderRadius: "20px",
-                          width: "45%",
-                        }}
-                        variant="outlined"
-                      >
-                        پست
-                      </Button>
-
-                      <Button
-                        component={Link}
-                        href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/print/${order.order_id}`}
-                        target="_blank"
-                        size="small"
-                        sx={{
-                          ml: 1,
-                          borderRadius: "20px",
-                          width: "95% !important",
-                          mt: 1,
-                        }}
-                        variant="contained"
-                      >
-                        فاکتور
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                    <StyledTableCell>
+                      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                        <Tooltip title="چاپ فاکتور">
+                          <ActionButton
+                            component={Link}
+                            href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/print/${order.order_id}`}
+                            target="_blank"
+                            variant="outlined"
+                            startIcon={
+                              <Print
+                                fontSize="small"
+                                sx={{
+                                  ml: 2,
+                                }}
+                              />
+                            }
+                          >
+                            فاکتور
+                          </ActionButton>
+                        </Tooltip>
+                        <Tooltip title="چاپ بارنامه">
+                          <ActionButton
+                            component={Link}
+                            href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/shipping/${order.order_id}`}
+                            target="_blank"
+                            variant="outlined"
+                            startIcon={
+                              <LocalShipping
+                                fontSize="small"
+                                sx={{
+                                  ml: 2,
+                                }}
+                              />
+                            }
+                          >
+                            بارنامه
+                          </ActionButton>
+                        </Tooltip>
+                        <Tooltip title="چاپ بیجک">
+                          <ActionButton
+                            component={Link}
+                            href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/admin/orders/bijack/${order.order_id}`}
+                            target="_blank"
+                            variant="outlined"
+                            startIcon={
+                              <Receipt
+                                fontSize="small"
+                                sx={{
+                                  ml: 2,
+                                }}
+                              />
+                            }
+                          >
+                            بیجک
+                          </ActionButton>
+                        </Tooltip>
+                      </Box>
+                    </StyledTableCell>
+                  </StyledTableRow>
                 ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+      </Paper>
+
+      {loadMore < filteredOrders.length && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
           <Button
-            sx={{
-              mt: 5,
-              px: 15,
-              py: 2,
-              fontSize: 16,
-            }}
-            disabled={loadMore > orders.length}
-            variant="contained"
+            variant="outlined"
             onClick={handleLoadMore}
+            disabled={loading}
+            startIcon={
+              loading ? <CircularProgress size={20} /> : <ExpandMore />
+            }
+            sx={{
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+            }}
           >
-            نمایش بیشتر
+            {loading ? "در حال بارگیری..." : "نمایش بیشتر"}
           </Button>
         </Box>
-      </Box>
-    </Grid>
+      )}
+    </Box>
   );
 };
 
-export default OrdersTable;
+
