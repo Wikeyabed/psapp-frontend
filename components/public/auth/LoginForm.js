@@ -13,31 +13,32 @@ import {
 import Link from "../../../src/Link";
 import { setCookie } from "cookies-next";
 import { userLogin } from "../../../redux/reducers/authSlice";
-
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 import Image from "next/image";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
+
 const Item = styled(Grid)(({ theme }) => ({
   textAlign: "center",
-
-  borderRadius: "10px",
+  borderRadius: "16px",
+  backgroundColor: "#fff",
+  boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
+  padding: theme.spacing(3),
 }));
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   padding: 2,
-  marginBottom: 5,
+  marginBottom: theme.spacing(2),
   minWidth: "100%",
   direction: "rtl",
-  textAlign: "center !important",
+  textAlign: "center",
   "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "1.75rem !important",
-    overflow: "unset",
+    transformOrigin: "right",
+    textAlign: "right",
+    right: "1.75rem",
+    left: "unset",
   },
 }));
 
@@ -50,316 +51,195 @@ function LoginForm() {
     password: "",
     captcha: null,
   });
-
   const [isValid, setIsValid] = useState(true);
 
   const handlePhoneNumber = (event) => {
     setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
-    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
-    let result = regex.test(event.target.value);
+    const regex = /^(\+98|0)?9\d{9}$/;
+    setIsValid(regex.test(event.target.value));
+  };
 
-    if (result) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+  const handlePassword = (event) => {
+    setLoginInfo({ ...loginInfo, password: fixPersianNumber(event.target.value) });
   };
 
   const handleCaptcha = (event) => {
     setLoginInfo({ ...loginInfo, captcha: event.target.value });
-    console.log(tempCaptcha);
-  };
-
-  const handlePassword = (event) => {
-    setLoginInfo({
-      ...loginInfo,
-      password: fixPersianNumber(event.target.value),
-    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (loginInfo.captcha.toLowerCase() == tempCaptcha.toLowerCase()) {
-      let myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-      let urlencoded = new URLSearchParams();
+    if (loginInfo.captcha?.toLowerCase() === tempCaptcha?.toLowerCase()) {
+      const urlencoded = new URLSearchParams();
       urlencoded.append("phone_number", loginInfo.phoneNumber);
       urlencoded.append("password", loginInfo.password);
-      let requestOptions = {
+
+      const requestOptions = {
         method: "POST",
-        headers: myHeaders,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: urlencoded,
       };
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        requestOptions
-      ).then((res) => {
-        if (res.status == 200) {
-          res.json().then((data) => {
-            console.log(data);
 
-            // set token to local storage
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, requestOptions);
+      if (response.status === 200) {
+        const data = await response.json();
+        setCookie("x-auth-token", data.token);
 
-            setCookie("x-auth-token", data.token);
+        dispatch(userLogin({
+          firstName: data.user.first_name,
+          lastName: data.user.last_name,
+          phoneNumber: data.user.phone_number,
+          address: data.user.address,
+          email: data.user.email,
+          refer: data.user.refer,
+          r: data.user.role,
+          shoppingCartIds: data.user.shopping_list_id,
+        }));
 
-            dispatch(
-              userLogin({
-                firstName: data.user.first_name,
-                lastName: data.user.last_name,
-                phoneNumber: data.user.phone_number,
-                address: data.user.address,
-                email: data.user.email,
-                refer: data.user.refer,
-                r: data.user.role,
-                shoppingCartIds: data.user.shopping_list_id,
-              })
-            );
-            dispatch(
-              setNotificationOn({
-                message: "شما با موفقیت وارد سیستم شدید",
-                color: "info",
-              })
-            );
-          });
-        } else {
-          dispatch(
-            setNotificationOn({
-              message: "نام کاربری یا رمزعبور اشتباه است",
-              color: "error",
-            })
-          );
-
-          setLoginInfo({ ...loginInfo, password: "" });
-        }
-      });
-    } else {
-      setLoginInfo({ ...loginInfo, password: "" });
-      dispatch(
-        setNotificationOn({
-          message: "متن امنیتی وارد شده اشتباه است",
+        dispatch(setNotificationOn({
+          message: "شما با موفقیت وارد سیستم شدید",
+          color: "info",
+        }));
+      } else {
+        dispatch(setNotificationOn({
+          message: "نام کاربری یا رمز عبور اشتباه است",
           color: "error",
-        })
-      );
+        }));
+        setLoginInfo({ ...loginInfo, password: "" });
+      }
+    } else {
+      dispatch(setNotificationOn({
+        message: "متن امنیتی وارد شده اشتباه است",
+        color: "error",
+      }));
+      setLoginInfo({ ...loginInfo, password: "" });
     }
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, background: "linear-gradient(135deg, #6366f1, #06b6d4)", minHeight: "100vh", display: "flex", alignItems: "center" }}>
       <Container>
         <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <SimpleBottomNavigation />
         </Box>
         <Grid container>
-          <form onSubmit={handleSubmit}>
-            <FormGroup container>
-              <Grid
+          <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+            <FormGroup>
+              <Item
                 xs={12}
                 md={8}
                 lg={6}
-                sx={{
-                  mx: "auto",
-                  padding: 1,
-                  border: "1px solid #ccc",
-                  boxShadow: "0px 0px 10px 0px #ccc",
-                  borderRadius: 5,
-                  padding: 2,
-                  mt: 5,
-                }}
-                component={Item}
+                sx={{ mx: "auto", mt: 5 }}
                 container
               >
                 <Grid item xs={12}>
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
+                  <Box textAlign="center">
                     <Image
                       src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
-                      width={50}
-                      height={0}
-                      sizes="100vh"
-                      alt="ایباکس"
-                      style={{
-                        width: "100px",
-                        height: "auto",
-                      }}
+                      width={100}
+                      height={100}
+                      alt="logo"
+                      style={{ objectFit: "contain" }}
                     />
+                    <Typography variant="h6" sx={{ mt: 2, mb: 4, color: "#6366f1" }}>
+                      ورود به حساب کاربری
+                    </Typography>
                   </Box>
-
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h6">
-                    ورود بـه حساب کـاربـری
-                  </Typography>
-
                   <RtlTextField
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
                     value={loginInfo.phoneNumber}
-                    required
-                    fullWidth
                     onChange={handlePhoneNumber}
+                    required
                     label="شماره موبایل"
+                    type="tel"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                   />
-
-                  <Typography
-                    variant="caption"
-                    color={"error"}
-                    sx={{
-                      marginRight: 1,
-                    }}
-                  >
-                    {!isValid && loginInfo.phoneNumber.length != 11
-                      ? "لطفا شماره موبایل خود را به درستی وارد نمایید"
-                      : ""}
-                  </Typography>
+                  {!isValid && (
+                    <Typography variant="caption" color="error">
+                      لطفا شماره موبایل خود را به درستی وارد نمایید
+                    </Typography>
+                  )}
                   <RtlTextField
                     value={loginInfo.password}
-                    required
-                    fullWidth
                     onChange={handlePassword}
+                    required
                     label="رمز عبور"
                     type="password"
                   />
                 </Grid>
-
-                <Grid xs={12} item>
-                  {" "}
-                </Grid>
-
-                <Grid xs={12} item>
-                  <Box
-                    sx={{
-                      mx: "auto",
-                      textAlign: "center",
-                    }}
-                  >
+                <Grid item xs={12}>
+                  <Box textAlign="center">
                     <Captcha />
                   </Box>
                 </Grid>
-
                 <Grid item xs={12}>
                   <RtlTextField
-                    textAlign={"center"}
                     value={loginInfo.captcha}
-                    size="medium"
+                    onChange={handleCaptcha}
                     required
                     label="متن تصویر"
-                    color="info"
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
-                    inputProps={{
-                      maxLength: 4,
-                    }}
-                    // fullWidth
-                    onChange={handleCaptcha}
-                    variant="outlined"
+                    type="text"
                   />
                 </Grid>
-
-                <Grid sx={{ mt: 2 }} xs={12} item>
+                <Grid item xs={12} sx={{ mt: 2 }}>
                   <Button
                     disabled={!isValid}
-                    sx={{ p: 1, borderRadius: 10 }}
                     fullWidth
                     type="submit"
                     variant="contained"
+                    sx={{ p: 1.5, borderRadius: 10, background: "linear-gradient(135deg, #6366f1, #06b6d4)" }}
                   >
                     ورود
                   </Button>
                 </Grid>
-
-                <Grid container>
-                  <Grid
-                    sx={{
-                      pl: 1,
-                      textDecoration: "none",
-                    }}
-                    href="/"
-                    component={Link}
-                    item
-                    xs={6}
-                  >
+                <Grid container spacing={1} sx={{ mt: 2 }}>
+                  <Grid item xs={6} component={Link} href="/">
                     <Box
                       sx={{
-                        cursor: "pointer",
-                        fontSize: 14,
                         textAlign: "center",
-                        mt: 2,
+                        fontSize: 14,
                         borderRadius: 5,
                         color: "#ec9d50",
                         border: "2px solid #ec9d50",
-
-                        px: 1,
                         py: 1,
+                        cursor: "pointer",
                       }}
                     >
                       بازگشت به فروشگاه
                     </Box>
                   </Grid>
-
-                  <Grid
-                    sx={{
-                      pr: 1,
-                      textDecoration: "none",
-                    }}
-                    href="/auth/reset"
-                    component={Link}
-                    item
-                    xs={6}
-                  >
+                  <Grid item xs={6} component={Link} href="/auth/reset">
                     <Box
                       sx={{
-                        cursor: "pointer",
-                        fontSize: 14,
                         textAlign: "center",
-                        mt: 2,
+                        fontSize: 14,
                         borderRadius: 5,
                         color: "#ec9d50",
                         border: "2px solid #ec9d50",
-
-                        px: 1,
                         py: 1,
+                        cursor: "pointer",
                       }}
                     >
                       رمز عبور جدید
                     </Box>
                   </Grid>
+                  <Grid item xs={12} component={Link} href="/auth/register">
+                    <Box
+                      sx={{
+                        textAlign: "center",
+                        fontSize: 14,
+                        mt: 2,
+                        borderRadius: 10,
+                        color: "#75502f",
+                        border: "2px solid #75502f",
+                        py: 2,
+                        cursor: "pointer",
+                      }}
+                    >
+                      حساب کاربری ندارید؟ ثبت‌نام کنید
+                    </Box>
+                  </Grid>
                 </Grid>
-
-                <Grid
-                  href="/auth/register"
-                  sx={{
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 2,
-                    textDecoration: "none",
-                    color: "primary",
-                    border: "2px solid #75502f",
-                    borderRadius: 10,
-                    px: 1,
-                    py: 2,
-                    mb: 2,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  حساب کاربری ندارید ؟ ثبت نام کنید
-                </Grid>
-              </Grid>
+              </Item>
             </FormGroup>
           </form>
         </Grid>

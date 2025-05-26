@@ -1,8 +1,27 @@
 import React from "react";
 import AdminLayout from "../layout";
 import ToPersianDate from "../../../src/TimestampToPersian";
-import { Grid, Box, Typography, Paper } from "@mui/material";
-import { CheckCircleRounded } from "@mui/icons-material";
+import {
+  Grid,
+  Box,
+  Typography,
+  Paper,
+  Chip,
+  Avatar,
+  CircularProgress,
+  Divider,
+  Button,
+  Collapse,
+} from "@mui/material";
+import {
+  CheckCircleRounded,
+  Comment,
+  Reply,
+  Article,
+  ShoppingBag,
+  ExpandMore,
+  ExpandLess,
+} from "@mui/icons-material";
 import ConfirmComment from "./ConfirmComment";
 import DeleteComment from "./DeleteComment";
 import { useState, useEffect } from "react";
@@ -11,6 +30,8 @@ import Link from "../../../src/Link";
 
 function CommentList() {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expandedComments, setExpandedComments] = useState({});
 
   useEffect(() => {
     fetchComments();
@@ -28,185 +49,310 @@ function CommentList() {
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/comment/`, requestOptions)
       .then((response) => response.json())
-      .then((result) => setComments(result))
-      .catch((error) => console.log("error", error));
+      .then((result) => {
+        const sortedComments = result.sort(
+          (a, b) => b.comment_date - a.comment_date
+        );
+        setComments(sortedComments);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("error", error);
+        setLoading(false);
+      });
   };
 
-  console.log(comments);
+  const toggleReplies = (commentId) => {
+    setExpandedComments((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
+  };
+
+  // گروه‌بندی نظرات و پاسخ‌ها
+  const groupComments = () => {
+    const parentComments = comments.filter(
+      (comment) =>
+        comment.parent_comment_id === null ||
+        comment.parent_comment_id === "null"
+    );
+    const replies = comments.filter(
+      (comment) =>
+        comment.parent_comment_id !== null &&
+        comment.parent_comment_id !== "null"
+    );
+
+    return parentComments.map((parent) => ({
+      ...parent,
+      replies: replies.filter((reply) => reply.parent_comment_id === parent.id),
+    }));
+  };
+
+  const groupedComments = groupComments();
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "70vh",
+          }}
+        >
+          <CircularProgress sx={{ color: "#6366f1" }} />
+        </Box>
+      </AdminLayout>
+    );
+  }
+
   return (
     <AdminLayout>
-      <Box>
-        <Grid container>
-          <Grid item xs={12}>
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 2,
-              }}
-            >
-              نظرات
-            </Typography>
-            <Grid container>
-              {comments
-                .sort((a, b) => {
-                  return b.comment_date - a.comment_date;
-                })
-                .map((comment) => {
-                  return (
-                    <Grid
-                      key={comment.id}
-                      item
+      <Box sx={{ p: 2 }}>
+        <Typography
+          variant="h5"
+          sx={{
+            mb: 2,
+            fontWeight: "bold",
+            color: "#6366f1",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          <Comment sx={{ fontSize: "1.8rem" }} />
+          مدیریت نظرات
+        </Typography>
+
+        <Grid container spacing={2}>
+          {groupedComments.map((parent) => (
+            <Grid item xs={12} key={parent.id}>
+              <Paper
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  boxShadow: "0 2px 10px rgba(99, 102, 241, 0.1)",
+                  border: `1px solid ${
+                    parent.is_active === "true" ? "#06b6d4" : "#e5e7eb"
+                  }`,
+                }}
+              >
+                {/* نظر اصلی */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    mb: 1.5,
+                    gap: 1.5,
+                  }}
+                >
+                  <Avatar
+                    sx={{
+                      bgcolor: "#6366f1",
+                      color: "white",
+                      width: 36,
+                      height: 36,
+                    }}
+                  >
+                    <Comment />
+                  </Avatar>
+
+                  <Box sx={{ flex: 1 }}>
+                    <Typography variant="subtitle2" fontWeight="bold">
+                      {parent.username}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      <ToPersianDate timestamp={parent.comment_date} />
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                    <ConfirmComment
+                      isActive={parent.is_active}
+                      id={parent.id}
+                      fetchComments={fetchComments}
+                      size="small"
+                    />
+                    <DeleteComment
+                      id={parent.id}
+                      fetchComments={fetchComments}
+                      size="small"
+                    />
+                  </Box>
+                </Box>
+
+                {/* محتوای نظر اصلی */}
+                <Box
+                  sx={{
+                    p: 1.5,
+                    mb: 1.5,
+                    bgcolor: "#f8fafc",
+                    borderRadius: 1,
+                    borderLeft: "3px solid #6366f1",
+                  }}
+                >
+                  <Typography variant="body2" sx={{ textAlign: "justify" }}>
+                    {parent.content}
+                  </Typography>
+                </Box>
+
+                {/* اطلاعات مطلب */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    p: 1,
+                    bgcolor: "#f1f5f9",
+                    borderRadius: 1,
+                    mb: 1.5,
+                  }}
+                >
+                  {parent.post_type === "product" ? (
+                    <ShoppingBag sx={{ color: "#6366f1", fontSize: "1rem" }} />
+                  ) : (
+                    <Article sx={{ color: "#6366f1", fontSize: "1rem" }} />
+                  )}
+                  <Link
+                    href={
+                      parent.post_type === "product"
+                        ? `/products/${parent.post_id}`
+                        : `/blog/${parent.post_id}`
+                    }
+                    target="_blank"
+                    style={{
+                      color: "#6366f1",
+                      fontWeight: 500,
+                      textDecoration: "none",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    مشاهده مطلب
+                  </Link>
+                </Box>
+
+                {/* پاسخ‌ها */}
+                {parent.replies.length > 0 && (
+                  <Box>
+                    <Button
+                      size="small"
+                      startIcon={
+                        expandedComments[parent.id] ? (
+                          <ExpandLess />
+                        ) : (
+                          <ExpandMore />
+                        )
+                      }
+                      onClick={() => toggleReplies(parent.id)}
                       sx={{
-                        p: 1,
+                        color: "#06b6d4",
+                        fontSize: "0.75rem",
+                        mb: 1,
                       }}
-                      xs={12}
-                      md={6}
                     >
-                      {" "}
-                      <Paper
-                        item
-                        sx={{
-                          bgcolor: "#f1f1f1",
-                          position: "relative",
-                          p: 2,
-                        }}
-                        key={comment.id}
-                      >
-                        <Typography
-                          sx={{
-                            mb: 2,
-                          }}
-                          variant="body2"
-                        >
-                          نوع کامنت:{" "}
-                          {comment.is_reply == "true" ? "پاسخ" : "کامنت جدید"}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            mb: 2,
-                          }}
-                          variant="body2"
-                        >
-                          کامنت مادر : {comment.parent_comment_id}
-                        </Typography>
+                      {expandedComments[parent.id]
+                        ? "بستن پاسخ‌ها"
+                        : `نمایش ${parent.replies.length} پاسخ`}
+                    </Button>
 
-                        <Typography variant="body2">
-                          نام کاربری : {comment.username}
-                        </Typography>
-                        <Box
-                          sx={{ display: "flex", justifyContent: "flex-start" }}
-                        >
-                          {" "}
-                          <Typography
-                            sx={{
-                              mt: 0.5,
-                            }}
-                            variant="body2"
-                          >
-                            تاریخ صدور:
-                          </Typography>
-                          <ToPersianDate timestamp={comment.comment_date} />
-                        </Box>
-                        <Box
-                          sx={{ display: "flex", justifyContent: "flex-start" }}
-                        >
-                          {" "}
-                          <Typography
-                            sx={{
-                              mt: 0.5,
-                            }}
-                            variant="body2"
-                          >
-                            تاریخ بروزرسانی:
-                          </Typography>
-                          <ToPersianDate timestamp={comment.update_date} />
-                        </Box>
-                        <Typography
-                          sx={{
-                            mb: 2,
-                          }}
-                          variant="body2"
-                        >
-                          شناسه : {comment.id}
-                        </Typography>
-                        <Box>
-                          {" "}
-                          <Typography
-                            sx={{
-                              mt: 0.5,
-                              mb: 2,
-                            }}
-                            variant="body2"
-                          >
-                            محتویات :
-                          </Typography>
+                    <Collapse in={expandedComments[parent.id]}>
+                      <Box sx={{ pl: 3, borderLeft: "2px dashed #e2e8f0" }}>
+                        {parent.replies.map((reply) => (
                           <Box
+                            key={reply.id}
                             sx={{
-                              p: 2,
-                              backgroundColor: "#fff",
-                              minHeight: 250,
-                              MaxWidth: "100%",
+                              mb: 2,
+                              p: 1.5,
+                              bgcolor: "#f9fafb",
                               borderRadius: 1,
-                              border: "1px solid #ccc",
+                              border: `1px solid ${
+                                reply.is_active === "true"
+                                  ? "#06b6d4"
+                                  : "#e5e7eb"
+                              }`,
                             }}
                           >
-                            <Typography
-                              variant="body2"
+                            {/* هدر پاسخ */}
+                            <Box
                               sx={{
-                                maxWidth: "100%",
-                                textAlign: "justify",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1.5,
+                                mb: 1,
                               }}
                             >
-                              {" "}
-                              {comment.content}
-                            </Typography>
-                          </Box>
-                          {comment.post_type == "product" ? (
-                            <Link
-                              style={{
-                                MarginTop: 2,
-                              }}
-                              target="_blank"
-                              href={`/products/${comment.post_id}`}
-                            >
-                              لینک صفحه
-                            </Link>
-                          ) : (
-                            <Link
-                              style={{
-                                MarginTop: 2,
-                              }}
-                              target="_blank"
-                              href={`/blog/${comment.post_id}`}
-                            >
-                              لینک صفحه
-                            </Link>
-                          )}
-                        </Box>
+                              <Avatar
+                                sx={{
+                                  bgcolor: "#06b6d4",
+                                  color: "white",
+                                  width: 32,
+                                  height: 32,
+                                }}
+                              >
+                                <Reply />
+                              </Avatar>
 
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: 3,
-                            left: 3,
-                          }}
-                        >
-                          <ConfirmComment
-                            isActive={comment.is_active}
-                            id={comment.id}
-                            fetchComments={fetchComments}
-                          />
-                          <DeleteComment
-                            id={comment.id}
-                            fetchComments={fetchComments}
-                          />
-                        </Box>
-                      </Paper>
-                    </Grid>
-                  );
-                })}
+                              <Box sx={{ flex: 1 }}>
+                                <Typography
+                                  variant="subtitle2"
+                                  fontWeight="bold"
+                                >
+                                  {reply.username}
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                >
+                                  <ToPersianDate
+                                    timestamp={reply.comment_date}
+                                  />
+                                </Typography>
+                              </Box>
+
+                              <Box sx={{ display: "flex", gap: 0.5 }}>
+                                <ConfirmComment
+                                  isActive={reply.is_active}
+                                  id={reply.id}
+                                  fetchComments={fetchComments}
+                                  size="small"
+                                />
+                                <DeleteComment
+                                  id={reply.id}
+                                  fetchComments={fetchComments}
+                                  size="small"
+                                />
+                              </Box>
+                            </Box>
+
+                            {/* محتوای پاسخ */}
+                            <Box
+                              sx={{
+                                p: 1,
+                                bgcolor: "white",
+                                borderRadius: 1,
+                                borderLeft: "3px solid #06b6d4",
+                              }}
+                            >
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  textAlign: "justify",
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {reply.content}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        ))}
+                      </Box>
+                    </Collapse>
+                  </Box>
+                )}
+              </Paper>
             </Grid>
-          </Grid>
+          ))}
         </Grid>
       </Box>
     </AdminLayout>

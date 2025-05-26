@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Stepper,
   Step,
@@ -18,6 +18,12 @@ import {
   Divider,
   useTheme,
   Container,
+  CircularProgress,
+  Alert,
+  Snackbar,
+  IconButton,
+  Fade,
+  FormHelperText,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import moment from "moment-jalaali";
@@ -26,6 +32,22 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import DatePicker from "react-multi-date-picker";
 import provincesData from "./provinces.json";
 import styled from "@emotion/styled";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+
+// Professional but friendly color palette
+const colors = {
+  primary: "#4361ee",
+  secondary: "#6c757d",
+  success: "#4cc9f0",
+  error: "#f72585",
+  warning: "#f8961e",
+  info: "#4895ef",
+  dark: "#212529",
+  light: "#f8f9fa",
+  background: "#ffffff",
+};
 
 const steps = [
   "روش دریافت محصول",
@@ -35,116 +57,237 @@ const steps = [
 ];
 
 const StyledStepper = styled(Stepper)(({ theme }) => ({
-  padding: theme.spacing(3, 0),
+  padding: theme.spacing(4, 0, 3),
+  backgroundColor: "transparent",
   "& .MuiStepConnector-root": {
-    top: 20,
-    left: "calc(-50% + 20px)",
-    right: "calc(50% + 20px)",
+    top: 24,
+    left: "calc(-50% + 24px)",
+    right: "calc(50% + 24px)",
   },
   "& .MuiStepConnector-line": {
-    borderColor: theme.palette.divider,
-    borderTopWidth: 2,
+    borderColor: colors.secondary,
+    borderTopWidth: 3,
+    borderTopStyle: "dotted",
+    opacity: 0.3,
+  },
+  "& .MuiStepConnector-active, & .MuiStepConnector-completed": {
+    "& .MuiStepConnector-line": {
+      borderColor: colors.primary,
+      borderTopStyle: "solid",
+      opacity: 1,
+    },
   },
 }));
 
 const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
   "& .MuiStepLabel-label": {
-    fontSize: "0.85rem",
+    fontSize: "0.9rem",
     fontWeight: 600,
-    color: theme.palette.text.secondary,
+    color: `${colors.secondary}`,
     "&.Mui-active": {
-      color: theme.palette.primary.main,
+      color: colors.primary,
       fontWeight: 700,
     },
     "&.Mui-completed": {
-      color: theme.palette.success.main,
+      color: colors.success,
     },
   },
   "& .MuiStepIcon-root": {
-    color: theme.palette.divider,
+    color: colors.background,
+    border: `2px solid ${colors.secondary}`,
+    borderRadius: "50%",
+    width: 32,
+    height: 32,
     "&.Mui-active": {
-      color: theme.palette.primary.main,
+      color: "white",
+      borderColor: colors.primary,
+      backgroundColor: colors.primary,
     },
     "&.Mui-completed": {
-      color: theme.palette.success.main,
+      color: "white",
+      borderColor: colors.success,
+      backgroundColor: colors.success,
+    },
+  },
+  "& .MuiStepIcon-text": {
+    fill: colors.dark,
+    fontWeight: 700,
+    fontSize: "0.8rem",
+    "&.Mui-active": {
+      fill: "white",
+    },
+    "&.Mui-completed": {
+      fill: "white",
     },
   },
 }));
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(3),
+const StyledTextField = styled(TextField)(({ theme, error }) => ({
+  marginBottom: theme.spacing(2),
   "& label": {
     transformOrigin: "right !important",
     right: "1.75rem !important",
-    color: theme.palette.text.secondary,
+    color: `${colors.secondary}`,
+    fontSize: "0.9rem",
   },
   "& .MuiOutlinedInput-root": {
-    borderRadius: "10px",
+    borderRadius: "12px",
+    transition: "all 0.3s ease",
     "& fieldset": {
-      borderColor: theme.palette.divider,
+      borderColor: error ? colors.error : colors.secondary,
+      borderWidth: 1.5,
+      opacity: 0.6,
     },
     "&:hover fieldset": {
-      borderColor: theme.palette.primary.light,
+      borderColor: error ? colors.error : colors.primary,
+      opacity: 1,
     },
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary.main,
-      borderWidth: "1px",
+      borderColor: error ? colors.error : colors.primary,
+      borderWidth: 2,
+      boxShadow: `0 0 0 3px ${
+        error ? colors.error + "20" : colors.primary + "20"
+      }`,
+      opacity: 1,
     },
   },
+  "& .MuiInputBase-input": {
+    fontSize: "0.95rem",
+    padding: theme.spacing(1.75, 2),
+  },
+  "& .MuiFormHelperText-root": {
+    textAlign: "right",
+    marginRight: 0,
+    marginLeft: 0,
+    fontSize: "0.8rem",
+  },
 }));
 
-const StyledSelect = styled(Select)(({ theme }) => ({
-  marginBottom: theme.spacing(3),
-  borderRadius: "10px",
+const StyledSelect = styled(Select)(({ theme, error }) => ({
+  marginBottom: theme.spacing(2),
+  borderRadius: "12px",
+  transition: "all 0.3s ease",
   "& .MuiSelect-select": {
     textAlign: "right",
+    padding: theme.spacing(1.75, 2),
+    fontSize: "0.95rem",
   },
   "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.divider,
+    borderColor: error ? colors.error : colors.secondary,
+    borderWidth: 1.5,
+    opacity: 0.6,
   },
   "&:hover .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.light,
+    borderColor: error ? colors.error : colors.primary,
+    opacity: 1,
   },
   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-    borderColor: theme.palette.primary.main,
+    borderColor: error ? colors.error : colors.primary,
+    borderWidth: 2,
+    boxShadow: `0 0 0 3px ${
+      error ? colors.error + "20" : colors.primary + "20"
+    }`,
+    opacity: 1,
   },
 }));
 
-const DeliveryOptionCard = styled(Paper)(({ theme, selected }) => ({
-  padding: theme.spacing(2.5),
+const DeliveryOptionCard = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "selected",
+})(({ theme, selected }) => ({
+  padding: theme.spacing(3),
   marginBottom: theme.spacing(2),
-  border: `1px solid ${
-    selected ? theme.palette.primary.main : theme.palette.divider
-  }`,
-  borderRadius: "12px",
+  border: `2px solid ${selected ? colors.primary : colors.secondary}`,
+  borderRadius: "16px",
   backgroundColor: selected
-    ? theme.palette.primary.light + "15"
+    ? `${colors.primary}08`
     : theme.palette.background.paper,
-  transition: "all 0.2s ease",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   cursor: "pointer",
+  opacity: selected ? 1 : 0.8,
   "&:hover": {
-    borderColor: theme.palette.primary.main,
-    boxShadow: theme.shadows[2],
+    borderColor: colors.primary,
+    boxShadow: `0 4px 12px ${colors.secondary}10`,
+    transform: "translateY(-2px)",
+    opacity: 1,
+  },
+  "& .MuiRadio-root": {
+    color: colors.secondary,
+    "&.Mui-checked": {
+      color: colors.primary,
+    },
   },
 }));
 
 const AddressBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: "12px",
-  backgroundColor: theme.palette.background.default,
+  border: `2px solid ${colors.secondary}`,
+  borderRadius: "16px",
+  backgroundColor: `${colors.light}`,
   marginBottom: theme.spacing(3),
+  transition: "all 0.3s ease",
+  opacity: 0.9,
+  "&:hover": {
+    opacity: 1,
+  },
 }));
 
 const ActionButton = styled(Button)(({ theme }) => ({
-  borderRadius: "8px",
-  padding: theme.spacing(1.5, 4),
+  borderRadius: "12px",
+  padding: theme.spacing(1.75, 4),
   fontWeight: 600,
   boxShadow: "none",
   textTransform: "none",
-  fontSize: "0.9rem",
+  fontSize: "0.95rem",
+  letterSpacing: "0.5px",
+  transition: "all 0.3s ease",
   "&:hover": {
     boxShadow: "none",
+    transform: "translateY(-1px)",
+  },
+  "&.MuiButton-contained": {
+    background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
+    "&:hover": {
+      background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
+      boxShadow: `0 4px 12px ${colors.primary}30`,
+    },
+  },
+  "&.MuiButton-outlined": {
+    borderWidth: "2px",
+    "&:hover": {
+      borderWidth: "2px",
+      backgroundColor: `${colors.light}`,
+    },
+  },
+  "&.Mui-disabled": {
+    opacity: 0.7,
+  },
+}));
+
+const SummaryItem = styled(Box)(({ theme }) => ({
+  display: "flex",
+  marginBottom: theme.spacing(1.5),
+  "& .label": {
+    fontWeight: 600,
+    minWidth: "140px",
+    color: colors.dark,
+  },
+  "& .value": {
+    color: colors.secondary,
+    flex: 1,
+  },
+}));
+
+const StepValidationMessage = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(1.5, 2),
+  borderRadius: "8px",
+  backgroundColor: `${colors.error}10`,
+  borderLeft: `4px solid ${colors.error}`,
+  marginBottom: theme.spacing(3),
+  "& svg": {
+    marginLeft: theme.spacing(1),
+    color: colors.error,
   },
 }));
 
@@ -152,24 +295,113 @@ export default function PaymentStepper() {
   const theme = useTheme();
   const userData = useSelector((state) => state.auth.userInformation);
   const [activeStep, setActiveStep] = useState(0);
-  const [deliveryMethod, setDeliveryMethod] = useState("in-person");
+  const [deliveryMethod, setDeliveryMethod] = useState("");
   const [date, setDate] = useState(moment().unix());
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [addressType, setAddressType] = useState("registered");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [stepErrors, setStepErrors] = useState({
+    0: false,
+    1: false,
+    2: false,
+  });
 
-  const handleNext = () => {
-    if (activeStep === 2) {
-      if (addressType === "new" && (!province || !city || !address)) {
-        alert("لطفا تمامی فیلدهای آدرس جدید را پر کنید");
-        return;
-      }
+  useEffect(() => {
+    if (error || success) {
+      setOpenSnackbar(true);
+      const timer = setTimeout(() => {
+        setOpenSnackbar(false);
+        setError(null);
+        setSuccess(null);
+      }, 5000);
+      return () => clearTimeout(timer);
     }
-    setActiveStep((prev) => prev + 1);
+  }, [error, success]);
+
+  const validateStep = (step) => {
+    let isValid = true;
+
+    switch (step) {
+      case 0:
+        if (!deliveryMethod) {
+          setStepErrors((prev) => ({
+            ...prev,
+            0: "لطفا روش دریافت را انتخاب کنید",
+          }));
+          isValid = false;
+        } else {
+          setStepErrors((prev) => ({ ...prev, 0: false }));
+        }
+        break;
+      case 1:
+        if (!date) {
+          setStepErrors((prev) => ({
+            ...prev,
+            1: "لطفا تاریخ دریافت را انتخاب کنید",
+          }));
+          isValid = false;
+        } else {
+          setStepErrors((prev) => ({ ...prev, 1: false }));
+        }
+        break;
+      case 2:
+        if (addressType === "new") {
+          if (!province) {
+            setStepErrors((prev) => ({
+              ...prev,
+              2: "لطفا استان را انتخاب کنید",
+            }));
+            isValid = false;
+          } else if (!city) {
+            setStepErrors((prev) => ({
+              ...prev,
+              2: "لطفا شهر را انتخاب کنید",
+            }));
+            isValid = false;
+          } else if (!address) {
+            setStepErrors((prev) => ({ ...prev, 2: "لطفا آدرس را وارد کنید" }));
+            isValid = false;
+          } else {
+            setStepErrors((prev) => ({ ...prev, 2: false }));
+          }
+        } else if (!userData.address) {
+          setStepErrors((prev) => ({
+            ...prev,
+            2: "شما آدرس ثبت شده ای ندارید",
+          }));
+          isValid = false;
+        } else {
+          setStepErrors((prev) => ({ ...prev, 2: false }));
+        }
+        break;
+      default:
+        break;
+    }
+
+    return isValid;
   };
 
-  const handleBack = () => setActiveStep((prev) => prev - 1);
+  const handleNext = () => {
+    if (!validateStep(activeStep)) return;
+
+    setLoading(true);
+
+    // Simulate API call delay
+    setTimeout(() => {
+      setActiveStep((prev) => prev + 1);
+      setSuccess("مرحله با موفقیت تکمیل شد");
+      setLoading(false);
+    }, 800);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
 
   const handleProvinceChange = (event) => {
     setProvince(event.target.value);
@@ -178,7 +410,17 @@ export default function PaymentStepper() {
 
   function handleChangeDate(value) {
     setDate(value.unix);
+    if (stepErrors[1]) setStepErrors((prev) => ({ ...prev, 1: false }));
   }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+    setError(null);
+    setSuccess(null);
+  };
 
   const deliveryMethods = [
     {
@@ -186,24 +428,28 @@ export default function PaymentStepper() {
       label: "تحویل حضوری سفارش از انبار ایباکس",
       description: "مراجعه به آدرس انبار در ساعات کاری",
       icon: "🏢",
+      color: colors.primary,
     },
     {
       value: "posting",
       label: "ارسال از طریق پست ایران",
       description: "تحویل درب منزل در 3-5 روز کاری",
       icon: "📦",
+      color: colors.info,
     },
     {
       value: "snap",
       label: "ارسال از طریق اسنپ و تپسی (تهران و کرج)",
       description: "تحویل در همان روز (فقط تهران و کرج)",
       icon: "🚗",
+      color: colors.success,
     },
     {
       value: "shipping",
       label: "ارسال از طریق باربری (سراسر ایران عزیز)",
       description: "تحویل در 2-4 روز کاری در سراسر کشور",
       icon: "🚛",
+      color: colors.warning,
     },
   ];
 
@@ -211,437 +457,535 @@ export default function PaymentStepper() {
     switch (step) {
       case 0:
         return (
-          <Box sx={{ mt: 1 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: theme.palette.text.primary,
-                mb: 4,
-                textAlign: "right",
-              }}
-            >
-              لطفا روش دریافت محصول خود را انتخاب کنید
-            </Typography>
+          <Fade in={true} timeout={500}>
+            <Box sx={{ mt: 2 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  fontWeight: 700,
+                  color: colors.dark,
+                  mb: 4,
+                  textAlign: "right",
+                }}
+              >
+                لطفا روش دریافت محصول خود را انتخاب کنید
+              </Typography>
 
-            <RadioGroup
-              value={deliveryMethod}
-              onChange={(e) => setDeliveryMethod(e.target.value)}
-            >
-              {deliveryMethods.map((method) => (
-                <DeliveryOptionCard
-                  key={method.value}
-                  selected={deliveryMethod === method.value}
-                  onClick={() => setDeliveryMethod(method.value)}
-                >
-                  <FormControlLabel
-                    value={method.value}
-                    control={<Radio color="primary" sx={{ mr: 1 }} />}
-                    label={
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
-                        }}
-                      >
-                        <Typography variant="h5" sx={{ ml: 2 }}>
-                          {method.icon}
-                        </Typography>
-                        <Box>
-                          <Typography fontWeight={600}>
-                            {method.label}
+              {stepErrors[0] && (
+                <StepValidationMessage>
+                  <ErrorOutlineIcon />
+                  <Typography variant="body2" sx={{ color: colors.error }}>
+                    {stepErrors[0]}
+                  </Typography>
+                </StepValidationMessage>
+              )}
+
+              <RadioGroup
+                value={deliveryMethod}
+                onChange={(e) => {
+                  setDeliveryMethod(e.target.value);
+                  if (stepErrors[0])
+                    setStepErrors((prev) => ({ ...prev, 0: false }));
+                }}
+              >
+                {deliveryMethods.map((method) => (
+                  <DeliveryOptionCard
+                    key={method.value}
+                    selected={deliveryMethod === method.value}
+                    onClick={() => {
+                      setDeliveryMethod(method.value);
+                      if (stepErrors[0])
+                        setStepErrors((prev) => ({ ...prev, 0: false }));
+                    }}
+                  >
+                    <FormControlLabel
+                      value={method.value}
+                      control={<Radio color="primary" sx={{ mr: 1 }} />}
+                      label={
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography
+                            variant="h4"
+                            sx={{ ml: 2, color: method.color }}
+                          >
+                            {method.icon}
                           </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            {method.description}
-                          </Typography>
+                          <Box>
+                            <Typography
+                              fontWeight={700}
+                              sx={{ color: colors.dark }}
+                            >
+                              {method.label}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              sx={{ color: colors.secondary }}
+                            >
+                              {method.description}
+                            </Typography>
+                          </Box>
                         </Box>
-                      </Box>
-                    }
-                    sx={{ width: "100%", m: 0 }}
-                  />
-                </DeliveryOptionCard>
-              ))}
-            </RadioGroup>
-          </Box>
+                      }
+                      sx={{ width: "100%", m: 0 }}
+                    />
+                  </DeliveryOptionCard>
+                ))}
+              </RadioGroup>
+            </Box>
+          </Fade>
         );
       case 1:
         return (
-          <Box sx={{ mt: 2, textAlign: "center" }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: theme.palette.error.main,
-                mb: 4,
-                textAlign: "center",
-              }}
-            >
-              توجه: ارسال سفارشات در روزهای جمعه امکان پذیر نمی باشد
-            </Typography>
-
-            <Box
-              sx={{
-                display: "inline-flex",
-                flexDirection: "column",
-                alignItems: "center",
-                border: `1px solid ${theme.palette.divider}`,
-                borderRadius: "14px",
-                p: 2,
-                backgroundColor: theme.palette.background.paper,
-                boxShadow: theme.shadows[1],
-              }}
-            >
-              <DatePicker
-                placeholder="انتخاب تاریخ تحویل"
-                mapDays={({ date }) => {
-                  let isWeekend = [6].includes(date.weekDay.index);
-                  if (isWeekend)
-                    return {
-                      disabled: true,
-                      style: { color: theme.palette.error.main },
-                    };
-                }}
-                weekStartDayIndex={7}
-                highlightToday={true}
-                style={{
-                  textAlign: "center",
-                  padding: "14px",
-                  minWidth: 260,
-                  fontSize: "1rem",
-                }}
-                minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
-                maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
-                defaultValue={Date.now()}
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-left"
-                onChange={handleChangeDate}
-                disableDay={(date) => date.weekDay.index === 6}
-              />
-              <Typography
-                variant="body2"
+          <Fade in={true} timeout={500}>
+            <Box sx={{ mt: 2, textAlign: "center" }}>
+              <Alert
+                severity="warning"
                 sx={{
-                  mt: 2,
-                  color: theme.palette.text.secondary,
-                  backgroundColor: theme.palette.action.selected,
-                  px: 2,
-                  py: 1,
-                  borderRadius: "6px",
+                  mb: 4,
+                  borderRadius: "12px",
+                  textAlign: "right",
+                  backgroundColor: `${colors.warning}08`,
+                  borderLeft: `4px solid ${colors.warning}`,
+                }}
+                icon={
+                  <ErrorOutlineIcon
+                    sx={{ color: colors.warning }}
+                    fontSize="inherit"
+                  />
+                }
+              >
+                <Typography variant="subtitle1" fontWeight={600}>
+                  توجه: ارسال سفارشات در روزهای جمعه و تعطیلات رسمی امکان پذیر
+                  نمی باشد
+                </Typography>
+              </Alert>
+
+              {stepErrors[1] && (
+                <StepValidationMessage sx={{ display: "inline-flex", mb: 4 }}>
+                  <ErrorOutlineIcon />
+                  <Typography variant="body2" sx={{ color: colors.error }}>
+                    {stepErrors[1]}
+                  </Typography>
+                </StepValidationMessage>
+              )}
+
+              <Box
+                sx={{
+                  display: "inline-flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  border: `2px solid ${
+                    stepErrors[1] ? colors.error : colors.secondary
+                  }`,
+                  borderRadius: "16px",
+                  p: 3,
+                  backgroundColor: colors.background,
+                  boxShadow: `0 4px 12px ${colors.secondary}10`,
+                  opacity: stepErrors[1] ? 1 : 0.9,
+                  "&:hover": {
+                    opacity: 1,
+                  },
                 }}
               >
-                تاریخ انتخابی شما: {moment.unix(date).format("jYYYY/jMM/jDD")}
-              </Typography>
+                <DatePicker
+                  placeholder="انتخاب تاریخ تحویل"
+                  mapDays={({ date }) => {
+                    let isWeekend = [6].includes(date.weekDay.index);
+                    if (isWeekend)
+                      return {
+                        disabled: true,
+                        style: { color: colors.error },
+                      };
+                  }}
+                  weekStartDayIndex={7}
+                  highlightToday={true}
+                  style={{
+                    textAlign: "center",
+                    padding: "16px",
+                    minWidth: 280,
+                    fontSize: "1.1rem",
+                    borderRadius: "12px",
+                    border: `2px solid ${
+                      stepErrors[1] ? colors.error : colors.secondary
+                    }`,
+                  }}
+                  minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
+                  maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
+                  defaultValue={Date.now()}
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-left"
+                  onChange={handleChangeDate}
+                  disableDay={(date) => date.weekDay.index === 6}
+                />
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mt: 3,
+                    color: colors.primary,
+                    backgroundColor: `${colors.primary}10`,
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: "8px",
+                    fontWeight: 600,
+                  }}
+                >
+                  تاریخ انتخابی شما: {moment.unix(date).format("jYYYY/jMM/jDD")}
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </Fade>
         );
       case 2:
         return (
-          <Box sx={{ mt: 1 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 600,
-                color: theme.palette.text.primary,
-                mb: 4,
-                textAlign: "right",
-              }}
-            >
-              اطلاعات آدرس تحویل
-            </Typography>
-
-            <FormControl component="fieldset" fullWidth sx={{ mb: 4 }}>
-              <FormLabel
-                component="legend"
+          <Fade in={true} timeout={500}>
+            <Box sx={{ mt: 2 }}>
+              <Typography
+                variant="h5"
                 sx={{
-                  mb: 2,
-                  color: theme.palette.text.primary,
-                  fontWeight: 500,
-                  fontSize: "0.95rem",
+                  fontWeight: 700,
+                  color: colors.dark,
+                  mb: 4,
+                  textAlign: "right",
                 }}
               >
-                نوع آدرس
-              </FormLabel>
-              <RadioGroup
-                value={addressType}
-                onChange={(e) => {
-                  setAddressType(e.target.value);
-                  if (e.target.value === "new") {
-                    setProvince("");
-                    setCity("");
-                    setAddress("");
-                  }
-                }}
-                row
-                sx={{ gap: 2 }}
-              >
-                <FormControlLabel
-                  value="registered"
-                  control={<Radio color="primary" />}
-                  label={
-                    <Typography variant="body1" fontWeight={500}>
-                      آدرس ثبت شده
-                    </Typography>
-                  }
-                  sx={{
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: "8px",
-                    backgroundColor:
-                      addressType === "registered"
-                        ? theme.palette.primary.light + "15"
-                        : "transparent",
-                    border: `1px solid ${
-                      addressType === "registered"
-                        ? theme.palette.primary.main
-                        : theme.palette.divider
-                    }`,
-                    m: 0,
-                  }}
-                />
-                <FormControlLabel
-                  value="new"
-                  control={<Radio color="primary" />}
-                  label={
-                    <Typography variant="body1" fontWeight={500}>
-                      آدرس جدید
-                    </Typography>
-                  }
-                  sx={{
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: "8px",
-                    backgroundColor:
-                      addressType === "new"
-                        ? theme.palette.primary.light + "15"
-                        : "transparent",
-                    border: `1px solid ${
-                      addressType === "new"
-                        ? theme.palette.primary.main
-                        : theme.palette.divider
-                    }`,
-                    m: 0,
-                  }}
-                />
-              </RadioGroup>
-            </FormControl>
+                اطلاعات آدرس تحویل
+              </Typography>
 
-            {addressType === "registered" ? (
-              <AddressBox>
-                <Typography
-                  variant="subtitle1"
+              {stepErrors[2] && (
+                <StepValidationMessage>
+                  <ErrorOutlineIcon />
+                  <Typography variant="body2" sx={{ color: colors.error }}>
+                    {stepErrors[2]}
+                  </Typography>
+                </StepValidationMessage>
+              )}
+
+              <FormControl component="fieldset" fullWidth sx={{ mb: 4 }}>
+                <FormLabel
+                  component="legend"
                   sx={{
+                    mb: 2,
+                    color: colors.dark,
                     fontWeight: 600,
-                    mb: 1.5,
-                    color: theme.palette.text.primary,
+                    fontSize: "1rem",
                   }}
                 >
-                  آدرس ثبت شده شما:
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: theme.palette.text.secondary,
-                    lineHeight: 1.7,
+                  نوع آدرس
+                </FormLabel>
+                <RadioGroup
+                  value={addressType}
+                  onChange={(e) => {
+                    setAddressType(e.target.value);
+                    if (e.target.value === "new") {
+                      setProvince("");
+                      setCity("");
+                      setAddress("");
+                    }
+                    if (stepErrors[2])
+                      setStepErrors((prev) => ({ ...prev, 2: false }));
                   }}
+                  row
+                  sx={{ gap: 2 }}
                 >
-                  {userData.address || "شما آدرس ثبت شده ای ندارید"}
-                </Typography>
-              </AddressBox>
-            ) : (
-              <>
-                <StyledSelect
-                  value={province}
-                  onChange={handleProvinceChange}
-                  displayEmpty
-                  inputProps={{ "aria-label": "انتخاب استان" }}
-                >
-                  <MenuItem value="" disabled>
-                    <em>استان را انتخاب کنید</em>
-                  </MenuItem>
-                  {provincesData.map((province) => (
-                    <MenuItem key={province.id} value={province.label}>
-                      {province.label}
-                    </MenuItem>
-                  ))}
-                </StyledSelect>
+                  <FormControlLabel
+                    value="registered"
+                    control={<Radio color="primary" />}
+                    label={
+                      <Typography variant="body1" fontWeight={600}>
+                        آدرس ثبت شده
+                      </Typography>
+                    }
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: "12px",
+                      backgroundColor:
+                        addressType === "registered"
+                          ? `${colors.primary}08`
+                          : "transparent",
+                      border: `2px solid ${
+                        addressType === "registered"
+                          ? colors.primary
+                          : colors.secondary
+                      }`,
+                      m: 0,
+                      flex: 1,
+                      opacity: addressType === "registered" ? 1 : 0.8,
+                      "&:hover": {
+                        opacity: 1,
+                      },
+                    }}
+                  />
+                  <FormControlLabel
+                    value="new"
+                    control={<Radio color="primary" />}
+                    label={
+                      <Typography variant="body1" fontWeight={600}>
+                        آدرس جدید
+                      </Typography>
+                    }
+                    sx={{
+                      px: 3,
+                      py: 2,
+                      borderRadius: "12px",
+                      backgroundColor:
+                        addressType === "new"
+                          ? `${colors.primary}08`
+                          : "transparent",
+                      border: `2px solid ${
+                        addressType === "new"
+                          ? colors.primary
+                          : colors.secondary
+                      }`,
+                      m: 0,
+                      flex: 1,
+                      opacity: addressType === "new" ? 1 : 0.8,
+                      "&:hover": {
+                        opacity: 1,
+                      },
+                    }}
+                  />
+                </RadioGroup>
+              </FormControl>
 
-                <StyledSelect
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  disabled={!province}
-                  displayEmpty
-                >
-                  <MenuItem value="" disabled>
-                    <em>شهر را انتخاب کنید</em>
-                  </MenuItem>
-                  {province &&
-                    provincesData
-                      .find((p) => p.label === province)
-                      ?.cities.map((city) => (
-                        <MenuItem key={city.id} value={city.label}>
-                          {city.label}
-                        </MenuItem>
-                      ))}
-                </StyledSelect>
-
-                <StyledTextField
-                  label="آدرس کامل"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  multiline
-                  rows={4}
-                  placeholder="خیابان، کوچه، پلاک، واحد، کدپستی و سایر جزئیات"
-                />
-              </>
-            )}
-          </Box>
-        );
-      case 3:
-        return (
-          <Box
-            sx={{
-              backgroundColor: theme.palette.background.default,
-              borderRadius: "14px",
-              p: 4,
-              boxShadow: theme.shadows[1],
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{
-                mb: 3,
-                color: theme.palette.primary.main,
-                fontWeight: 700,
-                textAlign: "center",
-              }}
-            >
-              خلاصه سفارش
-            </Typography>
-
-            <Box sx={{ mb: 3 }}>
-              <Box sx={{ display: "flex", mb: 1.5 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    minWidth: "120px",
-                  }}
-                >
-                  روش دریافت:
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme.palette.text.secondary }}
-                >
-                  {
-                    deliveryMethods.find((m) => m.value === deliveryMethod)
-                      ?.label
-                  }
-                </Typography>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Box sx={{ display: "flex", mb: 1.5 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    minWidth: "120px",
-                  }}
-                >
-                  تاریخ دریافت:
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme.palette.text.secondary }}
-                >
-                  {moment.unix(date).format("jYYYY/jMM/jDD")}
-                </Typography>
-              </Box>
-
-              <Divider sx={{ my: 2 }} />
-
-              <Box>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    minWidth: "120px",
-                    mb: 1.5,
-                  }}
-                >
-                  آدرس تحویل:
-                </Typography>
-                {addressType === "registered" ? (
+              {addressType === "registered" ? (
+                <AddressBox>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: 700,
+                      mb: 2,
+                      color: colors.dark,
+                    }}
+                  >
+                    آدرس ثبت شده شما:
+                  </Typography>
                   <Typography
                     variant="body1"
                     sx={{
-                      color: theme.palette.text.secondary,
-                      lineHeight: 1.7,
+                      color: colors.secondary,
+                      lineHeight: 1.8,
                     }}
                   >
-                    {userData.address}
+                    {userData.address || "شما آدرس ثبت شده ای ندارید"}
                   </Typography>
-                ) : (
-                  <Box sx={{ pl: 2 }}>
-                    <Box sx={{ display: "flex", mb: 1 }}>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: theme.palette.text.secondary,
-                          minWidth: "60px",
-                        }}
-                      >
-                        استان:
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme.palette.text.secondary }}
-                      >
-                        {province}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", mb: 1 }}>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: theme.palette.text.secondary,
-                          minWidth: "60px",
-                        }}
-                      >
-                        شهر:
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme.palette.text.secondary }}
-                      >
-                        {city}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          color: theme.palette.text.secondary,
-                          minWidth: "60px",
-                        }}
-                      >
-                        آدرس:
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{ color: theme.palette.text.secondary }}
-                      >
-                        {address}
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-              </Box>
+                </AddressBox>
+              ) : (
+                <>
+                  <FormControl fullWidth>
+                    <StyledSelect
+                      value={province}
+                      onChange={handleProvinceChange}
+                      displayEmpty
+                      inputProps={{ "aria-label": "انتخاب استان" }}
+                      error={stepErrors[2] && stepErrors[2].includes("استان")}
+                    >
+                      <MenuItem value="" disabled>
+                        <em>استان را انتخاب کنید</em>
+                      </MenuItem>
+                      {provincesData.map((province) => (
+                        <MenuItem key={province.id} value={province.label}>
+                          {province.label}
+                        </MenuItem>
+                      ))}
+                    </StyledSelect>
+                    {stepErrors[2] && stepErrors[2].includes("استان") && (
+                      <FormHelperText error>{stepErrors[2]}</FormHelperText>
+                    )}
+                  </FormControl>
+
+                  <FormControl fullWidth>
+                    <StyledSelect
+                      value={city}
+                      onChange={(e) => {
+                        setCity(e.target.value);
+                        if (stepErrors[2] && stepErrors[2].includes("شهر")) {
+                          setStepErrors((prev) => ({ ...prev, 2: false }));
+                        }
+                      }}
+                      disabled={!province}
+                      displayEmpty
+                      error={stepErrors[2] && stepErrors[2].includes("شهر")}
+                    >
+                      <MenuItem value="" disabled>
+                        <em>شهر را انتخاب کنید</em>
+                      </MenuItem>
+                      {province &&
+                        provincesData
+                          .find((p) => p.label === province)
+                          ?.cities.map((city) => (
+                            <MenuItem key={city.id} value={city.label}>
+                              {city.label}
+                            </MenuItem>
+                          ))}
+                    </StyledSelect>
+                    {stepErrors[2] && stepErrors[2].includes("شهر") && (
+                      <FormHelperText error>{stepErrors[2]}</FormHelperText>
+                    )}
+                  </FormControl>
+
+                  <StyledTextField
+                    label="آدرس کامل"
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+                      if (stepErrors[2] && stepErrors[2].includes("آدرس")) {
+                        setStepErrors((prev) => ({ ...prev, 2: false }));
+                      }
+                    }}
+                    multiline
+                    rows={4}
+                    placeholder="خیابان، کوچه، پلاک، واحد، کدپستی و سایر جزئیات"
+                    error={stepErrors[2] && stepErrors[2].includes("آدرس")}
+                    helperText={
+                      stepErrors[2] && stepErrors[2].includes("آدرس")
+                        ? stepErrors[2]
+                        : ""
+                    }
+                  />
+                </>
+              )}
             </Box>
-          </Box>
+          </Fade>
+        );
+      case 3:
+        return (
+          <Fade in={true} timeout={500}>
+            <Box
+              sx={{
+                backgroundColor: colors.light,
+                borderRadius: "16px",
+                p: 4,
+                boxShadow: `0 4px 20px ${colors.secondary}10`,
+                border: `1px solid ${colors.secondary}20`,
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  mb: 3,
+                  color: colors.primary,
+                  fontWeight: 800,
+                  textAlign: "center",
+                }}
+              >
+                خلاصه سفارش
+              </Typography>
+
+              <Box sx={{ mb: 3 }}>
+                <SummaryItem>
+                  <Typography variant="subtitle1" className="label">
+                    روش دریافت:
+                  </Typography>
+                  <Typography variant="body1" className="value">
+                    {
+                      deliveryMethods.find((m) => m.value === deliveryMethod)
+                        ?.label
+                    }
+                  </Typography>
+                </SummaryItem>
+
+                <Divider
+                  sx={{
+                    my: 2,
+                    borderColor: colors.secondary,
+                    opacity: 0.2,
+                  }}
+                />
+
+                <SummaryItem>
+                  <Typography variant="subtitle1" className="label">
+                    تاریخ دریافت:
+                  </Typography>
+                  <Typography variant="body1" className="value">
+                    {moment.unix(date).format("jYYYY/jMM/jDD")}
+                  </Typography>
+                </SummaryItem>
+
+                <Divider
+                  sx={{
+                    my: 2,
+                    borderColor: colors.secondary,
+                    opacity: 0.2,
+                  }}
+                />
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    className="label"
+                    sx={{ mb: 2 }}
+                  >
+                    آدرس تحویل:
+                  </Typography>
+                  {addressType === "registered" ? (
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: colors.secondary,
+                        lineHeight: 1.8,
+                      }}
+                    >
+                      {userData.address}
+                    </Typography>
+                  ) : (
+                    <Box sx={{ pl: 2 }}>
+                      <SummaryItem>
+                        <Typography variant="body1" className="label">
+                          استان:
+                        </Typography>
+                        <Typography variant="body1" className="value">
+                          {province}
+                        </Typography>
+                      </SummaryItem>
+                      <SummaryItem>
+                        <Typography variant="body1" className="label">
+                          شهر:
+                        </Typography>
+                        <Typography variant="body1" className="value">
+                          {city}
+                        </Typography>
+                      </SummaryItem>
+                      <SummaryItem>
+                        <Typography variant="body1" className="label">
+                          آدرس:
+                        </Typography>
+                        <Typography variant="body1" className="value">
+                          {address}
+                        </Typography>
+                      </SummaryItem>
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+
+              <Alert
+                severity="info"
+                sx={{
+                  borderRadius: "12px",
+                  backgroundColor: `${colors.info}08`,
+                  borderLeft: `4px solid ${colors.info}`,
+                }}
+                icon={
+                  <CheckCircleOutlineIcon
+                    sx={{ color: colors.info }}
+                    fontSize="inherit"
+                  />
+                }
+              >
+                <Typography variant="body2">
+                  پس از پرداخت، سفارش شما ثبت و پیگیری آن از طریق پنل کاربری
+                  امکان پذیر خواهد بود.
+                </Typography>
+              </Alert>
+            </Box>
+          </Fade>
         );
       default:
         return "مرحله ناشناخته";
@@ -649,17 +993,20 @@ export default function PaymentStepper() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Container maxWidth="md" sx={{ py: 6 }}>
       <Paper
-        elevation={3}
+        elevation={0}
         sx={{
-          borderRadius: "16px",
+          borderRadius: "20px",
           overflow: "hidden",
           position: "relative",
           pb: 10,
+          background: colors.background,
+          boxShadow: `0 8px 32px ${colors.secondary}10`,
+          border: `1px solid ${colors.secondary}20`,
         }}
       >
-        <Box sx={{ px: { xs: 2, sm: 4 }, pt: 3 }}>
+        <Box sx={{ px: { xs: 3, sm: 6 }, pt: 4 }}>
           <StyledStepper activeStep={activeStep} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
@@ -671,9 +1018,9 @@ export default function PaymentStepper() {
 
         <Box
           sx={{
-            px: { xs: 2, sm: 4 },
+            px: { xs: 3, sm: 6 },
             pb: 4,
-            minHeight: "400px",
+            minHeight: "450px",
           }}
         >
           {getStepContent(activeStep)}
@@ -685,26 +1032,23 @@ export default function PaymentStepper() {
             bottom: 0,
             left: 0,
             right: 0,
-            py: 2,
-            px: { xs: 2, sm: 4 },
-            backgroundColor: theme.palette.background.paper,
-            borderTop: `1px solid ${theme.palette.divider}`,
+            py: 3,
+            px: { xs: 3, sm: 6 },
+            backgroundColor: colors.background,
+            borderTop: `1px solid ${colors.secondary}20`,
             display: "flex",
             justifyContent: "space-between",
           }}
         >
           <ActionButton
-            disabled={activeStep === 0}
+            disabled={activeStep === 0 || loading}
             onClick={handleBack}
             variant="outlined"
             sx={{
-              borderWidth: "1.5px",
-              "&:hover": {
-                borderWidth: "1.5px",
-              },
+              minWidth: "120px",
             }}
           >
-            مرحله قبل
+            {loading ? <CircularProgress size={24} /> : "مرحله قبل"}
           </ActionButton>
 
           <ActionButton
@@ -714,13 +1058,49 @@ export default function PaymentStepper() {
                 ? () => (window.location.href = "/payment")
                 : handleNext
             }
+            disabled={loading}
+            sx={{
+              minWidth: "120px",
+            }}
           >
-            {activeStep === steps.length - 1
-              ? "پرداخت و تکمیل سفارش"
-              : "مرحله بعد"}
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : activeStep === steps.length - 1 ? (
+              "پرداخت و تکمیل سفارش"
+            ) : (
+              "مرحله بعد"
+            )}
           </ActionButton>
         </Box>
       </Paper>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert
+          severity={error ? "error" : "success"}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleCloseSnackbar}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+          sx={{
+            minWidth: "300px",
+            boxShadow: `0 4px 12px ${colors.secondary}20`,
+            alignItems: "center",
+          }}
+        >
+          {error || success}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
