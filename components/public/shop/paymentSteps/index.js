@@ -28,6 +28,8 @@ import {
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
+import { getCookie } from "cookies-next";
+import shortUUID from "short-uuid";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import LocalShipping from "@mui/icons-material/LocalShipping";
@@ -100,52 +102,6 @@ const StyledStepper = styled(Stepper)(({ theme }) => ({
   },
   "& .MuiStepLabel-label.Mui-completed": {
     color: "#10b981",
-  },
-}));
-
-const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
-  "& .MuiStepLabel-label": {
-    fontSize: "0.85rem",
-    fontWeight: 600,
-    color: `${colors.secondary}`,
-    marginTop: theme.spacing(1),
-    "&.Mui-active": {
-      color: colors.primary,
-      fontWeight: 700,
-    },
-    "&.Mui-completed": {
-      color: colors.success,
-    },
-  },
-  "& .MuiStepIcon-root": {
-    color: "transparent",
-    border: `2px solid ${colors.secondary}`,
-    borderRadius: "50%",
-    width: 32,
-    height: 32,
-    fontSize: "1rem",
-    "&.Mui-active": {
-      color: colors.primary,
-      borderColor: colors.primary,
-      backgroundColor: "white",
-      "& .MuiStepIcon-text": {
-        fill: colors.primary,
-        fontWeight: 700,
-      },
-    },
-    "&.Mui-completed": {
-      color: colors.success,
-      borderColor: colors.success,
-      backgroundColor: "white",
-      "& .MuiStepIcon-text": {
-        fill: colors.success,
-      },
-    },
-  },
-  "& .MuiStepIcon-text": {
-    fill: colors.secondary,
-    fontWeight: 700,
-    fontSize: "0.9rem",
   },
 }));
 
@@ -309,6 +265,17 @@ const SummaryItem = styled(Box)(({ theme }) => ({
   },
 }));
 
+const NoConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 16,
+    left: "calc(-50% + 16px)",
+    right: "calc(50% + 16px)",
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    borderColor: "transparent", // Make the line transparent
+  },
+}));
+
 const StepValidationMessage = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -324,15 +291,16 @@ const StepValidationMessage = styled(Box)(({ theme }) => ({
 }));
 export default function PaymentStepper() {
   const theme = useTheme();
-  // const stepIndex =direction === "ltr" ? steps.length - 1 - activeStep : activeStep;
   const userData = useSelector((state) => state.auth.userInformation);
+  const payment = useSelector((state) => state.order);
   const [activeStep, setActiveStep] = useState(0);
   const stepIndex = activeStep;
   const [deliveryMethod, setDeliveryMethod] = useState("");
-  const [date, setDate] = useState(moment().unix());
+  const [date, setDate] = useState(moment().add(1, "day").unix());
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+
   const [fieldErrors, setFieldErrors] = useState({
     deliveryMethod: false,
     date: false,
@@ -340,6 +308,79 @@ export default function PaymentStepper() {
     city: false,
     address: false,
   });
+
+  const [data, setData] = useState({
+    description: "",
+    loading: false,
+    finalize: false,
+    paymentUrl: "https://eebox.ir",
+  });
+
+  const handlePayment = () => {
+    if (!validateStep(activeStep)) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    setLoading(true);
+    handleNewPayment().then(() => {
+      setLoading(false);
+    });
+  };
+
+  const handleNewPayment = async () => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("token", getCookie("x-auth-token"));
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        description: data.description,
+        products: payment.products,
+        finished_price: payment.totalPrice,
+        order_id: shortUUID.generate(),
+        customer_name: userData.firstName + " " + userData.lastName,
+        delivery_date: date,
+        address:
+          addressType == "new"
+            ? `${province},${city},${address}`
+            : userData.address,
+        customer_phone: userData.phoneNumber,
+        delivery_type: deliveryMethod,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/new`,
+        requestOptions
+      );
+
+      if (response.status === 201) {
+        const responseData = await response.json();
+        const paymentUrl = `https://gateway.zibal.ir/start/${responseData[0].track_id}`;
+
+        // Redirect to payment gateway
+        window.location.href = paymentUrl;
+      } else {
+        throw new Error("Payment initialization failed");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      setError("خطا در اتصال به درگاه پرداخت. لطفا مجددا تلاش کنید.");
+      setOpenSnackbar(true);
+      setLoading(false);
+    }
+  };
+
   // استایل‌های جدید را اینجا اضافه کنید
   const StepIconContainer = styled("div")(({ active, completed }) => ({
     width: 32,
@@ -479,6 +520,10 @@ export default function PaymentStepper() {
 
     setFieldErrors(newFieldErrors);
     return isValid;
+  };
+
+  const handleDescriptionChange = (e) => {
+    setData({ ...data, description: e.target.value });
   };
 
   const handleNext = () => {
@@ -1093,6 +1138,16 @@ export default function PaymentStepper() {
                   امکان پذیر خواهد بود.
                 </Typography>
               </Alert>
+
+              <StyledTextField
+                label="توضیحات اضافی (اختیاری)"
+                value={data.description}
+                onChange={handleDescriptionChange}
+                multiline
+                rows={3}
+                placeholder="هر توضیح یا نکته خاصی که می‌خواهید به ما اطلاع دهید..."
+                sx={{ mb: 4, mt: 4 }}
+              />
             </Box>
           </Fade>
         );
@@ -1134,14 +1189,17 @@ export default function PaymentStepper() {
       >
         <Box sx={{ px: { xs: 3, sm: 6 }, pt: 4 }}>
           <StyledStepper
-  activeStep={activeStep}
-  alternativeLabel
-  connector={<CustomConnector />}
-  sx={{ 
-    direction: "rtl",
-    padding: { xs: theme.spacing(2, 0, 1), sm: theme.spacing(4, 0, 3) } // کاهش padding برای موبایل
-  }}
->
+            activeStep={activeStep}
+            alternativeLabel
+            connector={<NoConnector />} // Use the custom connector here
+            sx={{
+              direction: "rtl",
+              padding: {
+                xs: theme.spacing(2, 0, 1),
+                sm: theme.spacing(4, 0, 3),
+              },
+            }}
+          >
             {steps.map((label, index) => (
               <Step key={label}>
                 <StepLabel
@@ -1204,9 +1262,7 @@ export default function PaymentStepper() {
           <ActionButton
             variant="contained"
             onClick={
-              activeStep === steps.length - 1
-                ? () => (window.location.href = "/payment")
-                : handleNext
+              activeStep === steps.length - 1 ? handlePayment : handleNext
             }
             disabled={loading}
             sx={{
