@@ -110,17 +110,21 @@ function AddToCart({
         disabled={loading || instock < 1}
         onClick={handleAddToCart}
         sx={{
-          p: "8px",
           fontSize: { xs: "11px", md: "inherit" },
-          marginRight: "auto",
-          borderRadius: "25px",
-          backgroundColor: "primary.main",
+          borderRadius: "12px", // انحنای بیشتر
+          backgroundColor: "#6366f1", // رنگ اصلی دکمه
+          color: "#fff", // رنگ متن
           width: {
             xs: `${showDetails ? "auto" : "120px"}`,
             md: `${showDetails ? "320px" : "120px"}`,
           },
-          height: "36.5px",
+          height: "40px",
           textAlign: "center",
+          boxShadow: "none",
+          "&:hover": {
+            backgroundColor: "#4f46e5", // رنگ hover تیره‌تر
+            boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
+          },
         }}
         endIcon={showDetails ? <AddShoppingCart sx={{ mr: 1 }} /> : ""}
         // size="small"
@@ -141,11 +145,13 @@ function AddToCart({
           >
             <LinearProgress
               sx={{
-                color: "green",
-                px: "4px",
-                opacity: 0.3,
-                height: "36.5px",
-                borderRadius: "5px",
+                width: "100%",
+                height: 4,
+                borderRadius: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor: "#4f46e5",
+                },
               }}
             />
           </Box>

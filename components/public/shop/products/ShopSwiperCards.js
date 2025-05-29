@@ -69,7 +69,7 @@ function ShopSwiperCards({ item }) {
     <Card
       sx={{
         width: 300,
-       // Adjust height when quantity selector is active
+        // Adjust height when quantity selector is active
         display: "flex",
         flexDirection: "column",
         borderRadius: 3,
@@ -157,10 +157,9 @@ function ShopSwiperCards({ item }) {
         <Typography
           component={Link}
           href={`/products/${item.info.product_id}?category=${item.info.product_name}`}
-       
           variant="h6"
           sx={{
-            textDecoration : "none",
+            textDecoration: "none",
             mb: 1.5,
             fontWeight: 700,
             color: "text.primary",
@@ -222,8 +221,19 @@ function ShopSwiperCards({ item }) {
                 onClick={() => handleVariantSelect(index)}
                 selected={index === selectedVariantIndex}
                 sx={{
+                  borderRadius: 1,
+                  m: 0.5,
+                  transition: "all 0.2s ease",
                   "&.Mui-selected": {
-                    bgcolor: "primary.light",
+                    bgcolor: "#6366f1", // رنگ اصلی بنفش
+                    color: "#fff",
+                    fontWeight: 600,
+                    "&:hover": {
+                      bgcolor: "#4f46e5", // رنگ بنفش تیره‌تر در حالت hover
+                    },
+                  },
+                  "&:hover": {
+                    bgcolor: "#f3f4f6", // خاکستری روشن (هاور برای گزینه‌های انتخاب‌نشده)
                   },
                 }}
               >
@@ -238,7 +248,13 @@ function ShopSwiperCards({ item }) {
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Inventory
                       fontSize="small"
-                      sx={{ ml: 2, color: "primary.main" }}
+                      sx={{
+                        ml: 2,
+                        color:
+                          index === selectedVariantIndex
+                            ? "#fff"
+                            : "primary.main",
+                      }}
                     />
                     <Typography>{variant.variant_name}</Typography>
                   </Box>
@@ -298,20 +314,20 @@ function ShopSwiperCards({ item }) {
           <Button
             fullWidth
             variant="contained"
-            startIcon={<ShoppingCart sx={{
-              ml : 2
-            }} />}
+            startIcon={<ShoppingCart sx={{ ml: 2 }} />}
             onClick={handleAddToCartClick}
             disabled={selectedVariant.variant_quantity <= 0}
             sx={{
               height: 45,
-              borderRadius: 2,
+              borderRadius: "12px", // انحنا طبق راهنما
               fontWeight: 700,
               fontSize: "1rem",
+              bgcolor: "#6366f1", // رنگ اصلی
+              color: "#fff",
               boxShadow: "none",
               "&:hover": {
-                boxShadow: "0 3px 10px rgba(0,0,0,0.2)",
-                bgcolor: "primary.dark",
+                bgcolor: "#4f46e5", // رنگ تیره‌تر برای hover
+                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
               },
             }}
           >

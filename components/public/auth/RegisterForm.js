@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
@@ -9,59 +8,157 @@ import {
   TextField,
   Button,
   Typography,
-  FormGroup,
   IconButton,
   InputAdornment,
   MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
+  // InputLabel,
 } from "@mui/material";
 import Link from "../../../src/Link";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Image from "next/image";
 import { userLogin } from "../../../redux/reducers/authSlice";
-import {
-  startProgress,
-  endProgress,
-} from "../../../redux/reducers/loadingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import { setCookie } from "cookies-next";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
-import provincesData from "./provinces.json"; // Make sure to import your provinces data
+import provincesData from "./provinces.json";
 
-const Item = styled(Grid)(({ theme }) => ({
-  textAlign: "center",
-  borderRadius: "10px",
-}));
+// استایل‌های سفارشی
+const RegisterContainer = styled(Container)(({ theme }) => ({
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  padding: 0,
 
-const Card = styled(Grid)(({ theme }) => ({
-  margin: "auto",
-}));
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginBottom: 5,
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "1.75rem !important",
-    overflow: "unset",
+  // فقط در دسکتاپ عرض را 100vw کنیم
+  [theme.breakpoints.up("md")]: {
+    width: "45vw",
+    maxWidth: "100vw", // override محدودیت MUI Container
   },
 }));
 
-const RtlSelect = styled(Select)(({ theme }) => ({
-  textAlign: "right",
+const Header = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+  color: "white",
+  padding: "30px 20px",
+  textAlign: "center",
+  borderBottomLeftRadius: "30px",
+  borderBottomRightRadius: "30px",
+  boxShadow: "0 4px 20px rgba(99, 102, 241, 0.2)",
+}));
+
+const Logo = styled(Typography)(({ theme }) => ({
+  fontSize: "1.8rem",
+  fontWeight: "bold",
+  marginBottom: "10px",
+}));
+
+const FormContainer = styled(Box)(({ theme }) => ({
+  padding: "30px 20px",
+  marginTop: "-20px",
+  backgroundColor: "white",
+  borderRadius: "20px",
+  boxShadow: "0 5px 25px rgba(0, 0, 0, 0.08)",
+  position: "relative",
+  zIndex: 1,
+  flexGrow: 1,
+}));
+
+const StepsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: "25px",
+  gap: "10px",
+}));
+
+const Step = styled(Box)(({ theme, active }) => ({
+  width: "30px",
+  height: "30px",
+  borderRadius: "50%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: active ? "#6366f1" : "#e5e7eb",
+  color: active ? "white" : "#9ca3af",
+  fontWeight: "bold",
+}));
+
+const StepLine = styled(Box)(({ theme }) => ({
+  height: "2px",
+  backgroundColor: "#e5e7eb",
+  flexGrow: 1,
+  marginTop: "14px",
+}));
+
+const FormGroup = styled(Box)(({ theme }) => ({
+  marginBottom: "20px",
+}));
+
+const InputLabel = styled(Typography)(({ theme }) => ({
+  display: "block",
+  marginBottom: "8px",
+  fontWeight: 500,
+  color: "#4b5563",
+}));
+
+const InputField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "12px",
+    backgroundColor: "#f9fafb",
+    "& input": {
+      padding: "15px",
+    },
+  },
+}));
+
+const SelectField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "12px",
+    backgroundColor: "#f9fafb",
+    textAlign: "right",
+  },
   "& .MuiSelect-select": {
     textAlign: "right",
   },
-  marginBottom: theme.spacing(1),
+}));
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  padding: "15px",
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+  color: "white",
+  borderRadius: "12px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(99, 102, 241, 0.3)",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
+  },
+}));
+
+const ActionLink = styled(Box)(({ theme }) => ({
+  cursor: "pointer",
+  fontSize: "14px",
+  textAlign: "center",
+  marginTop: "16px",
+  borderRadius: "12px",
+  color: "#06b6d4",
+  border: "2px solid #06b6d4",
+  padding: "8px 16px",
+  fontWeight: 600,
+  transition: "all 0.3s",
+  "&:hover": {
+    backgroundColor: "rgba(6, 182, 212, 0.1)",
+  },
+}));
+
+const Footer = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  padding: "20px",
+  color: "#9ca3af",
+  fontSize: "0.8rem",
 }));
 
 function RegisterForm() {
@@ -95,10 +192,9 @@ function RegisterForm() {
     setRegisterInfo({
       ...RegisterInfo,
       province: provinceName,
-      city: "", // Reset city when province changes
+      city: "",
     });
 
-    // Find the selected province and set its cities
     const selectedProvince = provincesData.find(
       (p) => p.label === provinceName
     );
@@ -151,9 +247,10 @@ function RegisterForm() {
   };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     const { password, firstName, lastName, address, province, city } =
       RegisterInfo;
-    event.preventDefault();
+
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -163,7 +260,7 @@ function RegisterForm() {
     urlencoded.append("password", password);
     urlencoded.append("phone_number", phone_number);
     urlencoded.append("gender", "male");
-    urlencoded.append("address", `${province}، ${city}، ${address}`); // Combine address with province and city
+    urlencoded.append("address", `${province}، ${city}، ${address}`);
     urlencoded.append("shopping_list_id", "{}");
     urlencoded.append("refer", id);
 
@@ -183,7 +280,7 @@ function RegisterForm() {
           res.json().then((data) => {
             dispatch(
               setNotificationOn({
-                message: "ثبت نام با موفقیت انجام شد.",
+                message: "ثبت نام با موفقیت انجام شد",
                 color: "info",
               })
             );
@@ -193,7 +290,7 @@ function RegisterForm() {
           res.json().then((res) =>
             dispatch(
               setNotificationOn({
-                message: "اطلاعات وارد شده در سیستم تکراری  میباشد.",
+                message: "اطلاعات وارد شده در سیستم تکراری می‌باشد",
                 color: "error",
               })
             )
@@ -204,245 +301,201 @@ function RegisterForm() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Container>
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          <SimpleBottomNavigation />
-        </Box>
-        <Grid>
+    <>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <SimpleBottomNavigation />
+      </Box>
+
+      <RegisterContainer>
+        <Header>
+          <Logo>به ایباکس خوش آمدید</Logo>
+          <Typography variant="h6">ثبت نام - مرحله ۳ از ۳</Typography>
+        </Header>
+
+        <FormContainer>
+          <StepsContainer>
+            <Step active={false}>۱</Step>
+            <StepLine />
+            <Step active={false}>۲</Step>
+            <StepLine />
+            <Step active={true}>۳</Step>
+          </StepsContainer>
+
           <form onSubmit={handleSubmit}>
-            <FormGroup container>
-              <Grid
-                xs={12}
-                md={8}
-                lg={6}
-                sx={{
-                  mx: "auto",
-                  padding: 1,
-                  border: "1px solid #ccc",
-                  boxShadow: "0px 0px 10px 0px #ccc",
-                  borderRadius: 5,
-                  padding: 2,
-                  mt: 5,
+            <Box sx={{ textAlign: "center", mb: 3 }}>
+              <Image
+                src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
+                alt="لوگوی فروشگاه"
+                width={0}
+                height={0}
+                sizes="150px"
+                style={{
+                  width: "150px",
+                  height: "auto",
+                  borderRadius: "12px",
                 }}
-                container
-              >
-                <Grid sx={{ mb: 2 }} item xs={12}>
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
-                      width={50}
-                      height={0}
-                      sizes="100vh"
-                      alt="ایباکس"
-                      style={{
-                        width: "200px",
-                        height: "auto",
-                      }}
-                    />
-                  </Box>
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
-                    ثـبـت نــام
-                  </Typography>
+              />
+            </Box>
 
-                  <RtlTextField
-                    value={RegisterInfo.password}
-                    required
-                    error={
-                      !isValid.password && RegisterInfo.password.length > 0
-                    }
-                    color={isValid.password ? "success" : ""}
-                    name="password"
-                    fullWidth
-                    onChange={handleSetValue}
-                    label="رمز عبور"
-                    type={showPassword ? "text" : "password"}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                    helperText={
-                      !isValid.password
-                        ? "رمز عبور باید حداقل 6 کاراکتر و شامل حروف و اعداد باشد"
-                        : ""
-                    }
-                  />
-
-                  <RtlTextField
-                    value={RegisterInfo.passwordR}
-                    error={RegisterInfo.password != RegisterInfo.passwordR}
-                    color={
-                      RegisterInfo.password == RegisterInfo.passwordR
-                        ? "success"
-                        : ""
-                    }
-                    required
-                    name="passwordR"
-                    fullWidth
-                    onChange={handleSetValue}
-                    label="تکرار رمز عبور"
-                    type="password"
-                    helperText={
-                      RegisterInfo.password == RegisterInfo.passwordR
-                        ? ""
-                        : "تکرار رمز عبور اشتباه میباشد"
-                    }
-                  />
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <RtlTextField
-                        value={RegisterInfo.firstName}
-                        required
-                        name="firstName"
-                        fullWidth
-                        onChange={handleSetValue}
-                        label="نام"
-                        type="text"
-                      />
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <RtlTextField
-                        value={RegisterInfo.lastName}
-                        required
-                        name="lastName"
-                        fullWidth
-                        onChange={handleSetValue}
-                        label="نام خانوادگی"
-                        type="text"
-                      />
-                    </Grid>
-                  </Grid>
-
-                  {/* Province and City Select Fields */}
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                      <FormControl fullWidth>
-                        <InputLabel id="province-label">استان</InputLabel>
-                        <RtlTextField
-                          select
-                          labelId="province-label"
-                          value={RegisterInfo.province}
-                          onChange={handleProvinceChange}
-                          label="استان"
-                          required
-                        >
-                          {provincesData.map((province) => (
-                            <MenuItem key={province.id} value={province.label}>
-                              {province.label}
-                            </MenuItem>
-                          ))}
-                        </RtlTextField>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <FormControl fullWidth>
-                        <InputLabel id="city-label">شهر</InputLabel>
-                        <RtlTextField
-                          select
-                          labelId="city-label"
-                          value={RegisterInfo.city}
-                          onChange={handleCityChange}
-                          label="شهر"
-                          disabled={!RegisterInfo.province}
-                          required
-                        >
-                          {cities.map((city) => (
-                            <MenuItem key={city.id} value={city.label}>
-                              {city.label}
-                            </MenuItem>
-                          ))}
-                        </RtlTextField>
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-
-                  <RtlTextField
-                    value={RegisterInfo.address}
-                    required
-                    name="address"
-                    multiline
-                    minRows={4}
-                    fullWidth
-                    onChange={handleSetValue}
-                    label="آدرس کامل"
-                    type="text"
-                    placeholder="خیابان، کوچه، پلاک، واحد و سایر جزئیات"
-                  />
-                </Grid>
-
-                <Grid xs={12} item>
-                  <Button
-                    disabled={!isValid.password && isValid.email}
-                    sx={{ p: 1, borderRadius: 10 }}
-                    fullWidth
-                    type="submit"
-                    variant="contained"
-                  >
-                    ثبت نام
-                  </Button>
-                </Grid>
-
-                <Grid
-                  href="/"
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 2,
-                    borderRadius: 5,
-                    color: "#ec9d50",
-                    border: "2px solid #ec9d50",
-                    textDecoration: "none",
-                    px: 1,
-                    py: 1,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  بازگشت به فروشگاه
-                </Grid>
-
-                <Grid
-                  href="/auth/login"
-                  sx={{
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 2,
-                    textDecoration: "none",
-                    color: "primary",
-                    border: "2px solid #75502f",
-                    borderRadius: 10,
-                    px: 1,
-                    py: 2,
-                    mb: 2,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  حساب کاربری دارید ؟ وارد شوید
-                </Grid>
-              </Grid>
+            <FormGroup>
+              <InputLabel>رمز عبور</InputLabel>
+              <InputField
+                fullWidth
+                name="password"
+                value={RegisterInfo.password}
+                onChange={handleSetValue}
+                type={showPassword ? "text" : "password"}
+                error={!isValid.password && RegisterInfo.password.length > 0}
+                helperText={
+                  !isValid.password
+                    ? "رمز عبور باید حداقل 6 کاراکتر و شامل حروف و اعداد باشد"
+                    : ""
+                }
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </FormGroup>
+
+            <FormGroup>
+              <InputLabel>تکرار رمز عبور</InputLabel>
+              <InputField
+                fullWidth
+                name="passwordR"
+                value={RegisterInfo.passwordR}
+                onChange={handleSetValue}
+                type="password"
+                error={
+                  RegisterInfo.password !== RegisterInfo.passwordR &&
+                  RegisterInfo.passwordR.length > 0
+                }
+                helperText={
+                  RegisterInfo.password !== RegisterInfo.passwordR
+                    ? "تکرار رمز عبور مطابقت ندارد"
+                    : ""
+                }
+              />
+            </FormGroup>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormGroup>
+                  <InputLabel>نام</InputLabel>
+                  <InputField
+                    fullWidth
+                    name="firstName"
+                    value={RegisterInfo.firstName}
+                    onChange={handleSetValue}
+                    required
+                  />
+                </FormGroup>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormGroup>
+                  <InputLabel>نام خانوادگی</InputLabel>
+                  <InputField
+                    fullWidth
+                    name="lastName"
+                    value={RegisterInfo.lastName}
+                    onChange={handleSetValue}
+                    required
+                  />
+                </FormGroup>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={6}>
+                <FormGroup>
+                  <InputLabel>استان</InputLabel>
+                  <SelectField
+                    select
+                    fullWidth
+                    value={RegisterInfo.province}
+                    onChange={handleProvinceChange}
+                    required
+                  >
+                    {provincesData.map((province) => (
+                      <MenuItem key={province.id} value={province.label}>
+                        {province.label}
+                      </MenuItem>
+                    ))}
+                  </SelectField>
+                </FormGroup>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormGroup>
+                  <InputLabel>شهر</InputLabel>
+                  <SelectField
+                    select
+                    fullWidth
+                    value={RegisterInfo.city}
+                    onChange={handleCityChange}
+                    disabled={!RegisterInfo.province}
+                    required
+                  >
+                    {cities.map((city) => (
+                      <MenuItem key={city.id} value={city.label}>
+                        {city.label}
+                      </MenuItem>
+                    ))}
+                  </SelectField>
+                </FormGroup>
+              </Grid>
+            </Grid>
+
+            <FormGroup>
+              <InputLabel>آدرس کامل</InputLabel>
+              <InputField
+                fullWidth
+                multiline
+                minRows={4}
+                name="address"
+                value={RegisterInfo.address}
+                onChange={handleSetValue}
+                placeholder="خیابان، کوچه، پلاک، واحد و سایر جزئیات"
+                required
+              />
+            </FormGroup>
+
+            <SubmitButton
+              type="submit"
+              disabled={
+                !isValid.password ||
+                RegisterInfo.password !== RegisterInfo.passwordR ||
+                !RegisterInfo.province ||
+                !RegisterInfo.city
+              }
+            >
+              ثبت نام
+            </SubmitButton>
+
+            <Link href="/" passHref>
+              <ActionLink sx={{ mt: 2 }}>بازگشت به فروشگاه</ActionLink>
+            </Link>
+
+            <Typography sx={{ textAlign: "center", mt: 2 }}>
+              حساب کاربری دارید؟{" "}
+              <Link href="/auth/login" style={{ color: "#6366f1" }}>
+                وارد شوید
+              </Link>
+            </Typography>
           </form>
-        </Grid>
-      </Container>
-    </Box>
+        </FormContainer>
+
+        <Footer>کلیه حقوق برای فروشگاه اینترنتی ایباکس محفوظ است © 1404</Footer>
+      </RegisterContainer>
+    </>
   );
 }
 

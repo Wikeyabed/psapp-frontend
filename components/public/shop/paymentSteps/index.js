@@ -25,27 +25,35 @@ import {
   Fade,
   FormHelperText,
 } from "@mui/material";
+import StepConnector, {
+  stepConnectorClasses,
+} from "@mui/material/StepConnector";
+import CheckIcon from "@mui/icons-material/Check";
+import { styled } from "@mui/material/styles";
+import LocalShipping from "@mui/icons-material/LocalShipping";
+import LocalPostOffice from "@mui/icons-material/LocalPostOffice";
+import DirectionsCar from "@mui/icons-material/DirectionsCar";
+import Storefront from "@mui/icons-material/Storefront";
 import { useSelector } from "react-redux";
 import moment from "moment-jalaali";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import DatePicker from "react-multi-date-picker";
 import provincesData from "./provinces.json";
-import styled from "@emotion/styled";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-// Professional but friendly color palette
+// پالت رنگی بر اساس راهنمای سبک فروشگاه
 const colors = {
-  primary: "#4361ee",
-  secondary: "#6c757d",
-  success: "#4cc9f0",
-  error: "#f72585",
-  warning: "#f8961e",
-  info: "#4895ef",
-  dark: "#212529",
-  light: "#f8f9fa",
+  primary: "#6366f1", // آبی-بنفش
+  secondary: "#06b6d4", // فیروزه‌ای
+  success: "#10b981",
+  error: "#ef4444",
+  warning: "#f59e0b",
+  info: "#3b82f6",
+  dark: "#1e293b",
+  light: "#f8fafc",
   background: "#ffffff",
 };
 
@@ -55,35 +63,52 @@ const steps = [
   "آدرس کاربر",
   "نهایی سازی فاکتور",
 ];
-
-const StyledStepper = styled(Stepper)(({ theme }) => ({
-  padding: theme.spacing(4, 0, 3),
-  backgroundColor: "transparent",
-  "& .MuiStepConnector-root": {
-    top: 24,
-    left: "calc(-50% + 24px)",
-    right: "calc(50% + 24px)",
+const CustomConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 16,
+    left: "calc(-50% + 16px)",
+    right: "calc(50% + 16px)",
   },
-  "& .MuiStepConnector-line": {
-    borderColor: colors.secondary,
-    borderTopWidth: 3,
-    borderTopStyle: "dotted",
-    opacity: 0.3,
-  },
-  "& .MuiStepConnector-active, & .MuiStepConnector-completed": {
-    "& .MuiStepConnector-line": {
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
       borderColor: colors.primary,
-      borderTopStyle: "solid",
-      opacity: 1,
     },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: colors.success,
+    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    borderTopWidth: 2,
+    borderColor: `${colors.secondary}60`,
+    borderRadius: 1,
+  },
+}));
+const StyledStepper = styled(Stepper)(({ theme }) => ({
+  // direction: "rtl",
+  backgroundColor: "transparent",
+  padding: theme.spacing(4, 0, 3),
+  "& .MuiStepLabel-label": {
+    fontSize: "0.9rem",
+    fontWeight: 600,
+    color: "#334155",
+  },
+  "& .MuiStepLabel-label.Mui-active": {
+    color: "#6366f1",
+    fontWeight: 700,
+  },
+  "& .MuiStepLabel-label.Mui-completed": {
+    color: "#10b981",
   },
 }));
 
 const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
   "& .MuiStepLabel-label": {
-    fontSize: "0.9rem",
+    fontSize: "0.85rem",
     fontWeight: 600,
     color: `${colors.secondary}`,
+    marginTop: theme.spacing(1),
     "&.Mui-active": {
       color: colors.primary,
       fontWeight: 700,
@@ -93,32 +118,34 @@ const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
     },
   },
   "& .MuiStepIcon-root": {
-    color: colors.background,
+    color: "transparent",
     border: `2px solid ${colors.secondary}`,
     borderRadius: "50%",
     width: 32,
     height: 32,
+    fontSize: "1rem",
     "&.Mui-active": {
-      color: "white",
+      color: colors.primary,
       borderColor: colors.primary,
-      backgroundColor: colors.primary,
+      backgroundColor: "white",
+      "& .MuiStepIcon-text": {
+        fill: colors.primary,
+        fontWeight: 700,
+      },
     },
     "&.Mui-completed": {
-      color: "white",
+      color: colors.success,
       borderColor: colors.success,
-      backgroundColor: colors.success,
+      backgroundColor: "white",
+      "& .MuiStepIcon-text": {
+        fill: colors.success,
+      },
     },
   },
   "& .MuiStepIcon-text": {
-    fill: colors.dark,
+    fill: colors.secondary,
     fontWeight: 700,
-    fontSize: "0.8rem",
-    "&.Mui-active": {
-      fill: "white",
-    },
-    "&.Mui-completed": {
-      fill: "white",
-    },
+    fontSize: "0.9rem",
   },
 }));
 
@@ -127,20 +154,20 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
   "& label": {
     transformOrigin: "right !important",
     right: "1.75rem !important",
-    color: `${colors.secondary}`,
+    color: `${colors.dark}`,
     fontSize: "0.9rem",
   },
   "& .MuiOutlinedInput-root": {
     borderRadius: "12px",
     transition: "all 0.3s ease",
     "& fieldset": {
-      borderColor: error ? colors.error : colors.secondary,
+      borderColor: error ? colors.error : colors.primary,
       borderWidth: 1.5,
-      opacity: 0.6,
+      opacity: 0.4,
     },
     "&:hover fieldset": {
       borderColor: error ? colors.error : colors.primary,
-      opacity: 1,
+      opacity: 0.8,
     },
     "&.Mui-focused fieldset": {
       borderColor: error ? colors.error : colors.primary,
@@ -173,13 +200,13 @@ const StyledSelect = styled(Select)(({ theme, error }) => ({
     fontSize: "0.95rem",
   },
   "& .MuiOutlinedInput-notchedOutline": {
-    borderColor: error ? colors.error : colors.secondary,
+    borderColor: error ? colors.error : colors.primary,
     borderWidth: 1.5,
-    opacity: 0.6,
+    opacity: 0.4,
   },
   "&:hover .MuiOutlinedInput-notchedOutline": {
     borderColor: error ? colors.error : colors.primary,
-    opacity: 1,
+    opacity: 0.8,
   },
   "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
     borderColor: error ? colors.error : colors.primary,
@@ -195,39 +222,39 @@ const DeliveryOptionCard = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "selected",
 })(({ theme, selected }) => ({
   padding: theme.spacing(3),
-  marginBottom: theme.spacing(2),
-  border: `2px solid ${selected ? colors.primary : colors.secondary}`,
+  marginBottom: theme.spacing(3),
+  border: `2px solid ${selected ? colors.primary : colors.secondary}20`,
   borderRadius: "16px",
   backgroundColor: selected
     ? `${colors.primary}08`
     : theme.palette.background.paper,
   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   cursor: "pointer",
-  opacity: selected ? 1 : 0.8,
+  opacity: selected ? 1 : 0.9,
   "&:hover": {
-    borderColor: colors.primary,
-    boxShadow: `0 4px 12px ${colors.secondary}10`,
-    transform: "translateY(-2px)",
+    transform: "translateY(-3px)",
+    boxShadow: `0 6px 16px ${colors.secondary}15`,
     opacity: 1,
   },
-  "& .MuiRadio-root": {
-    color: colors.secondary,
-    "&.Mui-checked": {
-      color: colors.primary,
-    },
+  "& .MuiSvgIcon-root": {
+    fontSize: "2.5rem",
+    marginLeft: theme.spacing(2),
+    color: selected ? colors.primary : colors.secondary,
   },
 }));
 
 const AddressBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
-  border: `2px solid ${colors.secondary}`,
-  borderRadius: "16px",
+  border: `2px solid ${colors.primary}`,
+  borderRadius: "12px",
   backgroundColor: `${colors.light}`,
   marginBottom: theme.spacing(3),
   transition: "all 0.3s ease",
   opacity: 0.9,
+  boxShadow: `0 2px 8px ${colors.primary}10`,
   "&:hover": {
     opacity: 1,
+    boxShadow: `0 4px 12px ${colors.primary}20`,
   },
 }));
 
@@ -240,26 +267,30 @@ const ActionButton = styled(Button)(({ theme }) => ({
   fontSize: "0.95rem",
   letterSpacing: "0.5px",
   transition: "all 0.3s ease",
+  minHeight: "48px",
   "&:hover": {
     boxShadow: "none",
-    transform: "translateY(-1px)",
+    transform: "translateY(-2px)",
   },
   "&.MuiButton-contained": {
-    background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
+    background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+    color: "white",
     "&:hover": {
-      background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
-      boxShadow: `0 4px 12px ${colors.primary}30`,
+      background: `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
+      boxShadow: `0 4px 12px ${colors.primary}40`,
     },
   },
   "&.MuiButton-outlined": {
     borderWidth: "2px",
+    borderColor: colors.primary,
+    color: colors.primary,
     "&:hover": {
       borderWidth: "2px",
-      backgroundColor: `${colors.light}`,
+      backgroundColor: `${colors.primary}08`,
     },
   },
   "&.Mui-disabled": {
-    opacity: 0.7,
+    opacity: 0.6,
   },
 }));
 
@@ -272,8 +303,9 @@ const SummaryItem = styled(Box)(({ theme }) => ({
     color: colors.dark,
   },
   "& .value": {
-    color: colors.secondary,
+    color: colors.dark,
     flex: 1,
+    opacity: 0.9,
   },
 }));
 
@@ -281,7 +313,7 @@ const StepValidationMessage = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(1.5, 2),
-  borderRadius: "8px",
+  borderRadius: "12px",
   backgroundColor: `${colors.error}10`,
   borderLeft: `4px solid ${colors.error}`,
   marginBottom: theme.spacing(3),
@@ -290,16 +322,63 @@ const StepValidationMessage = styled(Box)(({ theme }) => ({
     color: colors.error,
   },
 }));
-
 export default function PaymentStepper() {
   const theme = useTheme();
+  // const stepIndex =direction === "ltr" ? steps.length - 1 - activeStep : activeStep;
   const userData = useSelector((state) => state.auth.userInformation);
   const [activeStep, setActiveStep] = useState(0);
+  const stepIndex = activeStep;
   const [deliveryMethod, setDeliveryMethod] = useState("");
   const [date, setDate] = useState(moment().unix());
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    deliveryMethod: false,
+    date: false,
+    province: false,
+    city: false,
+    address: false,
+  });
+  // استایل‌های جدید را اینجا اضافه کنید
+  const StepIconContainer = styled("div")(({ active, completed }) => ({
+    width: 32,
+    height: 32,
+    borderRadius: "50%",
+    backgroundColor: completed ? "#10b981" : active ? "#6366f1" : "#e2e8f0",
+    color: completed || active ? "#fff" : "#475569",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: 700,
+    fontSize: "1rem",
+    border: `2px solid ${
+      completed ? "#10b981" : active ? "#6366f1" : "#cbd5e1"
+    }`,
+    boxShadow: active ? "0 0 0 4px rgba(99, 102, 241, 0.2)" : "none",
+  }));
+
+  const StepLabelText = styled(Typography)(({ active, completed }) => ({
+    fontSize: "0.85rem",
+    fontWeight: active ? 700 : 600,
+    color: completed ? "#10b981" : active ? "#6366f1" : "#64748b",
+    marginTop: 8,
+    textAlign: "center",
+  }));
+
+  const CustomStepLabel = ({ label, active, completed, icon }) => (
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <StepIconContainer active={active} completed={completed}>
+        {completed ? <CheckIcon fontSize="small" /> : icon}
+      </StepIconContainer>
+      <StepLabelText active={active} completed={completed}>
+        {label}
+      </StepLabelText>
+    </Box>
+  );
+
   const [addressType, setAddressType] = useState("registered");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -325,10 +404,18 @@ export default function PaymentStepper() {
 
   const validateStep = (step) => {
     let isValid = true;
+    const newFieldErrors = {
+      deliveryMethod: false,
+      date: false,
+      province: false,
+      city: false,
+      address: false,
+    };
 
     switch (step) {
       case 0:
         if (!deliveryMethod) {
+          newFieldErrors.deliveryMethod = true;
           setStepErrors((prev) => ({
             ...prev,
             0: "لطفا روش دریافت را انتخاب کنید",
@@ -340,6 +427,7 @@ export default function PaymentStepper() {
         break;
       case 1:
         if (!date) {
+          newFieldErrors.date = true;
           setStepErrors((prev) => ({
             ...prev,
             1: "لطفا تاریخ دریافت را انتخاب کنید",
@@ -352,27 +440,33 @@ export default function PaymentStepper() {
       case 2:
         if (addressType === "new") {
           if (!province) {
+            newFieldErrors.province = true;
             setStepErrors((prev) => ({
               ...prev,
               2: "لطفا استان را انتخاب کنید",
             }));
             isValid = false;
-          } else if (!city) {
+          }
+          if (!city) {
+            newFieldErrors.city = true;
             setStepErrors((prev) => ({
               ...prev,
               2: "لطفا شهر را انتخاب کنید",
             }));
             isValid = false;
-          } else if (!address) {
-            setStepErrors((prev) => ({ ...prev, 2: "لطفا آدرس را وارد کنید" }));
+          }
+          if (!address) {
+            newFieldErrors.address = true;
+            setStepErrors((prev) => ({
+              ...prev,
+              2: "لطفا آدرس را وارد کنید",
+            }));
             isValid = false;
-          } else {
-            setStepErrors((prev) => ({ ...prev, 2: false }));
           }
         } else if (!userData.address) {
           setStepErrors((prev) => ({
             ...prev,
-            2: "شما آدرس ثبت شده ای ندارید",
+            2: "شما آدرس ثبت شده ای ندارید. لطفا آدرس جدید وارد کنید",
           }));
           isValid = false;
         } else {
@@ -383,19 +477,30 @@ export default function PaymentStepper() {
         break;
     }
 
+    setFieldErrors(newFieldErrors);
     return isValid;
   };
 
   const handleNext = () => {
-    if (!validateStep(activeStep)) return;
+    if (!validateStep(activeStep)) {
+      // اسکرول به بالای فرم برای نمایش خطاها
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
 
     setLoading(true);
-
-    // Simulate API call delay
     setTimeout(() => {
       setActiveStep((prev) => prev + 1);
       setSuccess("مرحله با موفقیت تکمیل شد");
       setLoading(false);
+      // اسکرول به بالای مرحله جدید
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }, 800);
   };
 
@@ -425,31 +530,39 @@ export default function PaymentStepper() {
   const deliveryMethods = [
     {
       value: "in-person",
-      label: "تحویل حضوری سفارش از انبار ایباکس",
-      description: "مراجعه به آدرس انبار در ساعات کاری",
-      icon: "🏢",
+      label: "تحویل حضوری از انبار",
+      description: "مراجعه به آدرس انبار در ساعات کاری (9 صبح تا 5 بعدازظهر)",
+      icon: <Storefront fontSize="large" />,
       color: colors.primary,
+      benefits: ["تحویل فوری", "امکان بازدید از محصول", "پشتیبانی حضوری"],
     },
     {
       value: "posting",
-      label: "ارسال از طریق پست ایران",
+      label: "ارسال از طریق پست",
       description: "تحویل درب منزل در 3-5 روز کاری",
-      icon: "📦",
+      icon: <LocalPostOffice fontSize="large" />,
       color: colors.info,
+      benefits: ["پوشش سراسری", "امکان پیگیری مرسوله", "تحویل درب منزل"],
     },
     {
       value: "snap",
-      label: "ارسال از طریق اسنپ و تپسی (تهران و کرج)",
+      label: "ارسال با اسنپ/تپسی",
       description: "تحویل در همان روز (فقط تهران و کرج)",
-      icon: "🚗",
+      icon: <DirectionsCar fontSize="large" />,
       color: colors.success,
+      benefits: ["تحویل سریع (2-4 ساعت)", "پیگیری لحظه‌ای", "خدمات VIP"],
     },
     {
       value: "shipping",
-      label: "ارسال از طریق باربری (سراسر ایران عزیز)",
+      label: "ارسال با باربری",
       description: "تحویل در 2-4 روز کاری در سراسر کشور",
-      icon: "🚛",
+      icon: <LocalShipping fontSize="large" />,
       color: colors.warning,
+      benefits: [
+        "مناسب برای سفارشات حجیم",
+        "هزینه مقرون به صرفه",
+        "پشتیبانی تلفنی",
+      ],
     },
   ];
 
@@ -500,7 +613,7 @@ export default function PaymentStepper() {
                   >
                     <FormControlLabel
                       value={method.value}
-                      control={<Radio color="primary" sx={{ mr: 1 }} />}
+                      control={<Radio sx={{ mr: 1 }} />}
                       label={
                         <Box
                           sx={{
@@ -524,7 +637,7 @@ export default function PaymentStepper() {
                             </Typography>
                             <Typography
                               variant="body2"
-                              sx={{ color: colors.secondary }}
+                              sx={{ color: colors.dark, opacity: 0.7 }}
                             >
                               {method.description}
                             </Typography>
@@ -580,12 +693,12 @@ export default function PaymentStepper() {
                   flexDirection: "column",
                   alignItems: "center",
                   border: `2px solid ${
-                    stepErrors[1] ? colors.error : colors.secondary
+                    stepErrors[1] ? colors.error : colors.primary
                   }`,
-                  borderRadius: "16px",
+                  borderRadius: "12px",
                   p: 3,
                   backgroundColor: colors.background,
-                  boxShadow: `0 4px 12px ${colors.secondary}10`,
+                  boxShadow: `0 4px 12px ${colors.primary}20`,
                   opacity: stepErrors[1] ? 1 : 0.9,
                   "&:hover": {
                     opacity: 1,
@@ -611,7 +724,7 @@ export default function PaymentStepper() {
                     fontSize: "1.1rem",
                     borderRadius: "12px",
                     border: `2px solid ${
-                      stepErrors[1] ? colors.error : colors.secondary
+                      fieldErrors.date ? colors.error : colors.secondary
                     }`,
                   }}
                   minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
@@ -623,20 +736,18 @@ export default function PaymentStepper() {
                   onChange={handleChangeDate}
                   disableDay={(date) => date.weekDay.index === 6}
                 />
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mt: 3,
-                    color: colors.primary,
-                    backgroundColor: `${colors.primary}10`,
-                    px: 3,
-                    py: 1.5,
-                    borderRadius: "8px",
-                    fontWeight: 600,
-                  }}
-                >
-                  تاریخ انتخابی شما: {moment.unix(date).format("jYYYY/jMM/jDD")}
-                </Typography>
+                {fieldErrors.date && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: colors.error,
+                      mt: 1,
+                      textAlign: "center",
+                    }}
+                  >
+                    لطفا تاریخ دریافت را انتخاب کنید
+                  </Typography>
+                )}
               </Box>
             </Box>
           </Fade>
@@ -695,7 +806,7 @@ export default function PaymentStepper() {
                 >
                   <FormControlLabel
                     value="registered"
-                    control={<Radio color="primary" />}
+                    control={<Radio />}
                     label={
                       <Typography variant="body1" fontWeight={600}>
                         آدرس ثبت شده
@@ -712,11 +823,11 @@ export default function PaymentStepper() {
                       border: `2px solid ${
                         addressType === "registered"
                           ? colors.primary
-                          : colors.secondary
+                          : colors.primary
                       }`,
                       m: 0,
                       flex: 1,
-                      opacity: addressType === "registered" ? 1 : 0.8,
+                      opacity: addressType === "registered" ? 1 : 0.7,
                       "&:hover": {
                         opacity: 1,
                       },
@@ -724,7 +835,7 @@ export default function PaymentStepper() {
                   />
                   <FormControlLabel
                     value="new"
-                    control={<Radio color="primary" />}
+                    control={<Radio />}
                     label={
                       <Typography variant="body1" fontWeight={600}>
                         آدرس جدید
@@ -739,13 +850,11 @@ export default function PaymentStepper() {
                           ? `${colors.primary}08`
                           : "transparent",
                       border: `2px solid ${
-                        addressType === "new"
-                          ? colors.primary
-                          : colors.secondary
+                        addressType === "new" ? colors.primary : colors.primary
                       }`,
                       m: 0,
                       flex: 1,
-                      opacity: addressType === "new" ? 1 : 0.8,
+                      opacity: addressType === "new" ? 1 : 0.7,
                       "&:hover": {
                         opacity: 1,
                       },
@@ -769,8 +878,9 @@ export default function PaymentStepper() {
                   <Typography
                     variant="body1"
                     sx={{
-                      color: colors.secondary,
+                      color: colors.dark,
                       lineHeight: 1.8,
+                      opacity: 0.9,
                     }}
                   >
                     {userData.address || "شما آدرس ثبت شده ای ندارید"}
@@ -784,7 +894,7 @@ export default function PaymentStepper() {
                       onChange={handleProvinceChange}
                       displayEmpty
                       inputProps={{ "aria-label": "انتخاب استان" }}
-                      error={stepErrors[2] && stepErrors[2].includes("استان")}
+                      error={fieldErrors.province}
                     >
                       <MenuItem value="" disabled>
                         <em>استان را انتخاب کنید</em>
@@ -795,8 +905,10 @@ export default function PaymentStepper() {
                         </MenuItem>
                       ))}
                     </StyledSelect>
-                    {stepErrors[2] && stepErrors[2].includes("استان") && (
-                      <FormHelperText error>{stepErrors[2]}</FormHelperText>
+                    {fieldErrors.province && (
+                      <FormHelperText error>
+                        لطفا استان را انتخاب کنید
+                      </FormHelperText>
                     )}
                   </FormControl>
 
@@ -805,13 +917,11 @@ export default function PaymentStepper() {
                       value={city}
                       onChange={(e) => {
                         setCity(e.target.value);
-                        if (stepErrors[2] && stepErrors[2].includes("شهر")) {
-                          setStepErrors((prev) => ({ ...prev, 2: false }));
-                        }
+                        setFieldErrors((prev) => ({ ...prev, city: false }));
                       }}
                       disabled={!province}
                       displayEmpty
-                      error={stepErrors[2] && stepErrors[2].includes("شهر")}
+                      error={fieldErrors.city}
                     >
                       <MenuItem value="" disabled>
                         <em>شهر را انتخاب کنید</em>
@@ -825,8 +935,10 @@ export default function PaymentStepper() {
                             </MenuItem>
                           ))}
                     </StyledSelect>
-                    {stepErrors[2] && stepErrors[2].includes("شهر") && (
-                      <FormHelperText error>{stepErrors[2]}</FormHelperText>
+                    {fieldErrors.city && (
+                      <FormHelperText error>
+                        لطفا شهر را انتخاب کنید
+                      </FormHelperText>
                     )}
                   </FormControl>
 
@@ -835,18 +947,14 @@ export default function PaymentStepper() {
                     value={address}
                     onChange={(e) => {
                       setAddress(e.target.value);
-                      if (stepErrors[2] && stepErrors[2].includes("آدرس")) {
-                        setStepErrors((prev) => ({ ...prev, 2: false }));
-                      }
+                      setFieldErrors((prev) => ({ ...prev, address: false }));
                     }}
                     multiline
                     rows={4}
                     placeholder="خیابان، کوچه، پلاک، واحد، کدپستی و سایر جزئیات"
-                    error={stepErrors[2] && stepErrors[2].includes("آدرس")}
+                    error={fieldErrors.address}
                     helperText={
-                      stepErrors[2] && stepErrors[2].includes("آدرس")
-                        ? stepErrors[2]
-                        : ""
+                      fieldErrors.address ? "لطفا آدرس را وارد کنید" : ""
                     }
                   />
                 </>
@@ -860,10 +968,10 @@ export default function PaymentStepper() {
             <Box
               sx={{
                 backgroundColor: colors.light,
-                borderRadius: "16px",
+                borderRadius: "12px",
                 p: 4,
-                boxShadow: `0 4px 20px ${colors.secondary}10`,
-                border: `1px solid ${colors.secondary}20`,
+                boxShadow: `0 4px 20px ${colors.primary}10`,
+                border: `1px solid ${colors.primary}20`,
               }}
             >
               <Typography
@@ -894,7 +1002,7 @@ export default function PaymentStepper() {
                 <Divider
                   sx={{
                     my: 2,
-                    borderColor: colors.secondary,
+                    borderColor: colors.primary,
                     opacity: 0.2,
                   }}
                 />
@@ -911,7 +1019,7 @@ export default function PaymentStepper() {
                 <Divider
                   sx={{
                     my: 2,
-                    borderColor: colors.secondary,
+                    borderColor: colors.primary,
                     opacity: 0.2,
                   }}
                 />
@@ -928,8 +1036,9 @@ export default function PaymentStepper() {
                     <Typography
                       variant="body1"
                       sx={{
-                        color: colors.secondary,
+                        color: colors.dark,
                         lineHeight: 1.8,
+                        opacity: 0.9,
                       }}
                     >
                       {userData.address}
@@ -969,12 +1078,12 @@ export default function PaymentStepper() {
                 severity="info"
                 sx={{
                   borderRadius: "12px",
-                  backgroundColor: `${colors.info}08`,
-                  borderLeft: `4px solid ${colors.info}`,
+                  backgroundColor: `${colors.primary}08`,
+                  borderLeft: `4px solid ${colors.primary}`,
                 }}
                 icon={
                   <CheckCircleOutlineIcon
-                    sx={{ color: colors.info }}
+                    sx={{ color: colors.primary }}
                     fontSize="inherit"
                   />
                 }
@@ -993,24 +1102,58 @@ export default function PaymentStepper() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6 }}>
+    <Container
+      maxWidth="md"
+      sx={{
+        py: 0,
+        mt: 0,
+        minHeight: "calc(100vh - 64px)",
+        px: { xs: 0, sm: 2 }, // اضافه کردن padding افقی برای موبایل
+      }}
+    >
       <Paper
         elevation={0}
         sx={{
-          borderRadius: "20px",
+          borderRadius: { xs: 0, sm: "20px" }, // حذف border-radius برای موبایل
           overflow: "hidden",
           position: "relative",
           pb: 10,
           background: colors.background,
-          boxShadow: `0 8px 32px ${colors.secondary}10`,
-          border: `1px solid ${colors.secondary}20`,
+          boxShadow: { xs: "none", sm: `0 8px 32px ${colors.secondary}10` }, // حذف سایه برای موبایل
+          border: { xs: "none", sm: `1px solid ${colors.secondary}20` }, // حذف border برای موبایل
+          "&:before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "8px", // کاهش ارتفاع برای موبایل
+            background: `linear-gradient(90deg, ${colors.primary}, ${colors.info})`,
+          },
         }}
       >
         <Box sx={{ px: { xs: 3, sm: 6 }, pt: 4 }}>
-          <StyledStepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
+          <StyledStepper
+  activeStep={activeStep}
+  alternativeLabel
+  connector={<CustomConnector />}
+  sx={{ 
+    direction: "rtl",
+    padding: { xs: theme.spacing(2, 0, 1), sm: theme.spacing(4, 0, 3) } // کاهش padding برای موبایل
+  }}
+>
+            {steps.map((label, index) => (
               <Step key={label}>
-                <StyledStepLabel>{label}</StyledStepLabel>
+                <StepLabel
+                  StepIconComponent={() => (
+                    <CustomStepLabel
+                      label={label}
+                      active={activeStep === index}
+                      completed={activeStep > index}
+                      icon={index + 1}
+                    />
+                  )}
+                />
               </Step>
             ))}
           </StyledStepper>
@@ -1023,7 +1166,7 @@ export default function PaymentStepper() {
             minHeight: "450px",
           }}
         >
-          {getStepContent(activeStep)}
+          {getStepContent(stepIndex)}
         </Box>
 
         <Box
@@ -1038,6 +1181,7 @@ export default function PaymentStepper() {
             borderTop: `1px solid ${colors.secondary}20`,
             display: "flex",
             justifyContent: "space-between",
+            gap: 2,
           }}
         >
           <ActionButton
@@ -1046,6 +1190,12 @@ export default function PaymentStepper() {
             variant="outlined"
             sx={{
               minWidth: "120px",
+              borderColor: colors.secondary,
+              color: colors.dark,
+              "&:hover": {
+                borderColor: colors.primary,
+                color: colors.primary,
+              },
             }}
           >
             {loading ? <CircularProgress size={24} /> : "مرحله قبل"}
@@ -1061,6 +1211,11 @@ export default function PaymentStepper() {
             disabled={loading}
             sx={{
               minWidth: "120px",
+              background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
+              "&:hover": {
+                background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
+                boxShadow: `0 4px 12px ${colors.primary}30`,
+              },
             }}
           >
             {loading ? (
@@ -1094,8 +1249,9 @@ export default function PaymentStepper() {
           }
           sx={{
             minWidth: "300px",
-            boxShadow: `0 4px 12px ${colors.secondary}20`,
+            boxShadow: `0 4px 12px ${colors.primary}20`,
             alignItems: "center",
+            borderRadius: "12px",
           }}
         >
           {error || success}

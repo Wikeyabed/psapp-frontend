@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   Typography,
-  FormControl,
   Container,
+  IconButton,
 } from "@mui/material";
 import Image from "next/image";
 import { MuiOtpInput } from "mui-one-time-password-input";
@@ -22,34 +22,149 @@ import {
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
-const Item = styled(Grid)(({ theme }) => ({
-  textAlign: "center",
+// استایل‌های سفارشی
+const VerificationContainer = styled(Container)(({ theme }) => ({
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  padding: 0,
 
-  padding: 20,
-  borderRadius: "10px",
-}));
-
-const Card = styled(Grid)(({ theme }) => ({
-  margin: "auto",
-}));
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginTop: 5,
-  marginBottom: 5,
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  // display: "block",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "1.75rem !important",
-    overflow: "unset",
+  // فقط در دسکتاپ عرض را 100vw کنیم
+  [theme.breakpoints.up("md")]: {
+    width: "45vw",
+    maxWidth: "100vw", // override محدودیت MUI Container
   },
 }));
+
+const Header = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+  color: "white",
+  padding: "30px 20px",
+  textAlign: "center",
+  borderBottomLeftRadius: "30px",
+  borderBottomRightRadius: "30px",
+  boxShadow: "0 4px 20px rgba(99, 102, 241, 0.2)",
+}));
+
+const Logo = styled(Typography)(({ theme }) => ({
+  fontSize: "1.8rem",
+  fontWeight: "bold",
+  marginBottom: "10px",
+}));
+
+const FormContainer = styled(Box)(({ theme }) => ({
+  padding: "30px 20px",
+  marginTop: "-20px",
+  backgroundColor: "white",
+  borderRadius: "20px",
+  boxShadow: "0 5px 25px rgba(0, 0, 0, 0.08)",
+  position: "relative",
+  zIndex: 1,
+  flexGrow: 1,
+}));
+
+const StepsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: "25px",
+  gap: "10px",
+}));
+
+const Step = styled(Box)(({ theme, active }) => ({
+  width: "30px",
+  height: "30px",
+  borderRadius: "50%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: active ? "#6366f1" : "#e5e7eb",
+  color: active ? "white" : "#9ca3af",
+  fontWeight: "bold",
+}));
+
+const StepLine = styled(Box)(({ theme }) => ({
+  height: "2px",
+  backgroundColor: "#e5e7eb",
+  flexGrow: 1,
+  marginTop: "14px",
+}));
+
+const FormGroup = styled(Box)(({ theme }) => ({
+  marginBottom: "20px",
+}));
+
+const InputLabel = styled(Typography)(({ theme }) => ({
+  display: "block",
+  marginBottom: "8px",
+  fontWeight: 500,
+  color: "#4b5563",
+}));
+
+const PhoneInputContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+}));
+
+const CountryCode = styled(Box)(({ theme }) => ({
+  padding: "15px",
+  backgroundColor: "#f3f4f6",
+  border: "1px solid #e5e7eb",
+  borderRight: "none",
+  borderRadius: "12px 0 0 12px",
+  fontSize: "0.9rem",
+}));
+
+const PhoneField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "0 12px 12px 0",
+    backgroundColor: "#f9fafb",
+    "& input": {
+      padding: "15px",
+    },
+  },
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  padding: "15px",
+  borderRadius: "12px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(99, 102, 241, 0.3)",
+  "&.primary": {
+    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+    color: "white",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
+    },
+  },
+  "&.outlined": {
+    border: "1px solid #6366f1",
+    color: "#6366f1",
+    "&:hover": {
+      backgroundColor: "rgba(99, 102, 241, 0.1)",
+    },
+  },
+}));
+
+const Footer = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  padding: "20px",
+  color: "#9ca3af",
+  fontSize: "0.8rem",
+}));
+
+const CaptchaContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  margin: "20px 0",
+}));
+
+
 
 function PhoneVerification() {
   const dispatch = useDispatch();
@@ -59,7 +174,6 @@ function PhoneVerification() {
   const [isValid, setIsValid] = useState(false);
   const [number, setNumber] = useState("");
   const [captcha, setCaptcha] = useState("");
-
   const [initiated, setInitiated] = useState(false);
   const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
@@ -90,6 +204,7 @@ function PhoneVerification() {
   const handleCaptcha = (event) => {
     setCaptcha(event.target.value);
   };
+
   const handleSendSms = async () => {
     if (captcha.toLowerCase() == tempCaptcha) {
       var myHeaders = new Headers();
@@ -112,15 +227,13 @@ function PhoneVerification() {
         .then((response) => {
           if (response.status == 200 || response.status == 201) {
             const sms = response.json();
-
             sms.then((data) => {
               setInitiated(true);
-              console.log(data);
               dispatch(receiveSms());
               dispatch(setTempNumber(data.phone_number));
               dispatch(
                 setNotificationOn({
-                  message: "کد ورود به ایباکس به شماره وارد شده ارسال شد",
+                  message: "کد ورود به شماره وارد شده ارسال شد",
                   color: "info",
                 })
               );
@@ -136,7 +249,6 @@ function PhoneVerification() {
             );
           }
         })
-
         .catch((error) => console.log("error", error));
     } else {
       dispatch(
@@ -167,14 +279,12 @@ function PhoneVerification() {
       .then((response) => {
         if (response.status == 200 || response.status == 201) {
           dispatch(verifySms());
-
           dispatch(
             setNotificationOn({
               message: "کد ورودی صحیح می باشد",
               color: "success",
             })
           );
-          // return response.json();
         } else {
           dispatch(
             setNotificationOn({
@@ -187,19 +297,38 @@ function PhoneVerification() {
       .catch((error) => console.log("error", error));
   };
 
+  // const handleSetPhoneNumber = (event) => {
+  //       event.target.value.replace(/\D/g, "");
+
+  //   setNumber(parseInt(event.target.value));
+  //   let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+  //   let result = regex.test(event.target.value);
+  //   if (result && result != NaN) {
+  //     setIsValid(true);s
+  //   } else {
+  //     setIsValid(false);
+  //   }
+  // };
+
   const handleSetPhoneNumber = (event) => {
-    setNumber(parseInt(event.target.value));
+    const inputValue = event.target.value;
 
-    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
-    let result = regex.test(event.target.value);
+    // Only allow numeric input (remove all non-digit characters)
+    const numericValue = inputValue.replace(/\D/g, "");
 
-    console.log(number);
-    if (result) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    // Update state with the cleaned numeric string (not parsed as number)
+    setNumber(numericValue);
+
+        let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+
+    // Validate Iranian mobile number (must start with 9 and be 10 digits)
+    const isValidNumber = regex.test(numericValue);
+    setIsValid(isValidNumber || numericValue === "");
+
+    // Optional: Format the display value with spaces as user types
+    // return numericValue.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
   };
+
   const setTimer = () => {
     setMinutes(1);
     setSeconds(0);
@@ -215,234 +344,175 @@ function PhoneVerification() {
     dispatch(requestSmsAgain());
     setInitiated(false);
   };
+
   const handleChange = (newValue) => {
     setOtp(newValue);
   };
 
   const min = minutes < 10 ? `0${minutes}` : minutes;
   const sec = seconds < 10 ? `0${seconds}` : seconds;
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Container component={FormControl} container spacing={2}>
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          <SimpleBottomNavigation />
-        </Box>
-        <Card
-          container
-          xs={12}
-          md={8}
-          lg={6}
-          sx={{
-            mx: "auto",
-            padding: 1,
-            border: "1px solid #ccc",
-            boxShadow: "0px 0px 10px 0px #ccc",
-            borderRadius: 5,
-            padding: 2,
-            mt: 5,
-          }}
-        >
-          <Box
-            component="div"
-            sx={{
-              width: "100%",
-              textAlign: "center",
-            }}
-          >
-            <Image
-              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
-              width={50}
-              height={0}
-              sizes="100vh"
-              alt="ایباکس"
-              style={{
-                width: "100px",
-                height: "auto",
-                marginLeft: "auto",
-                marginRight: "auto",
-              }}
-            />
-          </Box>
-          <Grid component={Item} elevation={4} container>
-            {initiated ? (
-              <>
-                <Grid sx={{ mb: 6 }} item xs={12}>
-                  <Typography sx={{ mb: 5 }} variant="h6">
-                    کد دریافتی را وارد کنید
-                  </Typography>
-                  <MuiOtpInput
-                    sx={{
-                      direction: "ltr !important",
-                      textAlign: "left !important",
-                    }}
-                    length={5}
-                    datatype="number"
-                    value={otp}
-                    onChange={handleChange}
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                  />
+    <>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <SimpleBottomNavigation />
+      </Box>
+
+      <VerificationContainer>
+        <Header>
+          <Logo>به ایباکس خوش آمدید</Logo>
+          <Typography variant="h6">
+            {initiated ? "تایید شماره موبایل" : "ثبت نام - مرحله ۱ از ۳"}
+          </Typography>
+        </Header>
+
+        <FormContainer>
+          <StepsContainer>
+            <Step active={!initiated}>۱</Step>
+            <StepLine />
+            <Step active={initiated}>۲</Step>
+            <StepLine />
+            <Step>۳</Step>
+          </StepsContainer>
+
+          {initiated ? (
+            <>
+              <FormGroup>
+                <InputLabel>کد تایید ارسال شده را وارد کنید</InputLabel>
+                <MuiOtpInput
+                  
+                  sx={{
+                    direction: "ltr",
+                    justifyContent: "center",
+                    "& .MuiOtpInput-TextField": {
+                      borderRadius: "12px",
+                      backgroundColor: "#f9fafb",
+                    },
+                  }}
+                  length={5}
+                  value={otp}
+                  onChange={handleChange}
+                  TextFieldsProps={{
+                    type: "tel",
+                    inputProps: {
+                      inputMode: "numeric",
+                      pattern: "[0-9]*",
+                    },
+                  }}
+                />
+              </FormGroup>
+
+              <Grid container spacing={2} sx={{ mt: 2 }}>
+                <Grid item xs={6}>
+                  <ActionButton className="primary" onClick={handleVerifyCode}>
+                    ثبت کد
+                  </ActionButton>
                 </Grid>
-
-                <Grid xs={12} container item>
-                  <Grid item padding={1} xs={6}>
-                    {" "}
-                    <Button
-                      onClick={handleVerifyCode}
-                      size="large"
-                      sx={{ px: 1, py: 2 }}
-                      fullWidth
-                      variant="contained"
-                    >
-                      ثبت کد
-                    </Button>
-                  </Grid>
-                  <Grid item padding={1} xs={6}>
-                    <Button
-                      disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
-                      onClick={handleCountDown}
-                      size="large"
-                      sx={{ px: 1, py: 2 }}
-                      fullWidth
-                      variant="outlined"
-                    >
-                      {isSmsReceived ? `${sec} : ${min}` : " دریافت دوباره کد"}
-                    </Button>
-                  </Grid>
-
-                  <Grid
-                    onClick={handleEditNumber}
-                    component={Button}
-                    variant="text"
-                    sx={{
-                      fontSize: 14,
-                      textAlign: "center",
-                      mt: 2,
-                      textDecoration: "none",
-                      color: "primary",
-                      border: "2px solid #75502f",
-                      borderRadius: 5,
-                      px: 1,
-                      py: 2,
-                      mb: 2,
-                    }}
-                    item
-                    xs={12}
+                <Grid item xs={6}>
+                  <ActionButton
+                    className="outlined"
+                    disabled={isSmsReceived && (seconds > -1 || minutes > 0)}
+                    onClick={handleCountDown}
                   >
-                    تغییر شماره تماس
-                  </Grid>
+                    {isSmsReceived ? `${sec}:${min}` : "دریافت دوباره کد"}
+                  </ActionButton>
                 </Grid>
-              </>
-            ) : (
-              <>
-                <Grid sx={{ mb: 3 }} item xs={12}>
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h6">
-                    شماره موبایل خود را وارد کنید
-                  </Typography>
-                  <RtlTextField
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
-                    fullWidth
-                    onChange={handleSetPhoneNumber}
-                    label="شماره موبایل"
-                  />
-                  <Typography
-                    variant="caption"
-                    color={"error"}
-                    sx={{
-                      marginRight: 1,
-                    }}
-                  >
-                    {!isValid && number.length != 11
-                      ? "لطفا شماره موبایل خود را به درستی وارد نمایید"
-                      : ""}
-                  </Typography>
-                </Grid>
+              </Grid>
 
-                <Grid item xs={12} lg={6} sx={{ mb: 1 }}>
-                  <Captcha />
-                </Grid>
+              <ActionButton
+                className="outlined"
+                onClick={handleEditNumber}
+                sx={{ mt: 2 }}
+              >
+                تغییر شماره تماس
+              </ActionButton>
+            </>
+          ) : (
+            <>
+              <FormGroup>
+                <InputLabel>شماره موبایل</InputLabel>
+                <TextField
+                  fullWidth
+                  type="tel"
+                  value={number}
+                  onChange={handleSetPhoneNumber}
+                  placeholder="9123456789"
+                  error={!isValid && number.length !== 0}
+                  helperText={
+                    !isValid && number.length !== 0
+                      ? "لطفا شماره موبایل معتبر وارد کنید"
+                      : "کد تایید به این شماره ارسال خواهد شد"
+                  }
+                  InputProps={{
+                    startAdornment: (
+                      <Box
+                        sx={{
+                          px: 2,
+                          color: "#6b7280",
+                          borderRight: "1px solid #e5e7eb",
+                          fontSize: "0.9rem",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        +98
+                      </Box>
+                    ),
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "12px",
+                      backgroundColor: "#f9fafb",
+                      direction: "ltr",
+                    },
+                    "& input": {
+                      textAlign: "right",
+                      direction: "ltr",
+                    },
+                  }}
+                />
+              </FormGroup>
 
-                <Grid item xs={12} lg={4}>
-                  <RtlTextField
-                    textAlign={"center"}
-                    value={captcha}
-                    size="medium"
-                    required
-                    label="متن تصویر"
-                    color="info"
-                    inputProps={{
-                      maxLength: 4,
-                    }}
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
-                    // fullWidth
-                    onChange={handleCaptcha}
-                    variant="outlined"
-                  />
-                </Grid>
+              <CaptchaContainer>
+                <Captcha />
+                <TextField
+                  fullWidth
+                  value={captcha}
+                  onChange={handleCaptcha}
+                  placeholder="کد امنیتی را وارد کنید"
+                  sx={{
+                    mt: 2,
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "12px",
+                      backgroundColor: "#f9fafb",
+                    },
+                  }}
+                />
+              </CaptchaContainer>
 
-                <Grid xs={12} item>
-                  <Button
-                    disabled={
-                      (isSmsReceived && (seconds > -1 || minutes > 0)) ||
-                      !isValid
-                    }
-                    onClick={handleSendSms}
-                    size="medium"
-                    sx={{ p: 2, borderRadius: 10 }}
-                    fullWidth
-                    variant="contained"
-                  >
-                    {isSmsReceived ? `${sec} : ${min}` : "دریافت کد"}
-                  </Button>
+              <ActionButton
+                className="primary"
+                disabled={
+                  (isSmsReceived && (seconds > -1 || minutes > 0)) || !isValid
+                }
+                onClick={handleSendSms}
+              >
+                {isSmsReceived ? `${sec}:${min}` : "دریافت کد تایید"}
+              </ActionButton>
+            </>
+          )}
 
-                  {/* */}
-                </Grid>
-              </>
-            )}
+          <Typography sx={{ textAlign: "center", mt: 3 }}>
+            حساب کاربری دارید؟{" "}
+            <Link href="/auth/login" style={{ color: "#6366f1" }}>
+              وارد شوید
+            </Link>
+          </Typography>
+        </FormContainer>
 
-            <Grid
-              href="/auth/login"
-              sx={{
-                fontSize: 14,
-                textAlign: "center",
-                mt: 2,
-                textDecoration: "none",
-                color: "primary",
-                border: "2px solid #75502f",
-                borderRadius: 10,
-                px: 1,
-                py: 2,
-                mb: 2,
-              }}
-              component={Link}
-              item
-              xs={12}
-            >
-              حساب کاربری دارید ؟ وارد شوید
-            </Grid>
-          </Grid>
-        </Card>
-      </Container>
-    </Box>
+        <Footer>کلیه حقوق برای فروشگاه اینترنتی ایباکس محفوظ است © 1404</Footer>
+      </VerificationContainer>
+    </>
   );
 }
 

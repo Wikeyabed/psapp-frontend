@@ -98,6 +98,17 @@ function MiniBlogCard({ item, video }) {
         sx={{
           borderTopLeftRadius: "0 !important",
           borderTopRightRadius: "0 !important",
+          height: 45,
+          borderRadius: "12px",
+          fontWeight: 700,
+          fontSize: "1rem",
+          bgcolor: "#6366f1",
+          color: "#fff",
+          boxShadow: "none",
+          "&:hover": {
+            bgcolor: "#4f46e5",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          },
         }}
         color="primary"
         variant="contained"

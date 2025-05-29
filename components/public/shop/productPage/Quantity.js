@@ -63,67 +63,68 @@ function Quantity({
         <ButtonGroup
           sx={{
             direction: "ltr",
-            // transform: "scale(.8)",
-            borderRadius: "5px!important",
-            p: 0.5,
+            borderRadius: "12px",
+            height: "40px", // کمی کمتر از 48 برای جمع‌وجوری
+            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+            bgcolor: "#f0f4ff",
+            overflow: "hidden",
           }}
-          color="secondary"
-          component={"div"}
-          aria-label="small outlined button group"
           size="small"
         >
+          {/* دکمه افزایش */}
           <Button
-            variant="contained"
-            sx={{
-              padding: "5px 2px !important",
-
-              fontSize: 10,
-              color: "orange",
-
-              borderRadius: "50%",
-            }}
-            color="primary"
             onClick={handleIncrement}
+            sx={{
+              minWidth: "40px",
+              height: "40px",
+              borderRadius: 0,
+              bgcolor: "#6366f1",
+              color: "#fff",
+              "&:hover": {
+                bgcolor: "#4f46e5",
+              },
+              fontSize: "1rem",
+            }}
           >
-            <AddIcon
-              sx={{
-                fontSize: 18,
-              }}
-            />
+            <AddIcon sx={{ fontSize: "20px" }} />
           </Button>
+
+          {/* عدد میانی */}
           {displayCounter && (
-            <Button
+            <Box
               sx={{
-                padding: "2px !important",
-                fontSize: 15,
-                textAlign: "center",
-                border: "2px solid !important",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                px: 1.5,
+                minWidth: "48px",
+                fontSize: "0.95rem",
                 fontWeight: "bold",
+                fontFamily: "Segoe UI",
+                color: "#333",
               }}
-              color="primary"
-              variant="text"
             >
               {persianNumber(counter * stack)}
-            </Button>
+            </Box>
           )}
+
+          {/* دکمه کاهش */}
           {displayCounter && (
             <Button
-              sx={{
-                padding: "5px 2px !important",
-                fontSize: 10,
-                color: "orange",
-
-                borderRadius: "50%",
-              }}
-              color="primary"
               onClick={handleDecrement}
-              variant="contained"
+              sx={{
+                minWidth: "40px",
+                height: "40px",
+                borderRadius: 0,
+                bgcolor: "#6366f1",
+                color: "#fff",
+                "&:hover": {
+                  bgcolor: "#0891b2",
+                },
+                fontSize: "1rem",
+              }}
             >
-              <RemoveIcon
-                sx={{
-                  fontSize: 18,
-                }}
-              />
+              <RemoveIcon sx={{ fontSize: "20px" }} />
             </Button>
           )}
         </ButtonGroup>

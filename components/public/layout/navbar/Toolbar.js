@@ -124,18 +124,62 @@ function ToolbarMenu() {
           <Button
             component={Link}
             href="/auth/login"
-            color="secondary"
-            variant="outlined"
+            variant="contained"
             sx={{
-              fontSize: 16,
-              padding: "2px 20px 7px 5px",
-              backgroundColor: "#111",
-              marginRight: "5px",
+              fontSize: "1rem",
+              padding: "12px 24px",
+              borderRadius: "12px",
+              backgroundColor: "transparent",
+              backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)",
+              color: "white",
+              marginRight: "8px",
+              // سایه اصلی با رنگ بنفش-آبی
+              boxShadow:
+                "0 4px 15px rgba(99, 102, 241, 0.5), 0 2px 4px rgba(0, 0, 0, 0.1)",
+              border: "1px solid rgba(255,255,255,0.3)",
+              minWidth: "120px",
+              minHeight: "48px",
+              transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
+              position: "relative",
+              overflow: "hidden",
+              "&:hover": {
+                transform: "translateY(-3px)",
+                // سایه هنگام hover با شدت بیشتر
+                boxShadow:
+                  "0 8px 25px rgba(99, 102, 241, 0.6), 0 4px 8px rgba(0, 0, 0, 0.15)",
+                backgroundColor: "transparent",
+                backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)",
+                "&:before": {
+                  opacity: 1,
+                },
+              },
+              "&:before": {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background:
+                  "linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0))",
+                opacity: 0,
+                transition: "opacity 0.3s ease",
+              },
+              "& .MuiButton-endIcon": {
+                marginRight: "8px",
+                marginLeft: "0",
+                transition: "transform 0.3s ease",
+              },
+              "&:hover .MuiButton-endIcon": {
+                transform: "translateX(3px)",
+              },
             }}
             endIcon={
               <LoginIcon
-                color="warning"
-                sx={{ mr: 1, pt: 0.5, fontSize: "25px !important" }}
+                sx={{
+                  color: "white",
+                  fontSize: "25px !important",
+                }}
               />
             }
           >

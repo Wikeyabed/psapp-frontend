@@ -3,318 +3,486 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "../../../../src/Link";
 import Grid from "@mui/material/Grid";
-import { Instagram, Telegram } from "@mui/icons-material";
+import {
+  Instagram,
+  Telegram,
+  WhatsApp,
+  Email,
+  Phone,
+  LocationOn,
+  ChevronLeft,
+} from "@mui/icons-material";
 import { Box, Divider } from "@mui/material";
 import Ita from "../../../../public/images/ita.svg";
 import Image from "next/image";
+
 export default function Footer() {
   return (
     <Box
       component="footer"
       sx={{
-        background: "linear-gradient(to bottom, #7B6D8D,#2F2235)",
-
+        background: "linear-gradient(135deg, #6366f1, #06b6d4)",
         color: "#fff",
         p: 4,
         pb: { xs: 10, md: 4 },
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        boxShadow: "0 -4px 20px rgba(99, 102, 241, 0.2)",
       }}
     >
       <Container maxWidth="xl">
         <Grid container spacing={5}>
-          <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="h6" color="secondary.main" gutterBottom>
+          {/* بخش درباره ما */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#fff",
+                mb: 3,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  width: 50,
+                  height: 3,
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                },
+              }}
+            >
               درباره ما
             </Typography>
             <Typography
-              variant="caption"
+              variant="body2"
               sx={{
-                color: "#fff",
+                color: "#e0e7ff",
+                lineHeight: 1.8,
+                mb: 2,
               }}
             >
               از سال ۱۳۹۸ در خدمت شما هستیم. از همان روز اول متوجه شدیم که هرچه
               خریداران، محصولات بسته بندی را گرانتر خریداری کنند، مجبور به
-              افزایش قیمت محصولات خود میشوند.از همین رو اهدافی را برای خود ترسیم
-              کردیم، و در راستای اهداف مجموعه حرکت کردیم تا شاید بتوانیم باری از
-              روی دوش هموطنان عزیز برداریم.
+              افزایش قیمت محصولات خود می‌شوند. از همین رو اهدافی را برای خود
+              ترسیم کردیم و در راستای اهداف مجموعه حرکت کردیم.
             </Typography>
-            {/* <Grid item xs={12} sm={4}> */}
+
             <Typography
-              sx={{
-                mt: 2,
-              }}
               variant="h6"
-              color="secondary.main"
-              gutterBottom
+              sx={{
+                color: "#fff",
+                mb: 2,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  width: 50,
+                  height: 3,
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                },
+              }}
             >
               ما را دنبال کنید
             </Typography>
-            <Link
-              href="https://t.me/ebox_shop/"
-              target="_blank"
-              color="inherit"
-            >
-              <Telegram />
-            </Link>
-            <Link
-              href="https://www.instagram.com/eebox.ir"
-              color="inherit"
-              sx={{ pl: 1, pr: 1 }}
-            >
-              <Instagram />
-            </Link>
-            <Link href="https://eitaa.com/eboxir/" color="inherit">
-              <Image
-                style={{
-                  marginBottom: 2,
+
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Link
+                href="https://t.me/samenpacking/"
+                target="_blank"
+                sx={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  transition: "all 0.3s",
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    transform: "translateY(-3px)",
+                  },
                 }}
-                width={20}
-                height={20}
-                src={Ita}
-                alt="ita"
-              />
-            </Link>
+              >
+                <Telegram />
+              </Link>
+              <Link
+                href="https://www.instagram.com/eebox.ir"
+                target="_blank"
+                sx={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  transition: "all 0.3s",
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    transform: "translateY(-3px)",
+                  },
+                }}
+              >
+                <Instagram />
+              </Link>
+              <Link
+                href="https://eitaa.com/eboxir/"
+                target="_blank"
+                sx={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  transition: "all 0.3s",
+                  "&:hover": {
+                    backgroundColor: "rgba(255,255,255,0.2)",
+                    transform: "translateY(-3px)",
+                  },
+                }}
+              >
+                <Image
+                  style={{
+                    width: 20,
+                    height: 20,
+                  }}
+                  width={20}
+                  height={20}
+                  src={Ita}
+                  alt="eitaa"
+                />
+              </Link>
+            </Box>
           </Grid>
 
-          <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="h6" color="secondary.main" gutterBottom>
+          {/* بخش تماس با ما */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#fff",
+                mb: 3,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  width: 50,
+                  height: 3,
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                },
+              }}
+            >
               تماس با ما
             </Typography>
-            <Typography variant="body2" color="#fff">
-              شماره تماس : 55538370-021
-            </Typography>
 
-            <Divider
-              sx={{
-                my: 1,
-                backgroundColor: "orange",
-              }}
-            />
-            {/* <Typography variant="body2" color="text.secondary">
-              Email: info@example.com
-            </Typography> */}
-            <Typography variant="body2" color="#fff">
-              آدرس : صالح آباد غربی،شهرک رسالت،خیابان طالقانی،خیابان ۲۰ متری
-              جوادی، بعد از فروشگاه افق کوروش پلاک ۶۲
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Phone sx={{ mr: 1, fontSize: 20 }} />
+              <Typography variant="body2" sx={{ color: "#e0e7ff" }}>
+                021-55538370
+              </Typography>
+            </Box>
+
+            <Divider sx={{ my: 2, backgroundColor: "rgba(255,255,255,0.3)" }} />
+
+            {/* <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <Email sx={{ mr: 1, fontSize: 20 }} />
+              <Typography variant="body2" sx={{ color: "#e0e7ff" }}>
+                info@eebox.ir
+              </Typography>
+            </Box> */}
+
+            <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
+              <LocationOn sx={{ mr: 1, fontSize: 20, mt: 0.5 }} />
+              <Typography variant="body2" sx={{ color: "#e0e7ff" }}>
+                صالح آباد غربی، شهرک رسالت، خیابان طالقانی، خیابان ۲۰ متری
+                جوادی، بعد از فروشگاه افق کوروش پلاک ۶۲
+              </Typography>
+            </Box>
 
             <Box
-              component={"iframe"}
-              sx={{ border: "1px solid #e2e2e2", borderRadius: 2, mt: 2 }}
+              component="iframe"
+              sx={{
+                border: "1px solid rgba(255,255,255,0.3)",
+                borderRadius: 2,
+                mt: 2,
+                width: "100%",
+                height: 150,
+              }}
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d405.2844324251681!2d51.30543206117888!3d35.64558437789965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8dff3bbb36e33f%3A0xb2d8cf45490c035f!2z2KfbjNio2Kfaqdiz!5e0!3m2!1sen!2s!4v1691832269041!5m2!1sen!2s"
-              width="100%"
-              height={"150px"}
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></Box>
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </Grid>
-          <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="h6" color="secondary.main" gutterBottom>
+
+          {/* بخش نماد الکترونیکی */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#fff",
+                mb: 3,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  width: 50,
+                  height: 3,
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                },
+              }}
+            >
               نماد الکترونیکی
             </Typography>
+
             <Box
               sx={{
                 backgroundColor: "#fff",
-                borderRadius: "20px",
-                width: "130px !important",
-                padding: "5px",
+                borderRadius: "12px",
+                width: "150px",
+                padding: "8px",
+                display: "inline-block",
               }}
             >
               <a
-                referrerpolicy="origin"
+                referrerPolicy="origin"
                 target="_blank"
                 href="https://trustseal.enamad.ir/?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
               >
                 <img
-                  referrerpolicy="origin"
+                  referrerPolicy="origin"
                   src="https://trustseal.enamad.ir/logo.aspx?id=423587&Code=U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
                   alt="ebox-ایباکس"
                   style={{
-                    cursor: "pointer",
-                    width: "auto",
-                    height: "atuo",
+                    width: "100%",
+                    height: "auto",
                   }}
-                  Code="U36FxrJ6cwjOYL9QEdID9AMYmV2HgE4r"
                 />
               </a>
             </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={3} container>
-            <Grid
-              xs={12}
-              item
+
+          {/* بخش دسترسی سریع */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography
+              variant="h6"
               sx={{
-                maxHeight: 40,
+                color: "#fff",
+                mb: 3,
+                position: "relative",
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  width: 50,
+                  height: 3,
+                  backgroundColor: "#fff",
+                  borderRadius: 3,
+                },
               }}
             >
-              {" "}
-              <Typography variant="h6" color="secondary.main">
-                دسترسی سریع
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              {" "}
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+              دسترسی سریع
+            </Typography>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%20%D8%B9%D9%85%D8%AF%D9%87%20%D9%81%D8%B1%D9%88%D8%B4%DB%8C"
-              >
-                بازار عمده فروشی
-              </Typography>
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Link
+                  href="/shop/categories?category=%D8%A8%D8%A7%D8%B2%D8%A7%D8%B1%20%D8%B9%D9%85%D8%AF%D9%87%20%D9%81%D8%B1%D9%88%D8%B4%DB%8C"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  بازار عمده فروشی
+                </Link>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%DA%A9%D8%A7%D8%B1%D8%AA%D9%86%20%D9%BE%D8%B3%D8%AA%DB%8C"
-              >
-                کارتن پستی
-              </Typography>
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+                <Link
+                  href="/shop/categories?category=%DA%A9%D8%A7%D8%B1%D8%AA%D9%86%20%D9%BE%D8%B3%D8%AA%DB%8C"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  کارتن پستی
+                </Link>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D9%BE%D8%A7%DA%A9%D8%AA%20%D9%BE%D8%B3%D8%AA%DB%8C"
-              >
-                پاکت پستی
-              </Typography>
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+                <Link
+                  href="/shop/categories?category=%D9%BE%D8%A7%DA%A9%D8%AA%20%D9%BE%D8%B3%D8%AA%DB%8C"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  پاکت پستی
+                </Link>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D9%86%D9%88%D8%A7%D8%B1%20%DA%86%D8%B3%D8%A8%20%D9%87%D8%A7%DB%8C%20%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D8%A7%D9%84"
-              >
-                چسب پهن
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+                <Link
+                  href="/shop/categories?category=%D9%86%D9%88%D8%A7%D8%B1%20%DA%86%D8%B3%D8%A8%20%D9%87%D8%A7%DB%8C%20%DA%A9%D8%B1%DB%8C%D8%B3%D8%AA%D8%A7%D9%84"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  چسب پهن
+                </Link>
+              </Grid>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D8%AD%D8%A8%D8%A7%D8%A8%D8%AF%D8%A7%D8%B1"
-              >
-                حبابدار
-              </Typography>
+              <Grid item xs={6}>
+                <Link
+                  href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D8%AD%D8%A8%D8%A7%D8%A8%D8%AF%D8%A7%D8%B1"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  حبابدار
+                </Link>
 
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
+                <Link
+                  href="/shop/categories?category=%D8%B3%D9%84%D9%81%D9%88%D9%86%20%D8%A7%D8%B3%D8%AA%D8%B1%DA%86"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  سلفون
+                </Link>
 
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D8%B3%D9%84%D9%81%D9%88%D9%86%20%D8%A7%D8%B3%D8%AA%D8%B1%DA%86"
-              >
-                سلفون
-              </Typography>
+                <Link
+                  href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D9%88%20%D9%86%D8%A7%DB%8C%D9%84%DA%A9%D8%B3"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  نایلون و نایلکس
+                </Link>
 
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
-
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D9%86%D8%A7%DB%8C%D9%84%D9%88%D9%86%20%D9%88%20%D9%86%D8%A7%DB%8C%D9%84%DA%A9%D8%B3"
-              >
-                نایلون و نایلکس
-              </Typography>
-
-              <Typography
-                sx={{
-                  textDecoration: "none",
-                  color: "#fff",
-                  display: "block",
-
-                  py: 1,
-                }}
-                variant="subtitle1"
-                component={Link}
-                href="/shop/categories?category=%D9%85%D9%84%D8%B2%D9%88%D9%85%D8%A7%D8%AA%20%D8%A8%D8%B3%D8%AA%D9%87%20%D8%A8%D9%86%D8%AF%DB%8C"
-              >
-                ملزومات بسته بندی
-              </Typography>
+                <Link
+                  href="/shop/categories?category=%D9%85%D9%84%D8%B2%D9%88%D9%85%D8%A7%D8%AA%20%D8%A8%D8%B3%D8%AA%D9%87%20%D8%A8%D9%86%D8%AF%DB%8C"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    color: "#e0e7ff",
+                    textDecoration: "none",
+                    mb: 1.5,
+                    "&:hover": {
+                      color: "#fff",
+                    },
+                  }}
+                >
+                  <ChevronLeft sx={{ fontSize: 16 }} />
+                  ملزومات بسته بندی
+                </Link>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-        <Box mt={5}>
-          <Typography variant="body2" color="#fff" align="center">
-            {"تمامی حقوق این سایت متعلق به ایباکس می باشد ©      2025 - "}
-            <Link color="inherit" href="https://eebox.ir/">
+
+        {/* بخش کپی رایت */}
+        <Box
+          sx={{
+            mt: 5,
+            pt: 3,
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "#e0e7ff" }}>
+            {"تمامی حقوق این سایت متعلق به ایباکس می باشد © 2025 - "}
+            <Link
+              href="https://eebox.ir/"
+              sx={{
+                color: "#fff",
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
               www.eebox.ir
             </Link>
-            {"  "}
           </Typography>
+
           <Divider
             sx={{
-              my: 1,
+              my: 2,
               width: { md: "50%" },
               mx: "auto",
-              backgroundColor: "orange",
+              backgroundColor: "rgba(255,255,255,0.3)",
             }}
           />
-          <Typography
-            sx={{
-              fontFamily: "sans-serif !important",
-            }}
-            variant="body2"
-            color="#fff"
-            align="center"
-          >
-            {"All Right Reserved And Belongs to Eebox © 2025"}
 
-            {"  "}
+          <Typography
+            variant="body2"
+            sx={{ color: "#e0e7ff", fontFamily: "sans-serif" }}
+          >
+            All Rights Reserved And Belongs to Eebox © 2025
           </Typography>
-          {/* <Divider sx={{ my: 3 }} /> */}
-          {/* <Typography variant="body2" color="text.secondary" align="center">
-            Designed & Developed By
-            <Link
-              target="_blank"
-              color="#992200"
-              href="https://instagram.com/a.m.mohamadiiii"
-            >
-              {" "}
-              Me{" "}
-            </Link>
-            {"  "}
-          </Typography> */}
         </Box>
       </Container>
     </Box>

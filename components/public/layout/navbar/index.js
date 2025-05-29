@@ -59,6 +59,7 @@ export default function Navbar() {
 
   return (
     <>
+    
       {/* bottom menu for mobile */}
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <BottomNav />
@@ -71,7 +72,7 @@ export default function Navbar() {
           sx={{
             width: "100%",
             height: 40,
-            backgroundColor: "#2F2235",
+            background: "linear-gradient(135deg, #6366f1, #06b6d4)",
             position: "fixed",
             zIndex: 4000,
             textAlign: "center",
@@ -134,8 +135,7 @@ export default function Navbar() {
         </Box>
         <AppBar
           sx={{
-            background:
-              "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+            background: "linear-gradient(135deg, #6366f1, #06b6d4)",
             borderBottomLeftRadius: "40px",
             borderBottomRightRadius: "40px",
 
@@ -234,8 +234,6 @@ export default function Navbar() {
          <img src="/images/b-desktop.png" width="130px" />
         </Box>
          */}
-
-
       </Box>
     </>
   );

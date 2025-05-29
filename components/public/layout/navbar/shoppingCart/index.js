@@ -99,7 +99,6 @@ function MiniShoppingCart() {
         open={open}
         TransitionComponent={Transition}
         maxWidth="md"
-  
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
@@ -107,7 +106,7 @@ function MiniShoppingCart() {
           style: {
             borderRadius: "10px",
             p: "0 !important",
-            width : "100%",
+            width: "100%",
           },
         }}
       >
@@ -127,23 +126,42 @@ function MiniShoppingCart() {
         >
           <CartItems />
         </DialogContent>
-        <DialogActions
-          sx={{
-            padding: 4,
-          }}
-        >
+        <DialogActions sx={{ padding: 4 }}>
+          {/* دکمه پرداخت - رنگ اصلی */}
           <Button
             component={Link}
             href="/shop/cart"
-            sx={{ m: 1 }}
-            color="primary"
-            variant="contained"
             onClick={handleClose}
+            sx={{
+              m: 1,
+              bgcolor: "#6366f1", // رنگ اصلی
+              color: "#fff",
+              "&:hover": {
+                bgcolor: "#4f46e5", // کمی تیره‌تر هنگام hover
+              },
+              minHeight: "48px",
+              borderRadius: "12px",
+            }}
+            variant="contained"
           >
             پرداخت
           </Button>
 
-          <Button variant="outlined" color="primary" onClick={handleClose}>
+          {/* دکمه ادامه خرید - رنگ مکمل */}
+          <Button
+            variant="outlined"
+            onClick={handleClose}
+            sx={{
+              color: "#06b6d4", // رنگ مکمل
+              borderColor: "#06b6d4",
+              "&:hover": {
+                bgcolor: "rgba(6, 182, 212, 0.1)",
+                borderColor: "#06b6d4",
+              },
+              minHeight: "48px",
+              borderRadius: "12px",
+            }}
+          >
             ادامه خرید
           </Button>
         </DialogActions>

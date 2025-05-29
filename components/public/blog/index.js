@@ -148,13 +148,27 @@ export default function AllBlogs({ blogPosts = [], video }) {
                         </Box>
                       </Box>
                       <Button
-                        component={Link}
-                        href={`/blog/${post.id}`}
-                        fullWidth
-                        variant="contained"
-                      >
-                        ادامه خواندن
-                      </Button>
+  component={Link}
+  href={`/blog/${post.id}`}
+  fullWidth
+  variant="contained"
+  sx={{
+    height: 45,
+    borderRadius: "12px",
+    fontWeight: 700,
+    fontSize: "1rem",
+    bgcolor: "#6366f1",
+    color: "#fff",
+    boxShadow: "none",
+    "&:hover": {
+      bgcolor: "#4f46e5",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+    },
+  }}
+>
+  ادامه خواندن
+</Button>
+
                     </Card>
                   </Grid>
                 ) : (
@@ -250,6 +264,19 @@ export default function AllBlogs({ blogPosts = [], video }) {
                         href={`/blog/${post.id}`}
                         fullWidth
                         variant="contained"
+                        sx={{
+                          height: 45,
+                          borderRadius: "12px",
+                          fontWeight: 700,
+                          fontSize: "1rem",
+                          bgcolor: "#6366f1",
+                          color: "#fff",
+                          boxShadow: "none",
+                          "&:hover": {
+                            bgcolor: "#4f46e5",
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                          },
+                        }}
                       >
                         ادامه خواندن
                       </Button>

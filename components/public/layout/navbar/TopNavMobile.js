@@ -297,7 +297,7 @@ function TopNavMobile(props) {
       <CssBaseline />
       <AppBar
         sx={{
-          background: "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
+          background: "linear-gradient(135deg, #6366f1, #06b6d4)",
           height: 30,
         }}
         component="nav"
@@ -378,8 +378,7 @@ function TopNavMobile(props) {
 
           <Box
             sx={{
-              background:
-                "linear-gradient(to top, #2F2235, #543d5e , #7B6D8D )",
+              background: "linear-gradient(135deg,  #6366f1)",
               width: 90,
               height: 43,
               position: "absolute",

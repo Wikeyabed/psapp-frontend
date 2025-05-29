@@ -3,71 +3,128 @@ import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   Box,
-  Grid,
-  Paper,
   TextField,
   Button,
   Typography,
-  FormGroup,
-  Divider,
   Container,
+  InputAdornment,
 } from "@mui/material";
-import Link from "../../../src/Link";
-import { setCookie } from "cookies-next";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import Link from "../../../src/Link";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
-import Image from "next/image";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
-const Item = styled(Grid)(({ theme }) => ({
-  textAlign: "center",
+import { useRouter } from "next/router";
 
-  borderRadius: "10px",
-}));
+// استایل‌های سفارشی
+const VerificationContainer = styled(Container)(({ theme }) => ({
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  padding: 0,
 
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginBottom: 5,
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "1.75rem !important",
-    overflow: "unset",
+  // فقط در دسکتاپ عرض را 100vw کنیم
+  [theme.breakpoints.up("md")]: {
+    width: "45vw",
+    maxWidth: "100vw", // override محدودیت MUI Container
   },
 }));
 
-function PasswordReset() {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaText);
+const Header = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+  color: "white",
+  padding: "30px 20px",
+  textAlign: "center",
+  borderBottomLeftRadius: "30px",
+  borderBottomRightRadius: "30px",
+  boxShadow: "0 4px 20px rgba(99, 102, 241, 0.2)",
+}));
 
+const Logo = styled(Typography)(({ theme }) => ({
+  fontSize: "1.8rem",
+  fontWeight: "bold",
+  marginBottom: "10px",
+}));
+
+const FormContainer = styled(Box)(({ theme }) => ({
+  padding: "30px 20px",
+  marginTop: "-20px",
+  backgroundColor: "white",
+  borderRadius: "20px",
+  boxShadow: "0 5px 25px rgba(0, 0, 0, 0.08)",
+  position: "relative",
+  zIndex: 1,
+  flexGrow: 1,
+}));
+
+const FormGroup = styled(Box)(({ theme }) => ({
+  marginBottom: "20px",
+}));
+
+const InputLabel = styled(Typography)(({ theme }) => ({
+  display: "block",
+  marginBottom: "8px",
+  fontWeight: 500,
+  color: "#4b5563",
+}));
+
+const ActionButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  padding: "15px",
+  borderRadius: "12px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(99, 102, 241, 0.3)",
+  "&.primary": {
+    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+    color: "white",
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
+    },
+  },
+  "&.outlined": {
+    border: "1px solid #6366f1",
+    color: "#6366f1",
+    "&:hover": {
+      backgroundColor: "rgba(99, 102, 241, 0.1)",
+    },
+  },
+}));
+
+const Footer = styled(Box)(({ theme }) => ({
+  textAlign: "center",
+  padding: "20px",
+  color: "#9ca3af",
+  fontSize: "0.8rem",
+}));
+
+const CaptchaContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  margin: "20px 0",
+}));
+
+function PasswordReset() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const tempCaptcha = useSelector((state) => state.auth.tempCaptchaText);
   const [loginInfo, setLoginInfo] = useState({
     phoneNumber: "",
-    captcha: null,
+    captcha: "",
   });
-
   const [isValid, setIsValid] = useState(true);
 
   const handlePhoneNumber = (event) => {
     setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
     let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
-    let result = regex.test(event.target.value);
-
-    if (result) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    let result = regex.test("+98" + event.target.value);
+    setIsValid(result);
   };
 
   const handleCaptcha = (event) => {
     setLoginInfo({ ...loginInfo, captcha: event.target.value });
-    console.log(tempCaptcha);
   };
 
   const handleSubmit = async (event) => {
@@ -77,7 +134,7 @@ function PasswordReset() {
       let myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
       let urlencoded = new URLSearchParams();
-      urlencoded.append("phone_number", loginInfo.phoneNumber);
+      urlencoded.append("phone_number", "+98" + loginInfo.phoneNumber);
       let requestOptions = {
         method: "PUT",
         headers: myHeaders,
@@ -86,11 +143,9 @@ function PasswordReset() {
       await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/pw-reset`,
         requestOptions
-      ).then((res, error) => {
+      ).then((res) => {
         if (res.status == 200) {
-          res.json().then((data) => {
-            console.log(data);
-            // set token to local storage
+          res.json().then(() => {
             dispatch(
               setNotificationOn({
                 message: "رمز عبور جدید برای شما ارسال شد",
@@ -102,14 +157,12 @@ function PasswordReset() {
             }, 2000);
           });
         } else {
-          console.log(error);
           dispatch(
             setNotificationOn({
               message: "اطلاعات وارد شده صحیح نمی باشد",
               color: "error",
             })
           );
-
           setLoginInfo({ ...loginInfo, phoneNumber: "" });
         }
       });
@@ -125,168 +178,95 @@ function PasswordReset() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Container>
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          <SimpleBottomNavigation />
-        </Box>
-        <Grid>
+    <>
+      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <SimpleBottomNavigation />
+      </Box>
+
+      <VerificationContainer>
+        <Header>
+          <Logo>به ایباکس خوش آمدید</Logo>
+          <Typography variant="h6">بازیابی رمز عبور</Typography>
+        </Header>
+
+        <FormContainer>
           <form onSubmit={handleSubmit}>
             <FormGroup>
-              <Grid
-                xs={12}
-                md={8}
-                lg={6}
-                sx={{
-                  mx: "auto",
-                  padding: 1,
-                  border: "1px solid #ccc",
-                  boxShadow: "0px 0px 10px 0px #ccc",
-                  borderRadius: 5,
-                  padding: 2,
-                  mt: 5,
+              <InputLabel>شماره موبایل</InputLabel>
+              <TextField
+                type="tel"
+                fullWidth
+                value={loginInfo.phoneNumber}
+                onChange={handlePhoneNumber}
+                placeholder="9123456789"
+                error={!isValid && loginInfo.phoneNumber.length !== 0}
+                helperText={
+                  !isValid && loginInfo.phoneNumber.length !== 0
+                    ? "لطفا شماره موبایل معتبر وارد کنید"
+                    : "رمز عبور جدید به این شماره ارسال خواهد شد"
+                }
+                InputProps={{
+                  // تغییر از startAdornment به endAdornment
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      sx={{ fontSize: "0.95rem", color: "#374151" }}
+                    >
+                      +98
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    borderRadius: "12px",
+                    backgroundColor: "#f9fafb",
+                    direction: "rtl", // اضافه کردن برای راست‌چین شدن ورودی
+                    "& input": {
+                      padding: "15px",
+                    },
+                  },
                 }}
-                component={Item}
-                container
-              >
-                <Grid sx={{ mb: 1 }} item xs={12}>
-                  <Box
-                    sx={{
-                      textAlign: "center",
-                    }}
-                  >
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/logo3.png`}
-                      width={50}
-                      height={0}
-                      sizes="100vh"
-                      alt="ایباکس"
-                      style={{
-                        width: "200px",
-                        height: "auto",
-                      }}
-                    />
-                  </Box>
-
-                  <Typography textAlign={"center"} sx={{ mb: 5 }} variant="h5">
-                    بازیابی رمز عبور
-                  </Typography>
-
-                  <RtlTextField
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
-                    value={loginInfo.phoneNumber}
-                    required
-                    fullWidth
-                    onChange={handlePhoneNumber}
-                    label="شماره تماس"
-                  />
-                </Grid>
-
-                <Grid xs={12} item>
-                  {" "}
-                </Grid>
-
-                <Grid xs={12} item>
-                  <Box
-                    sx={{
-                      mx: "auto",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Captcha />
-                  </Box>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <RtlTextField
-                    textAlign={"center"}
-                    value={loginInfo.captcha}
-                    size="medium"
-                    required
-                    label="متن تصویر"
-                    color="info"
-                    inputProps={{
-                      maxLength: 4,
-                    }}
-                    TextFieldsProps={{
-                      type: "number",
-                      inputProps: {
-                        inputMode: "numeric",
-                        pattern: "[0-9]*",
-                      },
-                    }}
-                    type="number"
-                    // fullWidth
-                    onChange={handleCaptcha}
-                    variant="outlined"
-                  />
-                </Grid>
-
-                <Grid sx={{ mt: 2 }} xs={12} item>
-                  <Button
-                    disabled={!isValid}
-                    sx={{ p: 1 }}
-                    fullWidth
-                    type="submit"
-                    variant="contained"
-                  >
-                    دریافت رمز عبور جدید
-                  </Button>
-                </Grid>
-
-                <Grid
-                  href="/"
-                  sx={{
-                    cursor: "pointer",
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 2,
-                    textDecoration: "none",
-                    color: "#ec9d50",
-                    border: "2px solid #ec9d50",
-                    borderRadius: "5px",
-                    px: 1,
-                    py: 2,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  بازگشت به فروشگاه
-                </Grid>
-
-                <Grid
-                  href="/auth/register"
-                  sx={{
-                    fontSize: 14,
-                    textAlign: "center",
-                    mt: 2,
-                    textDecoration: "none",
-                    color: "primary",
-                    border: "2px solid #75502f",
-                    borderRadius: "5px",
-                    px: 1,
-                    py: 2,
-                  }}
-                  component={Link}
-                  item
-                  xs={12}
-                >
-                  حساب کاربری ندارید ؟ ثبت نام کنید
-                </Grid>
-              </Grid>
+              />
             </FormGroup>
+
+            <CaptchaContainer>
+              <Captcha />
+              <TextField
+                fullWidth
+                value={loginInfo.captcha}
+                onChange={handleCaptcha}
+                placeholder="کد امنیتی را وارد کنید"
+                sx={{
+                  mt: 2,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "12px",
+                    backgroundColor: "#f9fafb",
+                  },
+                }}
+              />
+            </CaptchaContainer>
+
+            <ActionButton className="primary" disabled={!isValid} type="submit">
+              دریافت رمز عبور جدید
+            </ActionButton>
           </form>
-        </Grid>
-      </Container>
-    </Box>
+
+          <Typography sx={{ textAlign: "center", mt: 3 }}>
+            حساب کاربری دارید؟{" "}
+            <Link href="/auth/login" style={{ color: "#6366f1" }}>
+              وارد شوید
+            </Link>
+          </Typography>
+
+          <Typography sx={{ textAlign: "center", mt: 2 }}>
+            حساب کاربری ندارید؟{" "}
+            <Link href="/auth/register" style={{ color: "#6366f1" }}>
+              ثبت نام کنید
+            </Link>
+          </Typography>
+        </FormContainer>
+
+        <Footer>کلیه حقوق برای فروشگاه اینترنتی ایباکس محفوظ است © 1404</Footer>
+      </VerificationContainer>
+    </>
   );
 }
 
