@@ -4,7 +4,7 @@ import AdminDashboard from "../../components/admin/dashboard/";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { getCookie } from "cookies-next";
-import { AdminSocketProvider } from "@/context/AdminSocketContext"; // ✅ اضافه شده
+import { AdminSocketProvider } from "../../context/AdminSocketContext"; 
 
 function Admin({ users, orders, products }) {
   const isAdminLoggedIn = useSelector(

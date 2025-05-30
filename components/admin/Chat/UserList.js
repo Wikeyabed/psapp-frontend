@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { AdminSocketContext } from "../../../src/context/AdminSocketContext";
+import { AdminSocketContext } from "../../../context/AdminSocketContext";
 
 export default function UserList({ onSelectUser, selectedUserId }) {
   const { socket } = useContext(AdminSocketContext);
