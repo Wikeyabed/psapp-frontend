@@ -295,14 +295,13 @@ function BijackPdf({ order }) {
                           >
                             گیرنده: {order.customer_name}
                           </Text>
-                        </View>{" "}
+                        </View>
                         <View
                           style={{
                             alignItems: "flex-end",
                             flexGrow: 1,
                           }}
                         >
-                          {" "}
                           <Text
                             style={{
                               fontSize: "10px",
@@ -331,12 +330,22 @@ function BijackPdf({ order }) {
                       >
                         آدرس : {order.delivery_address}
                       </Text>
+                      <View>
+                        <Text
+                          style={{
+                            fontSize: "10px",
+                            textAlign: "right",
+                            minHeight: 150,
+                          }}
+                        >
+                          توضیحات فاکتور : {order.order_description}
+                        </Text>
+                      </View>
                     </View>
 
                     <View
                       style={{
                         flexDirection: "row-reverse",
-
                         marginTop: "20px",
                         textAlign: "center !important",
                         fontSize: "12px",

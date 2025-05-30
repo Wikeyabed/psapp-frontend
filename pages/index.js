@@ -3,12 +3,13 @@ import { useDispatch } from "react-redux";
 import { getProducts, setAllVariant } from "../redux/reducers/productSlice";
 import { useEffect } from "react";
 import Head from "next/head";
+import UserChatWidget from "../components/chat/UserChatWidget.js"; // 👈 ایمپورت ویجت چت
 
 export default function Home({ products, allVariants }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Create a mapping of variants by product ID
+    // دسته‌بندی واریانت‌ها بر اساس آیدی محصول
     const variantsByProductId = allVariants.reduce((acc, variant) => {
       const productId = variant.variant_product_id;
       if (!acc[productId]) {
@@ -18,13 +19,12 @@ export default function Home({ products, allVariants }) {
       return acc;
     }, {});
 
-    // Create complete product objects with all variants
+    // ترکیب محصولات با واریانت‌ها
     const productsWithVariants = products.map((product) => ({
       info: product,
       variants: variantsByProductId[product.product_id] || [],
     }));
 
-    console.log("Products with variants:", productsWithVariants);
     dispatch(getProducts(productsWithVariants));
     dispatch(setAllVariant(allVariants));
   }, [products, allVariants, dispatch]);
@@ -38,19 +38,18 @@ export default function Home({ products, allVariants }) {
         </title>
       </Head>
       <Shop />
+      <UserChatWidget /> {/* 👈 ویجت چت در صفحه اصلی */}
     </>
   );
 }
 
 export async function getServerSideProps() {
   try {
-    // Fetch data in parallel
     const [productsRes, variantsRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`),
     ]);
 
-    // Handle errors
     if (!productsRes.ok || !variantsRes.ok) {
       throw new Error("Failed to fetch product data");
     }
