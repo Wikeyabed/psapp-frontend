@@ -10,7 +10,7 @@ export default function ChatBox({ selectedUserId }) {
     if (!socket) return;
 
     const handleMessage = (message) => {
-      if (message.from === selectedUserId || message.to === selectedUserId) {
+      if (message.senderId === selectedUserId || message.senderId === "admin") {
         setMessages((prev) => [...prev, message]);
       }
     };
@@ -23,13 +23,17 @@ export default function ChatBox({ selectedUserId }) {
   }, [socket, selectedUserId]);
 
   const sendMessage = () => {
-    if (text.trim() === "") return;
+    if (text.trim() === "" || !selectedUserId) return;
+    
     const message = {
-      to: selectedUserId,
+      senderId: "admin",
+      receiverId: selectedUserId,
       text,
+      timestamp: new Date()
     };
+    
     socket.emit("sendMessage", message);
-    setMessages((prev) => [...prev, { ...message, from: "admin" }]);
+    setMessages((prev) => [...prev, message]);
     setText("");
   };
 
@@ -56,14 +60,14 @@ export default function ChatBox({ selectedUserId }) {
           <div
             key={idx}
             style={{
-              textAlign: msg.from === "admin" ? "left" : "right",
+              textAlign: msg.senderId === "admin" ? "left" : "right",
               margin: "4px 0",
             }}
           >
             <span
               style={{
                 padding: "4px 8px",
-                background: "#e0e0e0",
+                background: msg.senderId === "admin" ? "#e3f2fd" : "#e0e0e0",
                 borderRadius: "6px",
               }}
             >
@@ -79,6 +83,7 @@ export default function ChatBox({ selectedUserId }) {
           onChange={(e) => setText(e.target.value)}
           placeholder="پیام..."
           style={{ width: "80%", padding: "8px" }}
+          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
         />
         <button onClick={sendMessage} style={{ padding: "8px 16px" }}>
           ارسال
