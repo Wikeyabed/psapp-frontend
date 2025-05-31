@@ -1,5 +1,5 @@
 import { getCookie } from "cookies-next";
-import ShippingPdf from "../../../../components/admin/orders/ShippingPdf";
+import ShippingPdf from "../../../components/admin/orders/ShippingPdf";
 
 function Shipping({ order }) {
   return (
