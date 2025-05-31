@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import LoadingBar from "./LoadingBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoadingOff, setLoadingOn } from "../../redux/reducers/loadingSlice";
@@ -9,15 +9,20 @@ export default function Loading() {
   const router = useRouter();
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.loading.loading);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    const handleStart = (url) => {
+    const handleStart = () => {
+      clearTimeout(timeoutRef.current);
       dispatch(setLoadingOn());
       dispatch(clearSearch());
     };
 
-    const handleComplete = (url) => {
-      setTimeout(() => dispatch(setLoadingOff()), 200);
+    const handleComplete = () => {
+      // حداقل زمان نمایش لودینگ (مثلاً 400ms)
+      timeoutRef.current = setTimeout(() => {
+        dispatch(setLoadingOff());
+      }, 400);
     };
 
     router.events.on("routeChangeStart", handleStart);
@@ -25,11 +30,12 @@ export default function Loading() {
     router.events.on("routeChangeError", handleComplete);
 
     return () => {
+      clearTimeout(timeoutRef.current);
       router.events.off("routeChangeStart", handleStart);
       router.events.off("routeChangeComplete", handleComplete);
       router.events.off("routeChangeError", handleComplete);
     };
-  }, [router]);
+  }, [router, dispatch]);
 
   return loading && <LoadingBar loading={loading} />;
 }
