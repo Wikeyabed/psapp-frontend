@@ -1,15 +1,15 @@
-import OrderPage from "../../../components/admin/orders/OrderPage";
 import { getCookie } from "cookies-next";
+import ShippingPdf from "../../../../components/admin/orders/ShippingPdf";
 
-function Order({ order }) {
+function Shipping({ order }) {
   return (
     <>
-      <OrderPage order={order} />
+      <ShippingPdf order={order} />
     </>
   );
 }
 
-export default Order;
+export default Shipping;
 
 export async function getServerSideProps({ req, res, params }) {
   const response = await fetch(

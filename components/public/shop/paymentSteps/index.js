@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import React from "react";
+
 import {
   Stepper,
   Step,
@@ -28,6 +30,8 @@ import {
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
+import { getCookie } from "cookies-next";
+import shortUUID from "short-uuid";
 import CheckIcon from "@mui/icons-material/Check";
 import { styled } from "@mui/material/styles";
 import LocalShipping from "@mui/icons-material/LocalShipping";
@@ -63,6 +67,7 @@ const steps = [
   "آدرس کاربر",
   "نهایی سازی فاکتور",
 ];
+
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 16,
@@ -85,8 +90,8 @@ const CustomConnector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }));
+
 const StyledStepper = styled(Stepper)(({ theme }) => ({
-  // direction: "rtl",
   backgroundColor: "transparent",
   padding: theme.spacing(4, 0, 3),
   "& .MuiStepLabel-label": {
@@ -101,51 +106,11 @@ const StyledStepper = styled(Stepper)(({ theme }) => ({
   "& .MuiStepLabel-label.Mui-completed": {
     color: "#10b981",
   },
-}));
-
-const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
-  "& .MuiStepLabel-label": {
-    fontSize: "0.85rem",
-    fontWeight: 600,
-    color: `${colors.secondary}`,
-    marginTop: theme.spacing(1),
-    "&.Mui-active": {
-      color: colors.primary,
-      fontWeight: 700,
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2, 0, 1),
+    "& .MuiStepLabel-label": {
+      fontSize: "0.75rem",
     },
-    "&.Mui-completed": {
-      color: colors.success,
-    },
-  },
-  "& .MuiStepIcon-root": {
-    color: "transparent",
-    border: `2px solid ${colors.secondary}`,
-    borderRadius: "50%",
-    width: 32,
-    height: 32,
-    fontSize: "1rem",
-    "&.Mui-active": {
-      color: colors.primary,
-      borderColor: colors.primary,
-      backgroundColor: "white",
-      "& .MuiStepIcon-text": {
-        fill: colors.primary,
-        fontWeight: 700,
-      },
-    },
-    "&.Mui-completed": {
-      color: colors.success,
-      borderColor: colors.success,
-      backgroundColor: "white",
-      "& .MuiStepIcon-text": {
-        fill: colors.success,
-      },
-    },
-  },
-  "& .MuiStepIcon-text": {
-    fill: colors.secondary,
-    fontWeight: 700,
-    fontSize: "0.9rem",
   },
 }));
 
@@ -181,6 +146,10 @@ const StyledTextField = styled(TextField)(({ theme, error }) => ({
   "& .MuiInputBase-input": {
     fontSize: "0.95rem",
     padding: theme.spacing(1.75, 2),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      padding: theme.spacing(1.5, 2),
+    },
   },
   "& .MuiFormHelperText-root": {
     textAlign: "right",
@@ -198,6 +167,10 @@ const StyledSelect = styled(Select)(({ theme, error }) => ({
     textAlign: "right",
     padding: theme.spacing(1.75, 2),
     fontSize: "0.95rem",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+      padding: theme.spacing(1.5, 2),
+    },
   },
   "& .MuiOutlinedInput-notchedOutline": {
     borderColor: error ? colors.error : colors.primary,
@@ -222,24 +195,22 @@ const DeliveryOptionCard = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "selected",
 })(({ theme, selected }) => ({
   padding: theme.spacing(3),
-  marginBottom: theme.spacing(3),
-  border: `2px solid ${selected ? colors.primary : colors.secondary}20`,
+  marginBottom: 0,
   borderRadius: "16px",
-  backgroundColor: selected
-    ? `${colors.primary}08`
-    : theme.palette.background.paper,
   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   cursor: "pointer",
-  opacity: selected ? 1 : 0.9,
+  position: "relative",
+  overflow: "hidden",
+  boxShadow: selected
+    ? `0 8px 24px ${colors.primary}30`
+    : `0 4px 12px ${colors.primary}20`,
+  transform: selected ? "translateY(-5px)" : "none",
   "&:hover": {
-    transform: "translateY(-3px)",
-    boxShadow: `0 6px 16px ${colors.secondary}15`,
-    opacity: 1,
+    transform: "translateY(-5px)",
+    boxShadow: `0 8px 24px ${colors.primary}30`,
   },
-  "& .MuiSvgIcon-root": {
-    fontSize: "2.5rem",
-    marginLeft: theme.spacing(2),
-    color: selected ? colors.primary : colors.secondary,
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -255,6 +226,9 @@ const AddressBox = styled(Box)(({ theme }) => ({
   "&:hover": {
     opacity: 1,
     boxShadow: `0 4px 12px ${colors.primary}20`,
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -292,6 +266,11 @@ const ActionButton = styled(Button)(({ theme }) => ({
   "&.Mui-disabled": {
     opacity: 0.6,
   },
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(1.5, 3),
+    fontSize: "0.85rem",
+    minHeight: "42px",
+  },
 }));
 
 const SummaryItem = styled(Box)(({ theme }) => ({
@@ -301,11 +280,29 @@ const SummaryItem = styled(Box)(({ theme }) => ({
     fontWeight: 600,
     minWidth: "140px",
     color: colors.dark,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "100px",
+      fontSize: "0.85rem",
+    },
   },
   "& .value": {
     color: colors.dark,
     flex: 1,
     opacity: 0.9,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.85rem",
+    },
+  },
+}));
+
+const NoConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 16,
+    left: "calc(-50% + 16px)",
+    right: "calc(50% + 16px)",
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    borderColor: "transparent",
   },
 }));
 
@@ -321,18 +318,24 @@ const StepValidationMessage = styled(Box)(({ theme }) => ({
     marginLeft: theme.spacing(1),
     color: colors.error,
   },
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(1, 1.5),
+    marginBottom: theme.spacing(2),
+  },
 }));
+
 export default function PaymentStepper() {
   const theme = useTheme();
-  // const stepIndex =direction === "ltr" ? steps.length - 1 - activeStep : activeStep;
   const userData = useSelector((state) => state.auth.userInformation);
+  const payment = useSelector((state) => state.order);
   const [activeStep, setActiveStep] = useState(0);
   const stepIndex = activeStep;
   const [deliveryMethod, setDeliveryMethod] = useState("");
-  const [date, setDate] = useState(moment().unix());
+  const [date, setDate] = useState(moment().add(1, "day").unix());
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+
   const [fieldErrors, setFieldErrors] = useState({
     deliveryMethod: false,
     date: false,
@@ -340,6 +343,79 @@ export default function PaymentStepper() {
     city: false,
     address: false,
   });
+
+  const [data, setData] = useState({
+    description: "",
+    loading: false,
+    finalize: false,
+    paymentUrl: "https://eebox.ir",
+  });
+
+  const handlePayment = () => {
+    if (!validateStep(activeStep)) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+
+    setLoading(true);
+    handleNewPayment().then(() => {
+      setLoading(false);
+    });
+  };
+
+  const handleNewPayment = async () => {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("token", getCookie("x-auth-token"));
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
+        description: data.description,
+        products: payment.products,
+        finished_price: payment.totalPrice,
+        order_id: shortUUID.generate(),
+        customer_name: userData.firstName + " " + userData.lastName,
+        delivery_date: date,
+        address:
+          addressType == "new"
+            ? `${province},${city},${address}`
+            : userData.address,
+        customer_phone: userData.phoneNumber,
+        delivery_type: deliveryMethod,
+      });
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/payment/new`,
+        requestOptions
+      );
+
+      if (response.status === 201) {
+        const responseData = await response.json();
+        const paymentUrl = `https://gateway.zibal.ir/start/${responseData[0].track_id}`;
+
+        // Redirect to payment gateway
+        window.location.href = paymentUrl;
+      } else {
+        throw new Error("Payment initialization failed");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      setError("خطا در اتصال به درگاه پرداخت. لطفا مجددا تلاش کنید.");
+      setOpenSnackbar(true);
+      setLoading(false);
+    }
+  };
+
   // استایل‌های جدید را اینجا اضافه کنید
   const StepIconContainer = styled("div")(({ active, completed }) => ({
     width: 32,
@@ -356,6 +432,11 @@ export default function PaymentStepper() {
       completed ? "#10b981" : active ? "#6366f1" : "#cbd5e1"
     }`,
     boxShadow: active ? "0 0 0 4px rgba(99, 102, 241, 0.2)" : "none",
+    [theme.breakpoints.down("sm")]: {
+      width: 28,
+      height: 28,
+      fontSize: "0.9rem",
+    },
   }));
 
   const StepLabelText = styled(Typography)(({ active, completed }) => ({
@@ -364,6 +445,10 @@ export default function PaymentStepper() {
     color: completed ? "#10b981" : active ? "#6366f1" : "#64748b",
     marginTop: 8,
     textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.75rem",
+      marginTop: 6,
+    },
   }));
 
   const CustomStepLabel = ({ label, active, completed, icon }) => (
@@ -481,6 +566,10 @@ export default function PaymentStepper() {
     return isValid;
   };
 
+  const handleDescriptionChange = (e) => {
+    setData({ ...data, description: e.target.value });
+  };
+
   const handleNext = () => {
     if (!validateStep(activeStep)) {
       // اسکرول به بالای فرم برای نمایش خطاها
@@ -530,39 +619,43 @@ export default function PaymentStepper() {
   const deliveryMethods = [
     {
       value: "in-person",
-      label: "تحویل حضوری از انبار",
-      description: "مراجعه به آدرس انبار در ساعات کاری (9 صبح تا 5 بعدازظهر)",
-      icon: <Storefront fontSize="large" />,
-      color: colors.primary,
-      benefits: ["تحویل فوری", "امکان بازدید از محصول", "پشتیبانی حضوری"],
+      label: "تحویل حضوری",
+      shortLabel: "حضوری",
+      description: "مراجعه به انبار در ساعات کاری",
+      icon: <Storefront fontSize="small" />,
+      color: "#6366f1", // بنفش
+      benefits: ["تحویل فوری", "بازدید محصول", "پشتیبانی حضوری"],
+      gradient: "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)",
     },
     {
       value: "posting",
-      label: "ارسال از طریق پست",
+      label: "ارسال پستی",
+      shortLabel: "پستی",
       description: "تحویل درب منزل در 3-5 روز کاری",
-      icon: <LocalPostOffice fontSize="large" />,
-      color: colors.info,
-      benefits: ["پوشش سراسری", "امکان پیگیری مرسوله", "تحویل درب منزل"],
+      icon: <LocalPostOffice fontSize="small" />,
+      color: "#3b82f6", // آبی
+      benefits: ["پوشش سراسری", "پیگیری مرسوله", "تحویل درب منزل"],
+      gradient: "linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)",
     },
     {
       value: "snap",
-      label: "ارسال با اسنپ/تپسی",
-      description: "تحویل در همان روز (فقط تهران و کرج)",
-      icon: <DirectionsCar fontSize="large" />,
-      color: colors.success,
-      benefits: ["تحویل سریع (2-4 ساعت)", "پیگیری لحظه‌ای", "خدمات VIP"],
+      label: "اسنپ/تپسی",
+      shortLabel: "اسنپ",
+      description: "تحویل در همان روز (تهران و کرج)",
+      icon: <DirectionsCar fontSize="small" />,
+      color: "#10b981", // سبز
+      benefits: ["سریع (2-4 ساعت)", "پیگیری لحظه‌ای", "خدمات VIP"],
+      gradient: "linear-gradient(135deg, #10b981 0%, #34d399 100%)",
     },
     {
       value: "shipping",
-      label: "ارسال با باربری",
-      description: "تحویل در 2-4 روز کاری در سراسر کشور",
-      icon: <LocalShipping fontSize="large" />,
-      color: colors.warning,
-      benefits: [
-        "مناسب برای سفارشات حجیم",
-        "هزینه مقرون به صرفه",
-        "پشتیبانی تلفنی",
-      ],
+      label: "ارسال باربری",
+      shortLabel: "باربری",
+      description: "تحویل در 2-4 روز کاری",
+      icon: <LocalShipping fontSize="small" />,
+      color: "#f59e0b", // نارنجی
+      benefits: ["سفارشات حجیم", "هزینه مناسب", "پشتیبانی تلفنی"],
+      gradient: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%)",
     },
   ];
 
@@ -579,6 +672,10 @@ export default function PaymentStepper() {
                   color: colors.dark,
                   mb: 4,
                   textAlign: "right",
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: "1.25rem",
+                    mb: 3,
+                  },
                 }}
               >
                 لطفا روش دریافت محصول خود را انتخاب کنید
@@ -593,12 +690,12 @@ export default function PaymentStepper() {
                 </StepValidationMessage>
               )}
 
-              <RadioGroup
-                value={deliveryMethod}
-                onChange={(e) => {
-                  setDeliveryMethod(e.target.value);
-                  if (stepErrors[0])
-                    setStepErrors((prev) => ({ ...prev, 0: false }));
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                  gap: 3,
+                  mt: 3,
                 }}
               >
                 {deliveryMethods.map((method) => (
@@ -610,45 +707,135 @@ export default function PaymentStepper() {
                       if (stepErrors[0])
                         setStepErrors((prev) => ({ ...prev, 0: false }));
                     }}
+                    sx={{
+                      background: method.gradient,
+                      color: "white",
+                      position: "relative",
+                      overflow: "hidden",
+                      "&:before": {
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "rgba(255, 255, 255, 0.1)",
+                        opacity: deliveryMethod === method.value ? 1 : 0,
+                        transition: "opacity 0.3s ease",
+                      },
+                      "&:hover:before": {
+                        opacity: 0.5,
+                      },
+                    }}
                   >
-                    <FormControlLabel
-                      value={method.value}
-                      control={<Radio sx={{ mr: 1 }} />}
-                      label={
-                        <Box
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                        zIndex: 1,
+                        flexDirection: "row", // ← آیکون سمت راست
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          width: 35, // کوچکتر از 60
+                          height: 35, // کوچکتر از 60
+                          borderRadius: "10px",
+                          backgroundColor: "rgba(255, 255, 255, 0.2)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          ml: 2,
+                          flexShrink: 0,
+                        }}
+                      >
+                        {React.cloneElement(method.icon, {
+                          sx: { fontSize: "1.7rem", color: "white" }, // آیکون کوچکتر
+                        })}
+                      </Box>
+                      <Box sx={{ ml: 0 }}>
+                        <Typography
+                          variant="h6"
                           sx={{
+                            fontWeight: 700,
+                            mb: 0.5,
                             display: "flex",
                             alignItems: "center",
-                            width: "100%",
                           }}
                         >
-                          <Typography
-                            variant="h4"
-                            sx={{ ml: 2, color: method.color }}
-                          >
-                            {method.icon}
-                          </Typography>
-                          <Box>
-                            <Typography
-                              fontWeight={700}
-                              sx={{ color: colors.dark }}
-                            >
-                              {method.label}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              sx={{ color: colors.dark, opacity: 0.7 }}
-                            >
-                              {method.description}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      }
-                      sx={{ width: "100%", m: 0 }}
+                          {method.label}
+                          {deliveryMethod === method.value && (
+                            <CheckIcon
+                              sx={{ ml: 1, fontSize: "1.2rem", color: "white" }}
+                            />
+                          )}
+                        </Typography>
+                        <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                          {method.description}
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        mt: 2,
+                        pt: 2,
+                        borderTop: "1px solid rgba(255, 255, 255, 0.2)",
+                        position: "relative",
+                        zIndex: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          display: "block",
+                          fontWeight: 600,
+                          mb: 1,
+                          opacity: 0.8,
+                        }}
+                      >
+                        مزایای این روش:
+                      </Typography>
+                      <Box
+                        component="ul"
+                        sx={{
+                          pl: 2,
+                          m: 0,
+                          "& li": {
+                            fontSize: "0.8rem",
+                            opacity: 0.9,
+                            mb: 0.5,
+                            "&:before": {
+                              content: '"•"',
+                              mr: 1,
+                            },
+                          },
+                        }}
+                      >
+                        {method.benefits.map((benefit, i) => (
+                          <li key={i}>{benefit}</li>
+                        ))}
+                      </Box>
+                    </Box>
+
+                    <Radio
+                      checked={deliveryMethod === method.value}
+                      value={method.value}
+                      sx={{
+                        position: "absolute",
+                        top: 12,
+                        left: 12,
+                        zIndex: 1,
+                        color: "white",
+                        "&.Mui-checked": {
+                          color: "white",
+                        },
+                      }}
                     />
                   </DeliveryOptionCard>
                 ))}
-              </RadioGroup>
+              </Box>
             </Box>
           </Fade>
         );
@@ -664,6 +851,9 @@ export default function PaymentStepper() {
                   textAlign: "right",
                   backgroundColor: `${colors.warning}08`,
                   borderLeft: `4px solid ${colors.warning}`,
+                  [theme.breakpoints.down("sm")]: {
+                    mb: 3,
+                  },
                 }}
                 icon={
                   <ErrorOutlineIcon
@@ -703,6 +893,10 @@ export default function PaymentStepper() {
                   "&:hover": {
                     opacity: 1,
                   },
+                  [theme.breakpoints.down("sm")]: {
+                    p: 2,
+                    width: "100%",
+                  },
                 }}
               >
                 <DatePicker
@@ -726,6 +920,11 @@ export default function PaymentStepper() {
                     border: `2px solid ${
                       fieldErrors.date ? colors.error : colors.secondary
                     }`,
+                    [theme.breakpoints.down("sm")]: {
+                      minWidth: "100%",
+                      fontSize: "1rem",
+                      padding: "12px",
+                    },
                   }}
                   minDate={new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)}
                   maxDate={new Date(Date.now() + 8 * 24 * 60 * 60 * 1000)}
@@ -763,6 +962,10 @@ export default function PaymentStepper() {
                   color: colors.dark,
                   mb: 4,
                   textAlign: "right",
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: "1.25rem",
+                    mb: 3,
+                  },
                 }}
               >
                 اطلاعات آدرس تحویل
@@ -802,7 +1005,7 @@ export default function PaymentStepper() {
                       setStepErrors((prev) => ({ ...prev, 2: false }));
                   }}
                   row
-                  sx={{ gap: 2 }}
+                  sx={{ gap: 2, [theme.breakpoints.down("sm")]: { gap: 1 } }}
                 >
                   <FormControlLabel
                     value="registered"
@@ -831,6 +1034,10 @@ export default function PaymentStepper() {
                       "&:hover": {
                         opacity: 1,
                       },
+                      [theme.breakpoints.down("sm")]: {
+                        px: 2,
+                        py: 1.5,
+                      },
                     }}
                   />
                   <FormControlLabel
@@ -857,6 +1064,10 @@ export default function PaymentStepper() {
                       opacity: addressType === "new" ? 1 : 0.7,
                       "&:hover": {
                         opacity: 1,
+                      },
+                      [theme.breakpoints.down("sm")]: {
+                        px: 2,
+                        py: 1.5,
                       },
                     }}
                   />
@@ -972,6 +1183,9 @@ export default function PaymentStepper() {
                 p: 4,
                 boxShadow: `0 4px 20px ${colors.primary}10`,
                 border: `1px solid ${colors.primary}20`,
+                [theme.breakpoints.down("sm")]: {
+                  p: 3,
+                },
               }}
             >
               <Typography
@@ -981,6 +1195,10 @@ export default function PaymentStepper() {
                   color: colors.primary,
                   fontWeight: 800,
                   textAlign: "center",
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: "1.3rem",
+                    mb: 2,
+                  },
                 }}
               >
                 خلاصه سفارش
@@ -1093,6 +1311,16 @@ export default function PaymentStepper() {
                   امکان پذیر خواهد بود.
                 </Typography>
               </Alert>
+
+              <StyledTextField
+                label="توضیحات اضافی (اختیاری)"
+                value={data.description}
+                onChange={handleDescriptionChange}
+                multiline
+                rows={3}
+                placeholder="هر توضیح یا نکته خاصی که می‌خواهید به ما اطلاع دهید..."
+                sx={{ mb: 4, mt: 4 }}
+              />
             </Box>
           </Fade>
         );
@@ -1108,40 +1336,43 @@ export default function PaymentStepper() {
         py: 0,
         mt: 0,
         minHeight: "calc(100vh - 64px)",
-        px: { xs: 0, sm: 2 }, // اضافه کردن padding افقی برای موبایل
+        px: { xs: 0, sm: 2 },
       }}
     >
       <Paper
         elevation={0}
         sx={{
-          borderRadius: { xs: 0, sm: "20px" }, // حذف border-radius برای موبایل
+          borderRadius: { xs: 0, sm: "20px" },
           overflow: "hidden",
           position: "relative",
           pb: 10,
           background: colors.background,
-          boxShadow: { xs: "none", sm: `0 8px 32px ${colors.secondary}10` }, // حذف سایه برای موبایل
-          border: { xs: "none", sm: `1px solid ${colors.secondary}20` }, // حذف border برای موبایل
+          boxShadow: { xs: "none", sm: `0 8px 32px ${colors.secondary}10` },
+          border: { xs: "none", sm: `1px solid ${colors.secondary}20` },
           "&:before": {
             content: '""',
             position: "absolute",
             top: 0,
             left: 0,
             right: 0,
-            height: "8px", // کاهش ارتفاع برای موبایل
+            height: "8px",
             background: `linear-gradient(90deg, ${colors.primary}, ${colors.info})`,
           },
         }}
       >
         <Box sx={{ px: { xs: 3, sm: 6 }, pt: 4 }}>
           <StyledStepper
-  activeStep={activeStep}
-  alternativeLabel
-  connector={<CustomConnector />}
-  sx={{ 
-    direction: "rtl",
-    padding: { xs: theme.spacing(2, 0, 1), sm: theme.spacing(4, 0, 3) } // کاهش padding برای موبایل
-  }}
->
+            activeStep={activeStep}
+            alternativeLabel
+            connector={<NoConnector />}
+            sx={{
+              direction: "rtl",
+              padding: {
+                xs: theme.spacing(2, 0, 1),
+                sm: theme.spacing(4, 0, 3),
+              },
+            }}
+          >
             {steps.map((label, index) => (
               <Step key={label}>
                 <StepLabel
@@ -1182,6 +1413,9 @@ export default function PaymentStepper() {
             display: "flex",
             justifyContent: "space-between",
             gap: 2,
+            [theme.breakpoints.down("sm")]: {
+              py: 2,
+            },
           }}
         >
           <ActionButton
@@ -1196,6 +1430,9 @@ export default function PaymentStepper() {
                 borderColor: colors.primary,
                 color: colors.primary,
               },
+              [theme.breakpoints.down("sm")]: {
+                minWidth: "100px",
+              },
             }}
           >
             {loading ? <CircularProgress size={24} /> : "مرحله قبل"}
@@ -1204,9 +1441,7 @@ export default function PaymentStepper() {
           <ActionButton
             variant="contained"
             onClick={
-              activeStep === steps.length - 1
-                ? () => (window.location.href = "/payment")
-                : handleNext
+              activeStep === steps.length - 1 ? handlePayment : handleNext
             }
             disabled={loading}
             sx={{
@@ -1215,6 +1450,9 @@ export default function PaymentStepper() {
               "&:hover": {
                 background: `linear-gradient(135deg, ${colors.primary}, ${colors.info})`,
                 boxShadow: `0 4px 12px ${colors.primary}30`,
+              },
+              [theme.breakpoints.down("sm")]: {
+                minWidth: "100px",
               },
             }}
           >
@@ -1252,6 +1490,9 @@ export default function PaymentStepper() {
             boxShadow: `0 4px 12px ${colors.primary}20`,
             alignItems: "center",
             borderRadius: "12px",
+            [theme.breakpoints.down("sm")]: {
+              minWidth: "250px",
+            },
           }}
         >
           {error || success}

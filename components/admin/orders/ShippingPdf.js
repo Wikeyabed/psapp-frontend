@@ -209,7 +209,7 @@ function ShippingPdf({ order }) {
                       <View
                         style={{
                           direction: "rtl !important",
-                          marginTop: 30,
+                          marginTop: 15,
                           flexDirection: "row-reverse",
                         }}
                       >
@@ -345,6 +345,17 @@ function ShippingPdf({ order }) {
                       >
                         آدرس : {order.delivery_address}
                       </Text>
+
+                      <Text
+                        style={{
+                          fontSize: "10px",
+                          textAlign: "right",
+                          minHeight: 100,
+                          marginTop: 1,
+                        }}
+                      >
+                        توضیحات : {order.order_description}
+                      </Text>
                     </View>
 
                     <View
@@ -469,7 +480,7 @@ function ShippingPdf({ order }) {
                               style={{
                                 flexDirection: "row-reverse",
                                 border: "1px solid #444",
-                                height: 80,
+                                height: 70,
                               }}
                               key={i}
                             >

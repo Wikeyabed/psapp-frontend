@@ -37,7 +37,6 @@ function MiniShoppingCart() {
     setOpen(false);
   };
 
-
   const fetchProducts = () => {
     if (!allProducts.length > 0) {
       var myHeaders = new Headers();
@@ -132,6 +131,7 @@ function MiniShoppingCart() {
             component={Link}
             href="/shop/cart"
             onClick={handleClose}
+            disabled={shoppingCart.length === 0} // ← این خط اضافه شده
             sx={{
               m: 1,
               bgcolor: "#6366f1", // رنگ اصلی
