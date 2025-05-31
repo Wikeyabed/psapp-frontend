@@ -4,6 +4,7 @@ import { Grid, Box } from "@mui/material";
 import Footer from "./footer";
 import SocialMediaBar from "./socialMedia";
 import PopUp from "./popup";
+import SocialFixed from "./SocialFixed";
 
 function PublicLayout({ children }) {
   return (
@@ -26,6 +27,7 @@ function PublicLayout({ children }) {
         {children}
       </Grid>
       <Footer />
+      <SocialFixed />
     </Box>
   );
 }

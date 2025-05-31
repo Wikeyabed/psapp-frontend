@@ -47,6 +47,7 @@ import provincesData from "./provinces.json";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { useRouter } from "next/router";
 
 // پالت رنگی بر اساس راهنمای سبک فروشگاه
 const colors = {
@@ -325,8 +326,10 @@ const StepValidationMessage = styled(Box)(({ theme }) => ({
 }));
 
 export default function PaymentStepper() {
+  const router = useRouter();
   const theme = useTheme();
   const userData = useSelector((state) => state.auth.userInformation);
+  const cart = useSelector((state) => state.product.shoppingCart);
   const payment = useSelector((state) => state.order);
   const [activeStep, setActiveStep] = useState(0);
   const stepIndex = activeStep;
@@ -476,6 +479,8 @@ export default function PaymentStepper() {
   });
 
   useEffect(() => {
+    if (cart.length === 0 || payment.totalPrice == "0")
+      router.push("/shop/cart");
     if (error || success) {
       setOpenSnackbar(true);
       const timer = setTimeout(() => {
