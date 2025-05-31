@@ -1,80 +1,58 @@
 import {
-  Divider,
   Grid,
-  Collapse,
   Typography,
+  Pagination,
+  Divider,
+  Collapse,
   FormControlLabel,
   Switch,
   Box,
+  Chip,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
-import { useSelector, useDispatch } from "react-redux";
-import { Pagination } from "@mui/material";
 import usePagination from "../../../../src/usePagination";
 import parse from "html-react-parser";
 
-// get product list from database
-
 function ProductList({ cats }) {
-  const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.products);
   const searchValue = useSelector((state) => state.product.search);
   const category = useSelector((state) => state.product.filter);
   const priceSort = useSelector((state) => state.product.priceSort);
   const [showMore, setShowMore] = useState(false);
-
-  let [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const PER_PAGE = 12;
 
-  const handleShowMore = () => {
-    setShowMore((prev) => !prev);
-  };
   const filteredProductList = productList
     .filter(
       (product) =>
-        (product.info.category == category || category == "all") &&
+        (product.info.category === category || category === "all") &&
         product.info.product_name.includes(searchValue)
     )
     .sort((a, b) => {
-      if (priceSort == "cheap") {
-        return (
-          a.variants[0].variant_price * 1 - b.variants[0].variant_price * 1
-        );
-      } else {
-        return (
-          b.variants[0].variant_price * 1 - a.variants[0].variant_price * 1
-        );
-      }
+      return priceSort === "cheap"
+        ? a.variants[0].variant_price - b.variants[0].variant_price
+        : b.variants[0].variant_price - a.variants[0].variant_price;
     });
-
-  const handleChange = (e, p) => {
-    setPage(p);
-    _DATA.jump(p);
-  };
-
-  useEffect(() => {
-    _DATA.jump(1);
-  }, [category]);
 
   const _DATA = usePagination(filteredProductList, PER_PAGE);
   const count = Math.ceil(filteredProductList.length / PER_PAGE);
+
+  useEffect(() => {
+    _DATA.jump(1);
+    setPage(1);
+  }, [category, searchValue, priceSort]);
+
+  const currentCategory = cats.find((cat) => cat.category_name === category);
+
   return (
-    <Grid container>
-      {filteredProductList.length > 0 ? (
-        _DATA.currentData().map((product, i) => {
-          return (
-            <Grid
-              sx={{
-                p: 2,
-              }}
-              key={i}
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              xl={3}
-            >
+    <Box sx={{ mb: 4 }}>
+      {/* لیست محصولات */}
+      <Grid container spacing={3}>
+        {filteredProductList.length > 0 ? (
+          _DATA.currentData().map((product, i) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
               <ProductCard
                 productName={product.info.product_name}
                 productCode={product.info.product_id}
@@ -90,136 +68,70 @@ function ProductList({ cats }) {
                 stock={product.variants[0].variant_quantity}
               />
             </Grid>
-          );
-        })
-      ) : (
-        <Typography
-          sx={{
-            textAlign: "center !important",
-            marginX: "auto",
-          }}
-          variant="h6"
-        >
-          {" "}
-          موردی یافت نشد...
-        </Typography>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <Typography variant="h6" sx={{ textAlign: "center", my: 4 }}>
+              محصولی یافت نشد
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+
+      {/* صفحه‌بندی */}
+      {filteredProductList.length > 0 && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          <Pagination
+            count={count}
+            page={page}
+            onChange={(e, p) => {
+              setPage(p);
+              _DATA.jump(p);
+            }}
+            color="primary"
+            size="large"
+            sx={{
+              "& .MuiPaginationItem-root": {
+                fontSize: "1rem",
+                "&.Mui-selected": {
+                  fontWeight: "bold",
+                },
+              },
+            }}
+          />
+        </Box>
       )}
 
-      <Grid
-        sx={{
-          my: 2,
-          display: "flex",
-          justifyContent: "center",
-        }}
-        item
-        xs={12}
-      >
-        <Pagination
-          color="standard"
-          count={count}
-          size="large"
-          page={page}
-          shape="rounded"
-          onChange={handleChange}
-        />
-      </Grid>
-      <Divider
-        sx={{
-          padding: 2,
-          width: "100%",
-          display: "block",
-        }}
-      />
-      <Grid
-        sx={{
-          my: 2,
-          display: "flex",
-          justifyContent: "center",
-        }}
-        item
-        container
-        xs={12}
-      >
-        <Grid item xs={12}>
-          {" "}
-          <Typography
-            component={"div"}
-            sx={{
-              width: "100%",
-              textAlign: "center",
-              mb: 5,
-            }}
-            variant="h5"
-          >
-            {category}
+      {/* توضیحات دسته‌بندی */}
+      {currentCategory?.category_description && (
+        <Box sx={{ mt: 6 }}>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            درباره دسته‌بندی {currentCategory.category_name}
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {cats.map((currentCategory) => {
-            if (
-              category == currentCategory.category_name &&
-              currentCategory.category_description != null
-            ) {
-              return (
-                <Collapse
-                  collapsedSize={200}
-                  in={showMore}
-                  orientation="vertical"
-                >
-                  <Typography
-                    component={"div"}
-                    sx={{
-                      width: "100%",
-                      p: 2,
-                    }}
-                  >
-                    {parse(currentCategory.category_description)}
-                  </Typography>
-                </Collapse>
-              );
-            }
-          })}
-          <Box
-            sx={{
-              textAlign: "center",
-              width: "100%",
-            }}
-          >
-            {" "}
-            <FormControlLabel
+          <Collapse in={showMore} collapsedSize={100}>
+            <Box
               sx={{
-                mt: 5,
-                mx: 0,
-                border: "2px solid purple",
-                backgroundColor: "primary.main",
-                color: "#fff",
-
-                px: 2,
-                borderRadius: "35px",
-                border: "3px solid orange",
-                py: 1,
+                p: 2,
+                bgcolor: "background.default",
+                borderRadius: 2,
+                boxShadow: 1,
               }}
-              control={
-                <Switch
-                  color="secondary"
-                  size="medium"
-                  sx={{
-                    textAlign: "center",
-                    mx: 0,
-                    fontSize: "22px !important",
-                  }}
-                  checked={showMore}
-                  onChange={handleShowMore}
-                />
-              }
-              label="نمایش بیشتر"
-            />{" "}
+            >
+              {parse(currentCategory.category_description)}
+            </Box>
+          </Collapse>
+          <Box sx={{ textAlign: "center", mt: 2 }}>
+            <Chip
+              label={showMore ? "نمایش کمتر" : "نمایش بیشتر"}
+              onClick={() => setShowMore(!showMore)}
+              color="primary"
+              sx={{ cursor: "pointer" }}
+            />
           </Box>
-        </Grid>
-
-        {/* */}
-      </Grid>
-    </Grid>
+        </Box>
+      )}
+    </Box>
   );
 }
 
