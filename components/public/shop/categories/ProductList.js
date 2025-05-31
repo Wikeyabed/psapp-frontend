@@ -109,7 +109,7 @@ function ProductList({ cats }) {
           <Typography variant="h6" sx={{ mb: 2 }}>
             درباره دسته‌بندی {currentCategory.category_name}
           </Typography>
-          <Collapse in={showMore} collapsedSize={100}>
+          <Collapse in={showMore} collapsedSize={200}>
             <Box
               sx={{
                 p: 2,
@@ -125,8 +125,14 @@ function ProductList({ cats }) {
             <Chip
               label={showMore ? "نمایش کمتر" : "نمایش بیشتر"}
               onClick={() => setShowMore(!showMore)}
-              color="primary"
-              sx={{ cursor: "pointer" }}
+              sx={{
+                cursor: "pointer",
+                backgroundColor: "#06b6d4",
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#0891b2", // یک رنگ کمی تیره‌تر برای hover
+                },
+              }}
             />
           </Box>
         </Box>

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import PublicLayout from "../../layout/index";
 import ProductList from "./ProductList";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setFilter } from "../../../../redux/reducers/productSlice";
 import { useRouter } from "next/router";
@@ -23,9 +23,20 @@ function Categories({ cats }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const router = useRouter();
   const { category } = router.query;
+  const productRef = useRef(null); // 🔸 اضافه‌شده برای اسکرول
+
+  // 🎨 پالت رنگی
+  const colors = {
+    primary: "#4f46e5",
+    secondary: "#06b6d4",
+    lightBg: "#f8fafc",
+    darkText: "#1e293b",
+    lightText: "#64748b",
+    hoverBg: "#e0e7ff",
+    border: "#e2e8f0",
+  };
 
   useEffect(() => {
-    // هنگام لود صفحه یا تغییر پارامتر URL دسته‌بندی را بررسی می‌کنیم
     if (category) {
       if (category === "all") {
         handleCategoryClick(null);
@@ -48,6 +59,11 @@ function Categories({ cats }) {
       dispatch(setFilter("all"));
       setSelectedCategory(null);
     }
+
+    // 🔸 اسکرول به بالای بخش محصولات
+    setTimeout(() => {
+      productRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   const stickySidebarStyles = {
@@ -57,32 +73,40 @@ function Categories({ cats }) {
 
   return (
     <PublicLayout>
-      <Grid container spacing={3} sx={{ p: { xs: 1, md: 3 } }}>
-        {/* سایدبار دسته‌بندی‌ها */}
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          p: { xs: 1, md: 3 },
+          backgroundColor: colors.lightBg,
+          minHeight: "100vh",
+        }}
+      >
+        {/* 🟦 سایدبار دسته‌بندی‌ها */}
         <Grid item xs={12} md={3}>
           <Paper
-            elevation={3}
+            elevation={0}
             sx={{
               p: 2,
               borderRadius: 3,
               ...stickySidebarStyles,
-              bgcolor: "background.paper",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-              border: "1px solid",
-              borderColor: "divider",
+              backgroundColor: "white",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              border: `1px solid ${colors.border}`,
             }}
           >
             <Typography
               variant="h6"
               sx={{
-                fontWeight: "bold",
+                fontWeight: 700,
                 mb: 2,
-                color: "#6366f1",
+                color: colors.primary,
                 textAlign: "center",
                 py: 1,
-                borderBottom: "2px solid",
-                borderColor: "divider",
+                borderBottom: `2px solid ${colors.border}`,
                 fontFamily: "'Segoe UI', Tahoma, sans-serif",
+                fontSize: "1.1rem",
+                letterSpacing: "0.5px",
               }}
             >
               دسته‌بندی محصولات
@@ -99,22 +123,27 @@ function Categories({ cats }) {
                     minHeight: "48px",
                     display: "flex",
                     justifyContent: "center",
+                    transition: "all 0.2s ease",
                     "&.Mui-selected": {
-                      background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                      backgroundColor: colors.primary,
                       color: "white",
                       "&:hover": {
-                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                        backgroundColor: colors.primary,
                         opacity: 0.9,
                       },
+                    },
+                    "&:hover": {
+                      backgroundColor: colors.hoverBg,
                     },
                   }}
                 >
                   <Typography
                     variant="subtitle1"
                     sx={{
-                      fontWeight: "medium",
+                      fontWeight: 600,
                       fontFamily: "'Segoe UI', Tahoma, sans-serif",
                       textAlign: "center",
+                      fontSize: "0.9rem",
                     }}
                   >
                     همه محصولات
@@ -122,7 +151,13 @@ function Categories({ cats }) {
                 </ListItemButton>
               </ListItem>
 
-              <Divider sx={{ my: 1 }} />
+              <Divider
+                sx={{
+                  my: 1,
+                  borderColor: colors.border,
+                  opacity: 0.6,
+                }}
+              />
 
               {cats.map((category) => (
                 <ListItem key={category.id} disablePadding>
@@ -135,26 +170,31 @@ function Categories({ cats }) {
                       minHeight: "48px",
                       display: "flex",
                       justifyContent: "center",
+                      transition: "all 0.2s ease",
                       "&.Mui-selected": {
-                        background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                        backgroundColor: colors.primary,
                         color: "white",
                         "&:hover": {
-                          background:
-                            "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                          backgroundColor: colors.primary,
                           opacity: 0.9,
                         },
                       },
                       "&:hover": {
-                        backgroundColor: "#f0f0f0",
+                        backgroundColor: colors.hoverBg,
                       },
                     }}
                   >
                     <Typography
                       variant="subtitle1"
                       sx={{
-                        fontWeight: "medium",
+                        fontWeight: 600,
                         fontFamily: "'Segoe UI', Tahoma, sans-serif",
                         textAlign: "center",
+                        fontSize: "0.9rem",
+                        color:
+                          selectedCategory?.id === category.id
+                            ? "white"
+                            : colors.darkText,
                       }}
                     >
                       {category.category_name}
@@ -166,35 +206,47 @@ function Categories({ cats }) {
           </Paper>
         </Grid>
 
-        {/* بخش اصلی محصولات */}
-        <Grid item xs={12} md={9}>
+        {/* 🟩 بخش اصلی محصولات */}
+        <Grid item xs={12} md={9} ref={productRef}>
           <Typography
-            variant="h4"
+            variant="h1"
             sx={{
               mb: 4,
-              fontWeight: "bold",
-              color: "text.primary",
+              fontWeight: 800,
+              color: colors.darkText,
               position: "relative",
               fontFamily: "'Segoe UI', Tahoma, sans-serif",
-              fontSize: { xs: "1.8rem", md: "2.2rem" },
+              fontSize: { xs: "1.5rem", md: "2rem" },
               textAlign: "center",
               "&:after": {
                 content: '""',
                 position: "absolute",
-                bottom: -8,
+                bottom: -12,
                 right: "50%",
                 transform: "translateX(50%)",
-                width: 120,
-                height: 4,
-                background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                borderRadius: 2,
+                width: "150px",
+                height: "4px",
+                background: `linear-gradient(90deg, ${colors.primary}, ${colors.secondary})`,
+                borderRadius: "2px",
               },
             }}
           >
             {selectedCategory ? selectedCategory.category_name : "همه محصولات"}
           </Typography>
 
-          <ProductList cats={cats} />
+          <Paper
+            elevation={0}
+            sx={{
+              p: 3,
+              borderRadius: 3,
+              backgroundColor: "white",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              border: `1px solid ${colors.border}`,
+              minHeight: "60vh",
+            }}
+          >
+            <ProductList cats={cats} />
+          </Paper>
         </Grid>
       </Grid>
     </PublicLayout>
