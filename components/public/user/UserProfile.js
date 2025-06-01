@@ -11,6 +11,7 @@ import {
   Divider,
   Box,
   Avatar,
+  CircularProgress,
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,51 +24,90 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Person2 } from "@mui/icons-material";
 
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: 5,
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "2rem !important",
-    overflow: "unset",
-  },
-}));
-
-
-
-
+// ======= Styled Components =======
 const ProfileContainer = styled(Card)(({ theme }) => ({
   maxWidth: 800,
   margin: "40px auto",
   borderRadius: 12,
   boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
   overflow: "hidden",
+  backgroundColor: "#f8fafc",
 }));
 
 const ProfileHeader = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  padding: theme.spacing(4),
+  background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+  color: "white",
+  padding: theme.spacing(1),
   textAlign: "center",
+  borderBottomLeftRadius: 12,
+  borderBottomRightRadius: 12,
 }));
 
 const SectionTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   marginBottom: theme.spacing(3),
-  color: theme.palette.text.primary,
+  color: "#1e293b",
   display: "flex",
   alignItems: "center",
   gap: theme.spacing(1),
+  "& svg": {
+    color: "#6366f1",
+  },
 }));
 
+const RtlTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: 5,
+  minWidth: "100%",
+  direction: "rtl",
+  textAlign: "right",
+  "& label": {
+    transformOrigin: "right !important",
+    left: "inherit !important",
+    right: "1.75rem !important",
+    fontSize: "0.9rem",
+  },
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 12,
+    "& fieldset": {
+      borderColor: "#e2e8f0",
+    },
+    "&:hover fieldset": {
+      borderColor: "#94a3b8",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#6366f1",
+    },
+  },
+}));
 
+const ActionButton = styled(Button)(({ theme }) => ({
+  borderRadius: 12,
+  padding: "12px 24px",
+  fontWeight: 600,
+  boxShadow: "0 4px 15px rgba(99, 102, 241, 0.3)",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
+  },
+}));
 
+const PrimaryButton = styled(ActionButton)(({ theme }) => ({
+  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+  "&:hover": {
+    background: "linear-gradient(135deg, #5659e0, #7c51e8)",
+  },
+}));
 
+const SecondaryButton = styled(ActionButton)(({ theme }) => ({
+  borderColor: "#e2e8f0",
+  color: "#64748b",
+  "&:hover": {
+    borderColor: "#94a3b8",
+    backgroundColor: "#f1f5f9",
+  },
+}));
+
+// ======= Main Component =======
 export default function UserProfile() {
   const user = useSelector((state) => state.auth.userInformation);
   const dispatch = useDispatch();
@@ -81,6 +121,7 @@ export default function UserProfile() {
     detailedAddress: "",
   });
 
+  // Parse address into components
   const parseAddress = (fullAddress) => {
     if (!fullAddress) return { province: "", city: "", detailedAddress: "" };
 
@@ -106,6 +147,7 @@ export default function UserProfile() {
     return { province, city, detailedAddress };
   };
 
+  // Initialize form data
   useEffect(() => {
     if (user?.address && isLoading) {
       const { province, city, detailedAddress } = parseAddress(user.address);
@@ -125,6 +167,7 @@ export default function UserProfile() {
     }
   }, [user, isLoading]);
 
+  // Update cities when province changes
   useEffect(() => {
     if (info.province && !isLoading) {
       const selectedProvince = provincesData.find(
@@ -202,7 +245,7 @@ export default function UserProfile() {
         alignItems="center"
         minHeight="60vh"
       >
-        <Typography variant="h6">در حال بارگذاری اطلاعات کاربری...</Typography>
+        <CircularProgress size={60} sx={{ color: "#6366f1" }} />
       </Box>
     );
   }
@@ -216,7 +259,7 @@ export default function UserProfile() {
             height: 80,
             margin: "0 auto 16px",
             backgroundColor: "white",
-            color: "primary.main",
+            color: "#6366f1",
           }}
         >
           <Person2 fontSize="large" />
@@ -231,6 +274,7 @@ export default function UserProfile() {
 
       <CardContent>
         <Box component="form" onSubmit={handleSubmit}>
+          {/* Personal Information Section */}
           <SectionTitle variant="h5">
             <EditIcon fontSize="small" />
             اطلاعات شخصی
@@ -266,8 +310,9 @@ export default function UserProfile() {
             </Grid>
           </Grid>
 
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={{ my: 4, borderColor: "#e2e8f0" }} />
 
+          {/* Address Information Section */}
           <SectionTitle variant="h5">
             <EditIcon fontSize="small" />
             اطلاعات آدرس
@@ -276,12 +321,12 @@ export default function UserProfile() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel>استان</InputLabel>
+                <InputLabel sx={{ textAlign: "right" }}>استان</InputLabel>
                 <RtlTextField
                   select
                   value={info.province}
                   onChange={handleProvinceChange}
-                  label="استان"
+                  label=""
                   name="province"
                   disabled={!isEditing}
                 >
@@ -298,12 +343,12 @@ export default function UserProfile() {
             </Grid>
             <Grid item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel>شهر</InputLabel>
+                <InputLabel sx={{ textAlign: "right" }}>شهر</InputLabel>
                 <RtlTextField
                   select
                   value={info.city}
                   onChange={handleCityChange}
-                  label="شهر"
+                  label=""
                   name="city"
                   disabled={!info.province || !isEditing}
                 >
@@ -333,18 +378,17 @@ export default function UserProfile() {
             </Grid>
           </Grid>
 
+          {/* Action Buttons */}
           <Box mt={4} display="flex" justifyContent="flex-end" gap={2}>
             {isEditing ? (
               <>
-                <Button
+                <SecondaryButton
                   variant="outlined"
-                  color="inherit"
                   onClick={() => setIsEditing(false)}
-                  sx={{ borderRadius: 2, py: 2 }}
                 >
                   انصراف
-                </Button>
-                <Button
+                </SecondaryButton>
+                <PrimaryButton
                   type="submit"
                   variant="contained"
                   startIcon={
@@ -354,13 +398,12 @@ export default function UserProfile() {
                       }}
                     />
                   }
-                  sx={{ borderRadius: 2, py: 2 }}
                 >
                   ذخیره تغییرات
-                </Button>
+                </PrimaryButton>
               </>
             ) : (
-              <Button
+              <PrimaryButton
                 variant="contained"
                 startIcon={
                   <EditIcon
@@ -370,10 +413,9 @@ export default function UserProfile() {
                   />
                 }
                 onClick={() => setIsEditing(true)}
-                sx={{ borderRadius: 2, py: 2 }}
               >
                 ویرایش اطلاعات
-              </Button>
+              </PrimaryButton>
             )}
           </Box>
         </Box>

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -7,28 +6,96 @@ import {
   Typography,
   Menu,
   MenuItem,
+  styled,
+  Fade,
 } from "@mui/material";
 import {
   Notifications as NotificationsIcon,
-  AccountCircle as AccountCircleIcon,
+  PersonOutline as UserIcon,
   Login as LoginIcon,
+  ArrowDropDown as ArrowDropDownIcon,
 } from "@mui/icons-material";
 import Link from "../../../../src/Link";
-
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { userLogout } from "../../../../redux/reducers/authSlice";
 import { deleteCookie } from "cookies-next";
 
+// ====== Styled Components ======
+const AuthButton = styled(Button)({
+  minWidth: 120,
+  height: 40,
+  borderRadius: 12,
+  background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+  color: "white",
+  boxShadow: "0 2px 12px rgba(99, 102, 241, 0.3)",
+  textTransform: "none",
+  fontSize: 14,
+  fontWeight: 500,
+  padding: "8px 16px",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 4px 16px rgba(99, 102, 241, 0.4)",
+    background: "linear-gradient(135deg, #5659e0, #05a5c1)",
+  },
+});
+
+const UserMenuButton = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  cursor: "pointer",
+  padding: "6px 12px",
+  borderRadius: 8,
+  transition: "all 0.2s ease",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+});
+
+const UserNameText = styled(Typography)({
+  color: "#f8fafc",
+  fontSize: 14,
+  fontWeight: 500,
+  marginRight: 8,
+  maxWidth: 120,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
+
+const StyledMenu = styled(Menu)({
+  "& .MuiPaper-root": {
+    borderRadius: 12,
+    minWidth: 180,
+    boxShadow: "0 4px 24px rgba(0, 0, 0, 0.12)",
+    marginTop: 8,
+    "& .MuiMenuItem-root": {
+      fontSize: 14,
+      padding: "10px 16px",
+      "&:hover": {
+        backgroundColor: "#f8fafc",
+      },
+    },
+  },
+});
+
+const AdminMenuItem = styled(MenuItem)({
+  color: "#ef4444 !important",
+  fontWeight: "500 !important",
+  borderTop: "1px solid #e5e7eb",
+  marginTop: 4,
+  paddingTop: "12px !important",
+});
+
+// ====== Main Component ======
 function ToolbarMenu() {
-  const isAdminLoggedIn = useSelector(
-    (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
-  );
   const [anchorEl, setAnchorEl] = useState(null);
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const isAdminLoggedIn = user.isLoggedIn && user.userInformation?.r === "1";
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -46,149 +113,66 @@ function ToolbarMenu() {
     setAnchorEl(null);
   };
 
-  const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
+    <StyledMenu
       anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      disableScrollLock={true}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      id={menuId}
-      keepMounted
       open={isMenuOpen}
       onClose={handleMenuClose}
+      TransitionComponent={Fade}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      disableScrollLock
     >
-      <MenuItem href="/user" component={Link}>
-        پروفایل
+      <MenuItem component={Link} href="/user" onClick={handleMenuClose}>
+        <UserIcon fontSize="small" sx={{ marginLeft: 1 }} />
+        پروفایل کاربری
       </MenuItem>
-      <MenuItem onClick={handleUserLogout}>خروج</MenuItem>
+      <MenuItem onClick={handleUserLogout}>
+        <LoginIcon
+          fontSize="small"
+          sx={{ marginLeft: 1, transform: "rotate(180deg)" }}
+        />
+        خروج
+      </MenuItem>
 
-      {isAdminLoggedIn ? (
-        <MenuItem
-          sx={{
-            color: "red",
-          }}
-          component={Link}
-          href="/admin"
-        >
-          ورود به پنل ادمین
-        </MenuItem>
-      ) : (
-        ""
+      {isAdminLoggedIn && (
+        <AdminMenuItem component={Link} href="/admin" onClick={handleMenuClose}>
+          <Box component="span" sx={{ marginLeft: 1 }}>
+            ⚙️
+          </Box>
+          پنل مدیریت
+        </AdminMenuItem>
       )}
-    </Menu>
+    </StyledMenu>
   );
 
   return (
-    <>
-      <Box sx={{ display: { xs: "none", md: "flex" } }}>
-        {user.isLoggedIn ? (
-          <Box onClick={handleProfileMenuOpen}>
-            <IconButton
-              size="large"
-              edge="start"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="info"
-            >
-              <AccountCircleIcon
-                sx={{
-                  color: "secondary.main",
-                }}
-              />
-            </IconButton>
-            <Typography
-              sx={{
-                mr: 1,
-                color: "#e0e0e0",
-                fontSize: "12px",
-                display: "inline-block",
-                mt: 1,
-                cursor: "pointer",
-              }}
-            >
-              {" "}
-              {user.userInformation.firstName +
-                " " +
-                user.userInformation.lastName}
-            </Typography>
-          </Box>
-        ) : (
-          <Button
-            component={Link}
-            href="/auth/login"
-            variant="contained"
-            sx={{
-              fontSize: "1rem",
-              padding: "12px 24px",
-              borderRadius: "12px",
-              backgroundColor: "transparent",
-              backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)",
-              color: "white",
-              marginRight: "8px",
-              // سایه اصلی با رنگ بنفش-آبی
-              boxShadow:
-                "0 4px 15px rgba(99, 102, 241, 0.5), 0 2px 4px rgba(0, 0, 0, 0.1)",
-              border: "1px solid rgba(255,255,255,0.3)",
-              minWidth: "120px",
-              minHeight: "48px",
-              transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
-              position: "relative",
-              overflow: "hidden",
-              "&:hover": {
-                transform: "translateY(-3px)",
-                // سایه هنگام hover با شدت بیشتر
-                boxShadow:
-                  "0 8px 25px rgba(99, 102, 241, 0.6), 0 4px 8px rgba(0, 0, 0, 0.15)",
-                backgroundColor: "transparent",
-                backgroundImage: "linear-gradient(135deg, #6366f1, #06b6d4)",
-                "&:before": {
-                  opacity: 1,
-                },
-              },
-              "&:before": {
-                content: '""',
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0))",
-                opacity: 0,
-                transition: "opacity 0.3s ease",
-              },
-              "& .MuiButton-endIcon": {
-                marginRight: "8px",
-                marginLeft: "0",
-                transition: "transform 0.3s ease",
-              },
-              "&:hover .MuiButton-endIcon": {
-                transform: "translateX(3px)",
-              },
-            }}
-            endIcon={
-              <LoginIcon
-                sx={{
-                  color: "white",
-                  fontSize: "25px !important",
-                }}
-              />
-            }
-          >
-            ورود
-          </Button>
-        )}
-      </Box>
+    <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
+      {user.isLoggedIn ? (
+        <UserMenuButton onClick={handleProfileMenuOpen}>
+          <UserIcon sx={{ color: "#e2e8f0", fontSize: 35 }} />
+          <UserNameText>
+            {user.userInformation?.firstName} {user.userInformation?.lastName}
+          </UserNameText>
+          <ArrowDropDownIcon sx={{ color: "#e2e8f0", fontSize: 50 }} />
+        </UserMenuButton>
+      ) : (
+        <AuthButton
+          component={Link}
+          href="/auth/login"
+          endIcon={<LoginIcon sx={{ fontSize: 18 }} />}
+        >
+          ورود
+        </AuthButton>
+      )}
       {renderMenu}
-    </>
+    </Box>
   );
 }
 
