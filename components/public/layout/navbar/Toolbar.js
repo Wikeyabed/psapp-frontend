@@ -166,7 +166,7 @@ function ToolbarMenu() {
         <AuthButton
           component={Link}
           href="/auth/login"
-          endIcon={<LoginIcon sx={{ fontSize: 18 }} />}
+          endIcon={<LoginIcon sx={{ fontSize: 18, mr: 2 }} />}
         >
           ورود
         </AuthButton>
