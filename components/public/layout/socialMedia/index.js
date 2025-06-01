@@ -35,7 +35,7 @@ function SocialMediaBar({ mobile }) {
       {" "}
       <Link
         sx={styles}
-        href="https://t.me/ebox_shop/"
+        href="https://t.me/samen_Admin1001"
         target="_blank"
         color="inherit"
       >

@@ -69,7 +69,6 @@ const LoginForm = styled(Box)(({ theme }) => ({
 
 const FormGroup = styled(Box)(({ theme }) => ({
   marginBottom: "15px",
-
 }));
 
 const InputLabel = styled(Typography)(({ theme }) => ({
@@ -342,16 +341,16 @@ function LoginPage() {
               {" "}
               <RememberMe>
                 <FormControlLabel
-                sx={{
-                  mr :0
-                }}
+                  sx={{
+                    mr: 0,
+                  }}
                   control={
                     <Checkbox
-                       size="small"
+                      size="small"
                       sx={{
-                    fontSize:5
-                  }}
-                    checked={loginInfo.rememberMe}
+                        fontSize: 5,
+                      }}
+                      checked={loginInfo.rememberMe}
                       onChange={handleRememberMe}
                       color="primary"
                     />
@@ -360,9 +359,12 @@ function LoginPage() {
                 />
               </RememberMe>
             </Grid>
-            <Grid xs={6} sx={{
-              mt :1
-            }}>
+            <Grid
+              xs={6}
+              sx={{
+                mt: 1,
+              }}
+            >
               {" "}
               <Box display="flex" flexDirection="column" alignItems="flex-end">
                 <ForgotPassword href="/auth/reset">
@@ -430,7 +432,7 @@ function LoginPage() {
           <SocialLogin>
             <SocialButton
               component="a"
-              href="https://wa.me/98128634399"
+              href="https://wa.me/989194737478"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -447,7 +449,7 @@ function LoginPage() {
             </SocialButton>
 
             {isMobile && (
-              <SocialButton component="a" href="tel:09194737478">
+              <SocialButton component="a" href="tel:09128634399">
                 <PhoneIcon style={{ color: "#34B7F1" }} />
               </SocialButton>
             )}

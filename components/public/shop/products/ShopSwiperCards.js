@@ -333,7 +333,7 @@ function ShopSwiperCards({ item }) {
           >
             {selectedVariant.variant_quantity > 0
               ? "افزودن به سبد خرید"
-              : "موجود نیست"}
+              : "تماس بگیرید"}
           </Button>
         ) : (
           <Box sx={{ width: "100%" }}>

@@ -91,7 +91,7 @@ export default function Footer() {
 
             <Box sx={{ display: "flex", gap: 2 }}>
               <Link
-                href="https://t.me/samenpacking/"
+                href="https://t.me/samen_Admin1001/"
                 target="_blank"
                 sx={{
                   width: 40,

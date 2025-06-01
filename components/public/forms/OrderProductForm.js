@@ -9,9 +9,9 @@ import {
   Button,
   Typography,
   FormGroup,
-  Divider,
   Collapse,
-  Input,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -19,36 +19,104 @@ import { useDispatch } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import PublicLayout from "../layout/index";
 
-const Item = styled(Paper)(({ theme }) => ({
+// پالت رنگی اصلی
+const primaryColors = {
+  main: "#6366f1",
+  secondary: "#06b6d4",
+  light: "#e0e7ff",
+  dark: "#4338ca",
+};
+
+// استایل‌های سفارشی
+const CustomItem = styled(Paper)(({ theme }) => ({
   textAlign: "center",
-
-  marginBottom: 150,
-  padding: 20,
-  borderRadius: "10px",
-}));
-
-const Card = styled(Grid)(({ theme }) => ({
-  margin: "auto",
-}));
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginBottom: 5,
-  minWidth: "100%",
+  marginBottom: theme.spacing(10),
+  padding: theme.spacing(4),
+  borderRadius: "12px",
+  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
   direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "1.75rem !important",
-    overflow: "unset",
+  backgroundColor: "#ffffff",
+}));
+
+const ResponsiveCard = styled(Grid)(({ theme }) => ({
+  margin: "auto",
+  width: "100%",
+  [theme.breakpoints.up("md")]: {
+    width: "80%",
+  },
+}));
+
+const CustomTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+  width: "100%",
+  direction: "ltr",
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "12px",
+    "& fieldset": {
+      borderColor: "#e2e8f0",
+    },
+    "&:hover fieldset": {
+      borderColor: primaryColors.main,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: primaryColors.main,
+    },
+  },
+  "& .MuiInputLabel-root": {
+    right: 0,
+    // left: 'auto',
+    transformOrigin: "right",
+    "&.Mui-focused": {
+      color: primaryColors.main,
+    },
+  },
+  "& .MuiInputBase-input": {
+    textAlign: "right",
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
+  },
+}));
+
+const GradientButton = styled(Button)(({ theme }) => ({
+  minHeight: "48px",
+  borderRadius: "12px",
+  background: `linear-gradient(135deg, ${primaryColors.main} 0%, ${primaryColors.secondary} 100%)`,
+  color: "white",
+  fontWeight: 600,
+  fontSize: "1rem",
+  padding: theme.spacing(1.5),
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.15)",
+    background: `linear-gradient(135deg, ${primaryColors.dark} 0%, ${primaryColors.secondary} 100%)`,
+  },
+  "&:disabled": {
+    background: "#e2e8f0",
+    color: "#94a3b8",
+  },
+}));
+
+const ExpandableSection = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(2, 0),
+  background: `linear-gradient(135deg, ${primaryColors.main} 0%, ${primaryColors.secondary} 100%)`,
+  color: "#ffffff",
+  padding: theme.spacing(2),
+  borderRadius: "12px",
+  position: "relative",
+  cursor: "pointer",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    boxShadow: `0 4px 12px ${primaryColors.light}`,
   },
 }));
 
 function RequestPartnership() {
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  // حالت فرم
   const [formInfo, setFormInfo] = useState({
     phoneNumber: "",
     title: "",
@@ -57,441 +125,427 @@ function RequestPartnership() {
   });
 
   const [isValid, setIsValid] = useState(true);
-  const [checked, setChecked] = useState("");
+  const [expandedSection, setExpandedSection] = useState("");
 
-  const handleChange = (index) => {
-    if (index == checked) {
-      setChecked("");
-    } else {
-      setChecked(index);
-    }
+  /**
+   * مدیریت تغییر بخش‌های قابل گسترش
+   * @param {string} section - بخش مورد نظر برای گسترش/بستن
+   */
+  const handleSectionToggle = (section) => {
+    setExpandedSection(expandedSection === section ? "" : section);
   };
 
+  /**
+   * اعتبارسنجی شماره تلفن
+   * @param {Object} event - رویداد تغییر مقدار فیلد
+   */
   const handlePhoneNumber = (event) => {
-    setFormInfo({ ...formInfo, phoneNumber: event.target.value });
-    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
-    let result = regex.test(event.target.value);
+    const value = event.target.value;
+    setFormInfo({ ...formInfo, phoneNumber: value });
 
-    if (result) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-    }
+    // الگوی اعتبارسنجی شماره تلفن ایرانی
+    let regex = new RegExp("^(\\+98|0)?9\\d{9}$");
+    setIsValid(regex.test(value));
   };
 
+  /**
+   * به‌روزرسانی سایر فیلدهای فرم
+   * @param {Object} event - رویداد تغییر مقدار فیلد
+   */
   const handleSetData = (event) => {
     setFormInfo({ ...formInfo, [event.target.name]: event.target.value });
   };
 
+  /**
+   * ارسال فرم به سرور
+   * @param {Object} event - رویداد ارسال فرم
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("person_name", formInfo.name);
-    urlencoded.append("request_type", "2");
-    urlencoded.append("request_title", formInfo.title);
-    urlencoded.append("request_description", formInfo.description);
-    urlencoded.append("phone_number", formInfo.phoneNumber);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-    };
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/requests/add`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        dispatch(
-          setNotificationOn({
-            message: "درخواست شما با موفقیت ارسال شد",
-            color: "info",
-          })
-        );
-        setFormInfo({
-          phoneNumber: "",
-          title: "",
-          description: "",
-          name: "",
-        });
-      })
-      .catch((error) => console.log("error", error));
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("person_name", formInfo.name);
+      urlencoded.append("request_type", "2");
+      urlencoded.append("request_title", formInfo.title);
+      urlencoded.append("request_description", formInfo.description);
+      urlencoded.append("phone_number", formInfo.phoneNumber);
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/requests/add`,
+        requestOptions
+      );
+      const result = await response.json();
+
+      dispatch(
+        setNotificationOn({
+          message: "درخواست شما با موفقیت ارسال شد",
+          color: "info",
+        })
+      );
+
+      // ریست فرم پس از ارسال موفق
+      setFormInfo({
+        phoneNumber: "",
+        title: "",
+        description: "",
+        name: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      dispatch(
+        setNotificationOn({
+          message: "خطا در ارسال درخواست",
+          color: "error",
+        })
+      );
+    }
   };
 
   return (
     <PublicLayout>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container>
-          <Card item xs={11} md={4.5}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          py: isMobile ? 2 : 4,
+          px: isMobile ? 1 : 3,
+          backgroundColor: "#f8fafc",
+          minHeight: "100vh",
+        }}
+      >
+        <Grid container justifyContent="center">
+          <ResponsiveCard item xs={12} md={8} lg={6}>
             <form onSubmit={handleSubmit}>
               <FormGroup>
-                <Grid component={Item} elevation={4} container>
-                  <Grid sx={{ mb: 6 }} item xs={12}>
+                <CustomItem elevation={0}>
+                  {/* عنوان صفحه */}
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      mb: 4,
+                      color: primaryColors.dark,
+                      fontWeight: 700,
+                      fontFamily: "'Segoe UI', Tahoma, sans-serif",
+                    }}
+                  >
+                    سفارش تولید
+                  </Typography>
+
+                  {/* توضیحات مقدماتی */}
+                  <Typography
+                    component="div"
+                    sx={{
+                      mb: 4,
+                      lineHeight: 1.8,
+                      color: "#4b5563",
+                      fontFamily: "'Segoe UI', Tahoma, sans-serif",
+                    }}
+                  >
+                    شما کاربران عزیز می‌توانید جهت ثبت سفارش تولید کارتن، چاپ
+                    روی چسب پهن و چاپ روی نایلون حبابدار از طریق فرم زیر اقدام
+                    نمایید. سفارش شما توسط تیم پشتیبانی بررسی شده و در اسرع وقت
+                    با شما تماس گرفته می‌شود.
+                  </Typography>
+
+                  {/* بخش‌های قابل گسترش */}
+                  <ExpandableSection onClick={() => handleSectionToggle("box")}>
                     <Typography
-                      textAlign={"center"}
-                      sx={{ mb: 5 }}
-                      variant="h5"
+                      variant="h6"
+                      sx={{
+                        textAlign: "right",
+                        fontWeight: 600,
+                        pr: 4,
+                      }}
                     >
-                      سفارش تولید
-                    </Typography>{" "}
-                    <Typography
-                      component={"div"}
-                      textAlign={"right"}
-                      sx={{ mb: 3 }}
-                      variant="body2"
-                    >
-                      شما کاربران عزیز میتوانید جهت ثبت سفارش تولید کارتن ، چاپ
-                      روی چسب پهن و چاپ روی نایلون حبابدار از طریق فرم زیر اقدام
-                      نمایید. سفارش شما توسط تیم پشتیبانی ایباکس بررسی شده و در
-                      اسرع وقت با شما تماس گرفته می شود.
+                      سفارش تولید کارتن
                     </Typography>
                     <Box
-                      onClick={() => handleChange("box")}
                       sx={{
-                        my: 2,
-                        background:
-                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
-                        color: "#fff",
-                        p: 1,
-                        borderRadius: "10px",
-                        position: "relative",
+                        position: "absolute",
+                        left: "12px",
+                        top: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        width: 36,
+                        height: 36,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          textAlign: "center",
-                        }}
-                      >
-                        {" "}
-                        سفارش تولید کارتن
-                      </Typography>
-                      <span
-                        style={{
-                          position: "absolute",
-                          left: "5px",
-                          top: "5px",
-                          color: "#000",
-                          borderRadius: "20px",
-                          cursor: "pointer",
-                          width: 50,
-                          textAlign: "center",
-                        }}
-                      >
-                        {checked === "box" ? (
-                          <ExpandLessIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        ) : (
-                          <ExpandMoreIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        )}
-                      </span>
+                      {expandedSection === "box" ? (
+                        <ExpandLessIcon sx={{ color: "white" }} />
+                      ) : (
+                        <ExpandMoreIcon sx={{ color: "white" }} />
+                      )}
                     </Box>
-                    <Collapse orientation="vertical" in={checked === "box"}>
-                      {" "}
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3, color: "primary.main" }}
-                        variant="body1"
-                      >
-                        {" "}
-                        لطفا توجه داشته باشید، تولید کارتن مخصوص کارخانه جات ،
-                        تولیدی ها و .... بوده و سفارشات تولید کم پذیرفته نمیشود.
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body1"
-                      >
-                        {" "}
-                        برای ثبت صحیح سفارش تولید کارتن اطلاعاتی نظیر:{" "}
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body2"
-                      >
-                        ابعاد کارتن: طول عرض ارتفاع
-                        <br />
-                        تعداد لایه: 3 لایه 5 لایه
-                        <br />
-                        وضعیت چاپ: چاپدار و بدون چاپ
-                        <br />
-                        <br />
-                        <Typography
-                          component={"div"}
-                          textAlign={"right"}
-                          sx={{ mb: 3 }}
-                          variant="body1"
-                        >
-                          را در بخش توضیحات وارد نمایید.
-                        </Typography>
-                      </Typography>
-                    </Collapse>
-                    {/* <Divider
-                      sx={{
-                        my: 1,
-                      }}
-                    /> */}
-                    <Box
-                      onClick={() => handleChange("tape")}
-                      sx={{
-                        my: 2,
-                        background:
-                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
-                        color: "#fff",
-                        p: 1,
-                        borderRadius: "10px",
-                        position: "relative",
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          textAlign: "center",
-                        }}
-                      >
-                        {" "}
-                        سفارش چاپ روی چسب پهن
-                      </Typography>
-                      <span
-                        style={{
-                          position: "absolute",
-                          left: "5px",
-                          top: "5px",
-                          color: "#000",
-                          borderRadius: "20px",
-                          cursor: "pointer",
-                          width: 50,
-                          textAlign: "center",
-                        }}
-                      >
-                        {checked === "tape" ? (
-                          <ExpandLessIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        ) : (
-                          <ExpandMoreIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        )}
-                      </span>
-                    </Box>
-                    <Collapse orientation="vertical" in={checked === "tape"}>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3, color: "primary.main" }}
-                        variant="body1"
-                      >
-                        لطفا توجه داشته باشید، حداقل سفارش چاپ 1 رنگ روی چسب پهن
-                        180 حلقه می باشد و سفارشات چاپ 2 رنگ و 3 رنگ حداقل 2000
-                        حلقه می باشد.
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body1"
-                      >
-                        {" "}
-                        برای ثبت صحیح سفارش چاپ روی چسب پهن اطلاعاتی نظیر:{" "}
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body2"
-                      >
-                        تعداد رنگ چاپ: مثال: 3 رنگ <br />
-                        تعداد:مثال: 180 حلقه
-                        <br />
-                        رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
-                        <br />
-                        <Typography
-                          component={"div"}
-                          textAlign={"right"}
-                          sx={{ mb: 3 }}
-                          variant="body1"
-                        >
-                          را در بخش توضیحات وارد نمایید.
-                        </Typography>{" "}
-                      </Typography>
-                    </Collapse>
-                    {/* <Divider
-                      sx={{
-                        my: 1,
-                      }}
-                    /> */}
-                    <Box
-                      onClick={() => handleChange("bubble")}
-                      sx={{
-                        my: 2,
-                        background:
-                          "linear-gradient(to bottom, #2F2235, #543d5e , #7B6D8D )",
-                        color: "#fff",
-                        p: 1,
-                        borderRadius: "10px",
-                        position: "relative",
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          textAlign: "center",
-                        }}
-                      >
-                        {" "}
-                        سفارش چاپ روی نایلون حبابدار{" "}
-                      </Typography>
-                      <span
-                        style={{
-                          position: "absolute",
-                          left: "5px",
-                          top: "5px",
-                          color: "#000",
-                          borderRadius: "20px",
-                          cursor: "pointer",
-                          width: 50,
-                          textAlign: "center",
-                        }}
-                      >
-                        {checked === "bubble" ? (
-                          <ExpandLessIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        ) : (
-                          <ExpandMoreIcon
-                            color="warning"
-                            sx={{
-                              fontSize: 40,
-                            }}
-                          />
-                        )}
-                      </span>
-                    </Box>
-                    <Collapse orientation="vertical" in={checked === "bubble"}>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3, color: "primary.main" }}
-                        variant="body1"
-                      >
-                        لطفا توجه داشته باشید، حداقل سفارش چاپ روی نایلون
-                        حبابدار 500 کیلوگرم می باشد.
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body1"
-                      >
-                        {" "}
-                        برای ثبت صحیح سفارش چاپ روی نایلون حبابدار اطلاعاتی
-                        نظیر:{" "}
-                      </Typography>
-                      <Typography
-                        component={"div"}
-                        textAlign={"right"}
-                        sx={{ mb: 3 }}
-                        variant="body2"
-                      >
-                        تعداد رنگ چاپ: مثال: 3 رنگ <br />
-                        مقدار :مثال: 500 کیلوگرم <br />
-                        رنگ یا رنگ های مورد نظر: مثال: قرمز-آبی-مشکی <br />
-                        <br />
-                        <Typography
-                          component={"div"}
-                          textAlign={"right"}
-                          sx={{ mb: 3 }}
-                          variant="body1"
-                        >
-                          را در بخش توضیحات وارد نمایید.
-                        </Typography>
-                      </Typography>
-                    </Collapse>
-                    <RtlTextField
-                      value={formInfo.phoneNumber}
-                      required
-                      fullWidth
-                      onChange={handlePhoneNumber}
-                      label="شماره تماس"
-                    />
-                    <RtlTextField
-                      value={formInfo.name}
-                      required
-                      name="name"
-                      fullWidth
-                      onChange={handleSetData}
-                      label="نام و نام خانوادگی"
-                      type="text"
-                    />
-                    <RtlTextField
-                      value={formInfo.title}
-                      required
-                      name="title"
-                      fullWidth
-                      onChange={handleSetData}
-                      label="موضوع"
-                      type="text"
-                    />
-                    <RtlTextField
-                      value={formInfo.description}
-                      required
-                      name="description"
-                      multiline
-                      minRows={10}
-                      fullWidth
-                      onChange={handleSetData}
-                      label="توضیحات"
-                      type="text"
-                    />
-                  </Grid>
+                  </ExpandableSection>
 
-                  <Grid xs={12} item>
-                    <Button
-                      disabled={
-                        !isValid ||
-                        formInfo.title == "" ||
-                        formInfo.description == ""
-                      }
-                      sx={{ p: 1 }}
-                      fullWidth
-                      type="submit"
-                      variant="contained"
+                  <Collapse in={expandedSection === "box"}>
+                    <Box
+                      sx={{
+                        p: 3,
+                        mb: 2,
+                        backgroundColor: "#f1f5f9",
+                        borderRadius: "12px",
+                        borderLeft: `4px solid ${primaryColors.main}`,
+                      }}
                     >
-                      ثبت درخواست
-                    </Button>
-                  </Grid>
-                </Grid>
+                      <Typography
+                        sx={{
+                          mb: 2,
+                          color: primaryColors.dark,
+                          fontWeight: 600,
+                        }}
+                      >
+                        لطفا توجه داشته باشید، تولید کارتن مخصوص کارخانه‌جات و
+                        تولیدی‌ها بوده و سفارشات تولید کم پذیرفته نمی‌شود.
+                      </Typography>
+                      <Typography sx={{ mb: 2 }}>
+                        برای ثبت صحیح سفارش تولید کارتن اطلاعات زیر را در بخش
+                        توضیحات وارد نمایید:
+                      </Typography>
+                      <Box
+                        component="ul"
+                        sx={{
+                          pl: 2,
+                          "& li": {
+                            mb: 1,
+                            color: "#4b5563",
+                          },
+                        }}
+                      >
+                        <li>ابعاد کارتن: طول × عرض × ارتفاع</li>
+                        <li>تعداد لایه: 3 لایه یا 5 لایه</li>
+                        <li>وضعیت چاپ: چاپدار یا بدون چاپ</li>
+                      </Box>
+                    </Box>
+                  </Collapse>
+
+                  <ExpandableSection
+                    onClick={() => handleSectionToggle("tape")}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        textAlign: "right",
+                        fontWeight: 600,
+                        pr: 4,
+                      }}
+                    >
+                      سفارش چاپ روی چسب پهن
+                    </Typography>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: "12px",
+                        top: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        width: 36,
+                        height: 36,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {expandedSection === "tape" ? (
+                        <ExpandLessIcon sx={{ color: "white" }} />
+                      ) : (
+                        <ExpandMoreIcon sx={{ color: "white" }} />
+                      )}
+                    </Box>
+                  </ExpandableSection>
+
+                  <Collapse in={expandedSection === "tape"}>
+                    <Box
+                      sx={{
+                        p: 3,
+                        mb: 2,
+                        backgroundColor: "#f1f5f9",
+                        borderRadius: "12px",
+                        borderLeft: `4px solid ${primaryColors.main}`,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          mb: 2,
+                          color: primaryColors.dark,
+                          fontWeight: 600,
+                        }}
+                      >
+                        حداقل سفارش چاپ 1 رنگ روی چسب پهن 180 حلقه و سفارشات چاپ
+                        2 رنگ و 3 رنگ حداقل 2000 حلقه می‌باشد.
+                      </Typography>
+                      <Typography sx={{ mb: 2 }}>
+                        برای ثبت سفارش چاپ روی چسب پهن اطلاعات زیر را وارد
+                        نمایید:
+                      </Typography>
+                      <Box
+                        component="ul"
+                        sx={{
+                          pl: 2,
+                          "& li": {
+                            mb: 1,
+                            color: "#4b5563",
+                          },
+                        }}
+                      >
+                        <li>تعداد رنگ چاپ (مثال: 3 رنگ)</li>
+                        <li>تعداد (مثال: 180 حلقه)</li>
+                        <li>رنگ‌های مورد نظر (مثال: قرمز-آبی-مشکی)</li>
+                      </Box>
+                    </Box>
+                  </Collapse>
+
+                  <ExpandableSection
+                    onClick={() => handleSectionToggle("bubble")}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        textAlign: "right",
+                        fontWeight: 600,
+                        pr: 4,
+                      }}
+                    >
+                      سفارش چاپ روی نایلون حبابدار
+                    </Typography>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: "12px",
+                        top: "12px",
+                        borderRadius: "50%",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                        width: 36,
+                        height: 36,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {expandedSection === "bubble" ? (
+                        <ExpandLessIcon sx={{ color: "white" }} />
+                      ) : (
+                        <ExpandMoreIcon sx={{ color: "white" }} />
+                      )}
+                    </Box>
+                  </ExpandableSection>
+
+                  <Collapse in={expandedSection === "bubble"}>
+                    <Box
+                      sx={{
+                        p: 3,
+                        mb: 2,
+                        backgroundColor: "#f1f5f9",
+                        borderRadius: "12px",
+                        borderLeft: `4px solid ${primaryColors.main}`,
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          mb: 2,
+                          color: primaryColors.dark,
+                          fontWeight: 600,
+                        }}
+                      >
+                        حداقل سفارش چاپ روی نایلون حبابدار 500 کیلوگرم می‌باشد.
+                      </Typography>
+                      <Typography sx={{ mb: 2 }}>
+                        برای ثبت سفارش چاپ روی نایلون حبابدار اطلاعات زیر را
+                        وارد نمایید:
+                      </Typography>
+                      <Box
+                        component="ul"
+                        sx={{
+                          pl: 2,
+                          "& li": {
+                            mb: 1,
+                            color: "#4b5563",
+                          },
+                        }}
+                      >
+                        <li>تعداد رنگ چاپ (مثال: 3 رنگ)</li>
+                        <li>مقدار (مثال: 500 کیلوگرم)</li>
+                        <li>رنگ‌های مورد نظر (مثال: قرمز-آبی-مشکی)</li>
+                      </Box>
+                    </Box>
+                  </Collapse>
+
+                  {/* فیلدهای فرم */}
+                  <CustomTextField
+                    value={formInfo.phoneNumber}
+                    required
+                    onChange={handlePhoneNumber}
+                    label="شماره تماس"
+                    error={!isValid && formInfo.phoneNumber !== ""}
+                    helperText={
+                      !isValid && formInfo.phoneNumber !== ""
+                        ? "شماره تماس معتبر نیست"
+                        : ""
+                    }
+                    inputProps={{ maxLength: 11 }}
+                  />
+
+                  <CustomTextField
+                    value={formInfo.name}
+                    required
+                    name="name"
+                    onChange={handleSetData}
+                    label="نام و نام خانوادگی"
+                    type="text"
+                  />
+
+                  <CustomTextField
+                    value={formInfo.title}
+                    required
+                    name="title"
+                    onChange={handleSetData}
+                    label="موضوع"
+                    type="text"
+                  />
+
+                  <CustomTextField
+                    value={formInfo.description}
+                    required
+                    name="description"
+                    multiline
+                    minRows={6}
+                    onChange={handleSetData}
+                    label="توضیحات"
+                    type="text"
+                  />
+
+                  {/* دکمه ارسال */}
+                  <GradientButton
+                    disabled={
+                      !isValid ||
+                      formInfo.title === "" ||
+                      formInfo.description === "" ||
+                      formInfo.name === "" ||
+                      formInfo.phoneNumber === ""
+                    }
+                    fullWidth
+                    type="submit"
+                    size="large"
+                  >
+                    ثبت درخواست
+                  </GradientButton>
+                </CustomItem>
               </FormGroup>
             </form>
-          </Card>
+          </ResponsiveCard>
         </Grid>
       </Box>
     </PublicLayout>

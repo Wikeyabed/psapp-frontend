@@ -170,14 +170,19 @@ function ShopSwiperCards({
           </>
         ) : (
           <Button
-            disabled={stock < 0 || stock == 0}
+            disabled={stock <= 0}
             fullWidth
             onClick={handleActiveQuantity}
             variant="contained"
-            color="primary"
             size="medium"
+            sx={{
+              backgroundColor: "#6366f1",
+              "&:hover": {
+                backgroundColor: "#4f46e5", // رنگ کمی تیره‌تر برای hover
+              },
+            }}
           >
-            {stock * 1 > 0 ? "خرید" : "ناموجود"}
+            {stock > 0 ? "خرید" : "تماس بگیرید"}
           </Button>
         )}
       </CardActions>

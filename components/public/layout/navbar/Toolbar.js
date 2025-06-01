@@ -160,7 +160,7 @@ function ToolbarMenu() {
           <UserNameText>
             {user.userInformation?.firstName} {user.userInformation?.lastName}
           </UserNameText>
-          <ArrowDropDownIcon sx={{ color: "#e2e8f0", fontSize: 50 }} />
+          <ArrowDropDownIcon sx={{ color: "#e2e8f0", fontSize: 40 }} />
         </UserMenuButton>
       ) : (
         <AuthButton
