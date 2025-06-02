@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   List,
   ListItemButton,
@@ -7,159 +7,167 @@ import {
   Divider,
   Typography,
   IconButton,
-  Drawer,
   useMediaQuery,
   useTheme,
   Box,
   SwipeableDrawer,
+  Avatar,
+  Badge,
 } from "@mui/material";
 import {
-  DashboardOutlined as DashboardIcon,
-  PeopleAltOutlined as UsersIcon,
-  Send as OrdersIcon,
-  SupportAgentOutlined as SupportIcon,
-  LocalGroceryStoreOutlined as ProductsIcon,
+  Dashboard as DashboardIcon,
+  PeopleAlt as UsersIcon,
+  LocalShipping as OrdersIcon,
+  SupportAgent as SupportIcon,
+  ShoppingBag as ProductsIcon,
   PendingActions as RequestsIcon,
-  HistoryEdu as BlogIcon,
-  Comment as CommentsIcon,
-  NotificationsActive as NotificationsIcon,
-  KeyboardReturn as ReturnIcon,
-  PowerSettingsNewOutlined as LogoutIcon,
+  Article as BlogIcon,
+  ChatBubble as CommentsIcon,
+  Notifications as NotificationsIcon,
+  Store as ReturnIcon,
+  Logout as LogoutIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
 import Link from "../../../src/Link";
-import theme from "../../../src/theme";
 import styled from "@emotion/styled";
 
+// رنگ‌های اصلی بر اساس پالت درخواستی
+const primaryColor = "#6366f1";
+const secondaryColor = "#06b6d4";
+const bgColor = "#f8fafc";
+const textColor = "#1e293b";
 
+// استایل‌های سفارشی
+const StyledSwipeableDrawer = styled(SwipeableDrawer)({
+  "& .MuiDrawer-paper": {
+    width: 280,
+    borderLeft: `2px solid ${secondaryColor}`,
+    background: `linear-gradient(135deg, ${primaryColor} 0%, #818cf8 100%)`,
+    boxShadow: "-5px 0 15px rgba(0, 0, 0, 0.1)",
+  },
+});
 
-
-const NavbarContainer = styled(List)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+const NavbarContainer = styled(List)({
   height: "100vh",
-  padding: "16px 0",
-  overflowY: "auto",
+  padding: "0",
+  display: "flex",
+  flexDirection: "column",
+  background: `linear-gradient(180deg, ${primaryColor} 0%, #818cf8 100%)`,
   "&::-webkit-scrollbar": {
     width: "6px",
   },
   "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
+    background: "rgba(255, 255, 255, 0.4)",
     borderRadius: "3px",
   },
-}));
+});
 
-const MobileNavbarContainer = styled(Box)(({ theme }) => ({
+const MobileHeader = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "8px 16px",
-  backgroundColor: theme.palette.primary.main,
+  padding: "12px 16px",
+  background: primaryColor,
   position: "fixed",
   top: 0,
   left: 0,
   right: 0,
-  zIndex: 1100,
-  boxShadow: theme.shadows[4],
-}));
+  zIndex: 1200,
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+});
 
-const NavLogo = styled(Typography)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
-  textAlign: "center",
-  padding: "24px 0",
-  fontSize: "1.75rem",
+const NavLogo = styled(Box)({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "32px 16px 24px",
+  color: "white",
+});
+
+const LogoText = styled(Typography)({
   fontWeight: 700,
+  fontSize: "1.5rem",
+  marginTop: "8px",
   letterSpacing: "0.5px",
-}));
+});
 
-const NavDivider = styled(Divider)(({ theme }) => ({
-  backgroundColor: "rgba(255, 255, 255, 0.2)",
+const NavDivider = styled(Divider)({
+  borderColor: "rgba(255, 255, 255, 0.2)",
   margin: "8px 24px",
-}));
+});
 
-const NavIcon = styled(ListItemIcon)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
-  minWidth: "36px",
-  transition: "all 0.2s ease",
-}));
-
-const NavItemText = styled(ListItemText)(({ theme }) => ({
-  color: theme.palette.primary.contrastText,
-  "& span": {
-    fontSize: "0.875rem",
-    fontWeight: 500,
-  },
-}));
-
-const NavItemButton = styled(ListItemButton)(({ theme }) => ({
+const NavItemButton = styled(ListItemButton)({
   padding: "12px 24px",
   margin: "4px 16px",
-  borderRadius: "8px",
-  transition: "all 0.2s ease",
+  borderRadius: "12px",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  color: "white",
   "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    "& .MuiListItemIcon-root": {
-      transform: "scale(1.1)",
-    },
+    background: "rgba(255, 255, 255, 0.15)",
+    transform: "translateX(-4px)",
   },
   "&.Mui-selected": {
-    backgroundColor: "rgba(255, 255, 255, 0.15)",
+    background: secondaryColor,
+    "&:hover": {
+      background: "#0dd1f2",
+    },
   },
-  "&.Mui-selected:hover": {
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+});
+
+const NavIcon = styled(ListItemIcon)({
+  minWidth: "40px",
+  color: "inherit",
+  "& svg": {
+    fontSize: "1.25rem",
   },
-}));
+});
+
+const NavItemText = styled(ListItemText)({
+  "& .MuiTypography-root": {
+    fontWeight: 500,
+    fontSize: "0.95rem",
+  },
+});
+
+const NotificationBadge = styled(Badge)({
+  "& .MuiBadge-badge": {
+    right: -8,
+    top: 8,
+    background: "#ef4444",
+    color: "white",
+  },
+});
 
 const navItems = [
-  { href: "/admin", icon: <DashboardIcon fontSize="small" />, text: "داشبورد" },
-  {
-    href: "/admin/users",
-    icon: <UsersIcon fontSize="small" />,
-    text: "کاربران",
-  },
-  {
-    href: "/admin/orders",
-    icon: <OrdersIcon fontSize="small" />,
-    text: "سفارشات",
-  },
-  {
-    href: "/admin/support",
-    icon: <SupportIcon fontSize="small" />,
-    text: "پشتیبانی",
-  },
-  {
-    href: "/admin/products",
-    icon: <ProductsIcon fontSize="small" />,
-    text: "محصولات",
-  },
-  {
-    href: "/admin/requests",
-    icon: <RequestsIcon fontSize="small" />,
-    text: "درخواست ها",
-  },
-  { href: "/admin/blog", icon: <BlogIcon fontSize="small" />, text: "بلاگ" },
-  {
-    href: "/admin/comments",
-    icon: <CommentsIcon fontSize="small" />,
-    text: "نظرات",
-  },
-  {
-    href: "/admin/notifications",
-    icon: <NotificationsIcon fontSize="small" />,
-    text: "اعلانات",
+  { href: "/admin", icon: <DashboardIcon />, text: "داشبورد" },
+  { href: "/admin/users", icon: <UsersIcon />, text: "کاربران" },
+  { href: "/admin/orders", icon: <OrdersIcon />, text: "سفارشات" },
+  { href: "/admin/support", icon: <SupportIcon />, text: "پشتیبانی" },
+  { href: "/admin/products", icon: <ProductsIcon />, text: "محصولات" },
+  { href: "/admin/requests", icon: <RequestsIcon />, text: "درخواست ها" },
+  { href: "/admin/blog", icon: <BlogIcon />, text: "بلاگ" },
+  { href: "/admin/comments", icon: <CommentsIcon />, text: "نظرات" },
+  { 
+    href: "/admin/notifications", 
+    icon: (
+      <NotificationBadge badgeContent={5} color="error">
+        <NotificationsIcon />
+      </NotificationBadge>
+    ), 
+    text: "اعلانات" 
   },
 ];
 
 const bottomNavItems = [
-  {
-    href: "/",
-    icon: <ReturnIcon fontSize="small" />,
-    text: "بازگشت به فروشگاه",
-  },
-  {
-    href: "#",
-    icon: <LogoutIcon fontSize="small" />,
-    text: "خروج",
-    onClick: () => console.log("Logout clicked"),
+  { href: "/", icon: <ReturnIcon />, text: "بازگشت به فروشگاه" },
+  { 
+    href: "#", 
+    icon: <LogoutIcon />, 
+    text: "خروج", 
+    onClick: (e) => {
+      e.preventDefault();
+      console.log("Logout clicked");
+    } 
   },
 ];
 
@@ -174,28 +182,51 @@ export default function Navbar() {
 
   const renderNavItems = () => (
     <>
-      <NavLogo variant="h4">ایـبـاکس</NavLogo>
+      <NavLogo>
+        <Avatar 
+          src="/logo.png" 
+          alt="Logo" 
+          sx={{ 
+            width: 56, 
+            height: 56, 
+            bgcolor: secondaryColor,
+            mb: 1
+          }} 
+        />
+        <LogoText variant="h4">پنل مدیریت</LogoText>
+      </NavLogo>
+
       <NavDivider />
 
-      {navItems.map((item) => (
-        <Link href={item.href} key={item.text} passHref>
-          <NavItemButton>
-            <NavIcon>{item.icon}</NavIcon>
-            <NavItemText primary={item.text} />
-          </NavItemButton>
-        </Link>
-      ))}
+      <Box sx={{ flex: 1, overflowY: "auto" }}>
+        {navItems.map((item) => (
+          <Link href={item.href} key={item.text} passHref legacyBehavior>
+            <NavItemButton component="a">
+              <NavIcon>{item.icon}</NavIcon>
+              <NavItemText primary={item.text} />
+            </NavItemButton>
+          </Link>
+        ))}
+      </Box>
 
       <NavDivider />
 
-      {bottomNavItems.map((item) => (
-        <Link href={item.href} key={item.text} passHref>
-          <NavItemButton onClick={item.onClick}>
-            <NavIcon>{item.icon}</NavIcon>
-            <NavItemText primary={item.text} />
-          </NavItemButton>
-        </Link>
-      ))}
+      <Box sx={{ pb: 2 }}>
+        {bottomNavItems.map((item) => (
+          <Link 
+            href={item.href} 
+            key={item.text} 
+            passHref 
+            legacyBehavior
+            onClick={item.onClick}
+          >
+            <NavItemButton component="a">
+              <NavIcon>{item.icon}</NavIcon>
+              <NavItemText primary={item.text} />
+            </NavItemButton>
+          </Link>
+        ))}
+      </Box>
     </>
   );
 
@@ -203,46 +234,38 @@ export default function Navbar() {
     <>
       {isMobile ? (
         <>
-          <MobileNavbarContainer>
+          <MobileHeader>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
-              edge="start"
               onClick={handleDrawerToggle}
-              sx={{ color: "primary.contrastText" }}
+              sx={{ color: "white" }}
             >
-              <MenuIcon />
+              <MenuIcon fontSize="large" />
             </IconButton>
-            <Typography variant="h6" sx={{ color: "primary.contrastText" }}>
-              ایـبـاکس
+            <Typography variant="h6" sx={{ color: "white", fontWeight: 600 }}>
+              پنل مدیریت
             </Typography>
-            <Box sx={{ width: 48 }} /> {/* Spacer for alignment */}
-          </MobileNavbarContainer>
+            <Box sx={{ width: 48 }} />
+          </MobileHeader>
 
-          <SwipeableDrawer
+          <StyledSwipeableDrawer
             anchor="right"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             onOpen={handleDrawerToggle}
-            sx={{
-              "& .MuiDrawer-paper": {
-                width: 280,
-                boxSizing: "border-box",
-                backgroundColor: "primary.main",
-              },
-            }}
           >
             <NavbarContainer>{renderNavItems()}</NavbarContainer>
-          </SwipeableDrawer>
+          </StyledSwipeableDrawer>
         </>
       ) : (
         <NavbarContainer
           sx={{
-            display: { xs: "none", md: "none", lg: "block", xl: "block" },
+            display: { xs: "none", md: "flex" },
+            width: 280,
             position: "fixed",
             top: 0,
             right: 0,
-            width: { md: "280px", xl: "320px" },
+            borderLeft: `2px solid ${secondaryColor}`,
           }}
         >
           {renderNavItems()}

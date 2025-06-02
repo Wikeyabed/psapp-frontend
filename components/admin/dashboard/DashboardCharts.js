@@ -11,7 +11,7 @@ const DashboardCard = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main.lightBg,
   maxHeight: "100%",
   position: "relative",
-  width: "100%",
+  width: "10%",
   borderRadius: 20,
   boxShadow: "rgb(0 0 0 / 4%) 0px 5px 22px, rgb(0 0 0 / 3%) 0px 0px 0px 0.5px",
 }));

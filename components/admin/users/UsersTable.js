@@ -19,7 +19,7 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import { useState } from "react";
 import ToPersianDate from "../../../src/TimestampToPersian";
 import Link from "../../../src/Link";
@@ -27,21 +27,26 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
+// پالت رنگی جدید
+const primaryColor = '#6366f1';
+const secondaryColor = '#06b6d4';
+
 const StyledTableHeaderRow = styled(TableRow)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
   "& th": {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.common.white,
     fontWeight: 600,
     fontSize: "0.875rem",
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
   },
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: alpha(primaryColor, 0.03),
   },
   "&:hover": {
-    backgroundColor: theme.palette.action.selected,
+    backgroundColor: alpha(primaryColor, 0.08),
     cursor: "pointer",
   },
   "&:last-child td, &:last-child th": {
@@ -51,16 +56,16 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
-    borderRadius: "24px",
-    backgroundColor: theme.palette.background.paper,
+    borderRadius: "12px",
+    backgroundColor: theme.palette.common.white,
     "& fieldset": {
-      borderColor: theme.palette.divider,
+      borderColor: theme.palette.grey[300],
     },
     "&:hover fieldset": {
-      borderColor: theme.palette.primary.main,
+      borderColor: primaryColor,
     },
     "&.Mui-focused fieldset": {
-      borderColor: theme.palette.primary.main,
+      borderColor: primaryColor,
       borderWidth: "1px",
     },
   },
@@ -68,24 +73,30 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     transformOrigin: "right",
     right: "24px",
     left: "auto",
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
   },
   "& .MuiInputAdornment-root": {
     marginLeft: theme.spacing(1),
   },
+  "& .MuiInputBase-input": {
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
+  },
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  padding: "12px 16px",
+  padding: "16px",
   textAlign: "right",
-  borderColor: theme.palette.divider,
+  borderColor: theme.palette.grey[200],
+  fontFamily: "'Segoe UI', Tahoma, sans-serif",
   "& a": {
     color: theme.palette.text.primary,
     textDecoration: "none",
     fontWeight: 500,
     display: "flex",
     alignItems: "center",
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
     "&:hover": {
-      color: theme.palette.primary.main,
+      color: primaryColor,
       textDecoration: "underline",
     },
   },
@@ -93,18 +104,25 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const RoleChip = styled(Chip)(({ theme, role }) => ({
   fontWeight: 600,
+  fontFamily: "'Segoe UI', Tahoma, sans-serif",
   backgroundColor:
     role === "1"
-      ? theme.palette.success.light
+      ? alpha(primaryColor, 0.2)
       : role === "2"
-      ? theme.palette.warning.light
-      : theme.palette.info.light,
+      ? alpha(secondaryColor, 0.2)
+      : theme.palette.grey[200],
   color:
     role === "1"
-      ? theme.palette.success.contrastText
+      ? primaryColor
       : role === "2"
-      ? theme.palette.warning.contrastText
-      : theme.palette.info.contrastText,
+      ? secondaryColor
+      : theme.palette.text.secondary,
+  border:
+    role === "1"
+      ? `1px solid ${primaryColor}`
+      : role === "2"
+      ? `1px solid ${secondaryColor}`
+      : `1px solid ${theme.palette.grey[300]}`,
 }));
 
 const UsersTable = ({ users, loading }) => {
@@ -114,7 +132,7 @@ const UsersTable = ({ users, loading }) => {
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
-    setPage(0); // Reset to first page when searching
+    setPage(0);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -138,23 +156,36 @@ const UsersTable = ({ users, loading }) => {
       })
     : [];
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredUsers.length) : 0;
 
   const handleRefresh = () => {
-    // Add your refresh logic here
     setSearchValue("");
     setPage(0);
   };
 
   return (
-    <Grid container spacing={3} sx={{ p: 3 }}>
+    <Grid container spacing={3} sx={{ p: 3, fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
       <Grid item xs={12}>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="h5" fontWeight="600">
+          <Typography variant="h5" fontWeight="600" sx={{ color: primaryColor, fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
             مدیریت کاربران
           </Typography>
+          <Button
+            variant="contained"
+            startIcon={<PersonAddAlt1Icon />}
+            sx={{
+              backgroundColor: primaryColor,
+              borderRadius: "12px",
+              minHeight: "48px",
+              fontFamily: "'Segoe UI', Tahoma, sans-serif",
+              "&:hover": {
+                backgroundColor: alpha(primaryColor, 0.9),
+              },
+            }}
+          >
+            کاربر جدید
+          </Button>
         </Box>
       </Grid>
 
@@ -168,13 +199,21 @@ const UsersTable = ({ users, loading }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon color="action" />
+                <SearchIcon sx={{ color: alpha(primaryColor, 0.7) }} />
               </InputAdornment>
             ),
             endAdornment: searchValue && (
               <InputAdornment position="end">
-                <IconButton size="small" onClick={() => setSearchValue("")}>
-                  <RefreshIcon fontSize="small" />
+                <IconButton 
+                  size="small" 
+                  onClick={() => setSearchValue("")}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: alpha(primaryColor, 0.1),
+                    }
+                  }}
+                >
+                  <RefreshIcon fontSize="small" sx={{ color: primaryColor }} />
                 </IconButton>
               </InputAdornment>
             ),
@@ -184,12 +223,13 @@ const UsersTable = ({ users, loading }) => {
 
       <Grid item xs={12}>
         <Paper
-          elevation={0}
+          elevation={2}
           sx={{
             borderRadius: "12px",
             overflow: "hidden",
             border: "1px solid",
             borderColor: "divider",
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
           }}
         >
           <TableContainer>
@@ -205,7 +245,6 @@ const UsersTable = ({ users, loading }) => {
               </TableHead>
               <TableBody>
                 {loading ? (
-                  // Loading skeleton
                   Array.from(new Array(rowsPerPage)).map((_, index) => (
                     <StyledTableRow key={index}>
                       <StyledTableCell>
@@ -241,19 +280,25 @@ const UsersTable = ({ users, loading }) => {
                           <Link href={`users/${user.id}`}>
                             <Box display="flex" alignItems="center">
                               <Avatar
-                                sx={{ width: 40, height: 40, mr: 2, ml:2 }}
+                                sx={{ 
+                                  width: 40, 
+                                  height: 40, 
+                                  mr: 2, 
+                                  ml: 2,
+                                  backgroundColor: alpha(primaryColor, 0.1),
+                                  color: primaryColor
+                                }}
                                 src={user.avatar}
                                 alt={`${user.first_name} ${user.last_name}`}
-                              >
-                                
-                              </Avatar>
+                              />
                               <Box>
-                                <Typography fontWeight="500">
+                                <Typography fontWeight="500" fontFamily="'Segoe UI', Tahoma, sans-serif">
                                   {user.first_name} {user.last_name}
                                 </Typography>
                                 <Typography
                                   variant="body2"
                                   color="textSecondary"
+                                  fontFamily="'Segoe UI', Tahoma, sans-serif"
                                 >
                                   {user.email || user.phone}
                                 </Typography>
@@ -285,7 +330,7 @@ const UsersTable = ({ users, loading }) => {
                               />
                             }
                           >
-                            <Box>
+                            <Box fontFamily="'Segoe UI', Tahoma, sans-serif">
                               <ToPersianDate timestamp={user.register_date} />
                             </Box>
                           </Tooltip>
@@ -296,28 +341,51 @@ const UsersTable = ({ users, loading }) => {
                             size="small"
                             label="ایباکس"
                             variant="outlined"
+                            sx={{
+                              fontFamily: "'Segoe UI', Tahoma, sans-serif",
+                              borderColor: theme => theme.palette.grey[300],
+                              color: theme => theme.palette.text.secondary
+                            }}
                           />
                         </StyledTableCell>
 
                         <StyledTableCell>
-                          <Chip
-                            size="small"
-                            label={user.is_active ? "فعال" : "غیرفعال"}
-                            color={user.is_active ? "success" : "error"}
-                          />
+                        <Chip
+  size="small"
+  label={user.is_active ? "فعال" : "غیرفعال"}
+  sx={(theme) => ({
+    fontFamily: "'Segoe UI', Tahoma, sans-serif",
+    backgroundColor: user.is_active 
+      ? alpha(secondaryColor, 0.2) 
+      : alpha(theme.palette.error.main, 0.2),
+    color: user.is_active 
+      ? secondaryColor 
+      : theme.palette.error.main,
+    border: user.is_active 
+      ? `1px solid ${secondaryColor}` 
+      : `1px solid ${theme.palette.error.main}`
+  })}
+/>
                         </StyledTableCell>
                       </StyledTableRow>
                     ))
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
-                      <Typography variant="body1" color="textSecondary">
+                      <Typography variant="body1" color="textSecondary" fontFamily="'Segoe UI', Tahoma, sans-serif">
                         کاربری یافت نشد
                       </Typography>
                       <Button
                         startIcon={<RefreshIcon />}
                         onClick={handleRefresh}
-                        sx={{ mt: 1 }}
+                        sx={{ 
+                          mt: 1,
+                          color: primaryColor,
+                          fontFamily: "'Segoe UI', Tahoma, sans-serif",
+                          "&:hover": {
+                            backgroundColor: alpha(primaryColor, 0.1),
+                          }
+                        }}
                       >
                         بارگذاری مجدد
                       </Button>
@@ -346,7 +414,14 @@ const UsersTable = ({ users, loading }) => {
             labelDisplayedRows={({ from, to, count }) =>
               `${from}-${to} از ${count !== -1 ? count : `more than ${to}`}`
             }
-            sx={{ borderTop: "1px solid", borderColor: "divider" }}
+            sx={{ 
+              borderTop: "1px solid",
+              borderColor: "divider",
+              fontFamily: "'Segoe UI', Tahoma, sans-serif",
+              "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows": {
+                fontFamily: "'Segoe UI', Tahoma, sans-serif",
+              }
+            }}
           />
         </Paper>
       </Grid>

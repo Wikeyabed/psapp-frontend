@@ -19,7 +19,7 @@ const DashboardCard = styled(Paper)(({ theme }) => ({
 }));
 
 const iconStyle = {
-  fontSize: 35,
+  fontSize: 50,
   color: "#fff",
 };
 
@@ -28,7 +28,7 @@ const DashboardCardIcon = styled(Box)(({ theme }) => ({
   top: 15,
   left: 15,
   width: 56,
-  height: 56,
+  height: 20,
   cursor: "pointer",
   paddingTop: 10,
   transition: ".3s ease all",
