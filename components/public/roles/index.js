@@ -1,125 +1,338 @@
 import React from "react";
 import PublicLayout from "../layout/index";
-import { Grid, Typography, Box, Paper, Container } from "@mui/material";
+import { 
+  Box, 
+  Typography, 
+  Container,
+  Paper,
+  useTheme
+} from "@mui/material";
+import {
+  Policy as PolicyIcon,
+  Person as PersonIcon,
+  Email as EmailIcon,
+  Security as SecurityIcon,
+  LocalShipping as ShippingIcon,
+  Assignment as TermsIcon
+} from '@mui/icons-material';
+
+const policySections = [
+  {
+    title: "قوانین عمومی",
+    icon: <PolicyIcon fontSize="large" />,
+    content: [
+      "کلیه اصول و رویه‌های فروشگاه منطبق با قوانین جمهوری اسلامی ایران است",
+      "رعایت قانون تجارت الکترونیک و حمایت از حقوق مصرف کننده الزامی است",
+      "هرگونه تغییر در قوانین در همین صفحه اعمال می‌شود",
+      "ادامه استفاده از سایت به معنی پذیرش تغییرات است"
+    ],
+    color: "#6366f1" // آبی-بنفش اصلی
+  },
+  {
+    title: "تعریف کاربر",
+    icon: <PersonIcon fontSize="large" />,
+    content: [
+      "کاربر شخصی است که با اطلاعات کاربری خود ثبت نام کرده باشد",
+      "ثبت سفارش یا استفاده از خدمات به معنی پذیرش قوانین است",
+      "مسئولیت صحت اطلاعات بر عهده کاربر است"
+    ],
+    color: "#06b6d4" // فیروزه‌ای مکمل
+  },
+  {
+    title: "ارتباطات الکترونیکی",
+    icon: <EmailIcon fontSize="large" />,
+    content: [
+      "پاسخگویی از ساعت 8 صبح تا 18 عصر انجام می‌شود",
+      "ارتباطات از طریق تماس، ایمیل یا پیام‌کوتاه صورت می‌گیرد",
+      "پاسخ‌ها حداکثر طی 24 ساعت کاری ارسال می‌شوند"
+    ],
+    color: "#4f46e5" // سایه تیره‌تر از آبی-بنفش
+  },
+  {
+    title: "حریم خصوصی",
+    icon: <SecurityIcon fontSize="large" />,
+    content: [
+      "اطلاعات شخصی کاربران محرمانه تلقی می‌شود",
+      "از داده‌ها فقط برای ارائه خدمات استفاده می‌شود",
+      "کلیه محتوای سایت متعلق به فروشگاه است"
+    ],
+    color: "#0891b2" // سایه تیره‌تر از فیروزه‌ای
+  },
+  {
+    title: "ثبت سفارش",
+    icon: <ShippingIcon fontSize="large" />,
+    content: [
+      "سفارش‌ها در اولین روز کاری پردازش می‌شوند",
+      "حق کنسل کردن سفارش در صورت عدم موجودی محفوظ است",
+      "امکان جایگزینی محصول یا استرداد وجه وجود دارد"
+    ],
+    color: "#6366f1" // آبی-بنفش اصلی
+  },
+  {
+    title: "شرایط استفاده",
+    icon: <TermsIcon fontSize="large" />,
+    content: [
+      "حداقل سن برای استفاده از سایت 18 سال است",
+      "هرگونه سوءاستفاده پیگرد قانونی دارد",
+      "فروشگاه در قبال استفاده نادرست مسئولیتی ندارد"
+    ],
+    color: "#06b6d4" // فیروزه‌ای مکمل
+  }
+];
+
 function RolesPage() {
+  const theme = useTheme();
+  
   return (
     <PublicLayout>
-      <Container
+      <Box
         sx={{
-          display: "flex",
-          alignItems: "center",
+          minHeight: "100vh",
+          py: 8,
+          background: `linear-gradient(
+            60deg, 
+            ${theme.palette.primary.main} 0%, 
+            ${theme.palette.secondary.main} 50%, 
+            ${theme.palette.info.main} 100%
+          )`,
+          backgroundSize: "300% 300%",
+          animation: "gradientAnimation 12s ease infinite",
+          "@keyframes gradientAnimation": {
+            "0%": {
+              backgroundPosition: "0% 50%"
+            },
+            "50%": {
+              backgroundPosition: "100% 50%"
+            },
+            "100%": {
+              backgroundPosition: "0% 50%"
+            }
+          }
         }}
       >
-        <Grid
-          component={Paper}
-          elevation={5}
-          sx={{
-            p: { xs: 5, md: 15 },
-          }}
-          item
-          xs={12}
-          md={6}
-        >
-          {" "}
-          <Typography variant="h5" mb={4}>
-            شرایط و قوانین استفاده از خدمات فروشگاه اینترنتی ایباکس:
-          </Typography>
-          <Typography mb={4} variant="body1">
-            {" "}
-            کاربر گرامی لطفاً موارد زیر را جهت استفاده بهینه از خدمات فروشگاه
-            اینترنتی ایباکس به دقت ملاحظه فرمایید.
-          </Typography>
-          <Typography fontWeight={700} mb={1} variant="body1">
-            ورود کاربران به فروشگاه اینترنتی ایباکس و ثبت سفارش در هر زمان به
-            معنی پذیرفتن کامل کلیه شرایط و قوانین فروشگاه اینترنتی ایباکس از سوی
-            کاربر است.
-          </Typography>
-          <Typography mb={4} variant="body1">
-            {" "}
-            لازم به ذکر است شرایط و قوانین مندرج، جایگزین کلیه توافق‌های قبلی
-            محسوب می‌شود.
-          </Typography>
-          <Typography mb={2} variant="h6">
-            {" "}
-            قوانین عمومی:
-          </Typography>
-          <Typography mb={5} variant="body2">
-            {" "}
-            توجه داشته باشید کلیه اصول و رویه‏‌های فروشگاه اینترنتی ایباکس منطبق
-            با قوانین جمهوری اسلامی ایران، قانون تجارت الکترونیک و قانون حمایت
-            از حقوق مصرف کننده است و متعاقبا کاربر نیز موظف به رعایت قوانین
-            مرتبط با کاربر است. در صورتی که در قوانین مندرج، رویه‏‌ها و خدمات
-            فروشگاه اینترنتی ایباکس تغییراتی در آینده ایجاد شود، در همین صفحه
-            منتشر و به روز رسانی می شود و شما توافق می‏‌کنید که استفاده مستمر
-            شما از سایت به معنی پذیرش هرگونه تغییر است.
-          </Typography>
-          <Typography mb={2} variant="body1">
-            تعریف مشتری یا کاربر:
-          </Typography>
-          <Typography mb={5} variant="body2">
-            مشتری یا کاربر به شخصی گفته می‌شود که با اطلاعات کاربری خود که در
-            فرم ثبت نام درج کرده است، به ثبت سفارش یا هرگونه استفاده از خدمات
-            فروشگاه اینترنتی ایباکس اقدام نماید.
-          </Typography>
-          <Typography mb={2} variant="body1">
-            {" "}
-            ارتباطات الکترونیکی:
-          </Typography>
-          <Typography mb={5} variant="body2">
-            {" "}
-            هنگامی که شما از خدمات فروشگاه اینترنتی ایباکس استفاده می‏‌کنید،
-            سفارش اینترنتی خود را ثبت یا خرید می‏‌کنید و یا به فروشگاه اینترنتی
-            ایباکس ایمیل می‏‌زنید، این ارتباطات به صورت الکترونیکی انجام می‏‌شود
-            و در صورتی که درخواست شما با رعایت کلیه اصول و رویه‏‌ها باشد، شما
-            موافقت می‌‏کنید که فروشگاه اینترنتی ایباکس به صورت الکترونیکی (از
-            طریق تماس، پست الکترونیکی، سرویس پیام کوتاه ) به درخواست شما پاسخ
-            دهد.
-          </Typography>
-          <Typography mb={2} variant="body1">
-            سیاست‏‌های رعایت حریم شخصی:
-          </Typography>
-          <Typography mb={5} variant="body2">
-            فروشگاه اینترنتی ایباکس به اطلاعات خصوصی اشخاصى که از خدمات سایت
-            استفاده می‏‌کنند، احترام گذاشته و از آن محافظت می‏‌کند. فروشگاه
-            اینترنتی ایباکس متعهد می‏‌شود در حد توان از حریم شخصی شما دفاع کند و
-            در این راستا، تکنولوژی مورد نیاز برای هرچه مطمئن‏‌تر و امن‏‌تر شدن
-            استفاده شما از سایت را، توسعه دهد. در واقع با استفاده از سایت
-            فروشگاه اینترنتی ایباکس، شما رضایت خود را از این سیاست نشان
-            می‏‌دهید. همه مطالب در دسترس از طریق هر یک از خدمات فروشگاه اینترنتی
-            ایباکس، مانند لوگو، علائم تجاری، متن، توضیحات، گرافیک، آرم، تصاویر و
-            کپی، داده‌ها و کلیه محتوای تولید شده توسط فروشگاه اینترنتی ایباکس
-            جزئی از اموال فروشگاه اینترنتی ایباکس محسوب می‏‌شود و حق استفاده و
-            نشر تمامی مطالب موجود و در دسترس در انحصار فروشگاه اینترنتی ایباکس
-            است و هرگونه استفاده بدون کسب مجوز کتبی، حق پیگرد قانونی را برای
-            فروشگاه اینترنتی ایباکس محفوظ می‏‌دارد.
-          </Typography>
-          <Typography mb={2} variant="body1">
-            ثبت، پردازش و ارسال سفارش:
-          </Typography>
-          <Typography mb={5} variant="body2">
-            روز کاری به معنی روز شنبه تا پنج شنبه هر هفته، به استثنای تعطیلات
-            عمومی در ایران است و کلیه سفارش‏‌های ثبت شده در طول روزهای کاری و
-            اولین روز پس از تعطیلات پردازش می‌‏شوند. فروشگاه اینترنتی ایباکس به
-            مشتریان خود در ۷ روز هفته و ۲۴ ساعت در روز امکان ثبت سفارش می‌‏دهد
-            ولیکن از ساعت 8 صبح الی ۱۸ هر روز امکان پاسخگویی و پیگیری ارسال
-            سفارشات میباشد. کلیه سفارش‌‏های ثبت شده در سایت فروشگاه اینترنتی
-            ایباکس به وسیله ارسال پیش فاکتور از طریق پشتیبانی، در صف پردازش قرار
-            می‏‌گیرند فروشگاه اینترنتی ایباکس همواره در ارسال و تحویل کلیه
-            سفارش‌‏های ثبت شده، نهایت دقت و تلاش خود را می‏‌نماید. با وجود این،
-            در صورتی که موجودی محصولی در فروشگاه اینترنتی ایباکس به پایان برسد و
-            یا قیمت محصول مورد نظر به روز نباشد حتی پس از اقدام مشتری به
-            سفارش‌‏گذاری، حق کنسل کردن آن سفارش و یا استرداد وجه سفارش برای
-            فروشگاه اینترنتی ایباکس محفوظ است و یا مشتری می‏‌تواند به جای کالای
-            سفارش داده شده محصول دیگری را جایگزین کند و یا مابه التفاوت وجه
-            محصول را به فروشگاه ایباکس پرداخت نماید. فروشگاه اینترنتی ایباکس
-            مجاز است بدون اطلاع قبلی نسبت به توقف سفارش‌‏گیری جدید، اقدام و فروش
-            خود را متوقف کند و کلیه سفارش‌‏های ثبت شده قبل از توقف سفارش‌‏گیری،
-            پردازش و ارسال می‌‏شود. حق قطع فروش کلیه و یا بخشی از محصولات به هر
-            دلیلی مانند اتمام موجودی کالا بدون اطلاع قبلی، برای فروشگاه اینترنتی
-            ایباکس محفوظ است.
-          </Typography>
-        </Grid>
-      </Container>
+        <Container maxWidth="lg">
+          {/* هدر صفحه با جزئیات بیشتر */}
+          <Box sx={{ 
+            textAlign: "center", 
+            mb: 8,
+            position: "relative",
+            px: 2
+          }}>
+            <Typography 
+              variant="h2"
+              sx={{
+                fontWeight: 800,
+                color: "white",
+                textShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                mb: 3,
+                letterSpacing: "-0.5px",
+                [theme.breakpoints.down('sm')]: {
+                  fontSize: "2rem"
+                }
+              }}
+            >
+              قوانین و مقررات ایباکس
+            </Typography>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: "rgba(255,255,255,0.95)",
+                maxWidth: 800,
+                mx: "auto",
+                lineHeight: 1.8,
+                fontSize: "1.2rem",
+                backdropFilter: "blur(2px)",
+                textShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                [theme.breakpoints.down('sm')]: {
+                  fontSize: "1rem"
+                }
+              }}
+            >
+              لطفاً قبل از استفاده از خدمات فروشگاه اینترنتی ایباکس، شرایط و قوانین را به دقت مطالعه فرمایید.
+              <Box component="span" sx={{ display: "block", mt: 1, fontSize: "0.9em" }}>
+                ورود یا ثبت سفارش به معنی پذیرش کامل کلیه موارد ذکر شده است.
+              </Box>
+            </Typography>
+          </Box>
+
+          {/* محتوای اصلی با چیدمان زیگزاگی پیشرفته */}
+          <Box sx={{ 
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            position: "relative",
+            "&:before": {
+              content: '""',
+              position: "absolute",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "4px",
+              height: "100%",
+              background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.4), transparent)",
+              zIndex: 0,
+              [theme.breakpoints.down('md')]: {
+                display: "none"
+              }
+            }
+          }}>
+            {policySections.map((section, index) => (
+              <Box
+                key={index}
+                sx={{
+                  alignSelf: index % 2 === 0 ? "flex-start" : "flex-end",
+                  maxWidth: { xs: "100%", md: "72%" },
+                  width: "100%",
+                  transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1)",
+                  "&:hover": {
+                    transform: "translateY(-8px)",
+                    boxShadow: "0 15px 30px rgba(0,0,0,0.15)"
+                  },
+                  position: "relative",
+                  [theme.breakpoints.down('md')]: {
+                    alignSelf: "center",
+                    maxWidth: "100%"
+                  }
+                }}
+              >
+                {/* عنصر دکوراتیو */}
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -20,
+                    [index % 2 === 0 ? "left" : "right"]: -20,
+                    width: 100,
+                    height: 100,
+                    background: `${section.color}20`,
+                    borderRadius: "50%",
+                    filter: "blur(20px)",
+                    zIndex: -1,
+                    [theme.breakpoints.down('md')]: {
+                      display: "none"
+                    }
+                  }}
+                />
+                
+                <Paper
+                  elevation={6}
+                  sx={{
+                    p: 4,
+                    borderRadius: 3,
+                    background: "rgba(255, 255, 255, 0.92)",
+                    backdropFilter: "blur(12px)",
+                    borderLeft: `6px solid ${section.color}`,
+                    position: "relative",
+                    overflow: "hidden",
+                    "&:before": {
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                      background: `linear-gradient(135deg, ${section.color}08, transparent)`,
+                      zIndex: 0
+                    },
+                    [theme.breakpoints.down('sm')]: {
+                      p: 3,
+                      borderRadius: 2
+                    }
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      mb: 3,
+                      gap: 3,
+                      position: "relative"
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 70,
+                        height: 70,
+                        borderRadius: "50%",
+                        background: `${section.color}15`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: section.color,
+                        border: `2px solid ${section.color}30`,
+                        flexShrink: 0,
+                        [theme.breakpoints.down('sm')]: {
+                          width: 60,
+                          height: 60
+                        }
+                      }}
+                    >
+                      {section.icon}
+                    </Box>
+                    <Box>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 700,
+                          color: section.color,
+                          position: "relative",
+                          mb: 1,
+                          fontSize: "1.5rem",
+                          [theme.breakpoints.down('sm')]: {
+                            fontSize: "1.3rem"
+                          }
+                        }}
+                      >
+                        {section.title}
+                      </Typography>
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 4,
+                          background: `linear-gradient(90deg, ${section.color}, ${section.color}80)`,
+                          borderRadius: 2
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                  
+                  <Box
+                    component="ul"
+                    sx={{
+                      pl: 0,
+                      position: "relative",
+                      "& li": {
+                        listStyleType: "none",
+                        position: "relative",
+                        pl: 3,
+                        mb: 2,
+                        color: "#334155",
+                        lineHeight: 1.8,
+                        fontSize: "1.05rem",
+                        "&:before": {
+                          content: '""',
+                          position: "absolute",
+                          right: -17,
+                          top: "0.7em",
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: section.color
+                        }
+                      }
+                    }}
+                  >
+                    {section.content.map((item, i) => (
+                      <Box component="li" key={i}>
+                        {item}
+                      </Box>
+                    ))}
+                  </Box>
+                </Paper>
+              </Box>
+            ))}
+          </Box>
+        </Container>
+      </Box>
     </PublicLayout>
   );
 }
