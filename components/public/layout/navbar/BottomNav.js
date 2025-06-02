@@ -10,23 +10,12 @@ import Account from "../../../../public/images/Account.svg";
 import Image from "next/image";
 import {
   Paper,
-  Box,
   BottomNavigation,
   BottomNavigationAction,
   CssBaseline,
   Badge,
 } from "@mui/material";
 import Link from "../../../../src/Link";
-import {
-  AccountBoxOutlined,
-  AccountBox,
-  ShoppingBasket,
-  ShoppingBasketOutlined,
-  ShoppingCart,
-  ShoppingCartOutlined,
-  Widgets,
-  WidgetsOutlined,
-} from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { persianNumber } from "../../../../src/PersianDigits";
 import { useRouter } from "next/router";
@@ -39,16 +28,17 @@ export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (router.route == "/" || router.route == "/shop") {
+    if (router.route === "/" || router.route === "/shop") {
       setValue(0);
-    } else if (router.route == "/shop/cart") {
+    } else if (router.route === "/shop/cart") {
       setValue(1);
-    } else if (router.route == "/user") {
+    } else if (router.route === "/user" || router.route === "/auth/login") {
       setValue(2);
-    } else {
+    } else if (router.route === "/product-categories") {
       setValue(3);
     }
   }, [router]);
+
   return (
     <Paper
       sx={{
@@ -60,25 +50,23 @@ export default function SimpleBottomNavigation() {
         pt: 0.8,
         width: "100%",
         background: "#fff",
-        // borderTop: "4px solid #000",
       }}
       elevation={5}
     >
       <CssBaseline />
 
       <BottomNavigation
-        sx={{
-          background: "transparent",
-        }}
+        sx={{ background: "transparent" }}
         showLabels
         value={value}
       >
+        {/* فروشگاه */}
         <BottomNavigationAction
-          component={Link}
-          href="/"
+          component={router.route === "/" ? "div" : Link}
+          href={router.route === "/" ? undefined : "/"}
           label="فروشگاه"
           icon={
-            value == 0 && router.route == "/" ? (
+            value === 0 && router.route === "/" ? (
               <Image src={Shop1} alt="فروشگاه" width={27} height={27} />
             ) : (
               <Image src={Shop2} alt="فروشگاه" width={27} height={27} />
@@ -86,67 +74,61 @@ export default function SimpleBottomNavigation() {
           }
         />
 
+        {/* محصولات */}
         <BottomNavigationAction
-          component={Link}
-          href="/product-categories"
+          component={router.route === "/product-categories" ? "div" : Link}
+          href={
+            router.route === "/product-categories"
+              ? undefined
+              : "/product-categories"
+          }
           label="محصولات"
           icon={
-            value == 3 && router.route == "/product-categories" ? (
-              <Image src={Products1} alt="فروشگاه" width={27} height={27} />
+            value === 3 && router.route === "/product-categories" ? (
+              <Image src={Products1} alt="محصولات" width={27} height={27} />
             ) : (
-              <Image src={Products2} alt="فروشگاه" width={27} height={27} />
-            )
-          }
-        />
-        <BottomNavigationAction
-          component={Link}
-          href="/shop/cart"
-          label="سبد خرید"
-          icon={
-            value == 1 && router.route == "/shop/cart" ? (
-              <Badge
-                color="primary"
-                max={999}
-                badgeContent={persianNumber(shoppingCart.length)}
-              >
-                <Image src={Cart1} alt="فروشگاه" width={27} height={27} />
-              </Badge>
-            ) : (
-              <Badge
-                color="primary"
-                max={999}
-                badgeContent={persianNumber(shoppingCart.length)}
-              >
-                <Image src={Cart2} alt="فروشگاه" width={27} height={27} />
-              </Badge>
+              <Image src={Products2} alt="محصولات" width={27} height={27} />
             )
           }
         />
 
+        {/* سبد خرید */}
+        <BottomNavigationAction
+          component={router.route === "/shop/cart" ? "div" : Link}
+          href={router.route === "/shop/cart" ? undefined : "/shop/cart"}
+          label="سبد خرید"
+          icon={
+            <Badge
+              color="primary"
+              max={999}
+              badgeContent={persianNumber(shoppingCart.length)}
+            >
+              {value === 1 && router.route === "/shop/cart" ? (
+                <Image src={Cart1} alt="سبد خرید" width={27} height={27} />
+              ) : (
+                <Image src={Cart2} alt="سبد خرید" width={27} height={27} />
+              )}
+            </Badge>
+          }
+        />
+
+        {/* پروفایل یا ورود */}
         {isLoggedIn ? (
           <BottomNavigationAction
-            component={Link}
-            href="/user"
+            component={router.route === "/user" ? "div" : Link}
+            href={router.route === "/user" ? undefined : "/user"}
             label="پروفایل"
             icon={
-              value == 2 && router.route == "/user" ? (
-                <Image src={Account} alt="فروشگاه" width={27} height={27} />
-              ) : (
-                <Image src={Account} alt="فروشگاه" width={27} height={27} />
-              )
+              <Image src={Account} alt="پروفایل" width={27} height={27} />
             }
           />
         ) : (
           <BottomNavigationAction
-            component={Link}
-            href="/auth/login"
+            component={router.route === "/auth/login" ? "div" : Link}
+            href={router.route === "/auth/login" ? undefined : "/auth/login"}
             label="ورود"
             icon={
-              value == 2 && router.route == "/auth/login" ? (
-                <Image src={Account} alt="فروشگاه" width={27} height={27} />
-              ) : (
-                <Image src={Account} alt="فروشگاه" width={27} height={27} />
-              )
+              <Image src={Account} alt="ورود" width={27} height={27} />
             }
           />
         )}
