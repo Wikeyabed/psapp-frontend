@@ -19,17 +19,25 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <Box
-      component="footer"
-      sx={{
-        background: "linear-gradient(135deg, #6366f1, #06b6d4)",
-        color: "#fff",
-        p: 4,
-        pb: { xs: 10, md: 4 },
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        boxShadow: "0 -4px 20px rgba(99, 102, 241, 0.2)",
-      }}
-    >
+  component="footer"
+  sx={{
+    background: "linear-gradient(270deg, #6366f1, #06b6d4, #3b82f6, #06b6d4)",
+    backgroundSize: "800% 800%",
+    animation: "gradientAnimation 12s ease infinite",
+    color: "#fff",
+    p: 4,
+    pb: { xs: 10, md: 4 },
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    boxShadow: "0 -4px 20px rgba(99, 102, 241, 0.2)",
+    "@keyframes gradientAnimation": {
+      "0%": { backgroundPosition: "0% 50%" },
+      "50%": { backgroundPosition: "100% 50%" },
+      "100%": { backgroundPosition: "0% 50%" },
+    },
+  }}
+>
+
       <Container maxWidth="xl">
         <Grid container spacing={5}>
           {/* بخش درباره ما */}
