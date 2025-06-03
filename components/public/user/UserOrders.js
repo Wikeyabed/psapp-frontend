@@ -208,8 +208,8 @@ function UserOrders() {
                 <TableCell
                   align="right"
                   component={Link}
-                  href={`/user/orders/${row.order_id}`}
-                  sx={{
+                  href={`/user/orders/${row.order_id}`}       
+                             sx={{
                     color: theme.palette.primary.main,
                     textDecoration: "none",
                     "&:hover": {

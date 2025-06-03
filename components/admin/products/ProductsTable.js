@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Box,
@@ -9,34 +10,31 @@ import {
   InputAdornment,
   IconButton,
   Chip,
-  Avatar,
-  Skeleton,
   Card,
   CardContent,
-  CardMedia,
   CardActionArea,
   Button,
   Divider,
   Tooltip,
-  Badge,
+  Skeleton,
   useTheme,
+  useMediaQuery
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import EditProductModal from "./EditProductModal";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
-import DeleteProduct from "./DeleteProduct";
-import AddVariantModal from "./AddVariantModal";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import AddIcon from "@mui/icons-material/Add";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CategoryIcon from "@mui/icons-material/Category";
-import StyleIcon from "@mui/icons-material/Style";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import EditProductModal from "./EditProductModal";
+import DeleteProduct from "./DeleteProduct";
+import AddVariantModal from "./AddVariantModal";
 
-const ProductCard = ({ product, fetchProducts }) => {
+const ProductCard = ({ product, fetchProducts, isMobile }) => {
   const theme = useTheme();
 
   return (
@@ -61,11 +59,10 @@ const ProductCard = ({ product, fetchProducts }) => {
           sx={{
             position: "relative",
             width: "100%",
-            paddingTop: "100%", // 1:1 aspect ratio
+            paddingTop: "100%",
             overflow: "hidden",
           }}
         >
-          {/* Product image */}
           {product.images_url?.length > 0 ? (
             <Image
               src={`${process.env.NEXT_PUBLIC_SERVER_URL}/static/${product.images_url[0]}`}
@@ -76,12 +73,6 @@ const ProductCard = ({ product, fetchProducts }) => {
                 borderTopLeftRadius: "12px",
                 borderTopRightRadius: "12px",
                 transition: "transform 0.3s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)";
               }}
             />
           ) : (
@@ -105,10 +96,9 @@ const ProductCard = ({ product, fetchProducts }) => {
         </Box>
 
         <CardContent sx={{ pb: 1, px: 2 }}>
-          {/* Product name */}
           <Tooltip title={product.product_name} arrow>
             <Typography
-              variant="body2"
+              variant={isMobile ? "body1" : "body2"}
               fontWeight={600}
               sx={{
                 mb: 1,
@@ -118,14 +108,13 @@ const ProductCard = ({ product, fetchProducts }) => {
                 WebkitBoxOrient: "vertical",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                minHeight: "44px", // ارتفاع ثابت برای دو خط
+                minHeight: isMobile ? "auto" : "44px",
               }}
             >
               {product.product_name}
             </Typography>
           </Tooltip>
 
-          {/* Product ID and category */}
           <Box display="flex" alignItems="center" gap={1} sx={{ mb: 1.5 }}>
             <Chip
               label={`#${product.product_id}`}
@@ -150,26 +139,10 @@ const ProductCard = ({ product, fetchProducts }) => {
             )}
           </Box>
 
-          <Divider
-            sx={{
-              my: 1.5,
-              borderColor: theme.palette.divider,
-              opacity: 0.5,
-            }}
-          />
+          <Divider sx={{ my: 1.5, borderColor: theme.palette.divider, opacity: 0.5 }} />
 
-          {/* Price info */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ mb: 1 }}
-          >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
+          <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ display: "flex", alignItems: "center" }}>
               <LocalOfferIcon fontSize="small" sx={{ mr: 0.5 }} />
               قیمت:
             </Typography>
@@ -178,84 +151,46 @@ const ProductCard = ({ product, fetchProducts }) => {
               {product.discount > 0 ? (
                 <>
                   <Typography
-                    variant="body2"
+                    variant={isMobile ? "body1" : "body2"}
                     color="text.secondary"
                     sx={{ textDecoration: "line-through" }}
                   >
                     {product.price?.toLocaleString()}
                   </Typography>
                   <Typography
-                    variant="h6"
+                    variant={isMobile ? "h6" : "body1"}
                     fontWeight={700}
                     color={theme.palette.success.dark}
                   >
-                    {(
-                      product.price *
-                      (1 - product.discount / 100)
-                    ).toLocaleString()}{" "}
-                    <Typography
-                      component="span"
-                      variant="caption"
-                      color="text.secondary"
-                    >
+                    {(product.price * (1 - product.discount / 100)).toLocaleString()}
+                    <Typography component="span" variant="caption" color="text.secondary">
                       تومان
                     </Typography>
                   </Typography>
                 </>
               ) : (
                 <Typography
-                  variant="h6"
+                  variant={isMobile ? "h6" : "body1"}
                   fontWeight={700}
                   color={theme.palette.primary.main}
                 >
-                  {product.price?.toLocaleString()}{" "}
-                  <Typography
-                    component="span"
-                    variant="caption"
-                    color="text.secondary"
-                  >
+                  {product.price?.toLocaleString()}
+                  <Typography component="span" variant="caption" color="text.secondary">
                     تومان
                   </Typography>
                 </Typography>
               )}
             </Box>
           </Box>
-
-          {/* Variant info */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              <StyleIcon fontSize="small" sx={{ mr: 0.5 }} />
-              تنوع:
-            </Typography>
-            <Chip
-              label={product.variants?.length || 0}
-              size="small"
-              variant="outlined"
-              sx={{
-                fontSize: "0.75rem",
-                borderColor: theme.palette.warning.light,
-                color: theme.palette.warning.dark,
-              }}
-            />
-          </Box>
         </CardContent>
       </CardActionArea>
 
-      {/* Action buttons */}
+      {/* Action buttons with icons only */}
       <Box
         sx={{
-          p: 1.5,
+          p: 1,
           display: "flex",
-          justifyContent: "space-between",
-          gap: 1,
+          justifyContent: "space-around",
           borderTop: `1px solid ${theme.palette.divider}`,
           background: theme.palette.background.default,
           borderRadius: "0 0 12px 12px",
@@ -263,57 +198,61 @@ const ProductCard = ({ product, fetchProducts }) => {
       >
         <EditProductModal
           product={product}
-          size="medium"
+          size="small"
           sx={{
-            flex: 1,
-            borderRadius: "8px",
-            backgroundColor: theme.palette.primary.light,
+            minWidth: 'auto',
+            borderRadius: '8px',
+            p: 1,
             color: theme.palette.primary.dark,
-            "&:hover": {
-              backgroundColor: theme.palette.primary.main,
-              color: "#fff",
-            },
+            '&:hover': {
+              backgroundColor: theme.palette.primary.light,
+            }
           }}
-        />
+        >
+          <EditIcon fontSize={isMobile ? "small" : "medium"} />
+        </EditProductModal>
 
         <AddVariantModal
           product={product}
-          size="medium"
-          variant="contained"
+          size="small"
           sx={{
-            flex: 1,
-            borderRadius: "8px",
-            backgroundColor: theme.palette.secondary.light,
+            minWidth: 'auto',
+            borderRadius: '8px',
+            p: 1,
             color: theme.palette.secondary.dark,
-            "&:hover": {
-              backgroundColor: theme.palette.secondary.main,
-              color: "#fff",
-            },
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+            }
           }}
-        />
+        >
+          <AddIcon fontSize={isMobile ? "small" : "medium"} />
+        </AddVariantModal>
 
         <DeleteProduct
           fetchProducts={fetchProducts}
           id={product.product_id}
-          size="medium"
+          size="small"
           sx={{
-            flex: 1,
-            borderRadius: "8px",
-            backgroundColor: theme.palette.error.light,
+            minWidth: 'auto',
+            borderRadius: '8px',
+            p: 1,
             color: theme.palette.error.dark,
-            "&:hover": {
-              backgroundColor: theme.palette.error.main,
-              color: "#fff",
-            },
+            '&:hover': {
+              backgroundColor: theme.palette.error.light,
+            }
           }}
-        />
+        >
+          <DeleteIcon fontSize={isMobile ? "small" : "medium"} />
+        </DeleteProduct>
       </Box>
     </Card>
   );
 };
 
+// Main component remains the same as previous version
 function ProductsTable() {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [searchValue, setSearchValue] = useState("");
   const [category, setCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([]);
@@ -321,7 +260,6 @@ function ProductsTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [totalVariants, setTotalVariants] = useState(0);
 
   const handleSearch = (event) => {
     setSearchValue(event.target.value);
@@ -350,17 +288,10 @@ function ProductsTable() {
       );
       const result = await response.json();
       setProducts(result);
-
-      // Calculate total variants
-      const variantsCount = result.reduce(
-        (sum, product) => sum + (product.variants?.length || 0),
-        0
-      );
-      setTotalVariants(variantsCount);
       setTotalProducts(result.length);
     } catch (error) {
       console.error("Error fetching products:", error);
-      setError("Failed to load products. Please try again.");
+      setError("خطا در بارگذاری محصولات. لطفاً مجدداً تلاش کنید.");
     } finally {
       setLoading(false);
     }
@@ -411,15 +342,9 @@ function ProductsTable() {
       })
     : [];
 
-  // Calculate filtered variants count
-  const filteredVariantsCount = filteredProducts.reduce(
-    (sum, product) => sum + (product.variants?.length || 0),
-    0
-  );
-
   return (
-    <Box sx={{ p: 3, background: theme.palette.background.default }}>
-      <Grid container spacing={4}>
+    <Box sx={{ p: isMobile ? 1 : 3, background: theme.palette.background.default }}>
+      <Grid container spacing={isMobile ? 2 : 3}>
         {/* Header */}
         <Grid item xs={12}>
           <Box
@@ -429,29 +354,12 @@ function ProductsTable() {
             sx={{ mb: 2 }}
           >
             <Typography
-              variant="h5"
+              variant={isMobile ? "h6" : "h5"}
               fontWeight={700}
               color={theme.palette.primary.dark}
             >
               مدیریت محصولات
             </Typography>
-            <Button
-              variant="contained"
-              size="medium"
-              startIcon={<AddIcon />}
-              sx={{
-                borderRadius: "12px",
-                px: 3,
-                py: 1,
-                fontWeight: 600,
-                boxShadow: theme.shadows[2],
-                "&:hover": {
-                  boxShadow: theme.shadows[4],
-                },
-              }}
-            >
-              افزودن محصول
-            </Button>
           </Box>
         </Grid>
 
@@ -459,11 +367,11 @@ function ProductsTable() {
         <Grid item xs={12} md={8}>
           <TextField
             fullWidth
-            size="medium"
+            size={isMobile ? "small" : "medium"}
             variant="outlined"
             value={searchValue}
             onChange={handleSearch}
-            placeholder="جستجوی محصول بر اساس نام یا کد..."
+            placeholder="جستجوی محصول..."
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -484,25 +392,15 @@ function ProductsTable() {
         <Grid item xs={12} md={4}>
           <Select
             fullWidth
-            size="medium"
+            size={isMobile ? "small" : "medium"}
             value={category}
             onChange={handleCategoryChange}
-            onOpen={fetchCategories}
             displayEmpty
             sx={{
               borderRadius: "12px",
               background: theme.palette.background.paper,
               "& fieldset": {
                 borderColor: theme.palette.divider,
-              },
-            }}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  maxHeight: 300,
-                  borderRadius: "12px",
-                  mt: 1,
-                },
               },
             }}
           >
@@ -518,7 +416,6 @@ function ProductsTable() {
               <MenuItem
                 value={cat.category_name}
                 key={cat.category_id}
-                sx={{ minHeight: "48px" }}
               >
                 {cat.category_name}
               </MenuItem>
@@ -531,65 +428,68 @@ function ProductsTable() {
           <Box
             display="flex"
             alignItems="center"
-            gap={2}
+            gap={isMobile ? 1 : 2}
             sx={{
-              p: 2,
+              p: isMobile ? 1 : 2,
               borderRadius: "12px",
               background: theme.palette.background.paper,
               boxShadow: theme.shadows[1],
+              flexDirection: isMobile ? "column" : "row",
             }}
           >
             <Button
               variant="outlined"
-              size="medium"
+              size={isMobile ? "small" : "medium"}
               startIcon={<RefreshIcon />}
               onClick={handleRefresh}
               sx={{
                 borderRadius: "12px",
                 fontWeight: 500,
+                width: isMobile ? "100%" : "auto",
               }}
             >
               بروزرسانی لیست
             </Button>
 
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box 
+              display="flex" 
+              alignItems="center" 
+              gap={1}
+              sx={{
+                width: isMobile ? "100%" : "auto",
+                justifyContent: isMobile ? "space-between" : "flex-start",
+              }}
+            >
               <Typography variant="body2" color="text.secondary">
                 نمایش:
               </Typography>
               <Chip
                 label={`${filteredProducts.length} محصول`}
-                size="medium"
+                size={isMobile ? "small" : "medium"}
                 variant="outlined"
                 color="primary"
                 sx={{ fontWeight: 600 }}
               />
-              <Chip
-                label={`${filteredVariantsCount} تنوع`}
-                size="medium"
-                variant="outlined"
-                color="secondary"
-                sx={{ fontWeight: 600 }}
-              />
             </Box>
 
-            <Box flexGrow={1} />
-
-            <Typography variant="body2" color="text.secondary">
-              از مجموع {totalProducts} محصول و {totalVariants} تنوع
-            </Typography>
+            {!isMobile && (
+              <Typography variant="body2" color="text.secondary" sx={{ ml: "auto" }}>
+                از مجموع {totalProducts} محصول
+              </Typography>
+            )}
           </Box>
         </Grid>
 
         {/* Loading state */}
         {loading && (
           <Grid item xs={12}>
-            <Grid container spacing={3}>
-              {Array.from(new Array(4)).map((_, index) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <Grid container spacing={isMobile ? 1 : 3}>
+              {Array.from(new Array(isMobile ? 2 : 4)).map((_, index) => (
+                <Grid item xs={6} sm={6} md={4} lg={3} key={index}>
                   <Card sx={{ borderRadius: "12px" }}>
                     <Skeleton
                       variant="rectangular"
-                      height={300}
+                      height={isMobile ? 150 : 200}
                       sx={{
                         borderTopLeftRadius: "12px",
                         borderTopRightRadius: "12px",
@@ -607,11 +507,6 @@ function ProductsTable() {
                         <Skeleton width="30%" height={36} />
                       </Box>
                     </CardContent>
-                    <Box sx={{ p: 2, display: "flex", gap: 1 }}>
-                      <Skeleton width="100%" height={42} />
-                      <Skeleton width="100%" height={42} />
-                      <Skeleton width="100%" height={42} />
-                    </Box>
                   </Card>
                 </Grid>
               ))}
@@ -624,7 +519,7 @@ function ProductsTable() {
           <Grid item xs={12}>
             <Paper
               sx={{
-                p: 4,
+                p: isMobile ? 2 : 4,
                 textAlign: "center",
                 borderRadius: "12px",
                 background: theme.palette.error.light,
@@ -638,7 +533,7 @@ function ProductsTable() {
               </Typography>
               <Button
                 variant="contained"
-                size="large"
+                size={isMobile ? "medium" : "large"}
                 startIcon={<RefreshIcon />}
                 onClick={fetchProducts}
                 sx={{
@@ -652,14 +547,14 @@ function ProductsTable() {
           </Grid>
         )}
 
-        {/* Products */}
+        {/* Products list */}
         {!loading && !error && filteredProducts.length > 0 && (
           <Grid item xs={12}>
-            <Grid container spacing={4}>
+            <Grid container spacing={isMobile ? 1 : 3}>
               {filteredProducts.map((product) => (
                 <Grid
                   item
-                  xs={12}
+                  xs={6}
                   sm={6}
                   md={4}
                   lg={3}
@@ -668,6 +563,7 @@ function ProductsTable() {
                   <ProductCard
                     product={product}
                     fetchProducts={fetchProducts}
+                    isMobile={isMobile}
                   />
                 </Grid>
               ))}
@@ -680,7 +576,7 @@ function ProductsTable() {
           <Grid item xs={12}>
             <Paper
               sx={{
-                p: 6,
+                p: isMobile ? 3 : 6,
                 textAlign: "center",
                 borderRadius: "12px",
                 background: theme.palette.background.paper,
@@ -688,12 +584,12 @@ function ProductsTable() {
             >
               <InventoryIcon
                 sx={{
-                  fontSize: 64,
+                  fontSize: isMobile ? 48 : 64,
                   color: theme.palette.text.disabled,
                   mb: 2,
                 }}
               />
-              <Typography variant="h6" sx={{ mb: 1 }}>
+              <Typography variant={isMobile ? "h6" : "h5"} sx={{ mb: 1 }}>
                 محصولی یافت نشد
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
@@ -701,7 +597,7 @@ function ProductsTable() {
               </Typography>
               <Button
                 variant="outlined"
-                size="large"
+                size={isMobile ? "medium" : "large"}
                 startIcon={<RefreshIcon />}
                 onClick={handleRefresh}
                 sx={{

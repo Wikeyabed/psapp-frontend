@@ -9,70 +9,135 @@ import {
   Divider,
   FormControlLabel,
   Checkbox,
+  Paper,
+  useTheme,
+  useMediaQuery
 } from "@mui/material";
-import DropZone from "./DropZone";
 import AddIcon from "@mui/icons-material/Add";
-import { Editor } from "@tinymce/tinymce-react";
 import { getCookie } from "cookies-next";
-import { useDispatch } from "react-redux";
-import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { setProductVariant } from "../../../redux/reducers/productSlice";
-
-import { useSelector } from "react-redux";
-
 import { MuiColorInput } from "mui-color-input";
 import ProductVariantList from "./ProductVariantList";
 
-const Item = styled(Box)(({ theme }) => ({
-  textAlign: "center",
-  marginTop: 10,
-  padding: 20,
-}));
-
-const StyledDivider = styled(Divider)(({ theme }) => ({
-  width: "100%",
-  margin: "auto",
-  borderColor: theme.palette.primary.main,
-  borderWidth: 1,
-  borderRadius: "50%",
-  opacity: "0.5",
-}));
-
-const RtlTextField = styled(TextField)(({ theme }) => ({
-  padding: 2,
-  marginTop: 2,
-  marginBottom: 5,
-  minWidth: "100%",
-  direction: "rtl",
-  textAlign: "center !important",
-  "& label": {
-    transformOrigin: "right !important",
-    textAlign: "right !important",
-    left: "inherit !important",
-    right: "2rem !important",
-    overflow: "unset",
+// استایل‌های سفارشی با پالت رنگی جدید
+const FormContainer = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  borderRadius: "16px",
+  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.08)",
+  background: "#ffffff",
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(2),
   },
 }));
+
+const FormHeader = styled(Typography)(({ theme }) => ({
+  textAlign: "center",
+  marginBottom: theme.spacing(4),
+  color: "#6366f1",
+  fontWeight: 700,
+  fontSize: "1.5rem",
+  [theme.breakpoints.down('sm')]: {
+    fontSize: "1.25rem",
+  },
+}));
+
+const ProductInfoBox = styled(Box)(({ theme }) => ({
+  background: "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)",
+  borderRadius: "12px",
+  padding: theme.spacing(3),
+  marginBottom: theme.spacing(4),
+  border: "1px solid rgba(99, 102, 241, 0.2)",
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: "12px",
+    backgroundColor: "#f8fafc",
+    '& fieldset': {
+      borderColor: "#e2e8f0",
+    },
+    '&:hover fieldset': {
+      borderColor: "#cbd5e1",
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: "#6366f1",
+    },
+  },
+  '& .MuiInputLabel-root': {
+    right: 0,
+    left: 'auto',
+    transformOrigin: 'right',
+    color: "#64748b",
+    fontSize: "0.875rem",
+    paddingLeft: "8px", // اضافه کردن padding برای جلوگیری از بریده شدن متن
+  },
+  '& .MuiInputLabel-shrink': {
+    transform: 'translate(-12px, -9px) scale(0.75)',
+    backgroundColor: "#f8fafc",
+    padding: "0 4px",
+  },
+  '& .MuiInputBase-input': {
+    textAlign: "right",
+    padding: "12px 14px",
+  },
+}));
+
+const ColorPickerContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: theme.spacing(1),
+  marginTop: theme.spacing(3),
+  marginBottom: theme.spacing(2),
+  '& .MuiTypography-root': {
+    color: "#334155",
+    fontWeight: 500,
+  },
+}));
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  borderRadius: "12px",
+  padding: "12px 24px",
+  fontSize: "1rem",
+  fontWeight: 600,
+  background: "linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)",
+  color: "#ffffff",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.05)",
+  transition: "all 0.3s ease",
+  minHeight: "48px",
+  '&:hover': {
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+    transform: "translateY(-2px)",
+    background: "linear-gradient(135deg, #5658d1 0%, #05a5c0 100%)",
+  },
+  '&:disabled': {
+    background: "#e2e8f0",
+    color: "#94a3b8",
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: "100%",
+  },
+}));
+
+const SectionDivider = styled(Divider)(({ theme }) => ({
+  margin: theme.spacing(4, 0),
+  borderColor: "#e2e8f0",
+  borderWidth: "1px",
+}));
+
+const ActiveCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: "#6366f1 !important",
+  '&.Mui-checked': {
+    color: "#6366f1 !important",
+  },
+}));
+
 function AddProductVariant({ product }) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const dispatch = useDispatch();
   const productVariants = useSelector((state) => state.product.productVariants);
 
-  const dispatch = useDispatch();
-  const handleSetValues = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
-    console.log(data);
-  };
-
-  const changeActiveStatus = () => {
-    setData({ ...data, isActive: !data.isActive });
-    console.log(data.isActive);
-  };
-
-  const setColorValue = (color) => {
-    setData({
-      ...data,
-      color: color,
-    });
-  };
   const [data, setData] = useState({
     name: "",
     color: "",
@@ -86,37 +151,40 @@ function AddProductVariant({ product }) {
 
   useEffect(() => {
     getProductVariants(product.product_id);
-    console.log("READ");
   }, []);
 
   const getProductVariants = (id) => {
     let myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
 
-    var requestOptions = {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products-variant/${id}`, {
       method: "GET",
       headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products-variant/${id}`,
-      requestOptions
-    )
+    })
       .then((response) => response.json())
       .then((result) => {
-        console.log("all the variant for this id ", result);
         dispatch(setProductVariant(result));
-        return result;
       })
       .catch((error) => console.log("error", error));
+  };
+
+  const handleSetValues = (event) => {
+    setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const changeActiveStatus = () => {
+    setData({ ...data, isActive: !data.isActive });
+  };
+
+  const setColorValue = (color) => {
+    setData({ ...data, color });
   };
 
   const handleCreateVariant = async () => {
     let myHeaders = new Headers();
     myHeaders.append("token", getCookie("x-auth-token"));
 
-    var urlencoded = new URLSearchParams();
+    const urlencoded = new URLSearchParams();
     urlencoded.append("variant_name", data.name);
     urlencoded.append("variant_stack", data.stack * 1);
     urlencoded.append("variant_quantity", data.quantity * 1);
@@ -127,204 +195,176 @@ function AddProductVariant({ product }) {
     urlencoded.append("variant_sort", data.sort * 1);
     urlencoded.append("variant_product_id", product.product_id);
 
-    console.log(urlencoded);
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-    };
-
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products-variant/add`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        getProductVariants(product.product_id);
-      })
-      .catch((error) => console.log("error", error));
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products-variant/add`, {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+      });
+      const result = await response.json();
+      getProductVariants(product.product_id);
+      setData({
+        name: "",
+        color: "",
+        price: "",
+        quantity: "",
+        stack: "",
+        discount: "",
+        isActive: true,
+        sort: "",
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
-    <div>
-      {" "}
-      <Grid component={Item} container>
-        <Grid xs={12}>
-          {" "}
-          <Typography
-            variant="h4"
-            sx={{
-              p: 1,
-              my: 2,
-              textAlign: "center",
-            }}
-          >
-            اضافه کردن تنوع{" "}
-          </Typography>
-        </Grid>
-        <Grid
-          sx={{
-            my: 4,
-          }}
-          xs={12}
-        >
-          <Typography variant="h6">
-            {" "}
-            نام محصول : {product.product_name}
-          </Typography>
-          <Typography variant="h6"> کد محصول : {product.product_id}</Typography>
-        </Grid>
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+    <FormContainer elevation={0}>
+      <FormHeader variant="h1">افزودن تنوع محصول</FormHeader>
+      
+      <ProductInfoBox>
+        <Typography variant="h6" gutterBottom sx={{ color: "#334155", fontWeight: 600 }}>
+          نام محصول: {product.product_name}
+        </Typography>
+        <Typography variant="h6" sx={{ color: "#334155", fontWeight: 600 }}>
+          کد محصول: {product.product_id}
+        </Typography>
+      </ProductInfoBox>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="name"
-            size="small"
+            size="medium"
             fullWidth
             label="نام تنوع"
+            value={data.name}
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="price"
-            size="small"
+            size="medium"
             fullWidth
-            label=" قیمت تنوع به ریال"
+            label="قیمت تنوع (ریال)"
+            value={data.price}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="discount"
-            size="small"
+            size="medium"
             fullWidth
             label="درصد تخفیف"
+            value={data.discount}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="quantity"
-            size="small"
+            size="medium"
             fullWidth
             label="مقدار موجودی"
+            value={data.quantity}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="stack"
-            size="small"
+            size="medium"
             fullWidth
             label="تعداد در بسته"
+            value={data.stack}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-
-        <Grid sx={{ px: 1 }} item xs={12} md={4}>
-          <RtlTextField
+        <Grid item xs={12} md={6}>
+          <StyledTextField
             onChange={handleSetValues}
             name="sort"
-            size="small"
+            size="medium"
             fullWidth
-            label="ترتیب"
+            label="ترتیب نمایش"
+            value={data.sort}
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </Grid>
-
-        <Grid sx={{ px: 1, fontFamily: "sans-serif !important" }} item xs={12}>
-          <Box
-            sx={{
-              mt: 3,
-              mb: 1,
-            }}
-          >
-            رنگ انتخابی
-          </Box>
-          <MuiColorInput
-            size="small"
-            variant="outlined"
-            sx={{
-              width: "140px",
-              direction: "rtl !important",
-            }}
-            value={data.color}
-            format="hex"
-            onChange={setColorValue}
-          />
-        </Grid>
-
-        <Grid
-          sx={{
-            mt: 4,
-          }}
-          item
-          xs={12}
-        >
-          {" "}
-          <FormControlLabel
-            label={<Typography variant="body2">فعال سازی محصول</Typography>}
-            sx={{
-              lineHeight: 1,
-            }}
-            control={
-              <Checkbox
-                name="isActive"
-                onClick={changeActiveStatus}
-                defaultChecked={data.isActive}
-                size="medium"
-                sx={{
-                  mr: "-16px !important",
-                }}
-              />
-            }
-          />
-        </Grid>
-
-        <Grid sx={{ px: 1, mx: "auto", mb: 12 }} xs={12} item>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              borderRadius: "8px",
-              overflow: "hidden",
-            }}
-          >
-            <Button
-              onClick={handleCreateVariant}
-              sx={{
-                p: "12px 24px",
-                fontSize: "16px",
-                fontWeight: "bold",
-                color: "#fff",
-                backgroundColor: "primary.main",
-                borderRadius: "8px",
-                transition: ".2s ease-in-out",
-                "& .MuiButton-startIcon": {
-                  marginLeft: "12px",
-                  fontSize: "148px",
+        <Grid item xs={12}>
+          <ColorPickerContainer>
+            <Typography variant="subtitle1">رنگ محصول</Typography>
+            <MuiColorInput
+              size="small"
+              variant="outlined"
+              sx={{ 
+                width: isMobile ? "100%" : 200,
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: "12px",
                 },
               }}
-              endIcon={
-                <AddIcon
-                  sx={{
-                    marginRight: 1,
-                  }}
-                />
-              }
-              variant="contained"
-            >
-              اضافه کردن تنوع
-            </Button>
-          </Box>
-          <StyledDivider sx={{ mt: 4 }} />
+              value={data.color}
+              format="hex"
+              onChange={setColorValue}
+            />
+          </ColorPickerContainer>
         </Grid>
-        <ProductVariantList variants={productVariants} />
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <ActiveCheckbox
+                checked={data.isActive}
+                onChange={changeActiveStatus}
+              />
+            }
+            label="فعال بودن تنوع"
+            sx={{ '& .MuiTypography-root': { color: "#334155" } }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Box display="flex" justifyContent="center">
+            <SubmitButton
+              onClick={handleCreateVariant}
+              variant="contained"
+              startIcon={<AddIcon />}
+              disabled={!data.name || !data.price}
+            >
+              افزودن تنوع جدید
+            </SubmitButton>
+          </Box>
+        </Grid>
       </Grid>
-    </div>
+
+      <SectionDivider />
+
+      <ProductVariantList variants={productVariants} />
+    </FormContainer>
   );
 }
+
 export default AddProductVariant;

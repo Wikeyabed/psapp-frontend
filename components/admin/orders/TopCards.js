@@ -1,67 +1,96 @@
-import { Grid, Paper, Typography, Divider, Box } from "@mui/material";
+import { Grid, Paper, Typography, Box, useTheme } from "@mui/material";
 import styled from "@emotion/styled";
-import theme from "../../../src/theme";
 import DescriptionIcon from "@mui/icons-material/Description";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { persianNumber } from "../../../src/PersianDigits";
 import moment from "moment-jalaali";
 import { useState, useEffect } from "react";
 
-const TopBox = styled(Paper)({
-  padding: "10px",
-  color: theme.palette.primary.main,
-  borderRadius: theme.palette.primary.borderRadius,
-  backgroundColor: theme.palette.primary.lightBg,
-  position: "relative",
-});
+// پالت رنگی سفارشی
+const customColors = {
+  primary: '#6366f1',
+  secondary: '#06b6d4',
+  success: '#10b981',
+  warning: '#f59e0b',
+  info: '#3b82f6',
+  error: '#ef4444',
+  lightBg: '#f8fafc'
+};
 
-const CardContainer = styled(Grid)({
-  padding: "20px",
-});
+const TopBox = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  borderRadius: '12px',
+  backgroundColor: '#ffffff',
+  position: 'relative',
+  overflow: 'hidden',
+  transition: 'all 0.3s ease',
+  boxShadow: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
+  border: '1px solid rgba(0, 0, 0, 0.05)',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    boxShadow: '0 8px 25px 0 rgba(0, 0, 0, 0.1)'
+  },
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '5px',
+    height: '100%',
+    backgroundColor: customColors.primary
+  }
+}));
+
+const CardContainer = styled(Grid)(({ theme }) => ({
+  padding: theme.spacing(2),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1)
+  }
+}));
 
 const DashboardCardIcon = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  color: theme.palette.primary.lightBg,
-  bottom: 15,
-  left: 15,
-  width: 45,
-  height: 45,
-  cursor: "pointer",
-  paddingTop: 10,
-  transition: ".3s ease all",
-  ":hover": {
-    transform: "scale(1.1)",
-  },
-  borderRadius: "50%",
-  textAlign: "center",
+  position: 'absolute',
+  bottom: theme.spacing(2),
+  left: theme.spacing(2),
+  width: '50px',
+  height: '50px',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#ffffff',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    transform: 'rotate(15deg)'
+  }
+}));
+
+const ValueText = styled(Typography)(({ theme }) => ({
+  fontWeight: 700,
+  background: `linear-gradient(135deg, ${customColors.primary}, ${customColors.secondary})`,
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  textAlign: 'center',
+  margin: `${theme.spacing(10)} 0`
 }));
 
 function TopCards({ orders }) {
+  const theme = useTheme();
   const [chartData, setChartData] = useState([]);
 
   const handleChartFormat = () => {
     let arr = [];
-
-    const times = orders.map((order) => {
-      return [...order.order_date].join("");
-    });
-
+    const times = orders.map((order) => [...order.order_date].join(""));
     const format = times
       .sort((a, b) => a - b)
-      .map((time, i) => {
-        const day = moment.unix(time).format("jYYYY/jMM/jDD");
-        return [...day].join("");
-      });
+      .map((time) => moment.unix(time).format("jYYYY/jMM/jDD"));
+    
     const counts = {};
-
-    format.forEach(function (x) {
-      counts[x] = (counts[x] || 0) + 1;
-    });
+    format.forEach((x) => { counts[x] = (counts[x] || 0) + 1; });
 
     for (const property in counts) {
       arr.push({ x: property, y: counts[property] });
     }
-
     setChartData(arr);
   };
 
@@ -69,127 +98,88 @@ function TopCards({ orders }) {
     handleChartFormat();
   }, [orders]);
 
+  // آیکون‌ها و استایل‌های هر کارت
+  const cardConfigs = [
+    {
+      title: "تمامی فاکتورها",
+      value: orders.length,
+      icon: <DescriptionIcon fontSize="medium" />,
+      iconBg: customColors.primary
+    },
+    {
+      title: "فاکتورهای تکمیل شده",
+      value: orders.filter((order) => order.status == "200").length,
+      icon: <InsertDriveFileIcon fontSize="medium" />,
+      iconBg: customColors.success
+    },
+    {
+      title: "فاکتورهای در حال انجام",
+      value: orders.filter((order) => order.status == "100").length,
+      icon: <DescriptionIcon fontSize="medium" />,
+      iconBg: customColors.warning
+    },
+    {
+      title: "فاکتورهای کنسل شده",
+      value: orders.filter((order) => order.status != "100" && order.status != "200").length,
+      icon: <InsertDriveFileIcon fontSize="medium" />,
+      iconBg: customColors.error
+    }
+  ];
+
   return (
-    <Grid container>
-      <Grid xs={12} item>
-        {" "}
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
         <Typography
-          variant="h5"
-          sx={{ marginBottom: "10px", textAlign: "center" }}
+          variant="h4"
+          sx={{
+            textAlign: 'center',
+            marginBottom: theme.spacing(4),
+            color: customColors.primary,
+            fontWeight: 700,
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: -10,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '80px',
+              height: '4px',
+              background: `linear-gradient(135deg, ${customColors.primary}, ${customColors.secondary})`,
+              borderRadius: '2px'
+            }
+          }}
         >
           ... خدایا شکرت ...
         </Typography>
-        {/* <StyledDivider /> */}
       </Grid>
 
-      <CardContainer sx={{ position: "relative" }} item xs={12}>
-        <Box
-          sx={{
-            width: "100%",
-            top: -20,
-            position: "relative",
-          }}
-        >
-          {" "}
-          {/* <OrderChart
-            columns={15}
-            name={"فاکتور"}
-            typeOfChart="bar"
-            title="تعداد تمامی فاکتور ها"
-            chartData={chartData.slice(chartData.length - 15, chartData.length)}
-          /> */}
-        </Box>
-      </CardContainer>
-      {/* finished orders */}
-      <Grid container item xs={12}>
-        <CardContainer item xs={12} md={3}>
-          <TopBox elevation={4}>
+      {cardConfigs.map((card, index) => (
+        <CardContainer key={index} item xs={12} sm={6} md={3}>
+          <TopBox elevation={0}>
             <Typography
-              variant="h6"
-              sx={{ textAlign: "center", paddingTop: 3 }}
+              variant="subtitle1"
+              sx={{
+                textAlign: 'center',
+                color: theme.palette.text.secondary,
+                fontWeight: 500
+              }}
             >
-              تمامی فاکتور ها{" "}
+              {card.title}
             </Typography>
 
-            <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              {persianNumber(orders.length)}
-            </Typography>
-            <DashboardCardIcon sx={{ backgroundColor: "lightPrimary.main" }}>
-              <DescriptionIcon />
+            <ValueText variant="h3">
+              {persianNumber(card.value)}
+            </ValueText>
+
+            <DashboardCardIcon sx={{ backgroundColor: card.iconBg }}>
+              {card.icon}
             </DashboardCardIcon>
           </TopBox>
         </CardContainer>
-
-        {/* today orders */}
-        <CardContainer item xs={12} md={3}>
-          <TopBox elevation={4}>
-            <Typography
-              variant="h6"
-              sx={{ textAlign: "center", paddingTop: 3 }}
-            >
-              فاکتور های تکمیل شده
-            </Typography>
-
-            <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              {persianNumber(
-                orders.filter((order) => order.status == "200").length
-              )}
-            </Typography>
-
-            <DashboardCardIcon sx={{ backgroundColor: "green" }}>
-              <InsertDriveFileIcon />
-            </DashboardCardIcon>
-          </TopBox>
-        </CardContainer>
-
-        <CardContainer item xs={12} md={3}>
-          <TopBox elevation={4}>
-            <Typography
-              variant="h6"
-              sx={{ textAlign: "center", paddingTop: 3 }}
-            >
-              فاکتور های درحال انجام
-            </Typography>
-
-            <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              {persianNumber(
-                orders.filter((order) => order.status == "100").length
-              )}
-            </Typography>
-            <DashboardCardIcon sx={{ backgroundColor: "#ed6c02" }}>
-              <DescriptionIcon />
-            </DashboardCardIcon>
-          </TopBox>
-        </CardContainer>
-
-        {/* today orders */}
-        <CardContainer item xs={12} md={3}>
-          <TopBox elevation={4}>
-            <Typography
-              variant="h6"
-              sx={{ textAlign: "center", paddingTop: 3 }}
-            >
-              فاکتور های کنسل شده
-            </Typography>
-
-            <Typography variant="h4" sx={{ textAlign: "center", padding: 3 }}>
-              {persianNumber(
-                orders.filter(
-                  (order) => order.status != "100" && order.status != "200"
-                ).length
-              )}
-            </Typography>
-
-            <DashboardCardIcon sx={{ backgroundColor: "#0288d1" }}>
-              <InsertDriveFileIcon />
-            </DashboardCardIcon>
-          </TopBox>
-        </CardContainer>
-      </Grid>
-
-      {/* Charty */}
-      {/* all orders */}
+      ))}
     </Grid>
   );
 }
+
 export default TopCards;
