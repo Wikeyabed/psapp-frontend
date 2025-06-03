@@ -36,12 +36,13 @@ function DeleteFromCart({ product_uuid }) {
         sx={{
           color: "red",
           position: "absolute",
-          left: "0",
+          right: "0",
           top: "0",
+          zIndex: 1000,
         }}
         aria-label="delete"
       >
-        <DeleteForeverIcon />
+        <DeleteForeverIcon fontSize="large" />
       </IconButton>
     </Tooltip>
   );

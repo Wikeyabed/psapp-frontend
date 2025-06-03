@@ -68,7 +68,7 @@ function ShopSwiperCards({ item }) {
   return (
     <Card
       sx={{
-        width: 300,
+        width: "100%",
         // Adjust height when quantity selector is active
         display: "flex",
         flexDirection: "column",
