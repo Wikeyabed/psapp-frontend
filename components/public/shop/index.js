@@ -3,7 +3,6 @@ import { Box, Grid, Skeleton } from "@mui/material";
 import PublicLayout from "../layout";
 import dynamic from "next/dynamic";
 
-const Features = dynamic(() => import("./Features"));
 const Products = dynamic(() => import("./products"));
 const ShopSlider = dynamic(() => import("./Slider"));
 const LatestBlog = dynamic(() => import("./miniBlog"));
@@ -59,9 +58,7 @@ function Shop() {
         <Grid container sx={{ justifyContent: "center" }}>
           <Grid item sx={{ width: { xs: "100%", md: "1024px" } }}>
             <ShopSlider />
-            <Box sx={{ display: "flex" }}>
-              <Features />
-            </Box>
+
             <Box>
               <LatestBlog />
             </Box>

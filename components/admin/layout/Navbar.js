@@ -147,27 +147,27 @@ const navItems = [
   { href: "/admin/requests", icon: <RequestsIcon />, text: "درخواست ها" },
   { href: "/admin/blog", icon: <BlogIcon />, text: "بلاگ" },
   { href: "/admin/comments", icon: <CommentsIcon />, text: "نظرات" },
-  { 
-    href: "/admin/notifications", 
+  {
+    href: "/admin/notifications",
     icon: (
       <NotificationBadge badgeContent={5} color="error">
         <NotificationsIcon />
       </NotificationBadge>
-    ), 
-    text: "اعلانات" 
+    ),
+    text: "اعلانات",
   },
 ];
 
 const bottomNavItems = [
   { href: "/", icon: <ReturnIcon />, text: "بازگشت به فروشگاه" },
-  { 
-    href: "#", 
-    icon: <LogoutIcon />, 
-    text: "خروج", 
+  {
+    href: "#",
+    icon: <LogoutIcon />,
+    text: "خروج",
     onClick: (e) => {
       e.preventDefault();
       console.log("Logout clicked");
-    } 
+    },
   },
 ];
 
@@ -182,20 +182,6 @@ export default function Navbar() {
 
   const renderNavItems = () => (
     <>
-      <NavLogo>
-        <Avatar 
-          src="/logo.png" 
-          alt="Logo" 
-          sx={{ 
-            width: 56, 
-            height: 56, 
-            bgcolor: secondaryColor,
-            mb: 1
-          }} 
-        />
-        <LogoText variant="h4">پنل مدیریت</LogoText>
-      </NavLogo>
-
       <NavDivider />
 
       <Box sx={{ flex: 1, overflowY: "auto" }}>
@@ -213,10 +199,10 @@ export default function Navbar() {
 
       <Box sx={{ pb: 2 }}>
         {bottomNavItems.map((item) => (
-          <Link 
-            href={item.href} 
-            key={item.text} 
-            passHref 
+          <Link
+            href={item.href}
+            key={item.text}
+            passHref
             legacyBehavior
             onClick={item.onClick}
           >

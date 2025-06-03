@@ -118,26 +118,24 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 const OrderPage = ({ order }) => {
- const user = useSelector((state) => state.auth.userInformation);
- // Sample data
- const [rows, setRows] = useState([]);
+  const user = useSelector((state) => state.auth.userInformation);
+  // Sample data
+  const [rows, setRows] = useState([]);
 
+  // const router = useRouter();
+  // const { id } = router.query;
 
- // const router = useRouter();
- // const { id } = router.query;
+  useEffect(() => {
+    let prodArr = [];
+    order.products.map((prod) => {
+      prodArr.push(JSON.parse(prod));
+    });
 
- useEffect(() => {
-   let prodArr = [];
-   order.products.map((prod) => {
-     prodArr.push(JSON.parse(prod));
-   });
+    setRows(prodArr);
 
-   setRows(prodArr);
+    console.log(prodArr);
+  }, []);
 
-   console.log(prodArr);
- }, []);
-
- 
   return (
     <AdminLayout>
       <OrderContainer>
@@ -169,7 +167,6 @@ const OrderPage = ({ order }) => {
                 {order.customer_phone}
               </OrderDetailValue>
             </OrderDetailItem>
-
 
             <OrderDetailItem>
               <OrderDetailLabel variant="subtitle1">
@@ -220,7 +217,7 @@ const OrderPage = ({ order }) => {
               </OrderDetailValue>
             </OrderDetailItem>
           </Box>
-{/* 
+          {/* 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
               تغییر وضعیت فاکتور:

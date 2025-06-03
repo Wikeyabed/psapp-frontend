@@ -8,7 +8,7 @@ function AdminLayout({ children }) {
   const isAdminLoggedIn = useSelector(
     (state) => state.auth.isLoggedIn && state.auth.userInformation.r == "1"
   );
-  
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -30,7 +30,6 @@ function AdminLayout({ children }) {
               md={2}
               xs={12}
               sx={{
-                position: isMobile ? "static" : "fixed",
                 width: isMobile ? "100%" : "16.666%",
                 height: isMobile ? "auto" : "100vh",
                 zIndex: 10,
@@ -41,13 +40,13 @@ function AdminLayout({ children }) {
             </Grid>
 
             {/* Main Content */}
-            <Grid 
-              item 
-              xs={12} 
+            <Grid
+              item
+              xs={12}
               md={10}
               sx={{
-                paddingRight: isMobile ? 0 : "16.666%",
                 paddingLeft: 0,
+                padding: 10,
               }}
             >
               {/* Navigation Bar */}

@@ -199,7 +199,7 @@ const PriceHighlight = styled(Box)(({ theme, active }) => ({
   justifyContent: "space-between",
   alignItems: "center",
   backgroundColor: active ? "rgba(99, 102, 241, 0.08)" : "transparent",
-  padding: "6px 10px",
+
   borderRadius: "8px",
   border: active ? "1px solid #6366f1" : "1px solid transparent",
   transition: "all 0.3s ease",
@@ -469,7 +469,6 @@ export default function OrdersTable({ orders }) {
                 xs={12}
                 sm={6}
                 md={4}
-                lg={3}
                 key={order.order_id}
                 sx={{
                   "&:hover": {
@@ -479,22 +478,7 @@ export default function OrdersTable({ orders }) {
                 }}
               >
                 <OrderCard>
-                  <StatusChangeButton
-                    variant="contained"
-                    sx={{
-                      backgroundColor:
-                        order.status === "200"
-                          ? "#10b981"
-                          : order.status === "100"
-                          ? "#f59e0b"
-                          : "#ef4444",
-                      color: "white",
-                      fontSize: isMobile ? "0.75rem" : "0.9rem",
-                      padding: isMobile ? "4px 8px" : "6px 12px",
-                    }}
-                  >
-                    <OrderStatus order={order} />
-                  </StatusChangeButton>
+                  <OrderStatus order={order} />
 
                   <Box
                     sx={{
@@ -506,12 +490,16 @@ export default function OrdersTable({ orders }) {
                   >
                     <Box>
                       <Typography
+                        component={Link}
+                        href={`users/${order.user_id}`}
                         variant="subtitle1"
                         sx={{
                           fontWeight: 700,
                           color: "#6366f1",
                           fontSize: isMobile ? "1rem" : "1.2rem",
                           mb: 2,
+                          mt: 2,
+                          textDecoration: "none",
                           lineHeight: 1.3,
                         }}
                       >
@@ -519,7 +507,14 @@ export default function OrdersTable({ orders }) {
                       </Typography>
 
                       <InvoiceNumber>
-                        <InvoiceLabel>
+                        <InvoiceLabel
+                          sx={{
+                            mt: 2,
+                            textDecoration: "none",
+                          }}
+                          component={Link}
+                          href={`orders/${order.order_id}`}
+                        >
                           شماره فاکتور: {order.order_number}
                         </InvoiceLabel>
                       </InvoiceNumber>
