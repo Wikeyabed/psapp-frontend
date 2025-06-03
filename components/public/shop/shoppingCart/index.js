@@ -133,7 +133,7 @@ function ShoppingCart() {
               />
               هزینه ارسال:
             </Typography>
-            <Typography variant="body1" color="#06b6d4">
+            <Typography variant="body1" color="red">
               به عهده مشتری
             </Typography>
           </Box>
