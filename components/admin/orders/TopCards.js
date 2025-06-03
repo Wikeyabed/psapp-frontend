@@ -8,70 +8,70 @@ import { useState, useEffect } from "react";
 
 // پالت رنگی سفارشی
 const customColors = {
-  primary: '#6366f1',
-  secondary: '#06b6d4',
-  success: '#10b981',
-  warning: '#f59e0b',
-  info: '#3b82f6',
-  error: '#ef4444',
-  lightBg: '#f8fafc'
+  primary: "#6366f1",
+  secondary: "#06b6d4",
+  success: "#10b981",
+  warning: "#f59e0b",
+  info: "#3b82f6",
+  error: "#ef4444",
+  lightBg: "#f8fafc",
 };
 
 const TopBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
-  borderRadius: '12px',
-  backgroundColor: '#ffffff',
-  position: 'relative',
-  overflow: 'hidden',
-  transition: 'all 0.3s ease',
-  boxShadow: '0 4px 20px 0 rgba(0, 0, 0, 0.05)',
-  border: '1px solid rgba(0, 0, 0, 0.05)',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 8px 25px 0 rgba(0, 0, 0, 0.1)'
+  borderRadius: "12px",
+  backgroundColor: "#ffffff",
+  position: "relative",
+  overflow: "hidden",
+  transition: "all 0.3s ease",
+  boxShadow: "0 4px 20px 0 rgba(0, 0, 0, 0.05)",
+  border: "1px solid rgba(0, 0, 0, 0.05)",
+  "&:hover": {
+    transform: "translateY(-5px)",
+    boxShadow: "0 8px 25px 0 rgba(0, 0, 0, 0.1)",
   },
-  '&::before': {
+  "&::before": {
     content: '""',
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
-    width: '5px',
-    height: '100%',
-    backgroundColor: customColors.primary
-  }
+    width: "5px",
+    height: "100%",
+    backgroundColor: customColors.primary,
+  },
 }));
 
 const CardContainer = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(2),
-  [theme.breakpoints.down('sm')]: {
-    padding: theme.spacing(1)
-  }
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(1),
+  },
 }));
 
 const DashboardCardIcon = styled(Box)(({ theme }) => ({
-  position: 'absolute',
+  position: "absolute",
   bottom: theme.spacing(2),
   left: theme.spacing(2),
-  width: '50px',
-  height: '50px',
-  borderRadius: '12px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    transform: 'rotate(15deg)'
-  }
+  width: "50px",
+  height: "50px",
+  borderRadius: "12px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "#ffffff",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    transform: "rotate(15deg)",
+  },
 }));
 
 const ValueText = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   background: `linear-gradient(135deg, ${customColors.primary}, ${customColors.secondary})`,
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  textAlign: 'center',
-  margin: `${theme.spacing(10)} 0`
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  textAlign: "center",
+  margin: `${theme.spacing(10)} 0`,
 }));
 
 function TopCards({ orders }) {
@@ -84,9 +84,11 @@ function TopCards({ orders }) {
     const format = times
       .sort((a, b) => a - b)
       .map((time) => moment.unix(time).format("jYYYY/jMM/jDD"));
-    
+
     const counts = {};
-    format.forEach((x) => { counts[x] = (counts[x] || 0) + 1; });
+    format.forEach((x) => {
+      counts[x] = (counts[x] || 0) + 1;
+    });
 
     for (const property in counts) {
       arr.push({ x: property, y: counts[property] });
@@ -104,26 +106,28 @@ function TopCards({ orders }) {
       title: "تمامی فاکتورها",
       value: orders.length,
       icon: <DescriptionIcon fontSize="medium" />,
-      iconBg: customColors.primary
+      iconBg: customColors.primary,
     },
     {
       title: "فاکتورهای تکمیل شده",
       value: orders.filter((order) => order.status == "200").length,
       icon: <InsertDriveFileIcon fontSize="medium" />,
-      iconBg: customColors.success
+      iconBg: customColors.success,
     },
     {
       title: "فاکتورهای در حال انجام",
       value: orders.filter((order) => order.status == "100").length,
       icon: <DescriptionIcon fontSize="medium" />,
-      iconBg: customColors.warning
+      iconBg: customColors.warning,
     },
     {
       title: "فاکتورهای کنسل شده",
-      value: orders.filter((order) => order.status != "100" && order.status != "200").length,
+      value: orders.filter(
+        (order) => order.status != "100" && order.status != "200"
+      ).length,
       icon: <InsertDriveFileIcon fontSize="medium" />,
-      iconBg: customColors.error
-    }
+      iconBg: customColors.error,
+    },
   ];
 
   return (
@@ -132,22 +136,23 @@ function TopCards({ orders }) {
         <Typography
           variant="h4"
           sx={{
-            textAlign: 'center',
-            marginBottom: theme.spacing(4),
+            textAlign: "center",
+            marginTop: theme.spacing(4), // اضافه شده
+            marginBottom: theme.spacing(6), // کمی افزایش یافته
             color: customColors.primary,
             fontWeight: 700,
-            position: 'relative',
-            '&::after': {
+            position: "relative",
+            "&::after": {
               content: '""',
-              position: 'absolute',
+              position: "absolute",
               bottom: -10,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '80px',
-              height: '4px',
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "80px",
+              height: "4px",
               background: `linear-gradient(135deg, ${customColors.primary}, ${customColors.secondary})`,
-              borderRadius: '2px'
-            }
+              borderRadius: "2px",
+            },
           }}
         >
           ... خدایا شکرت ...
@@ -160,17 +165,15 @@ function TopCards({ orders }) {
             <Typography
               variant="subtitle1"
               sx={{
-                textAlign: 'center',
+                textAlign: "center",
                 color: theme.palette.text.secondary,
-                fontWeight: 500
+                fontWeight: 500,
               }}
             >
               {card.title}
             </Typography>
 
-            <ValueText variant="h3">
-              {persianNumber(card.value)}
-            </ValueText>
+            <ValueText variant="h3">{persianNumber(card.value)}</ValueText>
 
             <DashboardCardIcon sx={{ backgroundColor: card.iconBg }}>
               {card.icon}
