@@ -1,8 +1,14 @@
-import Shop from "../components/public/shop";
+import dynamic from "next/dynamic";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getProducts, setAllVariant } from "../redux/reducers/productSlice";
-import { useEffect } from "react";
 import Head from "next/head";
+
+// Lazy load the Shop component
+const Shop = dynamic(() => import("../components/public/shop"), {
+  loading: () => <p></p>,
+  ssr: false,
+});
 
 export default function Home({ products, allVariants }) {
   const dispatch = useDispatch();
@@ -24,7 +30,6 @@ export default function Home({ products, allVariants }) {
       variants: variantsByProductId[product.product_id] || [],
     }));
 
-    console.log("Products with variants:", productsWithVariants);
     dispatch(getProducts(productsWithVariants));
     dispatch(setAllVariant(allVariants));
   }, [products, allVariants, dispatch]);
@@ -33,9 +38,12 @@ export default function Home({ products, allVariants }) {
     <>
       <Head>
         <title>
-          ایباکس | مرجع خرید کارتن پستی، نایلون حبابدار، پاکت و سلفون با ارسال
-          سریع
+          ایباکس | مرجع خرید کارتن پستی، نایلون حبابدار، پاکت و سلفون
         </title>
+        <meta
+          name="description"
+          content="خرید آنلاین کارتن پستی، نایلون حبابدار، پاکت پستی و سلفون با بهترین قیمت و ارسال سریع در ایباکس"
+        />
       </Head>
       <Shop />
     </>
@@ -44,13 +52,19 @@ export default function Home({ products, allVariants }) {
 
 export async function getServerSideProps() {
   try {
-    // Fetch data in parallel
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+    // Fetch data with timeout
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
     const [productsRes, variantsRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-variant`),
+      fetch(`${API_URL}/products`, { signal: controller.signal }),
+      fetch(`${API_URL}/all-variant`, { signal: controller.signal }),
     ]);
 
-    // Handle errors
+    clearTimeout(timeout);
+
     if (!productsRes.ok || !variantsRes.ok) {
       throw new Error("Failed to fetch product data");
     }

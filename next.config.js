@@ -10,7 +10,7 @@ const withPWA = require("next-pwa")({
 module.exports = withPWA({
   transpilePackages: ["mui-color-input"],
   compiler: {
-    // removeConsole: true,
+    removeConsole: true,
   },
 
   experimental: {
