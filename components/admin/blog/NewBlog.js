@@ -22,7 +22,7 @@ import NewBlogCategory from "./NewBlogCategory";
 
 const RtlTextField = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(2),
-  minWidth: "100%",
+  width: "100%",
   direction: "rtl",
   textAlign: "right",
   "& label": {
@@ -30,6 +30,15 @@ const RtlTextField = styled(TextField)(({ theme }) => ({
     textAlign: "right",
     left: "inherit",
     right: "1.5rem",
+  },
+  [theme.breakpoints.down("sm")]: {
+    "& .MuiInputBase-root": {
+      fontSize: "0.875rem",
+    },
+    "& label": {
+      fontSize: "0.875rem",
+      right: "1rem",
+    },
   },
 }));
 
@@ -103,53 +112,61 @@ function NewBlog() {
 
   return (
     <Paper
-      elevation={3}
+      elevation={isMobile ? 0 : 3}
       sx={{
-        p: isMobile ? 2 : 4,
-        mt: 3,
-        borderRadius: 4,
+        p: isMobile ? 1.5 : 4,
+        mt: isMobile ? 1 : 3,
+        borderRadius: isMobile ? 0 : 4,
         backgroundColor: "#f9fafb",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <Typography
-        variant="h5"
+        variant={isMobile ? "h6" : "h5"}
         fontWeight={700}
-        mb={4}
+        mb={isMobile ? 2 : 4}
         textAlign="center"
         color="primary"
       >
         ایجاد بلاگ/ویدیو جدید
       </Typography>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={isMobile ? 1 : 3}>
         <Grid item xs={12}>
           <Box
             display="flex"
             justifyContent="space-between"
             flexDirection={isMobile ? "column" : "row"}
-            alignItems="center"
-            gap={2}
+            alignItems={isMobile ? "flex-start" : "center"}
+            gap={1}
           >
             <FormControlLabel
               control={
                 <Checkbox
+                  size={isMobile ? "small" : "medium"}
                   checked={data.is_video}
                   onChange={(e) =>
                     setData({ ...data, is_video: e.target.checked })
                   }
                 />
               }
-              label="آیا این یک ویدیو است؟"
+              label={
+                <Typography variant={isMobile ? "body2" : "body1"}>
+                  آیا این یک ویدیو است؟
+                </Typography>
+              }
             />
-            <ModalBox
-              open={open}
-              handleClose={handleClose}
-              handleOpen={handleOpen}
-              buttonText="دسته‌بندی‌ها"
-              buttonVariant="outlined"
-            >
-              <NewBlogCategory />
-            </ModalBox>
+            <Box width={isMobile ? "100%" : "auto"} mt={isMobile ? 1 : 0}>
+              <ModalBox
+                open={open}
+                handleClose={handleClose}
+                handleOpen={handleOpen}
+                buttonText="دسته‌بندی‌ها"
+                buttonVariant="outlined"
+                buttonSize={isMobile ? "small" : "medium"}
+              />
+            </Box>
           </Box>
         </Grid>
 
@@ -158,8 +175,9 @@ function NewBlog() {
             label="موضوع"
             value={data.title}
             onChange={(e) => setData({ ...data, title: e.target.value })}
+            size={isMobile ? "small" : "medium"}
           />
-          <Typography variant="body2" color="textSecondary" mt={1}>
+          <Typography variant="caption" color="textSecondary" mt={0.5}>
             - موضوع نباید تکراری باشد و حداکثر ۵۰ کاراکتر داشته باشد.
           </Typography>
         </Grid>
@@ -173,59 +191,77 @@ function NewBlog() {
                 onChange={(e) =>
                   setData({ ...data, video_url: e.target.value })
                 }
+                size={isMobile ? "small" : "medium"}
               />
-              <Typography variant="body2" color="textSecondary" mt={1}>
+              <Typography variant="caption" color="textSecondary" mt={0.5}>
                 - فقط قسمت آخر لینک (هایلایت شده) را وارد کنید:
               </Typography>
-              <Box mt={1} fontWeight="bold" color="green">
+              <Box
+                mt={0.5}
+                fontSize={isMobile ? "0.75rem" : "0.875rem"}
+                fontWeight="bold"
+                color="green"
+              >
                 https://www.aparat.com/v/
                 <span style={{ backgroundColor: "#bbf7d0" }}>vaak7uw</span>
               </Box>
             </>
           ) : (
-            <DropZone getFiles={handleGetFiles} />
+            <DropZone getFiles={handleGetFiles} isMobile={isMobile} />
           )}
         </Grid>
 
         <Grid item xs={12}>
-          <Editor
-            onChange={handleEditorsContent}
-            initialValue={data.description}
-            textareaName="description"
-            apiKey="your-api-key"
-            onInit={(evt, editor) => (descRef.current = editor)}
-            init={{
-              height: 300,
-              menubar: false,
-              directionality: "rtl",
-              plugins: [
-                "advlist",
-                "autolink",
-                "lists",
-                "link",
-                "image",
-                "charmap",
-                "preview",
-                "anchor",
-                "searchreplace",
-                "visualblocks",
-                "code",
-                "fullscreen",
-                "insertdatetime",
-                "media",
-                "table",
-                "help",
-                "wordcount",
-              ],
-              toolbar:
-                "undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
-              content_style:
-                "body { font-family: 'Vazir', sans-serif; font-size: 14px; }",
+          <Box
+            sx={{
+              "& .tox-tinymce": {
+                height: isMobile ? "250px !important" : "300px !important",
+              },
             }}
-          />
+          >
+            <Editor
+              onChange={handleEditorsContent}
+              initialValue={data.description}
+              textareaName="description"
+              apiKey="your-api-key"
+              onInit={(evt, editor) => (descRef.current = editor)}
+              init={{
+                height: isMobile ? 250 : 300,
+                menubar: false,
+                directionality: "rtl",
+                plugins: [
+                  "advlist",
+                  "autolink",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "code",
+                  "fullscreen",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
+                content_style:
+                  "body { font-family: 'Vazir', sans-serif; font-size: 14px; }",
+                mobile: {
+                  toolbar: "undo redo | bold italic | bullist numlist",
+                  plugins: "autolink lists",
+                },
+              }}
+            />
+          </Box>
         </Grid>
 
-        <Grid item xs={12} md={6} mx="auto">
+        <Grid item xs={12}>
           <Button
             disabled={
               data.title === "" ||
@@ -234,9 +270,13 @@ function NewBlog() {
             }
             onClick={handleCreateBlog}
             variant="contained"
-            size="large"
+            size={isMobile ? "medium" : "large"}
             fullWidth
-            sx={{ py: 1.5, mt: 5 }}
+            sx={{
+              py: isMobile ? 1 : 1.5,
+              mt: isMobile ? 3 : 5,
+              fontSize: isMobile ? "0.875rem" : "1rem",
+            }}
           >
             {data.is_video ? "ایجاد ویدیو جدید" : "ایجاد بلاگ جدید"}
           </Button>

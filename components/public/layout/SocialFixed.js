@@ -20,7 +20,7 @@ function SocialFixed() {
       <Typography
         variant="body2"
         sx={{
-          background: "linear-gradient(135deg, #2196F3, #21CBF3)",
+          backgroundColor: "primary.main",
           color: "white",
           padding: { xs: "6px 10px", md: "8px 14px" },
           borderRadius: "16px",

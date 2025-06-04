@@ -7,7 +7,6 @@ import {
   TextField,
   Button,
   Typography,
-  FormControlLabel,
   Checkbox,
   Container,
   IconButton,
@@ -21,7 +20,6 @@ import { userLogin } from "../../../redux/reducers/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotificationOn } from "../../../redux/reducers/notificationSlice";
 import Captcha from "./Captcha";
-import Image from "next/image";
 import { fixPersianNumber } from "../../../src/toEnglishNumber";
 import SimpleBottomNavigation from "../layout/navbar/BottomNav";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -34,6 +32,7 @@ const LoginContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   padding: 0,
+  backgroundColor: theme.palette.primary.lightBg,
   [theme.breakpoints.up("md")]: {
     width: "45vw",
     maxWidth: "100vw",
@@ -41,49 +40,45 @@ const LoginContainer = styled(Container)(({ theme }) => ({
 }));
 
 const Header = styled(Box)(({ theme }) => ({
-  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-  color: "white",
-  padding: "20px 20px",
+  background: theme.palette.primary.gradient,
+  color: theme.palette.primary.textWhite,
+  padding: theme.spacing(2.5),
   textAlign: "center",
-  borderBottomLeftRadius: "30px",
-  borderBottomRightRadius: "30px",
-  boxShadow: "0 4px 20px rgba(99, 102, 241, 0.2)",
+  borderBottomLeftRadius: theme.palette.primary.borderRadius,
+  borderBottomRightRadius: theme.palette.primary.borderRadius,
+  boxShadow: theme.shadows[4],
 }));
 
 const Logo = styled(Typography)(({ theme }) => ({
   fontSize: "1.5rem",
   fontWeight: "bold",
-  marginBottom: "8px",
+  marginBottom: theme.spacing(1),
 }));
 
 const LoginForm = styled(Box)(({ theme }) => ({
-  padding: "20px",
-  marginTop: "-15px",
-  backgroundColor: "white",
-  borderRadius: "20px",
-  boxShadow: "0 5px 25px rgba(0, 0, 0, 0.08)",
+  padding: theme.spacing(2.5),
+  marginTop: theme.spacing(-2),
+  backgroundColor: theme.palette.primary.lightBg,
+  borderRadius: theme.palette.primary.borderRadius,
+  boxShadow: theme.shadows[3],
   position: "relative",
   zIndex: 1,
   flexGrow: 1,
 }));
 
-const FormGroup = styled(Box)(({ theme }) => ({
-  marginBottom: "15px",
-}));
-
 const InputLabel = styled(Typography)(({ theme }) => ({
   display: "block",
-  marginBottom: "6px",
+  marginBottom: theme.spacing(0.75),
   fontWeight: 500,
-  color: "#4b5563",
+  color: theme.palette.secondary.text,
 }));
 
 const InputField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-root": {
-    borderRadius: "12px",
-    backgroundColor: "#f9fafb",
+    borderRadius: theme.spacing(1.5),
+    backgroundColor: theme.palette.background.default,
     "& input": {
-      padding: "12px",
+      padding: theme.spacing(1.5),
     },
   },
   width: "100%",
@@ -95,98 +90,82 @@ const PasswordContainer = styled(Box)(({ theme }) => ({
 
 const TogglePassword = styled(IconButton)(({ theme }) => ({
   position: "absolute",
-  left: "12px",
+  left: theme.spacing(1.5),
   top: "50%",
   transform: "translateY(-50%)",
-  color: "#9ca3af",
-}));
-
-const RememberForgot = styled(Box)(({ theme }) => ({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "15px",
+  color: theme.palette.text.secondary,
 }));
 
 const RememberMe = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
+  gap: theme.spacing(0.5),
 }));
 
 const ForgotPassword = styled(Link)(({ theme }) => ({
-  color: "#6366f1",
+  color: theme.palette.primary.main,
   textDecoration: "none",
   fontSize: "0.7rem",
+  fontWeight: 500,
 }));
 
 const LoginButton = styled(Button)(({ theme }) => ({
   width: "100%",
-  padding: "12px",
-  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-  color: "white",
-  borderRadius: "12px",
-  fontSize: "0.95rem",
+  padding: theme.spacing(1.5),
+  background: theme.palette.primary.gradient,
+  color: theme.palette.primary.textWhite,
+  borderRadius: theme.spacing(1.5),
   fontWeight: 600,
-  boxShadow: "0 4px 15px rgba(99, 102, 241, 0.3)",
-  transition: "all 0.3s",
+  boxShadow: theme.shadows[4],
+  transition: theme.transitions.create(["transform", "box-shadow"]),
   "&:hover": {
     transform: "translateY(-2px)",
-    boxShadow: "0 6px 20px rgba(99, 102, 241, 0.4)",
-    background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+    boxShadow: theme.shadows[6],
+    background: theme.palette.primary.gradient,
   },
 }));
 
 const StyledDivider = styled(Divider)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  margin: "20px 0",
-  color: "#9ca3af",
+  margin: theme.spacing(2.5, 0),
+  color: theme.palette.text.secondary,
   "&::before, &::after": {
-    content: '""',
-    flex: 1,
-    borderBottom: "1px solid #e5e7eb",
-  },
-  "&::before": {
-    marginLeft: "10px",
-  },
-  "&::after": {
-    marginRight: "10px",
+    borderColor: theme.palette.divider,
   },
 }));
 
 const SocialLogin = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
-  gap: "12px",
-  marginBottom: "20px",
+  gap: theme.spacing(1.5),
+  marginBottom: theme.spacing(2.5),
 }));
 
 const SocialButton = styled(IconButton)(({ theme }) => ({
-  width: "45px",
-  height: "45px",
+  width: 45,
+  height: 45,
   borderRadius: "50%",
-  backgroundColor: "white",
-  border: "1px solid #e5e7eb",
-  color: "#4b5563",
-  transition: "all 0.3s",
+  backgroundColor: theme.palette.primary.lightBg,
+  border: `1px solid ${theme.palette.divider}`,
+  color: theme.palette.text.secondary,
+  transition: theme.transitions.create(["transform", "box-shadow"]),
   "&:hover": {
     transform: "translateY(-3px)",
-    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
-    backgroundColor: "white",
+    boxShadow: theme.shadows[4],
+    backgroundColor: theme.palette.primary.lightBg,
   },
 }));
 
 const RegisterLink = styled(Box)(({ theme }) => ({
   textAlign: "center",
-  marginTop: "15px",
-  color: "#4b5563",
+  marginTop: theme.spacing(2),
+  color: theme.palette.text.secondary,
   fontSize: "0.7rem",
 }));
 
 const Footer = styled(Box)(({ theme }) => ({
   textAlign: "center",
-  padding: "15px",
-  color: "#9ca3af",
+  padding: theme.spacing(2),
+  color: theme.palette.text.secondary,
   fontSize: "0.75rem",
 }));
 
@@ -205,25 +184,22 @@ function LoginPage() {
   });
   const [isValid, setIsValid] = useState(true);
 
-  const handlePhoneNumber = (event) => {
-    setLoginInfo({ ...loginInfo, phoneNumber: event.target.value });
-    const regex = /^(\+98|0)?9\d{9}$/;
-    setIsValid(regex.test(event.target.value));
+  const handleChange = (field) => (event) => {
+    const value =
+      field === "rememberMe" ? event.target.checked : event.target.value;
+    setLoginInfo((prev) => ({ ...prev, [field]: value }));
+
+    if (field === "phoneNumber") {
+      const regex = /^(\+98|0)?9\d{9}$/;
+      setIsValid(regex.test(event.target.value));
+    }
   };
 
   const handlePassword = (event) => {
-    setLoginInfo({
-      ...loginInfo,
+    setLoginInfo((prev) => ({
+      ...prev,
       password: fixPersianNumber(event.target.value),
-    });
-  };
-
-  const handleCaptcha = (event) => {
-    setLoginInfo({ ...loginInfo, captcha: event.target.value });
-  };
-
-  const handleRememberMe = (event) => {
-    setLoginInfo({ ...loginInfo, rememberMe: event.target.checked });
+    }));
   };
 
   const togglePasswordVisibility = () => {
@@ -232,21 +208,30 @@ function LoginPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (loginInfo.captcha?.toLowerCase() === tempCaptcha?.toLowerCase()) {
-      const urlencoded = new URLSearchParams();
-      urlencoded.append("phone_number", loginInfo.phoneNumber);
-      urlencoded.append("password", loginInfo.password);
+    if (loginInfo.captcha?.toLowerCase() !== tempCaptcha?.toLowerCase()) {
+      dispatch(
+        setNotificationOn({
+          message: "متن امنیتی وارد شده اشتباه است",
+          color: "error",
+        })
+      );
+      return;
+    }
 
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: urlencoded,
-      };
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("phone_number", loginInfo.phoneNumber);
+    urlencoded.append("password", loginInfo.password);
 
+    try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        requestOptions
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: urlencoded,
+        }
       );
+
       if (response.status === 200) {
         const data = await response.json();
         setCookie("x-auth-token", data.token);
@@ -277,18 +262,35 @@ function LoginPage() {
             color: "error",
           })
         );
-        setLoginInfo({ ...loginInfo, password: "" });
       }
-    } else {
+    } catch (error) {
       dispatch(
         setNotificationOn({
-          message: "متن امنیتی وارد شده اشتباه است",
+          message: "خطا در ارتباط با سرور",
           color: "error",
         })
       );
-      setLoginInfo({ ...loginInfo, password: "" });
     }
   };
+
+  const socialIcons = [
+    {
+      icon: <WhatsAppIcon style={{ color: "#25D366" }} />,
+      href: "https://wa.me/989194737478",
+    },
+    {
+      icon: <TelegramIcon style={{ color: "#0088cc" }} />,
+      href: "https://t.me/samen_Admin1001",
+    },
+    ...(isMobile
+      ? [
+          {
+            icon: <PhoneIcon style={{ color: "#34B7F1" }} />,
+            href: "tel:09128634399",
+          },
+        ]
+      : []),
+  ];
 
   return (
     <>
@@ -303,11 +305,11 @@ function LoginPage() {
         </Header>
 
         <LoginForm component="form" onSubmit={handleSubmit}>
-          <FormGroup>
+          <Box mb={2}>
             <InputLabel>شماره موبایل</InputLabel>
             <InputField
               value={loginInfo.phoneNumber}
-              onChange={handlePhoneNumber}
+              onChange={handleChange("phoneNumber")}
               required
               placeholder="09xxxxxxxxx"
               type="tel"
@@ -318,9 +320,9 @@ function LoginPage() {
                 لطفا شماره موبایل خود را به درستی وارد نمایید
               </Typography>
             )}
-          </FormGroup>
+          </Box>
 
-          <FormGroup>
+          <Box mb={2}>
             <InputLabel>رمز عبور</InputLabel>
             <PasswordContainer>
               <InputField
@@ -334,74 +336,43 @@ function LoginPage() {
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </TogglePassword>
             </PasswordContainer>
-          </FormGroup>
+          </Box>
 
-          <Grid container>
-            <Grid xs={6}>
-              {" "}
+          <Grid container alignItems="center" mb={2}>
+            <Grid item xs={6}>
               <RememberMe>
-                <FormControlLabel
-                  sx={{
-                    mr: 0,
-                  }}
-                  control={
-                    <Checkbox
-                      size="small"
-                      sx={{
-                        fontSize: 5,
-                      }}
-                      checked={loginInfo.rememberMe}
-                      onChange={handleRememberMe}
-                      color="primary"
-                    />
-                  }
-                  label="مرا به خاطر بسپار"
+                <Checkbox
+                  size="small"
+                  checked={loginInfo.rememberMe}
+                  onChange={handleChange("rememberMe")}
+                  color="primary"
                 />
+                <Typography variant="body2">مرا به خاطر بسپار</Typography>
               </RememberMe>
             </Grid>
-            <Grid
-              xs={6}
-              sx={{
-                mt: 1,
-              }}
-            >
-              {" "}
-              <Box display="flex" flexDirection="column" alignItems="flex-end">
+            <Grid item xs={6}>
+              <Box display="flex" justifyContent="flex-end">
                 <ForgotPassword href="/auth/reset">
                   رمز عبور را فراموش کرده‌اید؟
                 </ForgotPassword>
-                <RegisterLink>
-                  حساب کاربری ندارید؟{" "}
-                  <Link
-                    href="/auth/register"
-                    style={{ color: "#6366f1", fontWeight: 500 }}
-                  >
-                    ثبت نام کنید
-                  </Link>
-                </RegisterLink>
               </Box>
             </Grid>
-            <Grid xs={12}></Grid>
           </Grid>
 
-          <RememberForgot></RememberForgot>
+          <Box textAlign="center" mb={2}>
+            <Captcha />
+          </Box>
 
-          <FormGroup>
-            <Box textAlign="center">
-              <Captcha />
-            </Box>
-          </FormGroup>
-
-          <FormGroup>
+          <Box mb={3}>
             <InputLabel>متن تصویر</InputLabel>
             <InputField
               value={loginInfo.captcha}
-              onChange={handleCaptcha}
+              onChange={handleChange("captcha")}
               required
               placeholder="متن تصویر را وارد کنید"
               type="text"
             />
-          </FormGroup>
+          </Box>
 
           <LoginButton type="submit" disabled={!isValid}>
             ورود به حساب
@@ -413,14 +384,10 @@ function LoginPage() {
               color="primary"
               fullWidth
               href="https://www.eebox.ir"
-              target="_blank"
-              rel="noopener noreferrer"
               sx={{
-                borderRadius: "12px",
-                padding: "8px 16px",
+                borderRadius: theme.spacing(1.5),
+                padding: theme.spacing(1, 2),
                 fontWeight: 600,
-                fontSize: "0.95rem",
-                textTransform: "none",
               }}
             >
               بازگشت به فروشگاه
@@ -430,30 +397,23 @@ function LoginPage() {
           <StyledDivider>یا</StyledDivider>
 
           <SocialLogin>
-            <SocialButton
-              component="a"
-              href="https://wa.me/989194737478"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppIcon style={{ color: "#25D366" }} />
-            </SocialButton>
-
-            <SocialButton
-              component="a"
-              href="https://t.me/samen_Admin1001"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TelegramIcon style={{ color: "#0088cc" }} />
-            </SocialButton>
-
-            {isMobile && (
-              <SocialButton component="a" href="tel:09128634399">
-                <PhoneIcon style={{ color: "#34B7F1" }} />
+            {socialIcons.map((item, index) => (
+              <SocialButton
+                key={index}
+                component="a"
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.icon}
               </SocialButton>
-            )}
+            ))}
           </SocialLogin>
+
+          <RegisterLink>
+            حساب کاربری ندارید؟{" "}
+            <ForgotPassword href="/auth/register">ثبت نام کنید</ForgotPassword>
+          </RegisterLink>
         </LoginForm>
 
         <Footer>کلیه حقوق برای فروشگاه اینترنتی ایباکس محفوظ است © 1404</Footer>

@@ -23,7 +23,8 @@ const theme = createTheme({
   direction: "rtl",
   palette: {
     primary: {
-      main: "#593F62",
+      gradient: "linear-gradient(to bottom, #6366f1, #06b6d4)",
+      main: "#6366f1",
       lightBg: "#fefefe",
       text: "#222",
       textWhite: "#fff",

@@ -28,16 +28,18 @@ export default function SimpleBottomNavigation() {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (router.route === "/" || router.route === "/shop") {
+    const path = router.route;
+
+    if (path === "/" || path === "/shop") {
       setValue(0);
-    } else if (router.route === "/shop/cart") {
+    } else if (path === "/product-categories") {
       setValue(1);
-    } else if (router.route === "/user" || router.route === "/auth/login") {
+    } else if (path === "/shop/cart") {
       setValue(2);
-    } else if (router.route === "/product-categories") {
+    } else if (path === "/user" || path === "/auth/login") {
       setValue(3);
     }
-  }, [router]);
+  }, [router.route]);
 
   return (
     <Paper
@@ -60,13 +62,13 @@ export default function SimpleBottomNavigation() {
         showLabels
         value={value}
       >
-        {/* فروشگاه */}
+        {/* فروشگاه - index 0 */}
         <BottomNavigationAction
           component={router.route === "/" ? "div" : Link}
           href={router.route === "/" ? undefined : "/"}
           label="فروشگاه"
           icon={
-            value === 0 && router.route === "/" ? (
+            value === 0 ? (
               <Image src={Shop1} alt="فروشگاه" width={27} height={27} />
             ) : (
               <Image src={Shop2} alt="فروشگاه" width={27} height={27} />
@@ -74,7 +76,7 @@ export default function SimpleBottomNavigation() {
           }
         />
 
-        {/* محصولات */}
+        {/* محصولات - index 1 */}
         <BottomNavigationAction
           component={router.route === "/product-categories" ? "div" : Link}
           href={
@@ -84,7 +86,7 @@ export default function SimpleBottomNavigation() {
           }
           label="محصولات"
           icon={
-            value === 3 && router.route === "/product-categories" ? (
+            value === 1 ? (
               <Image src={Products1} alt="محصولات" width={27} height={27} />
             ) : (
               <Image src={Products2} alt="محصولات" width={27} height={27} />
@@ -92,7 +94,7 @@ export default function SimpleBottomNavigation() {
           }
         />
 
-        {/* سبد خرید */}
+        {/* سبد خرید - index 2 */}
         <BottomNavigationAction
           component={router.route === "/shop/cart" ? "div" : Link}
           href={router.route === "/shop/cart" ? undefined : "/shop/cart"}
@@ -103,7 +105,7 @@ export default function SimpleBottomNavigation() {
               max={999}
               badgeContent={persianNumber(shoppingCart.length)}
             >
-              {value === 1 && router.route === "/shop/cart" ? (
+              {value === 2 ? (
                 <Image src={Cart1} alt="سبد خرید" width={27} height={27} />
               ) : (
                 <Image src={Cart2} alt="سبد خرید" width={27} height={27} />
@@ -112,24 +114,20 @@ export default function SimpleBottomNavigation() {
           }
         />
 
-        {/* پروفایل یا ورود */}
+        {/* پروفایل یا ورود - index 3 */}
         {isLoggedIn ? (
           <BottomNavigationAction
             component={router.route === "/user" ? "div" : Link}
             href={router.route === "/user" ? undefined : "/user"}
             label="پروفایل"
-            icon={
-              <Image src={Account} alt="پروفایل" width={27} height={27} />
-            }
+            icon={<Image src={Account} alt="پروفایل" width={27} height={27} />}
           />
         ) : (
           <BottomNavigationAction
             component={router.route === "/auth/login" ? "div" : Link}
             href={router.route === "/auth/login" ? undefined : "/auth/login"}
             label="ورود"
-            icon={
-              <Image src={Account} alt="ورود" width={27} height={27} />
-            }
+            icon={<Image src={Account} alt="ورود" width={27} height={27} />}
           />
         )}
       </BottomNavigation>

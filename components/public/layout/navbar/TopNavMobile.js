@@ -36,6 +36,8 @@ import {
   Microsoft,
   Apple,
   Android,
+  Info,
+  LocalShipping,
 } from "@mui/icons-material";
 import TextLoop from "../../../../src/TextLoop";
 
@@ -104,17 +106,30 @@ const navItems = [
       />
     ),
   },
-  // {
-  //   title: "ویدیو های آموزشی",
-  //   link: "/videos",
-  //   icon: (
-  //     <OndemandVideo
-  //       sx={{
-  //         ml: 1,
-  //       }}
-  //     />
-  //   ),
-  // },
+  {
+    title: "درباره ما",
+    link: "https://eebox.ir/blog/17",
+    icon: (
+      <Info
+        sx={{
+          ml: 1,
+          target: "_self",
+        }}
+      />
+    ),
+  },
+  {
+    title: "نحوه ارسال و خرید حضوری",
+    link: "https://eebox.ir/blog/3",
+    icon: (
+      <LocalShipping
+        sx={{
+          ml: 1,
+          target: "_self",
+        }}
+      />
+    ),
+  },
   {
     title: "فرم سفارش محصول",
     link: "/order-form",
@@ -207,6 +222,7 @@ function TopNavMobile(props) {
             <ListItemButton
               component={Link}
               href={item.link}
+              target={item.link.startsWith("http") ? "_self" : "_self"}
               sx={{ textAlign: "center", mt: 2 }}
             >
               <ListItemText primary={item.title} />
@@ -297,7 +313,7 @@ function TopNavMobile(props) {
       <CssBaseline />
       <AppBar
         sx={{
-          background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+          background: (theme) => theme.palette.primary.gradient,
           height: 30,
         }}
         component="nav"
@@ -311,7 +327,6 @@ function TopNavMobile(props) {
           <Box
             sx={{
               color: "#fff",
-
               position: "absolute",
               top: 10,
               left: 0,
@@ -324,18 +339,12 @@ function TopNavMobile(props) {
               component={"div"}
               sx={{
                 fontSize: 7,
-                // width: "100%",
-                textAlign: "center !important",
               }}
             >
-              {" "}
               <TextLoop messages={preload} interval={4000} />
             </Typography>
-            {/* {preload.map((word) => {
-                  return <Typography>{word}</Typography>;
-                })} */}
           </Box>
-          {/* <></> */}
+
           <Box
             component={Link}
             href="tel:+982155538370"
@@ -367,10 +376,8 @@ function TopNavMobile(props) {
                 ml: 1,
                 color: "#000",
                 borderRadius: 20,
-
                 width: 15,
                 height: 15,
-                // padding: "1px",
                 backgroundColor: "#ec9d50",
               }}
             />
@@ -378,7 +385,7 @@ function TopNavMobile(props) {
 
           <Box
             sx={{
-              background: "linear-gradient(135deg,  #6366f1)",
+              backgroundColor: "primary.main",
               width: 90,
               height: 43,
               position: "absolute",
@@ -394,11 +401,7 @@ function TopNavMobile(props) {
               edge="start"
               onClick={handleDrawerToggle}
               sx={{
-                // mb: 1,
-                // mr: 2,
-                // display: { sm: "none" },
                 mt: "-2px",
-                // height: 40,
               }}
             >
               <MenuIcon
@@ -430,7 +433,6 @@ function TopNavMobile(props) {
             <MobileLogo />
           </Box>
         </Toolbar>
-        {/* {router.pathname === "/shop" ? <MobileFilterBar /> : ""} */}
       </AppBar>
 
       <Box component="nav">
@@ -443,11 +445,10 @@ function TopNavMobile(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },
-
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               direction: "ltr !important",

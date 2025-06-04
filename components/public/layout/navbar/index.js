@@ -59,7 +59,6 @@ export default function Navbar() {
 
   return (
     <>
-    
       {/* bottom menu for mobile */}
       <Box sx={{ display: { xs: "flex", md: "none" } }}>
         <BottomNav />
@@ -72,7 +71,7 @@ export default function Navbar() {
           sx={{
             width: "100%",
             height: 40,
-            background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+            backgroundColor: "primary.main",
             position: "fixed",
             zIndex: 4000,
             textAlign: "center",
@@ -135,7 +134,8 @@ export default function Navbar() {
         </Box>
         <AppBar
           sx={{
-            background: "linear-gradient(135deg, #6366f1, #06b6d4)",
+            background: (theme) => theme.palette.primary.gradient,
+
             borderBottomLeftRadius: "40px",
             borderBottomRightRadius: "40px",
 

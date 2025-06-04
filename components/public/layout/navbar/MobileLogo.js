@@ -12,7 +12,7 @@ function MobileLogo({ small }) {
         right: 0,
         top: 30,
         px: 2,
-        background: "linear-gradient(135deg,  #06b6d4)",
+        backgroundColor: "primary.main",
 
         pt: "2px",
         // backgroundColor: "#fff",
