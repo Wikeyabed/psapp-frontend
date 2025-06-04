@@ -1,75 +1,101 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Skeleton, useMediaQuery } from "@mui/material";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import Banner1 from "../../../public/images/banner1.jpg";
-import Banner2 from "../../../public/images/banner2.jpg";
-import Banner3 from "../../../public/images/banner3.jpg";
-import Banner4 from "../../../public/images/banner4.jpg";
 
 const BannerBox = styled(Grid)({
   padding: 10,
 });
 
-const BannerPaper = styled(Paper)({
+const BannerPaper = styled(Paper)(({ theme }) => ({
   height: "100%",
   borderRadius: "10px",
-  // border: "1px solid #e0e0e0",
-  // borderBottom: "4px solid #e0e0e0",
-});
+  overflow: "hidden",
+  position: "relative",
+}));
 
 const BannerImage = styled("img")({
-  display: { xs: "none !important", md: "block" },
   width: "100%",
   height: "100%",
-  objectFit: "fill",
+  objectFit: "cover",
   borderRadius: "10px",
+  display: "block",
 });
 
-const BannerImageMobile = styled("img")({
-  display: { md: "none" },
-  width: "100%",
-  height: "100%",
-  objectFit: "fill",
-  borderRadius: "10px",
-});
+const BannerSkeleton = () => (
+  <BannerPaper elevation={5}>
+    <Skeleton 
+      variant="rectangular" 
+      width="100%" 
+      height="100%"
+      sx={{ borderRadius: "10px" }}
+      animation="wave"
+    />
+  </BannerPaper>
+);
 
 function Banners() {
+  const [loading, setLoading] = useState(true);
+  const isDesktop = useMediaQuery('(min-width:900px)');
+  const [images, setImages] = useState([]);
+
+  // شبیه‌سازی بارگذاری تصاویر
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setImages([
+        { id: 1, src: "/images/banner1.jpg", mobileSrc: "/images/banner1-mobile.jpg" },
+        { id: 2, src: "/images/banner2.jpg", mobileSrc: "/images/banner2-mobile.jpg" },
+        { id: 3, src: "/images/banner3.jpg", mobileSrc: "/images/banner3-mobile.jpg" },
+        { id: 4, src: "/images/banner4.jpg", mobileSrc: "/images/banner4-mobile.jpg" },
+      ]);
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isDesktop) return null;
+
   return (
-    <Grid sx={{ display: { xs: "none", md: "flex" } }} container>
-      <BannerBox
-        // sx={{
-        //   height: { md: "auto" },
-        // }}
-        item
-        lg={8}
-      >
-        <BannerPaper elevation={5}>
-          <BannerImage src={Banner2.src} alt="pic" />
-          <BannerImageMobile src={Banner2Mobile.src} alt="pic" />
-        </BannerPaper>
-      </BannerBox>
-
-      <Grid item container lg={4}>
-        <BannerBox item xs={12}>
-          <BannerPaper elevation={5}>
-            <BannerImage src={Banner1.src} alt="pic" />
-            <BannerImageMobile src={Banner1Mobile.src} alt="pic" />
-          </BannerPaper>
-        </BannerBox>
-
-        <BannerBox item xs={12}>
-          <BannerPaper elevation={5}>
-            <BannerImage src={Banner3.src} alt="pic" />
-            <BannerImageMobile src={Banner3Mobile.src} alt="pic" />
-          </BannerPaper>
-        </BannerBox>
-
-        <BannerBox item xs={12}>
-          <BannerPaper elevation={5}>
-            <BannerImage src={Banner4.src} alt="pic" />
-            <BannerImageMobile src={Banner3Mobile.src} alt="pic" />
-          </BannerPaper>
-        </BannerBox>
-      </Grid>
+    <Grid container sx={{ display: { xs: "none", md: "flex" } }}>
+      {loading ? (
+        <>
+          <BannerBox item lg={8}>
+            <BannerSkeleton />
+          </BannerBox>
+          <Grid item container lg={4}>
+            {[1, 2, 3].map((item) => (
+              <BannerBox item xs={12} key={`skeleton-${item}`}>
+                <BannerSkeleton />
+              </BannerBox>
+            ))}
+          </Grid>
+        </>
+      ) : (
+        <>
+          <BannerBox item lg={8}>
+            <BannerPaper elevation={5}>
+              <BannerImage 
+                src={images[1]?.src} 
+                alt="banner" 
+                loading="lazy"
+              />
+            </BannerPaper>
+          </BannerBox>
+          <Grid item container lg={4}>
+            {[0, 2, 3].map((index) => (
+              <BannerBox item xs={12} key={images[index]?.id}>
+                <BannerPaper elevation={5}>
+                  <BannerImage 
+                    src={images[index]?.src} 
+                    alt="banner" 
+                    loading="lazy"
+                  />
+                </BannerPaper>
+              </BannerBox>
+            ))}
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 }
