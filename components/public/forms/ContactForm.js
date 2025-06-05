@@ -13,6 +13,8 @@ import {
   useMediaQuery,
   Divider,
   Link,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import {
   Phone as PhoneIcon,
@@ -98,12 +100,26 @@ function ContactPage() {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+    severity: "success", // 'error', 'warning', 'info', 'success'
+  });
   const isMobile = useMediaQuery("(max-width: 900px)");
+
+  const validatePhone = (phone) => {
+    const regex = /^(\+98|0)?9\d{9}$/;
+    return regex.test(phone);
+  };
 
   const validateForm = () => {
     const newErrors = {};
     if (!formInfo.name.trim()) newErrors.name = "نام الزامی است";
-    if (!formInfo.phone.trim()) newErrors.phone = "شماره تماس الزامی است";
+    if (!formInfo.phone.trim()) {
+      newErrors.phone = "شماره تماس الزامی است";
+    } else if (!validatePhone(formInfo.phone)) {
+      newErrors.phone = "شماره تماس معتبر نیست";
+    }
     if (!formInfo.subject.trim()) newErrors.subject = "موضوع الزامی است";
     if (!formInfo.message.trim()) newErrors.message = "پیام الزامی است";
 
@@ -124,21 +140,54 @@ function ContactPage() {
     setIsLoading(true);
 
     try {
-      // شبیه‌سازی ارسال فرم
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      alert("پیام شما با موفقیت ارسال شد!");
-      setFormInfo({
-        name: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/requests/add`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            person_name: formInfo.name,
+            request_type: "3", // 3 برای تماس با ما
+            request_title: formInfo.subject,
+            request_description: formInfo.message,
+            phone_number: formInfo.phone,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setNotification({
+          open: true,
+          message: "پیام شما با موفقیت ارسال شد!",
+          severity: "success",
+        });
+        setFormInfo({
+          name: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        throw new Error(result.message || "خطا در ارسال پیام");
+      }
     } catch (error) {
       console.error("خطا در ارسال فرم:", error);
-      alert("خطا در ارسال پیام! لطفاً مجدداً تلاش کنید.");
+      setNotification({
+        open: true,
+        message: error.message || "خطا در ارسال پیام! لطفاً مجدداً تلاش کنید.",
+        severity: "error",
+      });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, open: false });
   };
 
   const openTelegram = () => {
@@ -368,6 +417,22 @@ function ContactPage() {
             </Box>
           </Fade>
         </Container>
+
+        {/* سیستم نوتیفیکیشن */}
+        <Snackbar
+          open={notification.open}
+          autoHideDuration={6000}
+          onClose={handleCloseNotification}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert
+            onClose={handleCloseNotification}
+            severity={notification.severity}
+            sx={{ width: "100%" }}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </PublicLayout>
   );

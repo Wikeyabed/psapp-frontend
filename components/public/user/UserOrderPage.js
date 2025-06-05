@@ -1,308 +1,285 @@
-import { 
-  Box, 
-  Button, 
-  Divider, 
-  Grid, 
-  Typography, 
-  useMediaQuery,
+import PublicLayout from "../layout";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid,
   Paper,
-  styled,
-  ThemeProvider,
-  createTheme,
-  Container,
-  Fade,
-  CircularProgress
+  Typography,
+  useTheme,
 } from "@mui/material";
+import ToPersianDate from "../../../src/TimestampToPersian";
 import moment from "moment-jalaali";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 import { persianNumber } from "../../../src/PersianDigits";
 import React, { useEffect, useState } from "react";
 import UserOrderStatus from "./UserOrderStatus";
+import OrderPdf from "./OrderPdf";
 import Link from "../../../src/Link";
-import PublicLayout from "../layout";
-import {
-  Receipt as ReceiptIcon,
-  Print as PrintIcon,
-  LocalShipping as ShippingIcon,
-  CalendarToday as DateIcon,
-  ConfirmationNumber as TicketIcon,
-  Payment as PaymentIcon
-} from "@mui/icons-material";
-
-// تم سفارشی
-const orderTheme = createTheme({
-  direction: 'rtl',
-  palette: {
-    primary: {
-      main: '#1a237e',
-      light: '#534bae',
-      dark: '#000051',
-    },
-    secondary: {
-      main: '#ffab00',
-      light: '#ffdd4b',
-      dark: '#c67c00',
-    },
-    background: {
-      default: '#f5f7fa',
-      paper: '#ffffff',
-    },
-  },
-  typography: {
-    fontFamily: '"Vazir", "Roboto", "Arial", sans-serif',
-    h4: {
-      fontWeight: 700,
-    },
-    h5: {
-      fontWeight: 600,
-    },
-  },
-  shape: {
-    borderRadius: 12,
-  },
-});
-
-const GlassCard = styled(Paper)(({ theme }) => ({
-  background: 'rgba(255, 255, 255, 0.9)',
-  backdropFilter: 'blur(10px)',
-  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1)',
-  border: '1px solid rgba(255, 255, 255, 0.18)',
-  padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius,
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 12px 40px 0 rgba(31, 38, 135, 0.2)',
-  },
-}));
-
-const OrderItemCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
-  marginBottom: theme.spacing(2),
-  borderRadius: theme.shape.borderRadius,
-  borderLeft: `4px solid ${theme.palette.primary.main}`,
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    boxShadow: theme.shadows[4],
-  },
-}));
-
-const InfoRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  marginBottom: theme.spacing(2),
-  '& svg': {
-    marginLeft: theme.spacing(1),
-    color: theme.palette.primary.main,
-  },
-}));
 
 function UserOrderPage({ order }) {
+  const theme = useTheme();
   const [rows, setRows] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const isMobile = useMediaQuery(orderTheme.breakpoints.down('md'));
 
   useEffect(() => {
-    const parsedProducts = order.products.map(product => JSON.parse(product));
-    setRows(parsedProducts);
-  }, [order.products]);
-
-  const getDeliveryMethod = () => {
-    switch(order.delivery_type) {
-      case "in-person":
-        return "حضوری از انبار ما";
-      case "snap":
-        return "از طریق اسنپ (مخصوص تهران)";
-      case "shipping":
-        return "از طریق باربری (مخصوص شهرستان)";
-      case "posting":
-        return "ارسال از طریق پست یا تیپاکس";
-      default:
-        return "";
+    if (order?.products) {
+      const parsedProducts = order.products.map((product) =>
+        JSON.parse(product)
+      );
+      setRows(parsedProducts);
     }
+  }, [order]);
+
+  const deliveryTypeText = {
+    "in-person": "حضوری از انبار ما",
+    snap: "از طریق اسنپ (مخصوص تهران)",
+    shipping: "از طریق باربری (مخصوص شهرستان)",
+    posting: "ارسال از طریق پست یا تیپاکس",
+  };
+
+  const tableCellStyles = {
+    fontSize: { xs: "0.75rem", sm: "0.875rem" },
+    padding: { xs: "8px 4px", sm: "12px 6px" },
+    textAlign: "center",
+    borderColor: theme.palette.primary.lightBg,
+    "&:last-child": {
+      paddingRight: { xs: "4px", sm: "6px" },
+    },
   };
 
   return (
-    <ThemeProvider theme={orderTheme}>
-      <PublicLayout>
-        <Box sx={{
-          background: 'linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)',
-          minHeight: '100vh',
-          py: 6,
-        }}>
-          <Container maxWidth="lg">
-            <Fade in timeout={800}>
-              <Box>
-                <GlassCard elevation={3}>
-                  <Box sx={{
-                    display: 'flex',
-                    flexDirection: isMobile ? 'column' : 'row',
-                    justifyContent: 'space-between',
-                    alignItems: isMobile ? 'flex-start' : 'center',
-                    mb: 4,
-                  }}>
-                    <Typography variant="h4" color="primary" sx={{ display: 'flex', alignItems: 'center' }}>
-                      <ReceiptIcon sx={{ ml: 1 }} />
-                      فاکتور خرید
-                    </Typography>
-                    
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<PrintIcon />}
-                      component={Link}
-                      href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/user/print/${order.order_id}`}
-                      target="_blank"
-                      sx={{
-                        mt: isMobile ? 2 : 0,
-                        px: 3,
-                        py: 1,
-                        borderRadius: 2,
-                      }}
-                    >
-                      چاپ فاکتور
-                    </Button>
-                  </Box>
+    <PublicLayout>
+      <Grid container justifyContent="center" sx={{ p: { xs: 1, sm: 2 } }}>
+        <Grid item xs={12} md={8} lg={6}>
+          <Paper
+            elevation={3}
+            sx={{
+              p: { xs: 2, sm: 3 },
+              borderRadius: theme.palette.primary.borderRadius,
+              backgroundColor: theme.palette.primary.lightBg,
+            }}
+          >
+            {/* Header Section */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                justifyContent: "space-between",
+                alignItems: { xs: "flex-start", sm: "center" },
+                mb: 3,
+              }}
+            >
+              <Typography
+                variant="h5"
+                color="primary"
+                sx={{
+                  fontWeight: 700,
+                  mb: { xs: 1, sm: 0 },
+                }}
+              >
+                ایباکس
+              </Typography>
 
-                  <Grid container spacing={4}>
-                    <Grid item xs={12} md={6}>
-                      <InfoRow>
-                        <DateIcon />
-                        <Typography variant="body1">
-                          <strong>تاریخ ثبت:</strong> {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
-                        </Typography>
-                      </InfoRow>
-
-                      <InfoRow>
-                        <DateIcon />
-                        <Typography variant="body1">
-                          <strong>تاریخ دریافت:</strong> {moment.unix(order.delivery_date).format("jYYYY/jMM/jDD")}
-                        </Typography>
-                      </InfoRow>
-
-                      <InfoRow>
-                        <TicketIcon />
-                        <Typography variant="body1">
-                          <strong>شماره فاکتور:</strong> {order.order_number}
-                        </Typography>
-                      </InfoRow>
-                    </Grid>
-
-                    <Grid item xs={12} md={6}>
-                      <InfoRow>
-                        <ShippingIcon />
-                        <Typography variant="body1">
-                          <strong>نحوه دریافت:</strong> {getDeliveryMethod()}
-                        </Typography>
-                      </InfoRow>
-
-                      <InfoRow>
-                        <TicketIcon />
-                        <Typography variant="body1">
-                          <strong>شماره پیگیری:</strong> {order.track_id}
-                        </Typography>
-                      </InfoRow>
-
-                      <InfoRow>
-                        <UserOrderStatus status={order.status} />
-                      </InfoRow>
-                    </Grid>
-                  </Grid>
-
-                  <Divider sx={{ my: 4 }} />
-
-                  <Typography variant="h5" sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-                    <PaymentIcon sx={{ ml: 1 }} />
-                    اقلام سفارش
+              <Box sx={{ textAlign: { xs: "left", sm: "right" } }}>
+                <Typography variant="body2" color="secondary">
+                  تاریخ ثبت فاکتور:{" "}
+                  <Typography component="span" color="text.primary">
+                    {moment.unix(order.order_date).format("jYYYY/jMM/jDD")}
                   </Typography>
-
-                  {isMobile ? (
-                    // نمایش موبایلی
-                    <Box>
-                      {rows.sort((a, b) => a.total_price - b.total_price).map((row, i) => (
-                        <OrderItemCard key={i} elevation={2}>
-                          <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>
-                            {row.product_name}
-                          </Typography>
-                          
-                          <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                              <Typography variant="body2">تعداد:</Typography>
-                              <Typography variant="body1">{persianNumber(row.product_quantity)}</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="body2">قیمت واحد:</Typography>
-                              <Typography variant="body1">{persianNumber(row.unit_price)} ریال</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="body2">قیمت کل:</Typography>
-                              <Typography variant="body1">{persianNumber(row.total_price)} ریال</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                              <Typography variant="body2">تخفیف:</Typography>
-                              <Typography variant="body1">{row.product_discount}%</Typography>
-                            </Grid>
-                          </Grid>
-                        </OrderItemCard>
-                      ))}
-                    </Box>
-                  ) : (
-                    // نمایش دسکتاپ
-                    <Paper sx={{ overflow: 'hidden' }}>
-                      <Box sx={{
-                        display: 'grid',
-                        gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                        bgcolor: 'primary.main',
-                        color: 'white',
-                        p: 2,
-                      }}>
-                        <Typography>نام محصول</Typography>
-                        <Typography align="center">تعداد</Typography>
-                        <Typography align="center">قیمت واحد</Typography>
-                        <Typography align="center">قیمت کل</Typography>
-                        <Typography align="center">تخفیف</Typography>
-                      </Box>
-                      
-                      {rows.sort((a, b) => a.total_price - b.total_price).map((row, i) => (
-                        <Box key={i} sx={{
-                          display: 'grid',
-                          gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
-                          p: 2,
-                          borderBottom: i !== rows.length - 1 ? '1px solid #eee' : 'none',
-                          '&:hover': {
-                            bgcolor: 'action.hover',
-                          }
-                        }}>
-                          <Typography>{row.product_name}</Typography>
-                          <Typography align="center">{persianNumber(row.product_quantity)}</Typography>
-                          <Typography align="center">{persianNumber(row.unit_price)} ریال</Typography>
-                          <Typography align="center">{persianNumber(row.total_price)} ریال</Typography>
-                          <Typography align="center">{row.product_discount}%</Typography>
-                        </Box>
-                      ))}
-                    </Paper>
-                  )}
-
-                  <Box sx={{
-                    mt: 4,
-                    p: 3,
-                    bgcolor: 'background.paper',
-                    borderRadius: 2,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
-                    <Typography variant="h6">جمع کل فاکتور:</Typography>
-                    <Typography variant="h5" color="primary">
-                      {persianNumber(order.finished_price)} ریال
-                    </Typography>
-                  </Box>
-                </GlassCard>
+                </Typography>
+                <Typography variant="body2" color="secondary">
+                  تاریخ دریافت مرسوله:{" "}
+                  <Typography component="span" color="text.primary">
+                    {moment.unix(order.delivery_date).format("jYYYY/jMM/jDD")}
+                  </Typography>
+                </Typography>
               </Box>
-            </Fade>
-          </Container>
-        </Box>
-      </PublicLayout>
-    </ThemeProvider>
+            </Box>
+
+            <Divider
+              sx={{
+                my: 2,
+                borderColor: theme.palette.primary.borderColor,
+                opacity: 0.5,
+              }}
+            />
+
+            {/* Order Info Section */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                justifyContent: "space-between",
+                alignItems: { xs: "flex-start", sm: "center" },
+                mb: 3,
+                gap: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                شماره فاکتور: {order.order_number}
+              </Typography>
+
+              <Button
+                component={Link}
+                href={`${process.env.NEXT_PUBLIC_SITE_ADDRESS}/user/print/${order.order_id}`}
+                target="_blank"
+                variant="contained"
+                sx={{
+                  background: theme.palette.primary.gradient,
+                  borderRadius: theme.palette.primary.borderRadius,
+                  px: 3,
+                  py: 1,
+                  "&:hover": {
+                    opacity: 0.9,
+                    background: theme.palette.primary.gradient,
+                  },
+                }}
+              >
+                چاپ فاکتور
+              </Button>
+            </Box>
+
+            {/* Delivery Info */}
+            <Typography
+              variant="body2"
+              sx={{
+                mb: 2,
+                p: 1,
+                backgroundColor: theme.palette.primary.lightBg,
+                borderRadius: theme.palette.primary.borderRadius,
+                border: `1px solid ${theme.palette.primary.borderColor}`,
+              }}
+            >
+              <Typography component="span" color="secondary">
+                نحوه دریافت:{" "}
+              </Typography>
+              {deliveryTypeText[order.delivery_type] || ""}
+            </Typography>
+
+            {/* Tracking and Status */}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                justifyContent: "space-between",
+                alignItems: { xs: "flex-start", sm: "center" },
+                mb: 3,
+                gap: 2,
+              }}
+            >
+              <Typography variant="body2">
+                شماره پیگیری:{" "}
+                <Typography component="span" color="primary" fontWeight={600}>
+                  {order.track_id}
+                </Typography>
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="body2" color="secondary">
+                  وضعیت فاکتور:
+                </Typography>
+                <UserOrderStatus status={order.status} />
+              </Box>
+            </Box>
+
+            {/* Products Table */}
+            <TableContainer
+              component={Paper}
+              sx={{
+                border: `1px solid ${theme.palette.primary.borderColor}`,
+                borderRadius: theme.palette.primary.borderRadius,
+                overflowX: "auto",
+                mb: 3,
+              }}
+            >
+              <Table sx={{ minWidth: 300 }}>
+                <TableHead>
+                  <TableRow
+                    sx={{
+                      backgroundColor: theme.palette.primary.main,
+                      "& th": {
+                        color: theme.palette.primary.textWhite,
+                        fontWeight: 600,
+                        ...tableCellStyles,
+                      },
+                    }}
+                  >
+                    <TableCell>نام محصول</TableCell>
+                    <TableCell>تعداد</TableCell>
+                    <TableCell>قیمت هر عدد</TableCell>
+                    <TableCell>قیمت کل</TableCell>
+                    <TableCell>تخفیف</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows
+                    .sort((a, b) => a.total_price - b.total_price)
+                    .map((row, i) => (
+                      <TableRow
+                        key={i}
+                        sx={{
+                          "&:nth-of-type(even)": {
+                            backgroundColor: theme.palette.primary.lightBg,
+                          },
+                          "&:last-child td": {
+                            borderBottom: 0,
+                          },
+                        }}
+                      >
+                        <TableCell sx={tableCellStyles}>
+                          {row.product_name}
+                        </TableCell>
+                        <TableCell sx={tableCellStyles}>
+                          {persianNumber(row.product_quantity)}
+                        </TableCell>
+                        <TableCell sx={tableCellStyles}>
+                          {persianNumber(row.unit_price)} ریال
+                        </TableCell>
+                        <TableCell sx={tableCellStyles}>
+                          {persianNumber(row.total_price)} ریال
+                        </TableCell>
+                        <TableCell sx={tableCellStyles}>
+                          {row.product_discount}%
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+
+              {/* Total Price */}
+              <Box
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  backgroundColor: theme.palette.primary.lightBg,
+                  borderTop: `1px solid ${theme.palette.primary.borderColor}`,
+                }}
+              >
+                <Typography variant="body1" fontWeight={600}>
+                  قیمت کل فاکتور:
+                </Typography>
+                <Typography variant="h6" color="primary" fontWeight={700}>
+                  {persianNumber(order.finished_price)} ریال
+                </Typography>
+              </Box>
+            </TableContainer>
+          </Paper>
+        </Grid>
+      </Grid>
+    </PublicLayout>
   );
 }
 
